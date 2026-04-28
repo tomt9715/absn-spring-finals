@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Psych — Deep Drill</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0a2540;
+  --navy-soft: #1a3a5c;
+  --teal: #0d9488;
+  --teal-soft: #14b8a6;
+  --teal-pale: #f0fdfa;
+  --purple: #7c3aed;
+  --purple-soft: #8b5cf6;
+  --purple-pale: #f5f3ff;
+  --gold: #f59e0b;
+  --ink: #1a1a1a;
+  --ink-soft: #3a3a3a;
+  --muted: #6b7280;
+  --bg: #fafaf7;
+  --card: #ffffff;
+  --line: #e5e0d5;
+  --correct: #059669;
+  --correct-bg: #ecfdf5;
+  --wrong: #dc2626;
+  --wrong-bg: #fef2f2;
+  --partial: #d97706;
+  --partial-bg: #fffbeb;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; padding: 40px 20px 100px; }
+.container { max-width: 800px; margin: 0 auto; }
+.header { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--purple); padding: 28px 32px; margin-bottom: 24px; }
+.badge { display: inline-block; background: var(--purple-pale); color: var(--purple); font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 3px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px; }
+h1 { font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--navy); margin-bottom: 6px; font-weight: 400; }
+.subtitle { color: var(--muted); font-size: 15px; }
+.progress-bar { background: var(--card); border: 1px solid var(--line); padding: 16px 24px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; font-family: 'DM Mono', monospace; font-size: 13px; color: var(--ink-soft); }
+.progress-track { flex: 1; height: 4px; background: var(--line); margin: 0 20px; border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--purple); width: 0%; transition: width 0.3s ease; }
+.question-card { background: var(--card); border: 1px solid var(--line); padding: 32px; margin-bottom: 20px; }
+.q-number { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); letter-spacing: 0.5px; margin-bottom: 12px; }
+.confirmed-banner { background: var(--purple-pale); border-left: 3px solid var(--purple); color: var(--purple); font-family: 'DM Mono', monospace; font-size: 11px; padding: 8px 12px; margin-bottom: 16px; letter-spacing: 0.3px; text-transform: uppercase; }
+.q-stem { font-size: 17px; color: var(--ink); margin-bottom: 24px; font-weight: 500; line-height: 1.5; }
+.options { display: flex; flex-direction: column; gap: 10px; }
+.option { background: var(--card); border: 1.5px solid var(--line); padding: 14px 18px; cursor: pointer; transition: all 0.15s ease; font-size: 15px; display: flex; align-items: flex-start; gap: 12px; text-align: left; width: 100%; font-family: inherit; color: var(--ink); }
+.option:hover:not(:disabled) { border-color: var(--purple); background: var(--purple-pale); }
+.option:disabled { cursor: not-allowed; }
+.option-letter { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: var(--muted); flex-shrink: 0; padding-top: 1px; }
+.option.selected { border-color: var(--purple); background: var(--purple-pale); }
+.option.correct { border-color: var(--correct); background: var(--correct-bg); }
+.option.correct .option-letter { color: var(--correct); }
+.option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+.option.wrong .option-letter { color: var(--wrong); }
+.option.missed { border-color: var(--partial); background: var(--partial-bg); border-style: dashed; }
+.option.missed .option-letter { color: var(--partial); }
+.submit-btn, .next-btn { background: var(--navy); color: white; border: none; padding: 12px 28px; font-family: inherit; font-size: 15px; font-weight: 500; cursor: pointer; margin-top: 20px; transition: background 0.15s; }
+.submit-btn:hover, .next-btn:hover { background: var(--navy-soft); }
+.submit-btn:disabled { background: var(--muted); cursor: not-allowed; }
+.rationale { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--line); display: none; }
+.rationale.show { display: block; }
+.verdict { display: inline-block; padding: 6px 14px; font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px; }
+.verdict.correct { background: var(--correct-bg); color: var(--correct); }
+.verdict.wrong { background: var(--wrong-bg); color: var(--wrong); }
+.verdict.partial { background: var(--partial-bg); color: var(--partial); }
+.concept-pill { display: inline-block; background: var(--purple-pale); color: var(--purple); font-family: 'DM Mono', monospace; font-size: 11px; padding: 4px 10px; border-radius: 3px; margin-left: 8px; letter-spacing: 0.3px; }
+.rationale h4 { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--navy); margin: 16px 0 8px; font-weight: 400; }
+.rationale p { margin-bottom: 10px; color: var(--ink-soft); font-size: 15px; }
+.rationale .correct-answer-display { background: var(--correct-bg); border-left: 3px solid var(--correct); padding: 10px 14px; margin: 12px 0; font-size: 14px; }
+.others-list { margin-top: 12px; }
+.others-list li { list-style: none; padding: 8px 0; border-top: 1px solid var(--line); font-size: 14px; color: var(--ink-soft); }
+.others-list li strong { color: var(--ink); }
+.sata-legend { display: flex; gap: 16px; margin: 12px 0; flex-wrap: wrap; font-family: 'DM Mono', monospace; font-size: 11px; }
+.sata-legend span { display: flex; align-items: center; gap: 6px; }
+.legend-dot { width: 12px; height: 12px; border-radius: 2px; display: inline-block; }
+.legend-dot.green { background: var(--correct); }
+.legend-dot.yellow { background: var(--partial); border: 1px dashed var(--partial); }
+.legend-dot.red { background: var(--wrong); }
+.results-card { background: var(--card); border: 1px solid var(--line); padding: 40px; text-align: center; }
+.results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--navy); margin: 16px 0; font-weight: 400; }
+.results-pct { font-family: 'DM Mono', monospace; font-size: 24px; color: var(--purple); margin-bottom: 24px; }
+.perf-msg { font-size: 17px; color: var(--ink-soft); margin-bottom: 24px; padding: 16px; background: var(--purple-pale); border-left: 3px solid var(--purple); text-align: left; }
+.missed-list { text-align: left; margin-top: 32px; }
+.missed-list h3 { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--navy); margin-bottom: 16px; font-weight: 400; }
+.missed-item { padding: 14px 0; border-top: 1px solid var(--line); }
+.missed-item .preview { font-size: 14px; color: var(--ink-soft); margin: 6px 0; }
+.missed-item .answer-line { font-size: 13px; color: var(--correct); font-family: 'DM Mono', monospace; margin-top: 4px; }
+.missed-item .rationale-line { font-size: 13px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+.retry-btn { background: var(--purple); color: white; border: none; padding: 14px 32px; font-family: inherit; font-size: 15px; font-weight: 500; cursor: pointer; margin-top: 32px; }
+.retry-btn:hover { background: var(--purple-soft); }
+.back-btn { position: fixed; bottom: 24px; right: 24px; background: var(--navy); color: white; text-decoration: none; padding: 12px 20px; font-family: 'DM Mono', monospace; font-size: 13px; border-radius: 4px; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+.back-btn:hover { background: var(--navy-soft); }
+.start-screen { background: var(--card); border: 1px solid var(--line); padding: 48px 40px; text-align: center; }
+.start-screen h2 { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--navy); margin-bottom: 12px; font-weight: 400; }
+.start-screen p { color: var(--ink-soft); margin-bottom: 8px; }
+.start-stats { display: flex; justify-content: center; gap: 32px; margin: 24px 0 32px; font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); }
+.start-btn { background: var(--purple); color: white; border: none; padding: 14px 36px; font-family: inherit; font-size: 15px; font-weight: 500; cursor: pointer; }
+.start-btn:hover { background: var(--purple-soft); }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div id="start-screen" class="start-screen">
+  <span class="badge">Deep Drill</span>
+  <h2>Psych</h2>
+  <p>NCLEX-style application — priority triage, wrong teaching, which patient first.</p>
+  <p style="font-size:14px; color:var(--muted); margin-top:8px;">You'll need to know the concept AND apply it to a clinical scenario.</p>
+  <div class="start-stats">
+    <span>25 questions</span>
+    <span>•</span>
+    <span>Application-level</span>
+    <span>•</span>
+    <span>Paraphrased options</span>
+  </div>
+  <button class="start-btn" onclick="startQuiz()">Begin</button>
+</div>
+
+<div id="quiz-container" style="display:none;">
+  <div class="header">
+    <span class="badge">Psych — Deep Drill</span>
+    <h1>Application &amp; clinical reasoning</h1>
+    <p class="subtitle">NCLEX-style scenarios — priority, teaching, recognition</p>
+  </div>
+  <div class="progress-bar">
+    <span id="progress-text">Question 1 / 25</span>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <span id="score-text">Score: 0</span>
+  </div>
+  <div id="question-area"></div>
+</div>
+
+<div id="results-area" style="display:none;"></div>
+
+</div>
+<a href="index.html" class="back-btn">← Study Hub</a>
+
+<script>
+const questions = [
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A nurse is caring for four patients on antipsychotics. Which patient should the nurse assess first?',
+    options: [
+      'A patient on clozapine with a fever of 101.4°F and a sore throat',
+      'A patient on an FGA with a slight tongue tremor noticed today',
+      'A patient on an SGA who gained 4 pounds over the last month',
+      'A patient on an SGA reporting mild morning thirst'
+    ],
+    answer: 0,
+    concept: 'Clozapine emergency triage',
+    rationale: 'Fever and sore throat on clozapine indicate possible agranulocytosis — a life-threatening drop in neutrophils that requires immediate evaluation.',
+    deepExplanation: 'Clozapine carries a particularly high risk of agranulocytosis among SGAs. The drug is discontinued if neutrophils drop below 1000. The other findings (mild EPS, modest weight gain, mild thirst) warrant follow-up but are not emergent.',
+    others: {
+      1: 'A slight tongue tremor (mild EPS) needs follow-up but is not emergent.',
+      2: 'Modest weight gain is an SGA effect that warrants monitoring.',
+      3: 'Mild thirst is not an immediate emergency.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A nursing student asks the preceptor why FGAs cause more EPS than SGAs. What is the best response?',
+    options: [
+      '"FGAs are older and have more side effects in general."',
+      '"FGAs strongly block D2 receptors in the CNS."',
+      '"FGAs have higher serotonin blockade than SGAs."',
+      '"FGAs are metabolized faster, causing more peaks."'
+    ],
+    answer: 1,
+    concept: 'FGA D2 mechanism',
+    rationale: 'FGAs strongly block D2 (dopamine-2) receptors in the CNS — this is what produces the high rate of EPS (movement disorders).',
+    deepExplanation: 'Dopamine blockade in the nigrostriatal pathway produces parkinsonism, dystonia, akathisia, and tardive dyskinesia. SGAs have moderate dopamine blockade plus stronger serotonin blockade, which spares the nigrostriatal pathway and reduces EPS.',
+    others: {
+      0: 'This is a vague statement, not a mechanism.',
+      2: 'SGAs (not FGAs) have stronger serotonin blockade.',
+      3: 'Metabolism speed is not the EPS mechanism.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on clozapine has a CBC showing a neutrophil count of 850. What is the nurse\'s priority action?',
+    options: [
+      'Continue the clozapine and recheck CBC in 1 week',
+      'Reduce the dose and continue with weekly monitoring',
+      'Hold the clozapine and notify the provider — discontinuation likely',
+      'Add an antibiotic prophylactically and continue therapy'
+    ],
+    answer: 2,
+    concept: 'Clozapine ANC threshold',
+    rationale: 'Clozapine should be discontinued if neutrophil level drops below 1000 — a level of 850 requires holding the drug and notifying the provider.',
+    deepExplanation: 'This patient is at imminent risk for severe infection given the neutropenia. The provider will likely discontinue clozapine permanently and may consider an alternative SGA. The patient should be educated about infection precautions immediately.',
+    others: {
+      0: 'Continuing the drug at this neutrophil level is dangerous.',
+      1: 'Dose reduction does not address agranulocytosis.',
+      3: 'Prophylactic antibiotics don\'t resolve the underlying drug-induced neutropenia.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on lithium reports they decided to start a low-sodium diet for "heart health." What is the nurse\'s priority concern?',
+    options: [
+      'The patient may experience reduced lithium effectiveness',
+      'The patient may develop renal stones from low sodium',
+      'The patient may experience sudden weight gain',
+      'The patient may develop dangerous lithium toxicity'
+    ],
+    answer: 3,
+    concept: 'Lithium + low sodium',
+    rationale: 'Low sodium intake causes lithium retention and toxicity — this is a dangerous decision that requires immediate teaching.',
+    deepExplanation: 'Lithium and sodium share renal handling. When sodium drops, the kidneys retain more lithium to compensate, raising serum lithium to toxic levels. Patients must maintain consistent salt intake — they should never start a low-sodium diet without provider input.',
+    others: {
+      0: 'Low sodium INCREASES lithium effects to toxic levels, not reduces them.',
+      1: 'Renal stones are not the primary concern.',
+      2: 'Weight gain is not the primary concern.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on lithium presents with slurred speech, hand tremors, and increased thirst. The nurse recognizes these as signs of what?',
+    options: [
+      'Therapeutic lithium levels — no action needed',
+      'Withdrawal from another medication entirely',
+      'A normal stress reaction to recent events',
+      'Lithium toxicity — urgent provider notification'
+    ],
+    answer: 3,
+    concept: 'Lithium toxicity recognition',
+    rationale: 'Slurred speech, hand tremors, and polydipsia are classic signs of lithium TOXICITY — the provider must be notified urgently.',
+    deepExplanation: 'Therapeutic levels show only mild GI effects. Toxicity progresses to slurred speech, polydipsia, hand tremors, and eventually severe neurologic symptoms, seizures, coma, and death. Lithium has a narrow therapeutic window and the level should be drawn immediately.',
+    others: {
+      0: 'These are NOT therapeutic effects.',
+      1: 'These signs are specific to lithium toxicity.',
+      2: 'These findings exceed any normal stress response.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on lithium is prescribed furosemide for new-onset hypertension. What is the nurse\'s priority action?',
+    options: [
+      'Question the order with the prescriber',
+      'Administer the furosemide as ordered',
+      'Hold the lithium and give the furosemide alone',
+      'Give a double dose of furosemide for better effect'
+    ],
+    answer: 0,
+    concept: 'Lithium + diuretic',
+    rationale: 'Loop diuretics like furosemide cause sodium loss, raising lithium to toxic levels — the nurse should question this order with the prescriber.',
+    deepExplanation: 'When sodium drops from diuretic-induced loss, the kidneys retain lithium to compensate, driving lithium to toxic levels. Patients on lithium should question prescriptions for diuretics. Other safer options exist for hypertension.',
+    others: {
+      1: 'Administering would set up lithium toxicity.',
+      2: 'Holding lithium does not address the underlying interaction.',
+      3: 'Doubling the dose worsens the interaction.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on lithium calls reporting flu symptoms with vomiting and diarrhea for 2 days. What is the nurse\'s priority concern?',
+    options: [
+      'The patient may need an antiviral medication',
+      'Volume loss can cause lithium toxicity from sodium depletion',
+      'The flu may interact with the lithium directly',
+      'The patient should switch to an injectable form'
+    ],
+    answer: 1,
+    concept: 'Lithium + dehydration',
+    rationale: 'Vomiting and diarrhea cause volume and sodium loss, which can drive lithium to toxic levels — a serious concern requiring evaluation.',
+    deepExplanation: 'GI illness, sweating from exercise/heat, dehydration, and salt restriction all reduce sodium and can precipitate lithium toxicity. Patients should know to call their provider during any illness involving fluid loss.',
+    others: {
+      0: 'Antivirals are not the priority over toxicity prevention.',
+      2: 'Direct flu-lithium interaction is not the mechanism.',
+      3: 'Injectable lithium is not standard.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient newly started on lithium has a baseline TSH of 2.0 microunits/mL. Six months later, TSH is 8.5 microunits/mL. What is the most likely explanation?',
+    options: [
+      'Lithium has caused hypothyroidism — an expected adverse effect',
+      'The patient has developed acute hyperthyroidism',
+      'The patient needs an urgent endocrinology referral',
+      'The lab result is most likely an error and should be repeated'
+    ],
+    answer: 0,
+    concept: 'Lithium-induced hypothyroidism',
+    rationale: 'Lithium causes hypothyroidism (rising TSH) as an expected adverse effect — the patient does NOT need an endocrinology referral, just monitoring and possible levothyroxine.',
+    deepExplanation: 'Lithium reduces iodine into thyroid hormone and reduces thyroid hormone secretion, leading to compensatory TSH rise. This is an expected effect that the prescribing provider can manage. Goiter is also possible.',
+    others: {
+      1: 'Rising TSH = hypothyroid, not hyper.',
+      2: 'No referral needed — this is an expected and manageable effect.',
+      3: 'The result is consistent with a known drug effect.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on flurazepam tells the nurse he plans to drive to work this morning despite feeling "groggy." What is the priority response?',
+    options: [
+      '"You should drive carefully and use extra caution today."',
+      '"Take a coffee with you to wake up faster while driving."',
+      '"Driving while sedated is unsafe — arrange other transportation."',
+      '"This is a normal feeling that will improve as you drive."'
+    ],
+    answer: 2,
+    concept: 'Flurazepam driving safety',
+    rationale: 'Flurazepam produces residual "hangover" effects from its long half-life — driving while sedated is unsafe and the patient needs to arrange other transportation.',
+    deepExplanation: 'Flurazepam\'s active metabolites can cause next-day drowsiness, impaired coordination, and slowed reaction time. Patients must be educated about this before starting the drug to plan transportation. Coffee does not reverse benzodiazepine sedation.',
+    others: {
+      0: 'Driving while sedated is unsafe regardless of caution.',
+      1: 'Coffee doesn\'t reverse BZD sedation.',
+      3: 'The grogginess does NOT improve with driving — it can persist for hours.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient with chronic anxiety on buspirone walks into the clinic in the middle of an acute panic attack. The provider orders an anxiolytic. Which medication is most appropriate?',
+    options: [
+      'A double dose of buspirone right away',
+      'A benzodiazepine like lorazepam PRN',
+      'An SSRI like fluoxetine immediately',
+      'Caffeine to help the patient calm down'
+    ],
+    answer: 1,
+    concept: 'Acute panic management',
+    rationale: 'A benzodiazepine like lorazepam is appropriate PRN for acute panic relief — buspirone\'s onset is too slow.',
+    deepExplanation: 'Buspirone takes several weeks to develop full effect and is useless for acute panic. Patients on chronic buspirone often have a PRN benzo for breakthrough anxiety. SSRIs also take 4 weeks to work, and caffeine would worsen panic.',
+    others: {
+      0: 'A double dose of buspirone won\'t produce rapid relief.',
+      2: 'SSRIs take 4 weeks — useless for acute panic.',
+      3: 'Caffeine worsens panic symptoms.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient newly started on buspirone calls the clinic after 2 days saying "this isn\'t working — I want a refund." What is the nurse\'s best response?',
+    options: [
+      '"You\'re right, this drug doesn\'t work for most patients."',
+      '"Try doubling your dose for the rest of the week."',
+      '"Switch to an SSRI immediately — it works faster."',
+      '"Buspirone takes several weeks to develop full effect."'
+    ],
+    answer: 3,
+    concept: 'Buspirone slow onset teaching',
+    rationale: 'Buspirone takes several weeks to develop full effect — this expectation must be set so patients don\'t stop the drug early.',
+    deepExplanation: 'Patients should be told upfront that buspirone is NOT a fast-acting drug and to give it 4-6 weeks. They may also need a PRN benzo for acute symptoms during the buildup. Stopping at 2 days defeats the therapy entirely.',
+    others: {
+      0: 'Buspirone DOES work, but slowly.',
+      1: 'Doubling without provider input is unsafe.',
+      2: 'SSRIs also take weeks — they don\'t work faster than buspirone.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient newly started on fluoxetine returns to clinic at 1 week and reports no improvement in mood. What is the nurse\'s best response?',
+    options: [
+      '"Your medication is not working — let\'s switch agents today."',
+      '"It takes about 4 weeks for fluoxetine to take full effect."',
+      '"Take a double dose to speed things along."',
+      '"Stop the fluoxetine immediately and try therapy instead."'
+    ],
+    answer: 1,
+    concept: 'Fluoxetine 4-week onset',
+    rationale: 'Fluoxetine takes about 4 weeks to develop a full antidepressant effect — patients should not change or alter the drug before that.',
+    deepExplanation: 'Patients are at highest risk of suicide during the first couple of weeks before mood improves but energy returns. They should be educated upfront about the timeline and the need for safety planning during the initial weeks.',
+    others: {
+      0: 'A week is not long enough to declare ineffectiveness.',
+      2: 'Doubling the dose without provider input is unsafe.',
+      3: 'Stopping abruptly without a plan is not appropriate.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on fluoxetine for 3 weeks calls the clinic stating he feels much more energetic but is having more thoughts of suicide. What is the priority response?',
+    options: [
+      '"Come to the clinic or ED immediately for safety evaluation."',
+      '"This is a normal phase — keep taking the medication."',
+      '"Stop the fluoxetine right away and call back next week."',
+      '"Increase your dose to push past this difficult period."'
+    ],
+    answer: 0,
+    concept: 'SSRI suicide window',
+    rationale: 'During the first weeks of SSRI therapy, energy returns before mood improves — this can increase suicide risk. The patient needs immediate safety evaluation.',
+    deepExplanation: 'This is the basis of the SSRI black box warning. The patient now has the energy to act on suicidal thoughts but has not yet experienced mood relief. Safety evaluation is the priority. The provider may also continue a benzo as a taper during this vulnerable window.',
+    others: {
+      1: 'Although it\'s a known phase, it requires action, not just observation.',
+      2: 'Stopping abruptly without a plan is not the priority over safety.',
+      3: 'Increasing the dose without evaluation is unsafe.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient is being switched from fluoxetine to phenelzine (an MAOI). The patient stopped fluoxetine 5 days ago and is asking when phenelzine can start. What is the nurse\'s best response?',
+    options: [
+      '"You can start phenelzine today since fluoxetine is out of your system."',
+      '"You can start phenelzine after waiting just 24 more hours."',
+      '"You should never combine these classes of medications at all."',
+      '"You must wait a full 14 days from your last fluoxetine dose."'
+    ],
+    answer: 3,
+    concept: 'SSRI to MAOI washout',
+    rationale: 'A 14-day washout is mandatory between fluoxetine and an MAOI to prevent serotonin syndrome — the patient must wait 9 more days.',
+    deepExplanation: 'Combining serotonergic agents creates serotonin syndrome — agitation, confusion, hyperthermia, hyperreflexia, clonus, autonomic instability. Fluoxetine has a particularly long half-life, so the full 14-day window is essential. Eventually the patient CAN switch — they just need to wait.',
+    others: {
+      0: 'Five days is too short.',
+      1: 'Twenty-four hours is far too short.',
+      2: 'They CAN switch — just need 14 days washout.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A breastfeeding mother at her 6-week postpartum visit screens positive for depression on the Edinburgh scale. The provider plans to start an SSRI. Which agent is most appropriate?',
+    options: [
+      'Fluoxetine — it works the fastest of all SSRIs',
+      'Paroxetine — it is approved for postpartum patients',
+      'Sertraline — it is the preferred SSRI in lactation',
+      'Citalopram — it is the safest in pregnancy'
+    ],
+    answer: 2,
+    concept: 'Sertraline in lactation',
+    rationale: 'Sertraline (Zoloft) is the preferred SSRI in lactation because it does not cross easily into breast milk.',
+    deepExplanation: 'The Edinburgh Postnatal Depression Scale is used for screening at the 6-8 week postpartum mark. Risk vs. benefit is always assessed by the provider. Fluoxetine should be avoided in pregnancy and lactation.',
+    others: {
+      0: 'Fluoxetine is avoided in lactation.',
+      1: 'Paroxetine is not the preferred lactation choice.',
+      3: 'Citalopram is not the preferred lactation choice.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A nurse is reviewing the medication list of a 78-year-old patient newly prescribed amitriptyline (a TCA). Which medication on the list would be the most concerning?',
+    options: [
+      'Diphenhydramine taken nightly for seasonal allergies',
+      'Acetaminophen 500 mg as needed for joint pain',
+      'Vitamin D 1000 units daily for bone health',
+      'Daily low-dose aspirin for cardiac prevention'
+    ],
+    answer: 0,
+    concept: 'TCA + anticholinergic',
+    rationale: 'Diphenhydramine is an anticholinergic — adding it to a TCA (which has profound anti-SLUD effects) intensifies adverse effects like urinary hesitancy, constipation, and confusion.',
+    deepExplanation: 'TCAs are cautioned in elderly patients due to dementia and orthostatic risks, and they\'re cardiotoxic. Adding more anticholinergics is dangerous — this includes scopolamine, antihistamines, and phenothiazines.',
+    others: {
+      1: 'Acetaminophen is safe with TCAs.',
+      2: 'Vitamin D is not a TCA interaction concern.',
+      3: 'Aspirin is not specifically problematic with TCAs.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on a TCA is also prescribed tramadol for chronic back pain. What is the nurse\'s priority concern?',
+    options: [
+      'Increased risk of opioid addiction over time',
+      'Possible reduction in TCA effectiveness',
+      'Mild gastrointestinal upset over the next week',
+      'Risk of serotonin syndrome from the combination'
+    ],
+    answer: 3,
+    concept: 'TCA + tramadol',
+    rationale: 'Tramadol is a serotonergic opioid — combined with a TCA, it creates serotonin syndrome risk. TCAs must not be combined with tramadol.',
+    deepExplanation: 'Serotonin syndrome presents with agitation, confusion, hyperthermia, hyperreflexia, clonus, and autonomic instability. TCAs are also strictly contraindicated within 14 days of MAOIs for the same reason.',
+    others: {
+      0: 'Addiction is a concern but not the immediate drug interaction priority.',
+      1: 'TCA effectiveness is not the issue here.',
+      2: 'GI upset is not the primary concern.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on a high-dose TCA has the following ECG findings: prolonged QRS, prolonged QT, and frequent PVCs. What is the nurse\'s priority action?',
+    options: [
+      'Reassure the patient — these findings are normal on TCAs',
+      'Notify the provider of these significant cardiotoxicity findings',
+      'Increase the TCA dose to overcome the cardiac effects',
+      'Schedule a routine cardiology appointment in 2 weeks'
+    ],
+    answer: 1,
+    concept: 'TCA cardiotoxicity',
+    rationale: 'TCAs cause cardiotoxicity at high doses — these ECG findings indicate dysrhythmia risk and require immediate provider notification.',
+    deepExplanation: 'TCAs are cardiotoxic and have a high suicide risk because they are easy to OD on. Older patients are sometimes given the drug q12 hours to reduce cardiac toxicity. The patient needs ECG monitoring and the provider may reduce the dose or switch agents.',
+    others: {
+      0: 'These ECG findings are NOT normal.',
+      2: 'Increasing the dose worsens cardiotoxicity.',
+      3: 'A 2-week wait is too long for these findings.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on lithium is being discharged. Which patient statement requires further teaching?',
+    options: [
+      '"I will drink 8 to 10 glasses of water each day."',
+      '"I will take my lithium with food to reduce stomach upset."',
+      '"I will start a strict low-sodium heart-healthy diet."',
+      '"I will avoid ibuprofen for headaches and use aspirin."'
+    ],
+    answer: 2,
+    concept: 'Lithium wrong teaching',
+    rationale: 'Patients on lithium should NOT reduce salt intake — low sodium causes lithium retention and toxicity. This statement requires correction.',
+    deepExplanation: 'The other statements show correct understanding: 8-10 glasses of water for hydration, take with food/milk to reduce GI upset, and avoid NSAIDs (use aspirin or sulindac instead).',
+    others: {
+      0: 'Hydration is correct teaching for lithium.',
+      1: 'Taking with food/milk is correct teaching.',
+      3: 'Avoiding NSAIDs and using aspirin is correct teaching.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'sata',
+    stem: 'A nurse is teaching a patient newly started on clozapine. Which points should be included in the teaching? Select all that apply.',
+    options: [
+      'Report fever, sore throat, or mouth ulcers immediately',
+      'Expect initial weekly blood tests for monitoring',
+      'Stop the medication abruptly if any side effect occurs',
+      'Be aware of metabolic side effects like weight gain',
+      'Lab monitoring stops as soon as the drug is discontinued',
+      'Be aware of seizure and myocarditis risks during therapy'
+    ],
+    answerArr: [0, 1, 3, 5],
+    concept: 'Clozapine teaching SATA',
+    rationale: 'Correct teaching: report infection signs (agranulocytosis), expect weekly initial CBCs, watch for metabolic effects (SGA class), be aware of seizures and myocarditis. Incorrect: never stop abruptly without provider input, monitoring continues after discontinuation.',
+    perOptionExplanations: {
+      0: '<strong>Report fever, sore throat, mouth ulcers</strong> — signs of agranulocytosis.',
+      1: '<strong>Initial weekly CBCs</strong> — required during initial therapy.',
+      3: '<strong>Metabolic effects</strong> — weight gain is an SGA class effect.',
+      5: '<strong>Seizures and myocarditis</strong> — known risks of clozapine.'
+    },
+    others: {
+      2: 'Never stop abruptly — this requires provider input.',
+      4: 'Lab monitoring continues PERIODICALLY after discontinuation.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on long-term TCA therapy reports new urinary hesitancy and worsening constipation. The nurse recognizes these as which type of effect?',
+    options: [
+      'Cholinergic SLUD effects from the TCA',
+      'Anti-SLUD anticholinergic effects from the TCA',
+      'Metabolic effects requiring weight monitoring',
+      'Hypertensive effects requiring BP measurement'
+    ],
+    answer: 1,
+    concept: 'TCA anti-SLUD effects',
+    rationale: 'TCAs have profound anti-SLUD (anticholinergic) effects — urinary hesitancy and constipation are classic anticholinergic findings.',
+    deepExplanation: 'Anti-SLUD = dry mouth, urinary retention/hesitancy, constipation, blurred vision, and dry eyes. This is intensified when combined with other anticholinergics like scopolamine, antihistamines, and phenothiazines — which are contraindicated.',
+    others: {
+      0: 'Cholinergic SLUD = OPPOSITE findings (drooling, diarrhea).',
+      2: 'These are not metabolic effects.',
+      3: 'These are not hypertensive findings.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on buspirone shows the nurse her new prescription for erythromycin for an acute infection. What is the nurse\'s priority action?',
+    options: [
+      'Question the prescription with the provider',
+      'Take both medications without modification',
+      'Stop the buspirone permanently right away',
+      'Take the erythromycin with grapefruit juice'
+    ],
+    answer: 0,
+    concept: 'Buspirone + erythromycin',
+    rationale: 'Erythromycin inhibits CYP3A4 and raises buspirone levels — the nurse should question this prescription and notify the provider.',
+    deepExplanation: 'Buspirone interacts with erythromycin and ketoconazole (also CYP3A4 inhibitors), as well as grapefruit juice. The provider may choose a different antibiotic or temporarily adjust the buspirone dose.',
+    others: {
+      1: 'This combination raises buspirone to toxic levels.',
+      2: 'Stopping buspirone permanently is not the immediate plan.',
+      3: 'Grapefruit juice would compound the interaction further.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A nurse is differentiating EPS (FGA effect) from metabolic syndrome (SGA effect). Which finding most strongly suggests EPS?',
+    options: [
+      'Significant weight gain over 6 months on therapy',
+      'New-onset insulin resistance and elevated A1c',
+      'Involuntary tongue movements and pill-rolling tremor',
+      'Elevated triglycerides and total cholesterol levels'
+    ],
+    answer: 2,
+    concept: 'EPS recognition',
+    rationale: 'Involuntary tongue movements and pill-rolling tremor are classic EPS findings — more common with FGAs than SGAs.',
+    deepExplanation: 'EPS includes movement disorders: dystonia (sustained muscle contractions), akathisia (restlessness), parkinsonism (pill-rolling tremor, rigidity, bradykinesia), and tardive dyskinesia (involuntary tongue, face, and body movements). The other findings describe metabolic syndrome — more typical of SGAs.',
+    others: {
+      0: 'Weight gain is metabolic — typical of SGAs.',
+      1: 'Insulin resistance is metabolic — typical of SGAs.',
+      3: 'Dyslipidemia is metabolic — typical of SGAs.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient with insomnia is offered flurazepam. The patient mentions they drive a school bus first thing in the morning. What is the nurse\'s priority concern?',
+    options: [
+      'The drug is contraindicated with morning driving safety',
+      'Flurazepam will not work well for sleep induction',
+      'The patient may need a higher dose to sleep through',
+      'Flurazepam is not approved for adults under 65'
+    ],
+    answer: 0,
+    concept: 'Flurazepam + driving job',
+    rationale: 'Flurazepam\'s long half-life and active metabolites cause next-day "hangover" drowsiness — this is incompatible with safety-sensitive jobs like driving a school bus.',
+    deepExplanation: 'The provider should be notified so an alternative sleep aid with a shorter half-life can be considered. Driving a vehicle full of children while experiencing residual benzodiazepine sedation is unsafe.',
+    others: {
+      1: 'Flurazepam DOES work for sleep — that\'s the issue.',
+      2: 'Higher dose worsens the problem.',
+      3: 'Flurazepam IS approved in adults — age isn\'t the issue.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A nurse is reviewing fluoxetine indications with a nursing student. Which statement by the student requires correction?',
+    options: [
+      '"Fluoxetine can be used for OCD and panic disorder."',
+      '"Fluoxetine can be helpful for bulimia nervosa."',
+      '"Fluoxetine can be used for bipolar disorder."',
+      '"Fluoxetine should be the first choice in pregnant patients."'
+    ],
+    answer: 3,
+    concept: 'Fluoxetine in pregnancy',
+    rationale: 'Fluoxetine should be AVOIDED in pregnancy — sertraline (Zoloft) is the preferred SSRI in pregnancy and lactation.',
+    deepExplanation: 'Fluoxetine has broad indications (OCD, panic, bipolar, bulimia, depression) but pregnancy is not one of them. Also, a 14-day washout is mandatory before MAOI use due to serotonin syndrome risk.',
+    others: {
+      0: 'OCD and panic disorder ARE valid fluoxetine uses.',
+      1: 'Bulimia IS a valid fluoxetine use.',
+      2: 'Bipolar disorder IS a valid fluoxetine use.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+const TOTAL = questions.length;
+let currentQ = 0;
+let totalPoints = 0;
+let answers = [];
+
+function startQuiz() {
+  document.getElementById('start-screen').style.display = 'none';
+  document.getElementById('quiz-container').style.display = 'block';
+  showQuestion();
+}
+
+function showQuestion() {
+  if (currentQ >= TOTAL) { showResults(); return; }
+  const q = questions[currentQ];
+  document.getElementById('progress-text').textContent = `Question ${currentQ + 1} / ${TOTAL}`;
+  document.getElementById('progress-fill').style.width = `${((currentQ) / TOTAL) * 100}%`;
+  document.getElementById('score-text').textContent = `Score: ${totalPoints.toFixed(1)}`;
+
+  const area = document.getElementById('question-area');
+  let html = `<div class="question-card">
+    <div class="q-number">Question ${currentQ + 1}</div>`;
+  if (q.confirmed) html += `<div class="confirmed-banner">⚠ Confirmed Test Item — recalled from actual exam</div>`;
+  html += `<div class="q-stem">${q.stem}</div>`;
+  if (q.type === 'sata') html += `<div style="font-family:'DM Mono', monospace; font-size:12px; color:var(--purple); margin-bottom:12px;">SELECT ALL THAT APPLY</div>`;
+  html += `<div class="options" id="options-list">`;
+  q.options.forEach((opt, i) => {
+    const letter = String.fromCharCode(65 + i);
+    html += `<button class="option" data-idx="${i}" onclick="toggleOption(${i})">
+      <span class="option-letter">${letter}</span>
+      <span>${opt}</span>
+    </button>`;
+  });
+  html += `</div>
+    <button class="submit-btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit Answer</button>
+    <div class="rationale" id="rationale"></div>
+  </div>`;
+  area.innerHTML = html;
+}
+
+let selectedIdx = q_type_is_sata() ? [] : null;
+
+function q_type_is_sata() { return questions[currentQ] && questions[currentQ].type === 'sata'; }
+
+function toggleOption(i) {
+  const q = questions[currentQ];
+  const opts = document.querySelectorAll('.option');
+  if (q.type === 'sata') {
+    if (!Array.isArray(selectedIdx)) selectedIdx = [];
+    const pos = selectedIdx.indexOf(i);
+    if (pos >= 0) {
+      selectedIdx.splice(pos, 1);
+      opts[i].classList.remove('selected');
+    } else {
+      selectedIdx.push(i);
+      opts[i].classList.add('selected');
+    }
+    document.getElementById('submit-btn').disabled = selectedIdx.length === 0;
+  } else {
+    selectedIdx = i;
+    opts.forEach(o => o.classList.remove('selected'));
+    opts[i].classList.add('selected');
+    document.getElementById('submit-btn').disabled = false;
+  }
+}
+
+function submitAnswer() {
+  const q = questions[currentQ];
+  const opts = document.querySelectorAll('.option');
+  opts.forEach(o => { o.disabled = true; o.onclick = null; });
+  document.getElementById('submit-btn').style.display = 'none';
+
+  let pts = 0;
+  let verdict = '';
+  let userAnswer = null;
+
+  if (q.type === 'sata') {
+    const correct = q.answerArr;
+    const selected = Array.isArray(selectedIdx) ? selectedIdx : [];
+    let correctSelected = 0, wrongSelected = 0;
+    selected.forEach(s => { if (correct.includes(s)) correctSelected++; else wrongSelected++; });
+    pts = Math.max(0, (correctSelected - wrongSelected) / correct.length);
+    if (pts === 1) verdict = 'correct';
+    else if (pts > 0) verdict = 'partial';
+    else verdict = 'wrong';
+
+    opts.forEach((o, i) => {
+      const isCorr = correct.includes(i);
+      const isSel = selected.includes(i);
+      if (isCorr && isSel) o.classList.add('correct');
+      else if (isCorr && !isSel) o.classList.add('missed');
+      else if (!isCorr && isSel) o.classList.add('wrong');
+    });
+    userAnswer = selected;
+  } else {
+    if (selectedIdx === q.answer) { pts = 1; verdict = 'correct'; }
+    else { pts = 0; verdict = 'wrong'; }
+    opts.forEach((o, i) => {
+      if (i === q.answer) o.classList.add('correct');
+      else if (i === selectedIdx) o.classList.add('wrong');
+    });
+    userAnswer = selectedIdx;
+  }
+
+  totalPoints += pts;
+  answers.push({ q, userAnswer, pts, verdict });
+  document.getElementById('score-text').textContent = `Score: ${totalPoints.toFixed(1)}`;
+
+  showRationale(q, verdict, pts);
+}
+
+function showRationale(q, verdict, pts) {
+  const r = document.getElementById('rationale');
+  let verdictTxt = verdict === 'correct' ? 'Correct' : verdict === 'partial' ? `Partial Credit (${pts.toFixed(2)})` : 'Incorrect';
+  let html = `<span class="verdict ${verdict}">${verdictTxt}</span>
+    <span class="concept-pill">${q.concept}</span>`;
+
+  if (q.type === 'sata') {
+    html += `<div class="sata-legend">
+      <span><span class="legend-dot green"></span>Correct &amp; selected</span>
+      <span><span class="legend-dot yellow"></span>Correct but missed</span>
+      <span><span class="legend-dot red"></span>Incorrect &amp; selected</span>
+    </div>`;
+    html += `<h4>Why these are correct</h4>`;
+    q.answerArr.forEach(i => {
+      html += `<div class="correct-answer-display">${q.options[i]}<br><small style="color:var(--ink-soft);">${q.perOptionExplanations[i]}</small></div>`;
+    });
+    html += `<p><strong>Overall:</strong> ${q.rationale}</p>`;
+    if (q.others && Object.keys(q.others).length > 0) {
+      html += `<h4>Why the others are wrong</h4><ul class="others-list">`;
+      Object.keys(q.others).forEach(k => {
+        html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+      });
+      html += `</ul>`;
+    }
+  } else {
+    html += `<div class="correct-answer-display"><strong>Correct answer:</strong> ${q.options[q.answer]}</div>
+      <p>${q.rationale}</p>
+      <h4>The clinical reasoning</h4>
+      <p>${q.deepExplanation}</p>`;
+    if (q.others && Object.keys(q.others).length > 0) {
+      html += `<h4>Why the others are wrong</h4><ul class="others-list">`;
+      Object.keys(q.others).forEach(k => {
+        html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+      });
+      html += `</ul>`;
+    }
+  }
+  html += `<button class="next-btn" onclick="nextQuestion()">${currentQ + 1 >= TOTAL ? 'See Results' : 'Next Question →'}</button>`;
+  r.innerHTML = html;
+  r.classList.add('show');
+}
+
+function nextQuestion() {
+  currentQ++;
+  selectedIdx = q_type_is_sata() ? [] : null;
+  showQuestion();
+}
+
+function showResults() {
+  document.getElementById('quiz-container').style.display = 'none';
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  let perfMsg = '';
+  if (pct >= 90) perfMsg = 'Exam ready. Strong clinical reasoning on application items.';
+  else if (pct >= 80) perfMsg = 'Solid performance. Review missed concepts and you\'re in great shape.';
+  else if (pct >= 70) perfMsg = 'Decent foundation but you\'ve got gaps. The application questions are where the exam will challenge you — review carefully.';
+  else perfMsg = 'Review carefully. Re-read your missed concepts and try this drill again before moving on.';
+
+  let missedHtml = '';
+  const missed = answers.filter(a => a.verdict !== 'correct');
+  if (missed.length > 0) {
+    missedHtml = `<div class="missed-list"><h3>Missed concepts</h3>`;
+    missed.forEach(m => {
+      const ans = m.q.type === 'sata' ? m.q.answerArr.map(i => m.q.options[i]).join('; ') : m.q.options[m.q.answer];
+      missedHtml += `<div class="missed-item">
+        <span class="concept-pill">${m.q.concept}</span>
+        ${m.q.confirmed ? '<span class="concept-pill" style="background:var(--purple-pale);color:var(--purple);">Confirmed item</span>' : ''}
+        <div class="preview">${m.q.stem}</div>
+        <div class="answer-line">→ ${ans}</div>
+        <div class="rationale-line">${m.q.rationale}</div>
+      </div>`;
+    });
+    missedHtml += `</div>`;
+  }
+
+  const today = new Date().toLocaleDateString();
+  localStorage.setItem('score_psych_deepdrill', JSON.stringify({
+    pct, pts: totalPoints.toFixed(1), total: TOTAL, date: today
+  }));
+
+  document.getElementById('results-area').innerHTML = `
+    <div class="results-card">
+      <span class="badge">Psych — Deep Drill Complete</span>
+      <div class="results-score">${totalPoints.toFixed(1)} / ${TOTAL}</div>
+      <div class="results-pct">${pct}%</div>
+      <div class="perf-msg">${perfMsg}</div>
+      ${missedHtml}
+      <button class="retry-btn" onclick="location.reload()">Retry Drill</button>
+    </div>
+  `;
+  document.getElementById('results-area').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

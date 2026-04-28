@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Endocrine — Deep Drill</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0a2540;
+  --navy-soft: #1a3a5c;
+  --teal: #0d9488;
+  --teal-soft: #14b8a6;
+  --teal-pale: #f0fdfa;
+  --purple: #7c3aed;
+  --purple-soft: #8b5cf6;
+  --purple-pale: #f5f3ff;
+  --gold: #f59e0b;
+  --ink: #1a1a1a;
+  --ink-soft: #3a3a3a;
+  --muted: #6b7280;
+  --bg: #fafaf7;
+  --card: #ffffff;
+  --line: #e5e0d5;
+  --correct: #059669;
+  --correct-bg: #ecfdf5;
+  --wrong: #dc2626;
+  --wrong-bg: #fef2f2;
+  --partial: #d97706;
+  --partial-bg: #fffbeb;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+  padding: 40px 20px 100px;
+}
+.container { max-width: 800px; margin: 0 auto; }
+.header {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--purple);
+  padding: 28px 32px;
+  margin-bottom: 24px;
+}
+.badge {
+  display: inline-block;
+  background: var(--purple-pale);
+  color: var(--purple);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 32px;
+  color: var(--navy);
+  margin-bottom: 6px;
+  font-weight: 400;
+}
+.subtitle { color: var(--muted); font-size: 15px; }
+.progress-bar {
+  background: var(--card);
+  border: 1px solid var(--line);
+  padding: 16px 24px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.progress-track {
+  flex: 1;
+  height: 4px;
+  background: var(--line);
+  margin: 0 20px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--purple);
+  width: 0%;
+  transition: width 0.3s ease;
+}
+.question-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  padding: 32px;
+  margin-bottom: 20px;
+}
+.q-number {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+.confirmed-banner {
+  background: var(--purple-pale);
+  border-left: 3px solid var(--purple);
+  color: var(--purple);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  padding: 8px 12px;
+  margin-bottom: 16px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+.q-stem {
+  font-size: 17px;
+  color: var(--ink);
+  margin-bottom: 24px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+.options { display: flex; flex-direction: column; gap: 10px; }
+.option {
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  padding: 14px 18px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-size: 15px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  text-align: left;
+  width: 100%;
+  font-family: inherit;
+  color: var(--ink);
+}
+.option:hover:not(:disabled) {
+  border-color: var(--purple);
+  background: var(--purple-pale);
+}
+.option:disabled { cursor: not-allowed; }
+.option-letter {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  flex-shrink: 0;
+  padding-top: 1px;
+}
+.option.selected {
+  border-color: var(--purple);
+  background: var(--purple-pale);
+}
+.option.correct {
+  border-color: var(--correct);
+  background: var(--correct-bg);
+}
+.option.correct .option-letter { color: var(--correct); }
+.option.wrong {
+  border-color: var(--wrong);
+  background: var(--wrong-bg);
+}
+.option.wrong .option-letter { color: var(--wrong); }
+.option.missed {
+  border-color: var(--partial);
+  background: var(--partial-bg);
+  border-style: dashed;
+}
+.option.missed .option-letter { color: var(--partial); }
+.submit-btn, .next-btn {
+  background: var(--navy);
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background 0.15s;
+}
+.submit-btn:hover, .next-btn:hover { background: var(--navy-soft); }
+.submit-btn:disabled { background: var(--muted); cursor: not-allowed; }
+.rationale {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  display: none;
+}
+.rationale.show { display: block; }
+.verdict {
+  display: inline-block;
+  padding: 6px 14px;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.verdict.correct { background: var(--correct-bg); color: var(--correct); }
+.verdict.wrong { background: var(--wrong-bg); color: var(--wrong); }
+.verdict.partial { background: var(--partial-bg); color: var(--partial); }
+.concept-pill {
+  display: inline-block;
+  background: var(--purple-pale);
+  color: var(--purple);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 3px;
+  margin-left: 8px;
+  letter-spacing: 0.3px;
+}
+.rationale h4 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 18px;
+  color: var(--navy);
+  margin: 16px 0 8px;
+  font-weight: 400;
+}
+.rationale p { margin-bottom: 10px; color: var(--ink-soft); font-size: 15px; }
+.rationale .correct-answer-display {
+  background: var(--correct-bg);
+  border-left: 3px solid var(--correct);
+  padding: 10px 14px;
+  margin: 12px 0;
+  font-size: 14px;
+}
+.others-list { margin-top: 12px; }
+.others-list li {
+  list-style: none;
+  padding: 8px 0;
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+.others-list li strong { color: var(--ink); }
+.sata-legend {
+  display: flex;
+  gap: 16px;
+  margin: 12px 0;
+  flex-wrap: wrap;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+}
+.sata-legend span { display: flex; align-items: center; gap: 6px; }
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  display: inline-block;
+}
+.legend-dot.green { background: var(--correct); }
+.legend-dot.yellow { background: var(--partial); border: 1px dashed var(--partial); }
+.legend-dot.red { background: var(--wrong); }
+.results-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  padding: 40px;
+  text-align: center;
+}
+.results-score {
+  font-family: 'DM Serif Display', serif;
+  font-size: 72px;
+  color: var(--navy);
+  margin: 16px 0;
+  font-weight: 400;
+}
+.results-pct { font-family: 'DM Mono', monospace; font-size: 24px; color: var(--purple); margin-bottom: 24px; }
+.perf-msg {
+  font-size: 17px;
+  color: var(--ink-soft);
+  margin-bottom: 24px;
+  padding: 16px;
+  background: var(--purple-pale);
+  border-left: 3px solid var(--purple);
+  text-align: left;
+}
+.missed-list { text-align: left; margin-top: 32px; }
+.missed-list h3 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  color: var(--navy);
+  margin-bottom: 16px;
+  font-weight: 400;
+}
+.missed-item {
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+}
+.missed-item .preview {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin: 6px 0;
+}
+.missed-item .answer-line {
+  font-size: 13px;
+  color: var(--correct);
+  font-family: 'DM Mono', monospace;
+  margin-top: 4px;
+}
+.missed-item .rationale-line { font-size: 13px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+.retry-btn {
+  background: var(--purple);
+  color: white;
+  border: none;
+  padding: 14px 32px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 32px;
+}
+.retry-btn:hover { background: var(--purple-soft); }
+.back-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--navy);
+  color: white;
+  text-decoration: none;
+  padding: 12px 20px;
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  border-radius: 4px;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.back-btn:hover { background: var(--navy-soft); }
+.start-screen {
+  background: var(--card);
+  border: 1px solid var(--line);
+  padding: 48px 40px;
+  text-align: center;
+}
+.start-screen h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 28px;
+  color: var(--navy);
+  margin-bottom: 12px;
+  font-weight: 400;
+}
+.start-screen p { color: var(--ink-soft); margin-bottom: 8px; }
+.start-stats {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin: 24px 0 32px;
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  color: var(--muted);
+}
+.start-btn {
+  background: var(--purple);
+  color: white;
+  border: none;
+  padding: 14px 36px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.start-btn:hover { background: var(--purple-soft); }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div id="start-screen" class="start-screen">
+  <span class="badge">Deep Drill</span>
+  <h2>Endocrine</h2>
+  <p>NCLEX-style application — priority triage, wrong teaching, which patient first.</p>
+  <p style="font-size:14px; color:var(--muted); margin-top:8px;">You'll need to know the concept AND apply it to a clinical scenario.</p>
+  <div class="start-stats">
+    <span>25 questions</span>
+    <span>•</span>
+    <span>Application-level</span>
+    <span>•</span>
+    <span>Paraphrased options</span>
+  </div>
+  <button class="start-btn" onclick="startQuiz()">Begin</button>
+</div>
+
+<div id="quiz-container" style="display:none;">
+  <div class="header">
+    <span class="badge">Endocrine — Deep Drill</span>
+    <h1>Application &amp; clinical reasoning</h1>
+    <p class="subtitle">NCLEX-style scenarios — priority, teaching, recognition</p>
+  </div>
+  <div class="progress-bar">
+    <span id="progress-text">Question 1 / 25</span>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <span id="score-text">Score: 0</span>
+  </div>
+  <div id="question-area"></div>
+</div>
+
+<div id="results-area" style="display:none;"></div>
+
+</div>
+<a href="index.html" class="back-btn">← Study Hub</a>
+
+<script>
+const questions = [
+  {
+    topic: 'Endocrine',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A nurse is caring for four patients on the medical unit. Which patient should the nurse assess first?',
+    options: [
+      'A T1DM patient with a fingerstick glucose of 140 mg/dL one hour after breakfast',
+      'A patient with hypothyroidism whose TSH returned at 4.2 microunits/mL today',
+      'A patient on glimepiride who reports mild morning nausea before her first dose',
+      'A T2DM patient with a fingerstick glucose of 720 mg/dL who is confused and dehydrated'
+    ],
+    answer: 3,
+    concept: 'HHNS recognition',
+    rationale: 'BG over 600 with confusion and dehydration is HHNS — a hyperosmolar emergency that needs immediate fluid resuscitation.',
+    deepExplanation: 'HHNS is life-threatening. The combination of severe hyperglycemia, dehydration, and altered mental status puts this patient at highest risk for shock and death. The other patients are stable or have findings that warrant follow-up but not immediate intervention.',
+    others: {
+      0: 'A postprandial glucose of 140 is essentially within target range — this patient is stable.',
+      1: 'A TSH of 4.2 is mildly elevated and may warrant a dose adjustment but is not emergent.',
+      2: 'Mild nausea is a non-urgent finding — can be addressed after the unstable patient.'
+    }
+  },
+  {
+    topic: 'Endocrine',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A nursing student is preparing to administer insulin to a T2DM patient at 0730. The breakfast tray is expected at 0800. Which insulin order would the preceptor question?',
+    options: [
+      'Glargine 20 units subcutaneous at bedtime',
+      'Lispro 6 units subcutaneous to be given at 0745',
+      'Regular insulin 8 units subcutaneous to be given at 0730',
+      'Lispro 6 units subcutaneous to be given at 0700'
+    ],
+    answer: 3,
+    concept: 'Insulin timing application',
+    rationale: 'Lispro is rapid-acting and should be given 5–15 minutes before the meal — giving it at 0700 for an 0800 meal is too early and risks pre-meal hypoglycemia.',
+    deepExplanation: 'Rapid-acting insulin onset is so fast (about 15 minutes) that giving it 60 minutes before food sets the patient up to hit peak action before they eat. The other timings line up with the drug profiles: regular insulin needs 30 minutes lead time, glargine is bedtime, and lispro 15 minutes before is correct.',
+    others: {
+      0: 'Glargine at bedtime once daily is the correct schedule for long-acting insulin.',
+      1: 'Lispro 15 minutes before the 0800 meal is correctly timed.',
+      2: 'Regular insulin 30 minutes before the meal is correctly timed.'
+    }
+  },
+  {
+    topic: 'Endocrine',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient newly started on glimepiride asks the nurse about lifestyle changes. Which patient statement requires follow-up teaching?',
+    options: [
+      '"I will take my pill with the first meal of the day."',
+      '"I will check my blood sugar if I feel shaky or lightheaded."',
+      '"I can have a glass of wine with dinner since I am only on one pill."',
+      '"I will tell my cardiologist that I am taking this medication."'
+    ],
+    answer: 2,
+    concept: 'Glimepiride + alcohol',
+    rationale: 'Alcohol with glimepiride causes a disulfiram-like reaction and worsens hypoglycemia — patients must avoid alcohol entirely.',
+    deepExplanation: 'A disulfiram-like reaction includes flushing, palpitations, nausea, and vomiting. Combined with the additive hypoglycemia risk from alcohol, this is a dangerous combination regardless of how few pills the patient is on. The other statements show appropriate understanding.',
+    others: {
+      0: 'Taking glimepiride with the first main meal is correct.',
+      1: 'Checking glucose for hypoglycemia symptoms is appropriate.',
+      3: 'Disclosing the drug to the cardiologist matters because glimepiride is cardiotoxic.'
+    }
+  },
+  {
+    topic: 'Endocrine',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A provider prescribes semaglutide for a patient with T2DM. Which finding in the chart would prompt the nurse to hold the medication and notify the provider?',
+    options: [
+      'Hemoglobin A1c result of 8.2% on this morning\'s lab draw',
+      'Body mass index of 32 documented at the last appointment',
+      'Family history of medullary thyroid carcinoma',
+      'Current daily metformin therapy at maximum dose'
+    ],
+    answer: 2,
+    concept: 'Semaglutide BBW',
+    rationale: 'A family history of MTC is a contraindication due to the BBW for thyroid C-cell tumors — the nurse should hold and clarify with the provider.',
+    deepExplanation: 'Semaglutide caused thyroid C-cell tumors in animal studies, which is why FH of MTC or personal history of MEN 2 is an absolute contraindication. Pancreatitis history is also a contraindication. The other findings are typical of a patient who would benefit from semaglutide.',
+    others: {
+      0: 'An elevated A1c is the reason semaglutide may be prescribed, not a reason to hold.',
+      1: 'A BMI of 32 is consistent with the population that benefits from GLP-1 agonists.',
+      3: 'Metformin is commonly continued alongside semaglutide.'
+    }
+  },
+  {
+    topic: 'Endocrine',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A T2DM patient arrives in the ED with a glucose of 685 mg/dL, BUN 48, and is lethargic with poor skin turgor. The provider orders IV insulin and IV normal saline. Which order should the nurse implement first?',
+    options: [
+      'Begin IV regular insulin infusion at 0.1 units/kg/hr',
+      'Administer the IV potassium chloride that was ordered',
+      'Obtain a 12-lead ECG before any other interventions',
+      'Initiate aggressive IV normal saline infusion'
+    ],
+    answer: 3,
+    concept: 'HHNS priority sequencing',
+    rationale: 'Fluid resuscitation comes first in HHNS to correct profound dehydration; insulin is started after volume status is being addressed.',
+    deepExplanation: 'Giving insulin before adequate fluids drives glucose and water intracellularly, worsening hypovolemia and risking circulatory collapse. The standard sequence is: fluids first, then insulin, with strict potassium monitoring. ECG is reasonable but not the priority over fluid resuscitation.',
+    others: {
+      0: 'Insulin is needed but not first — fluids must be running before insulin starts.',
+      1: 'Potassium replacement may be needed once levels are checked but is not the first action.',
+      2: 'An ECG is not the priority over starting fluids.'
+    }
+  },
+  {
+    topic: 'Endocrine',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on warfarin is started on levothyroxine for newly diagnosed hypothyroidism. Two weeks later, the patient calls reporting bruising on both arms and pink-tinged urine. What is the most likely explanation?',
+    options: [
+      'The levothyroxine dose is too low to be effective at this point',
+      'Levothyroxine has enhanced warfarin effect, raising bleeding risk',
+      'These findings are unrelated to either of the two medications',
+      'The patient is having a hyperthyroid reaction to levothyroxine'
+    ],
+    answer: 1,
+    concept: 'Levothyroxine + warfarin interaction',
+    rationale: 'Levothyroxine accelerates breakdown of vitamin K-dependent clotting factors, intensifying warfarin\'s effect — the warfarin dose typically needs to be reduced.',
+    deepExplanation: 'Bruising and hematuria are classic signs of an elevated INR. When levothyroxine is started, PT/INR must be monitored frequently and the warfarin dose adjusted down to prevent bleeding. This is a common interaction with significant clinical consequences.',
+    others: {
+      0: 'A low levothyroxine dose would not cause bleeding.',
+      2: 'These findings are directly related to the warfarin–levothyroxine interaction.',
+      3: 'Hyperthyroid reactions don\'t typically present with bleeding.'
+    }
+  },
+  {
+    topic: 'Endocrine',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient with hypothyroidism comes to the clinic for routine TSH check. The TSH has been stable at 1.5 microunits/mL for over a year, but today\'s level is 6.8. Which question should the nurse ask first?',
+    options: [
+      '"Have you been more stressed than usual lately at work or home?"',
+      '"Are you eating significantly more cruciferous vegetables now?"',
+      '"Did your pharmacy switch your levothyroxine brand or generic?"',
+      '"Have you been getting more sleep than you typically need?"'
+    ],
+    answer: 2,
+    concept: 'Levothyroxine non-interchangeability',
+    rationale: 'Levothyroxine brands and generics are NOT bioequivalent. A sudden TSH change in a previously stable patient should always prompt questioning about a recent refill or brand switch.',
+    deepExplanation: 'This is a tested clinical pearl — small differences in absorption between manufacturers can shift TSH significantly. The other questions are reasonable but the most likely cause of a sudden lab change is a formulation change at the pharmacy.',
+    others: {
+      0: 'Stress can affect thyroid labs but is not the most likely cause of a sudden change.',
+      1: 'Cruciferous vegetables affect thyroid function only in extreme amounts.',
+      3: 'Sleep is not a primary cause of a TSH shift.'
+    }
+  },
+  {
+    topic: 'Endocrine',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient is admitted to the ICU with severe hypothermia, profound bradycardia, hypotension, and altered mental status. The patient has a history of hypothyroidism and recently stopped taking her levothyroxine. The provider diagnoses myxedema coma. Which route of levothyroxine administration does the nurse anticipate?',
+    options: [
+      'IV administration as an emergency intervention',
+      'Sublingual three times a day for rapid absorption',
+      'Oral once daily on an empty stomach with water',
+      'Transdermal patch every 72 hours for steady delivery'
+    ],
+    answer: 0,
+    concept: 'IV levothyroxine indication',
+    rationale: 'Myxedema coma is the only routine indication for IV levothyroxine — it is a life-threatening hypothyroid emergency.',
+    deepExplanation: 'Patients in myxedema coma cannot reliably absorb oral medications and need rapid restoration of thyroid hormone levels. PO is the standard route for all other situations, and there are no sublingual or transdermal levothyroxine formulations in standard use.',
+    others: {
+      1: 'Sublingual levothyroxine is not a standard formulation.',
+      2: 'PO is too slow and unreliable in a patient with altered mental status and circulatory compromise.',
+      3: 'Transdermal levothyroxine is not a standard formulation.'
+    }
+  },
+  {
+    topic: 'Endocrine',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A 28-year-old woman in her first trimester of pregnancy is newly diagnosed with hyperthyroidism. Which medication order would the nurse question?',
+    options: [
+      'Propylthiouracil (PTU)',
+      'Methimazole',
+      'Acetaminophen for headache',
+      'Prenatal vitamins'
+    ],
+    answer: 1,
+    concept: 'Methimazole 1st trimester CI',
+    rationale: 'Methimazole is contraindicated in the 1st trimester due to fetal abnormality risk — PTU is preferred.',
+    deepExplanation: 'After the first trimester, methimazole is acceptable in the 2nd and 3rd trimesters, but PTU is the agent of choice during the first 13 weeks. Both drugs carry an agranulocytosis risk and require periodic CBC monitoring.',
+    others: {
+      0: 'PTU is the preferred antithyroid drug in the 1st trimester.',
+      2: 'Acetaminophen is safe in pregnancy.',
+      3: 'Prenatal vitamins are appropriate.'
+    }
+  },
+  {
+    topic: 'Endocrine',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on methimazole calls the clinic stating she has had a fever of 101°F and a sore throat for two days. What is the nurse\'s priority response?',
+    options: [
+      '"Take acetaminophen and rest — call back if it gets worse."',
+      '"This is a normal side effect — continue your medication as prescribed."',
+      '"Hold your dose and come in today for a CBC — these symptoms can mean a serious blood problem."',
+      '"Stop the methimazole permanently and start propylthiouracil at home."'
+    ],
+    answer: 2,
+    concept: 'Methimazole agranulocytosis recognition',
+    rationale: 'Fever and sore throat are early signs of agranulocytosis — the patient needs a CBC and clinical evaluation immediately, with the dose held until the WBC is verified.',
+    deepExplanation: 'Agranulocytosis is a potentially fatal drop in neutrophils. Patients are taught to report fever, sore throat, mouth ulcers, or other infection signs immediately. The nurse cannot tell the patient to stop methimazole permanently or switch drugs without a provider order.',
+    others: {
+      0: 'Treating it as a minor illness misses a potentially life-threatening diagnosis.',
+      1: 'These symptoms are not a normal side effect — they need urgent evaluation.',
+      3: 'The nurse cannot independently change the prescription.'
+    }
+  },
+  {
+    topic: 'Endocrine',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient with Graves disease is preparing for radioactive iodine 131 (I-131) therapy. Which patient statement indicates teaching has been effective?',
+    options: [
+      '"I will feel better within 24 hours of taking the dose."',
+      '"I will need to wear a lead apron at home for two weeks."',
+      '"I can continue trying to conceive during this treatment."',
+      '"I understand I may need lifelong thyroid hormone replacement after this."'
+    ],
+    answer: 3,
+    concept: 'I-131 long-term outcomes',
+    rationale: 'I-131 destroys thyroid tissue, so most patients eventually develop hypothyroidism and need lifelong replacement therapy.',
+    deepExplanation: 'The treatment effect is delayed 1–3 months, no isolation or shielding is required at home, and the therapy is absolutely contraindicated in pregnancy and lactation. The patient understanding lifelong replacement is the most accurate statement.',
+    others: {
+      0: 'Effects are delayed 1–3 months, not within 24 hours.',
+      1: 'No lead shielding or isolation is required.',
+      2: 'I-131 is absolutely contraindicated in pregnancy — patients must avoid conception.'
+    }
+  },
+  {
+    topic: 'Endocrine',
+    confirmed: false,
+    type: 'sata',
+    stem: 'The nurse is reviewing the chart of a patient about to receive radioactive iodine 131 for Graves disease. Which findings would absolutely contraindicate this therapy? Select all that apply.',
+    options: [
+      'Patient is 6 weeks pregnant with planned pregnancy',
+      'Patient is 65 years old with controlled comorbidities',
+      'Patient is currently breastfeeding a 3-month-old infant',
+      'Patient has well-controlled stage 1 hypertension',
+      'Patient is 8 years old with newly diagnosed Graves disease',
+      'Patient has a visible goiter on physical examination'
+    ],
+    answerArr: [0, 2, 4],
+    concept: 'I-131 absolute CIs',
+    rationale: 'I-131 is absolutely contraindicated in pregnancy, lactation, and pediatric patients. Age, controlled HTN, and goiter (the indication itself) are not contraindications.',
+    perOptionExplanations: {
+      0: '<strong>Pregnancy</strong> — radioactive iodine crosses the placenta and destroys fetal thyroid tissue.',
+      2: '<strong>Lactation</strong> — radioactive iodine concentrates in breast milk and exposes the infant.',
+      4: '<strong>Pediatric patient</strong> — pediatrics are absolutely contraindicated for I-131.'
+    },
+    others: {
+      1: 'Age 65 alone is not a contraindication for I-131.',
+      3: 'Controlled hypertension is not a contraindication.',
+      5: 'Goiter is part of the Graves presentation — it\'s the reason for treatment, not a CI.'
+    }
+  },
+  {
+    topic: 'Endocrine',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A T1DM patient has lispro 6 units ordered before lunch. The nurse arrives at the bedside at 1145 and the lunch tray is delayed and won\'t arrive until 1230. What should the nurse do?',
+    options: [
+      'Give the lispro now exactly as it was originally ordered',
+      'Give half the dose now and the other half when the tray arrives',
+      'Switch the lispro to regular insulin without contacting the provider',
+      'Hold the dose and reschedule for 15 minutes before the actual tray arrival'
+    ],
+    answer: 3,
+    concept: 'Insulin timing safety',
+    rationale: 'Lispro is rapid-acting — giving it 45 minutes before food risks severe pre-meal hypoglycemia. The dose should be timed 5–15 minutes before the actual tray arrival.',
+    deepExplanation: 'A nurse exercising clinical judgment will reschedule the dose to match when the patient actually eats. Giving it as scheduled despite the delay or splitting the dose can cause hypoglycemia. Switching insulin types is a prescribing decision, not a nursing one.',
+    others: {
+      0: 'Giving it now sets up hypoglycemia from a 45-minute lead time.',
+      1: 'Splitting doses is not within the nurse\'s scope and complicates management.',
+      2: 'Switching insulin types requires a provider order.'
+    }
+  },
+  {
+    topic: 'Endocrine',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on glargine has been giving the injection in the same spot on the abdomen for three months. The nurse notes a thickened, lumpy area at the site. What is the most likely explanation?',
+    options: [
+      'Lipohypertrophy from failure to rotate sites',
+      'A localized infection at the injection site',
+      'A normal finding with long-term insulin use',
+      'An allergic reaction to glargine'
+    ],
+    answer: 0,
+    concept: 'SubQ rotation rationale',
+    rationale: 'Repeated injections at the same site cause lipohypertrophy (a form of lipodystrophy) — fatty tissue thickening that alters and slows insulin absorption.',
+    deepExplanation: 'The review sheet uses the broader term "lipodystrophy," which includes both lipohypertrophy (thickening — the lump described here) and lipoatrophy (tissue loss). This is why systematic site rotation matters. The thickened area absorbs insulin unpredictably, leading to erratic glucose control. The patient should be taught to rotate within an anatomic region and to avoid the affected area until it resolves.',
+    others: {
+      1: 'Infection would present with redness, warmth, pain, or drainage — not just a lump.',
+      2: 'Lipohypertrophy is a preventable adverse finding, not normal.',
+      3: 'Allergic reactions present with itching, redness, or systemic symptoms.'
+    }
+  },
+  {
+    topic: 'Endocrine',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient in the ED with HHNS has stabilized after fluid resuscitation. The provider now orders IV regular insulin. The nurse notes the patient\'s most recent potassium is 3.2 mEq/L. What is the nurse\'s priority action?',
+    options: [
+      'Begin the insulin infusion as ordered immediately',
+      'Give an IV potassium bolus and start the insulin simultaneously',
+      'Hold the insulin and notify the provider about the low potassium',
+      'Switch to subcutaneous insulin to avoid the potassium issue'
+    ],
+    answer: 2,
+    concept: 'HHNS + hypokalemia',
+    rationale: 'Insulin drives potassium intracellularly, which can dangerously worsen hypokalemia. The nurse should hold the insulin and notify the provider to address potassium first.',
+    deepExplanation: 'Strict potassium monitoring is part of every HHNS protocol. With a K of 3.2 (already low), starting insulin without first replacing potassium can drop levels into dysrhythmia territory. Insulin moves K into cells; without correction first, this is a setup for cardiac arrest.',
+    others: {
+      0: 'Starting insulin with low potassium can cause severe hypokalemia and dysrhythmias.',
+      1: 'Bolusing potassium and insulin simultaneously without provider orders is unsafe.',
+      3: 'The route doesn\'t change the potassium-shifting effect of insulin.'
+    }
+  },
+  {
+    topic: 'Endocrine',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient with Graves disease asks about her symptoms. Which finding would the nurse expect to assess?',
+    options: [
+      'Cold intolerance, weight gain, and constipation',
+      'Heat intolerance, weight loss, and insomnia',
+      'Bradycardia, lethargy, and dry skin',
+      'Slow speech, depression, and puffy face'
+    ],
+    answer: 1,
+    concept: 'Graves clinical recognition',
+    rationale: 'Graves disease is hyperthyroidism — expect heat intolerance, weight loss, and insomnia from the hypermetabolic state.',
+    deepExplanation: 'The hallmark Graves findings are goiter, exophthalmos, weight loss despite increased appetite, heat intolerance, tachycardia, and insomnia. The other choices describe hypothyroid presentations.',
+    others: {
+      0: 'These are HYPOthyroid symptoms.',
+      2: 'These are HYPOthyroid symptoms.',
+      3: 'These are HYPOthyroid symptoms / myxedema findings.'
+    }
+  },
+  {
+    topic: 'Endocrine',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient newly started on glimepiride is being discharged. Which statement by the patient indicates a need for further teaching?',
+    options: [
+      '"I will keep glucose tablets with me in case I feel shaky."',
+      '"I will take this with my first meal of the day."',
+      '"I should skip my dose if I am not going to eat."',
+      '"I can take double doses on days I eat more carbs."'
+    ],
+    answer: 3,
+    concept: 'Glimepiride wrong teaching',
+    rationale: 'Doubling sulfonylurea doses based on carb intake is dangerous and not how the drug is dosed — this requires correction.',
+    deepExplanation: 'Glimepiride is a fixed-dose sulfonylurea, not a sliding-scale insulin. Patients should not adjust doses based on meals. Skipping the dose when not eating is reasonable to prevent hypoglycemia. Carrying glucose tablets and taking it with the first meal are both correct.',
+    others: {
+      0: 'Carrying fast-acting glucose for hypoglycemia is correct.',
+      1: 'Taking it with the first meal is correct.',
+      2: 'Skipping the dose if not eating is reasonable to prevent hypoglycemia.'
+    }
+  },
+  {
+    topic: 'Endocrine',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient is being initiated on semaglutide. Which baseline assessment is most important for the nurse to obtain?',
+    options: [
+      'Personal or family history of medullary thyroid carcinoma',
+      'Detailed family history of breast cancer in first-degree relatives',
+      'Recent travel history to other countries within the past year',
+      'Childhood vaccination records and immunization status'
+    ],
+    answer: 0,
+    concept: 'Semaglutide screening',
+    rationale: 'Personal or family history of MTC is the BBW contraindication for semaglutide and must be screened for before initiation.',
+    deepExplanation: 'In addition to MTC screening, the nurse should ask about pancreatitis history (also a contraindication). The other items are not specific to semaglutide initiation.',
+    others: {
+      1: 'Breast cancer history is not specifically contraindicated with semaglutide.',
+      2: 'Travel history is not relevant to semaglutide screening.',
+      3: 'Vaccination records are not relevant to semaglutide.'
+    }
+  },
+  {
+    topic: 'Endocrine',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A nursing student asks the preceptor why regular insulin is the only insulin given IV in HHNS protocols. What is the preceptor\'s best response?',
+    options: [
+      '"Regular insulin works the slowest, so it is safest IV."',
+      '"All insulins can be given IV — regular is just cheaper."',
+      '"Regular insulin is the only formulation approved for IV administration."',
+      '"Long-acting insulins lose potency when warmed in a syringe."'
+    ],
+    answer: 2,
+    concept: 'Regular insulin IV-only',
+    rationale: 'Regular insulin is the only formulation approved for IV administration — all others are SubQ only.',
+    deepExplanation: 'This is why DKA and HHNS protocols specifically use regular insulin infusions. Lispro, aspart, glulisine, NPH, glargine, and detemir are all SubQ only. NPH is intermediate-acting and cloudy; glargine has a unique pH that precipitates if injected IV.',
+    others: {
+      0: 'Regular insulin is fast-acting IV, not slow.',
+      1: 'Other insulins are NOT approved for IV use — this is dangerous teaching.',
+      3: 'This is not the reason regular is used.'
+    }
+  },
+  {
+    topic: 'Endocrine',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient with hypothyroidism is started on levothyroxine and is also taking warfarin. Two weeks later, an INR draw shows the level is now 4.8 (previous baseline 2.5). What is the nurse\'s expected action?',
+    options: [
+      'Increase the warfarin dose to bring the INR back into therapeutic range',
+      'Discontinue the levothyroxine immediately to fix the INR',
+      'No action needed — this is considered a normal lab fluctuation',
+      'Anticipate a warfarin dose reduction and increased INR monitoring'
+    ],
+    answer: 3,
+    concept: 'Warfarin/levo dose adjustment',
+    rationale: 'Levothyroxine enhanced the warfarin effect, raising the INR — the warfarin dose should be reduced and INR monitored more frequently.',
+    deepExplanation: 'An INR of 4.8 (well above the typical 2–3 range) puts the patient at high bleeding risk. The interaction is mediated by accelerated breakdown of vitamin K-dependent clotting factors. Levothyroxine should not be stopped — the warfarin needs to be adjusted down.',
+    others: {
+      0: 'Increasing warfarin would push the INR even higher and worsen bleeding risk.',
+      1: 'Levothyroxine is the indicated treatment — only the warfarin needs adjustment.',
+      2: 'A doubling of the INR is not a normal fluctuation.'
+    }
+  },
+  {
+    topic: 'Endocrine',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A pediatric patient with Graves disease has been prescribed methimazole. The nurse is reviewing the family\'s teaching plan. Which point is most important to emphasize?',
+    options: [
+      'Take the medication with a glass of orange juice',
+      'Report any fever, sore throat, or unusual fatigue immediately',
+      'Avoid all dairy products while on therapy',
+      'Take only at bedtime to reduce side effects'
+    ],
+    answer: 1,
+    concept: 'Methimazole monitoring teaching',
+    rationale: 'Agranulocytosis can develop suddenly and present as fever, sore throat, or fatigue — these are urgent reports that require immediate CBC.',
+    deepExplanation: 'This is the highest-priority teaching point for methimazole because agranulocytosis is potentially fatal. Periodic CBC monitoring is part of routine care. The other items are not standard methimazole teaching.',
+    others: {
+      0: 'Orange juice is not a specific recommendation with methimazole.',
+      2: 'Dairy is not contraindicated with methimazole.',
+      3: 'Bedtime dosing is not the standard recommendation.'
+    }
+  },
+  {
+    topic: 'Endocrine',
+    confirmed: false,
+    type: 'sata',
+    stem: 'The nurse is admitting a patient with suspected HHNS. Which findings would the nurse expect on assessment? Select all that apply.',
+    options: [
+      'Blood glucose 720 mg/dL',
+      'Profound dehydration with poor skin turgor',
+      'Severe ketoacidosis with fruity breath',
+      'Confusion and altered mental status',
+      'Type 2 diabetes mellitus history',
+      'Blood glucose 180 mg/dL'
+    ],
+    answerArr: [0, 1, 3, 4],
+    concept: 'HHNS clinical picture',
+    rationale: 'HHNS = T2DM + extreme hyperglycemia (>600) + dehydration + altered mental status, WITHOUT ketoacidosis (which is the DKA picture).',
+    perOptionExplanations: {
+      0: '<strong>BG over 600</strong> — extreme hyperglycemia is a defining feature of HHNS.',
+      1: '<strong>Profound dehydration</strong> — driven by osmotic diuresis from severe hyperglycemia.',
+      3: '<strong>Altered mental status</strong> — confusion to coma from hyperosmolarity.',
+      4: '<strong>T2DM history</strong> — HHNS is the T2DM emergency; DKA is the T1DM emergency.'
+    },
+    others: {
+      2: 'Ketoacidosis with fruity breath describes DKA, not HHNS — T2DM patients still produce some insulin, which suppresses ketosis.',
+      5: 'Glucose of 180 is not extreme enough to define HHNS — the cutoff is generally over 600.'
+    }
+  },
+  {
+    topic: 'Endocrine',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient with newly diagnosed Graves disease asks how radioactive iodine 131 will work. Which response by the nurse is most accurate?',
+    options: [
+      '"It will work within 24 hours to lower your thyroid levels."',
+      '"It destroys overactive thyroid tissue gradually over 1 to 3 months."',
+      '"It is taken daily for life like other thyroid medications."',
+      '"It blocks the thyroid stimulating immunoglobulins immediately."'
+    ],
+    answer: 1,
+    concept: 'I-131 mechanism teaching',
+    rationale: 'I-131 emits beta and gamma radiation that destroys thyroid tissue — the effect is delayed and takes 1 to 3 months to fully develop.',
+    deepExplanation: 'Patients need to understand that they will not feel immediately better and may need bridging therapy with methimazole or PTU during the wait. Most patients eventually require lifelong levothyroxine after the thyroid is sufficiently destroyed.',
+    others: {
+      0: 'Effects are delayed by months, not hours.',
+      2: 'I-131 is typically a one-time dose, not a daily medication.',
+      3: 'I-131 destroys tissue rather than blocking TSI.'
+    }
+  },
+  {
+    topic: 'Endocrine',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A nurse is preparing to draw up regular insulin and NPH in the same syringe. Which technique is correct?',
+    options: [
+      'Draw up NPH first, then regular insulin',
+      'Draw up regular insulin first, then NPH (clear before cloudy)',
+      'Use two separate syringes — these insulins cannot be mixed',
+      'Roll both vials vigorously between palms before drawing up'
+    ],
+    answer: 1,
+    concept: 'Insulin mixing technique',
+    rationale: 'Clear before cloudy — regular insulin (clear) is drawn up first, then NPH (cloudy). This prevents NPH contamination of the regular insulin vial.',
+    deepExplanation: 'Regular insulin can be safely mixed with NPH using this technique. Glargine and detemir, however, can never be mixed with any other insulin. NPH should be gently rolled (not shaken vigorously) to resuspend it.',
+    others: {
+      0: 'NPH first contaminates the regular insulin vial with intermediate-acting suspension.',
+      2: 'Regular and NPH CAN be mixed — this is a routine practice.',
+      3: 'Vigorous shaking damages insulin protein structure.'
+    }
+  },
+  {
+    topic: 'Endocrine',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on glargine asks if she can mix it with her lispro to reduce the number of injections. Which response by the nurse is most accurate?',
+    options: [
+      '"That\'s a great idea — it will save you injections."',
+      '"You can mix them but only in the morning."',
+      '"Glargine cannot be mixed with any other insulin in the syringe."',
+      '"You can mix them as long as you draw lispro up first."'
+    ],
+    answer: 2,
+    concept: 'Glargine never mixed',
+    rationale: 'Glargine has a unique pH that precipitates when mixed with other insulins — it must always be given as a separate injection.',
+    deepExplanation: 'Mixing glargine with any other insulin destroys its 24-hour smooth release profile and can render both insulins ineffective. The same rule applies to detemir. Regular and NPH can be mixed (clear before cloudy), and rapid-acting insulins can be mixed with NPH.',
+    others: {
+      0: 'Mixing glargine is unsafe and reduces effectiveness.',
+      1: 'Time of day doesn\'t change the chemistry — glargine still cannot be mixed.',
+      3: 'No order of drawing up makes glargine mixable.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+const TOTAL = questions.length;
+let currentQ = 0;
+let totalPoints = 0;
+let answers = [];
+
+function startQuiz() {
+  document.getElementById('start-screen').style.display = 'none';
+  document.getElementById('quiz-container').style.display = 'block';
+  showQuestion();
+}
+
+function showQuestion() {
+  if (currentQ >= TOTAL) { showResults(); return; }
+  const q = questions[currentQ];
+  document.getElementById('progress-text').textContent = `Question ${currentQ + 1} / ${TOTAL}`;
+  document.getElementById('progress-fill').style.width = `${((currentQ) / TOTAL) * 100}%`;
+  document.getElementById('score-text').textContent = `Score: ${totalPoints.toFixed(1)}`;
+
+  const area = document.getElementById('question-area');
+  let html = `<div class="question-card">
+    <div class="q-number">Question ${currentQ + 1}</div>`;
+  if (q.confirmed) html += `<div class="confirmed-banner">⚠ Confirmed Test Item — recalled from actual exam</div>`;
+  html += `<div class="q-stem">${q.stem}</div>`;
+  if (q.type === 'sata') html += `<div style="font-family:'DM Mono', monospace; font-size:12px; color:var(--purple); margin-bottom:12px;">SELECT ALL THAT APPLY</div>`;
+  html += `<div class="options" id="options-list">`;
+  q.options.forEach((opt, i) => {
+    const letter = String.fromCharCode(65 + i);
+    html += `<button class="option" data-idx="${i}" onclick="toggleOption(${i})">
+      <span class="option-letter">${letter}</span>
+      <span>${opt}</span>
+    </button>`;
+  });
+  html += `</div>
+    <button class="submit-btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit Answer</button>
+    <div class="rationale" id="rationale"></div>
+  </div>`;
+  area.innerHTML = html;
+}
+
+let selectedIdx = q_type_is_sata() ? [] : null;
+
+function q_type_is_sata() { return questions[currentQ] && questions[currentQ].type === 'sata'; }
+
+function toggleOption(i) {
+  const q = questions[currentQ];
+  const opts = document.querySelectorAll('.option');
+  if (q.type === 'sata') {
+    if (!Array.isArray(selectedIdx)) selectedIdx = [];
+    const pos = selectedIdx.indexOf(i);
+    if (pos >= 0) {
+      selectedIdx.splice(pos, 1);
+      opts[i].classList.remove('selected');
+    } else {
+      selectedIdx.push(i);
+      opts[i].classList.add('selected');
+    }
+    document.getElementById('submit-btn').disabled = selectedIdx.length === 0;
+  } else {
+    selectedIdx = i;
+    opts.forEach(o => o.classList.remove('selected'));
+    opts[i].classList.add('selected');
+    document.getElementById('submit-btn').disabled = false;
+  }
+}
+
+function submitAnswer() {
+  const q = questions[currentQ];
+  const opts = document.querySelectorAll('.option');
+  opts.forEach(o => { o.disabled = true; o.onclick = null; });
+  document.getElementById('submit-btn').style.display = 'none';
+
+  let pts = 0;
+  let verdict = '';
+  let userAnswer = null;
+
+  if (q.type === 'sata') {
+    const correct = q.answerArr;
+    const selected = Array.isArray(selectedIdx) ? selectedIdx : [];
+    let correctSelected = 0, wrongSelected = 0;
+    selected.forEach(s => { if (correct.includes(s)) correctSelected++; else wrongSelected++; });
+    pts = Math.max(0, (correctSelected - wrongSelected) / correct.length);
+    if (pts === 1) verdict = 'correct';
+    else if (pts > 0) verdict = 'partial';
+    else verdict = 'wrong';
+
+    opts.forEach((o, i) => {
+      const isCorr = correct.includes(i);
+      const isSel = selected.includes(i);
+      if (isCorr && isSel) o.classList.add('correct');
+      else if (isCorr && !isSel) o.classList.add('missed');
+      else if (!isCorr && isSel) o.classList.add('wrong');
+    });
+    userAnswer = selected;
+  } else {
+    if (selectedIdx === q.answer) { pts = 1; verdict = 'correct'; }
+    else { pts = 0; verdict = 'wrong'; }
+    opts.forEach((o, i) => {
+      if (i === q.answer) o.classList.add('correct');
+      else if (i === selectedIdx) o.classList.add('wrong');
+    });
+    userAnswer = selectedIdx;
+  }
+
+  totalPoints += pts;
+  answers.push({ q, userAnswer, pts, verdict });
+  document.getElementById('score-text').textContent = `Score: ${totalPoints.toFixed(1)}`;
+
+  showRationale(q, verdict, pts);
+}
+
+function showRationale(q, verdict, pts) {
+  const r = document.getElementById('rationale');
+  let verdictTxt = verdict === 'correct' ? 'Correct' : verdict === 'partial' ? `Partial Credit (${pts.toFixed(2)})` : 'Incorrect';
+  let html = `<span class="verdict ${verdict}">${verdictTxt}</span>
+    <span class="concept-pill">${q.concept}</span>`;
+
+  if (q.type === 'sata') {
+    html += `<div class="sata-legend">
+      <span><span class="legend-dot green"></span>Correct &amp; selected</span>
+      <span><span class="legend-dot yellow"></span>Correct but missed</span>
+      <span><span class="legend-dot red"></span>Incorrect &amp; selected</span>
+    </div>`;
+    html += `<h4>Why these are correct</h4>`;
+    q.answerArr.forEach(i => {
+      html += `<div class="correct-answer-display">${q.options[i]}<br><small style="color:var(--ink-soft);">${q.perOptionExplanations[i]}</small></div>`;
+    });
+    html += `<p><strong>Overall:</strong> ${q.rationale}</p>`;
+    if (q.others && Object.keys(q.others).length > 0) {
+      html += `<h4>Why the others are wrong</h4><ul class="others-list">`;
+      Object.keys(q.others).forEach(k => {
+        html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+      });
+      html += `</ul>`;
+    }
+  } else {
+    html += `<div class="correct-answer-display"><strong>Correct answer:</strong> ${q.options[q.answer]}</div>
+      <p>${q.rationale}</p>
+      <h4>The clinical reasoning</h4>
+      <p>${q.deepExplanation}</p>`;
+    if (q.others && Object.keys(q.others).length > 0) {
+      html += `<h4>Why the others are wrong</h4><ul class="others-list">`;
+      Object.keys(q.others).forEach(k => {
+        html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+      });
+      html += `</ul>`;
+    }
+  }
+  html += `<button class="next-btn" onclick="nextQuestion()">${currentQ + 1 >= TOTAL ? 'See Results' : 'Next Question →'}</button>`;
+  r.innerHTML = html;
+  r.classList.add('show');
+}
+
+function nextQuestion() {
+  currentQ++;
+  selectedIdx = q_type_is_sata() ? [] : null;
+  showQuestion();
+}
+
+function showResults() {
+  document.getElementById('quiz-container').style.display = 'none';
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  let perfMsg = '';
+  if (pct >= 90) perfMsg = 'Exam ready. Strong clinical reasoning on application items.';
+  else if (pct >= 80) perfMsg = 'Solid performance. Review missed concepts and you\'re in great shape.';
+  else if (pct >= 70) perfMsg = 'Decent foundation but you\'ve got gaps. The application questions are where the exam will challenge you — review carefully.';
+  else perfMsg = 'Review carefully. Re-read your missed concepts and try this drill again before moving on.';
+
+  let missedHtml = '';
+  const missed = answers.filter(a => a.verdict !== 'correct');
+  if (missed.length > 0) {
+    missedHtml = `<div class="missed-list"><h3>Missed concepts</h3>`;
+    missed.forEach(m => {
+      const ans = m.q.type === 'sata' ? m.q.answerArr.map(i => m.q.options[i]).join('; ') : m.q.options[m.q.answer];
+      missedHtml += `<div class="missed-item">
+        <span class="concept-pill">${m.q.concept}</span>
+        ${m.q.confirmed ? '<span class="concept-pill" style="background:var(--purple-pale);color:var(--purple);">Confirmed item</span>' : ''}
+        <div class="preview">${m.q.stem}</div>
+        <div class="answer-line">→ ${ans}</div>
+        <div class="rationale-line">${m.q.rationale}</div>
+      </div>`;
+    });
+    missedHtml += `</div>`;
+  }
+
+  const today = new Date().toLocaleDateString();
+  localStorage.setItem('score_endocrine_deepdrill', JSON.stringify({
+    pct, pts: totalPoints.toFixed(1), total: TOTAL, date: today
+  }));
+
+  document.getElementById('results-area').innerHTML = `
+    <div class="results-card">
+      <span class="badge">Endocrine — Deep Drill Complete</span>
+      <div class="results-score">${totalPoints.toFixed(1)} / ${TOTAL}</div>
+      <div class="results-pct">${pct}%</div>
+      <div class="perf-msg">${perfMsg}</div>
+      ${missedHtml}
+      <button class="retry-btn" onclick="location.reload()">Retry Drill</button>
+    </div>
+  `;
+  document.getElementById('results-area').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Urinary &amp; Reproductive — Deep Drill</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0a2540;
+  --navy-soft: #1a3a5c;
+  --teal: #0d9488;
+  --teal-soft: #14b8a6;
+  --teal-pale: #f0fdfa;
+  --purple: #7c3aed;
+  --purple-soft: #8b5cf6;
+  --purple-pale: #f5f3ff;
+  --gold: #f59e0b;
+  --ink: #1a1a1a;
+  --ink-soft: #3a3a3a;
+  --muted: #6b7280;
+  --bg: #fafaf7;
+  --card: #ffffff;
+  --line: #e5e0d5;
+  --correct: #059669;
+  --correct-bg: #ecfdf5;
+  --wrong: #dc2626;
+  --wrong-bg: #fef2f2;
+  --partial: #d97706;
+  --partial-bg: #fffbeb;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; padding: 40px 20px 100px; }
+.container { max-width: 800px; margin: 0 auto; }
+.header { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--purple); padding: 28px 32px; margin-bottom: 24px; }
+.badge { display: inline-block; background: var(--purple-pale); color: var(--purple); font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 3px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px; }
+h1 { font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--navy); margin-bottom: 6px; font-weight: 400; }
+.subtitle { color: var(--muted); font-size: 15px; }
+.progress-bar { background: var(--card); border: 1px solid var(--line); padding: 16px 24px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; font-family: 'DM Mono', monospace; font-size: 13px; color: var(--ink-soft); }
+.progress-track { flex: 1; height: 4px; background: var(--line); margin: 0 20px; border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--purple); width: 0%; transition: width 0.3s ease; }
+.question-card { background: var(--card); border: 1px solid var(--line); padding: 32px; margin-bottom: 20px; }
+.q-number { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); letter-spacing: 0.5px; margin-bottom: 12px; }
+.confirmed-banner { background: var(--purple-pale); border-left: 3px solid var(--purple); color: var(--purple); font-family: 'DM Mono', monospace; font-size: 11px; padding: 8px 12px; margin-bottom: 16px; letter-spacing: 0.3px; text-transform: uppercase; }
+.q-stem { font-size: 17px; color: var(--ink); margin-bottom: 24px; font-weight: 500; line-height: 1.5; }
+.options { display: flex; flex-direction: column; gap: 10px; }
+.option { background: var(--card); border: 1.5px solid var(--line); padding: 14px 18px; cursor: pointer; transition: all 0.15s ease; font-size: 15px; display: flex; align-items: flex-start; gap: 12px; text-align: left; width: 100%; font-family: inherit; color: var(--ink); }
+.option:hover:not(:disabled) { border-color: var(--purple); background: var(--purple-pale); }
+.option:disabled { cursor: not-allowed; }
+.option-letter { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: var(--muted); flex-shrink: 0; padding-top: 1px; }
+.option.selected { border-color: var(--purple); background: var(--purple-pale); }
+.option.correct { border-color: var(--correct); background: var(--correct-bg); }
+.option.correct .option-letter { color: var(--correct); }
+.option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+.option.wrong .option-letter { color: var(--wrong); }
+.option.missed { border-color: var(--partial); background: var(--partial-bg); border-style: dashed; }
+.option.missed .option-letter { color: var(--partial); }
+.submit-btn, .next-btn { background: var(--navy); color: white; border: none; padding: 12px 28px; font-family: inherit; font-size: 15px; font-weight: 500; cursor: pointer; margin-top: 20px; transition: background 0.15s; }
+.submit-btn:hover, .next-btn:hover { background: var(--navy-soft); }
+.submit-btn:disabled { background: var(--muted); cursor: not-allowed; }
+.rationale { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--line); display: none; }
+.rationale.show { display: block; }
+.verdict { display: inline-block; padding: 6px 14px; font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px; }
+.verdict.correct { background: var(--correct-bg); color: var(--correct); }
+.verdict.wrong { background: var(--wrong-bg); color: var(--wrong); }
+.verdict.partial { background: var(--partial-bg); color: var(--partial); }
+.concept-pill { display: inline-block; background: var(--purple-pale); color: var(--purple); font-family: 'DM Mono', monospace; font-size: 11px; padding: 4px 10px; border-radius: 3px; margin-left: 8px; letter-spacing: 0.3px; }
+.rationale h4 { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--navy); margin: 16px 0 8px; font-weight: 400; }
+.rationale p { margin-bottom: 10px; color: var(--ink-soft); font-size: 15px; }
+.rationale .correct-answer-display { background: var(--correct-bg); border-left: 3px solid var(--correct); padding: 10px 14px; margin: 12px 0; font-size: 14px; }
+.others-list { margin-top: 12px; }
+.others-list li { list-style: none; padding: 8px 0; border-top: 1px solid var(--line); font-size: 14px; color: var(--ink-soft); }
+.others-list li strong { color: var(--ink); }
+.sata-legend { display: flex; gap: 16px; margin: 12px 0; flex-wrap: wrap; font-family: 'DM Mono', monospace; font-size: 11px; }
+.sata-legend span { display: flex; align-items: center; gap: 6px; }
+.legend-dot { width: 12px; height: 12px; border-radius: 2px; display: inline-block; }
+.legend-dot.green { background: var(--correct); }
+.legend-dot.yellow { background: var(--partial); border: 1px dashed var(--partial); }
+.legend-dot.red { background: var(--wrong); }
+.results-card { background: var(--card); border: 1px solid var(--line); padding: 40px; text-align: center; }
+.results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--navy); margin: 16px 0; font-weight: 400; }
+.results-pct { font-family: 'DM Mono', monospace; font-size: 24px; color: var(--purple); margin-bottom: 24px; }
+.perf-msg { font-size: 17px; color: var(--ink-soft); margin-bottom: 24px; padding: 16px; background: var(--purple-pale); border-left: 3px solid var(--purple); text-align: left; }
+.missed-list { text-align: left; margin-top: 32px; }
+.missed-list h3 { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--navy); margin-bottom: 16px; font-weight: 400; }
+.missed-item { padding: 14px 0; border-top: 1px solid var(--line); }
+.missed-item .preview { font-size: 14px; color: var(--ink-soft); margin: 6px 0; }
+.missed-item .answer-line { font-size: 13px; color: var(--correct); font-family: 'DM Mono', monospace; margin-top: 4px; }
+.missed-item .rationale-line { font-size: 13px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+.retry-btn { background: var(--purple); color: white; border: none; padding: 14px 32px; font-family: inherit; font-size: 15px; font-weight: 500; cursor: pointer; margin-top: 32px; }
+.retry-btn:hover { background: var(--purple-soft); }
+.back-btn { position: fixed; bottom: 24px; right: 24px; background: var(--navy); color: white; text-decoration: none; padding: 12px 20px; font-family: 'DM Mono', monospace; font-size: 13px; border-radius: 4px; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+.back-btn:hover { background: var(--navy-soft); }
+.start-screen { background: var(--card); border: 1px solid var(--line); padding: 48px 40px; text-align: center; }
+.start-screen h2 { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--navy); margin-bottom: 12px; font-weight: 400; }
+.start-screen p { color: var(--ink-soft); margin-bottom: 8px; }
+.start-stats { display: flex; justify-content: center; gap: 32px; margin: 24px 0 32px; font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); }
+.start-btn { background: var(--purple); color: white; border: none; padding: 14px 36px; font-family: inherit; font-size: 15px; font-weight: 500; cursor: pointer; }
+.start-btn:hover { background: var(--purple-soft); }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div id="start-screen" class="start-screen">
+  <span class="badge">Deep Drill</span>
+  <h2>Urinary &amp; Reproductive</h2>
+  <p>NCLEX-style application — priority triage, wrong teaching, which patient first.</p>
+  <p style="font-size:14px; color:var(--muted); margin-top:8px;">You'll need to know the concept AND apply it to a clinical scenario.</p>
+  <div class="start-stats">
+    <span>25 questions</span>
+    <span>•</span>
+    <span>Application-level</span>
+    <span>•</span>
+    <span>Paraphrased options</span>
+  </div>
+  <button class="start-btn" onclick="startQuiz()">Begin</button>
+</div>
+
+<div id="quiz-container" style="display:none;">
+  <div class="header">
+    <span class="badge">Urinary &amp; Reproductive — Deep Drill</span>
+    <h1>Application &amp; clinical reasoning</h1>
+    <p class="subtitle">NCLEX-style scenarios — priority, teaching, recognition</p>
+  </div>
+  <div class="progress-bar">
+    <span id="progress-text">Question 1 / 25</span>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <span id="score-text">Score: 0</span>
+  </div>
+  <div id="question-area"></div>
+</div>
+
+<div id="results-area" style="display:none;"></div>
+
+</div>
+<a href="index.html" class="back-btn">← Study Hub</a>
+
+<script>
+const questions = [
+  {
+    topic: 'Urinary',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A nurse is preparing to administer bethanechol to four post-op patients. Which patient should the nurse question the order on?',
+    options: [
+      'A 72-year-old with post-op urinary retention 6 hours after a knee replacement',
+      'A 45-year-old with active asthma and a history of two recent flares',
+      'A 38-year-old postpartum patient unable to void 8 hours after delivery',
+      'A 60-year-old with a neurogenic bladder needing voiding assistance'
+    ],
+    answer: 1,
+    concept: 'Bethanechol asthma CI',
+    rationale: 'Bethanechol is contraindicated in patients with latent or active asthma due to bronchoconstriction risk from cholinergic stimulation.',
+    deepExplanation: 'Bethanechol\'s muscarinic activity affects more than just the bladder — it also causes bronchoconstriction, bradycardia, and hypotension. Active asthma is an absolute contraindication that the nurse should clarify with the provider before administering.',
+    others: {
+      0: 'Post-op urinary retention is exactly the indication for bethanechol.',
+      2: 'Postpartum urinary retention is also an appropriate indication.',
+      3: 'Neurogenic bladder is an indication for bethanechol.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A 68-year-old male starts finasteride for BPH and asks the nurse when he can expect symptom improvement. What is the most accurate response?',
+    options: [
+      '"You should feel better within the first 48 hours."',
+      '"You should notice improvement within 2 weeks."',
+      '"Improvement happens within 30 days of starting."',
+      '"It takes 6 to 12 months to see the full benefit."'
+    ],
+    answer: 3,
+    concept: 'Finasteride realistic timeline',
+    rationale: 'Patients must be educated that finasteride takes 6 to 12 months for full benefit — they should not expect rapid improvement.',
+    deepExplanation: 'Setting accurate expectations is critical because patients may stop the drug if they don\'t see immediate results. Finasteride works by gradually shrinking the prostate gland over months. It is also a lifelong therapy for severe BPH.',
+    others: {
+      0: 'No improvement happens in 48 hours.',
+      1: 'Two weeks is far too short.',
+      2: 'A month is also too short for finasteride.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A wife of a patient on finasteride accidentally handles a crushed pill while preparing his medications. What is the nurse\'s priority assessment?',
+    options: [
+      'Determine if the wife is or could be pregnant',
+      'Assess for signs of an allergic reaction in the wife',
+      'Check the wife\'s blood pressure and heart rate',
+      'Ask if the wife has any liver disease'
+    ],
+    answer: 0,
+    concept: 'Finasteride teratogenicity priority',
+    rationale: 'Finasteride is teratogenic to male fetuses — pregnancy status determines whether this is a serious exposure.',
+    deepExplanation: 'Whole tablets are coated to prevent transdermal absorption, but crushed or broken pills expose the active drug. Pregnant women should never handle broken finasteride pills. If the wife is or could be pregnant, the provider must be notified for follow-up.',
+    others: {
+      1: 'Allergic reaction is not the primary concern with finasteride contact.',
+      2: 'BP and HR are not the priority assessment for finasteride exposure.',
+      3: 'Liver disease is not the immediate concern.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient was prescribed terazosin yesterday and gets out of bed quickly this morning. He calls for help, reporting dizziness and a racing heart. What is the most likely explanation?',
+    options: [
+      'Acute allergic reaction to the medication',
+      'A normal response that requires no intervention',
+      'Worsening of his underlying BPH symptoms',
+      'Orthostatic hypotension with reflex tachycardia'
+    ],
+    answer: 3,
+    concept: 'Terazosin orthostatic',
+    rationale: 'Terazosin causes orthostatic hypotension and reflex tachycardia — the patient stood up too quickly and triggered both effects.',
+    deepExplanation: 'This is most pronounced with the first dose, which is why bedtime dosing is often used to start. Patient teaching includes sitting on the edge of the bed, standing slowly, and holding onto something stable. Mnemonic: -zosin → "zzz" → low BP.',
+    others: {
+      0: 'These findings are predictable drug effects, not allergy.',
+      1: 'This warrants intervention with positional teaching and fall prevention.',
+      2: 'BPH symptoms don\'t cause acute dizziness on standing.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient reports an erection lasting 5 hours after taking sildenafil last night. What is the nurse\'s priority action?',
+    options: [
+      'Tell the patient this is a normal effect that will resolve',
+      'Have the patient take an extra dose of sildenafil',
+      'Direct the patient to seek emergency medical care now',
+      'Recommend a warm bath to help the erection resolve'
+    ],
+    answer: 2,
+    concept: 'Priapism emergency',
+    rationale: 'An erection lasting more than 4 hours (priapism) is a medical emergency — prolonged ischemia can cause permanent erectile damage.',
+    deepExplanation: 'Priapism requires emergency treatment, often with aspiration and pharmacologic agents to detumesce the penis. Delays cause irreversible tissue damage. Patients should be educated about this risk before starting therapy.',
+    others: {
+      0: 'This is NOT a normal effect — it is an emergency.',
+      1: 'Additional sildenafil makes the situation worse.',
+      3: 'Home remedies are inappropriate for priapism.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient with a history of sildenafil use 8 hours ago arrives in the ED with chest pain. Nitroglycerin is ordered. What is the nurse\'s priority?',
+    options: [
+      'Hold the nitroglycerin and notify the provider of recent sildenafil use',
+      'Administer the nitroglycerin sublingually as ordered',
+      'Give half the dose of nitroglycerin to be safe',
+      'Switch to oral aspirin only and skip the nitroglycerin'
+    ],
+    answer: 0,
+    concept: 'Sildenafil + nitrates ED',
+    rationale: 'A 24-hour washout is required between sildenafil and nitrates due to risk of profound, life-threatening hypotension. Hold the nitroglycerin and notify the provider.',
+    deepExplanation: 'This is an ED-relevant scenario — the patient took sildenafil only 8 hours ago, well within the 24-hour washout. Both drugs cause vasodilation through nitric oxide pathways and the combination can drop blood pressure catastrophically. Alternative therapies for the chest pain must be considered.',
+    others: {
+      1: 'Giving the nitroglycerin can cause profound hypotension.',
+      2: 'Half-doses are still dangerous and not within nursing scope.',
+      3: 'The nurse cannot independently change the medication plan — must contact the provider.'
+    }
+  },
+  {
+    topic: 'Reproductive',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient calls the clinic stating she missed two progestin-only pills in a row. What instructions should the nurse give?',
+    options: [
+      '"Take all 3 pills today and continue normally."',
+      '"Skip the rest of the pack and start a new one next month."',
+      '"Stop the pills entirely and use a different contraceptive method."',
+      '"Restart the regimen and use backup contraception for at least 2 days."'
+    ],
+    answer: 3,
+    concept: 'Mini-pill 2 missed',
+    rationale: 'For 2 missed mini-pills: restart the regimen and use backup contraception for at least 2 days.',
+    deepExplanation: 'The progestin-only pill has a very narrow window of effectiveness, which is why the rules are stricter than for combo pills. For 1 missed pill: take ASAP and use backup for 2 days. For 2 missed: restart and use backup for 2 days.',
+    others: {
+      0: 'Taking 3 at once is unsafe.',
+      1: 'Skipping a month exposes her to pregnancy risk.',
+      2: 'A different method change should be a clinic visit decision, not the immediate plan.'
+    }
+  },
+  {
+    topic: 'Reproductive',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on a combination oral contraceptive presents to the ED with sudden onset of unilateral leg pain and shortness of breath. What is the most likely cause?',
+    options: [
+      'Anxiety attack from work-related stress',
+      'Gastroesophageal reflux disease',
+      'Thrombotic event such as DVT with possible PE',
+      'Mild hormonal side effect of the contraceptive'
+    ],
+    answer: 2,
+    concept: 'Combo OC thrombosis',
+    rationale: 'Unilateral leg pain plus shortness of breath in a patient on estrogen-containing contraceptives is highly suspicious for DVT with possible pulmonary embolism.',
+    deepExplanation: 'Estrogen increases clotting factor synthesis, raising baseline DVT/PE risk. Patients should be taught to seek immediate care for these symptoms, plus chest pain, severe headache, or sudden visual changes (signs of stroke or retinal vein thrombosis).',
+    others: {
+      0: 'Anxiety doesn\'t typically cause unilateral leg pain.',
+      1: 'GERD doesn\'t cause leg pain or sudden SOB.',
+      3: 'This is not a mild side effect — it requires emergency evaluation.'
+    }
+  },
+  {
+    topic: 'Reproductive',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on a combination oral contraceptive is scheduled for a major elective surgery in 5 weeks. What teaching should the nurse provide?',
+    options: [
+      'Continue the contraceptive right up to the morning of surgery',
+      'Discontinue the contraceptive 4 weeks before surgery',
+      'Take a double dose the day before surgery to maintain levels',
+      'Switch to a stronger progestin formulation immediately'
+    ],
+    answer: 1,
+    concept: 'Combo OC + surgery teaching',
+    rationale: 'Combination contraceptives must be discontinued 4 weeks prior to elective surgery to reduce perioperative thrombosis risk.',
+    deepExplanation: 'The 4-week window allows estrogen-induced clotting factors to normalize before surgery, anesthesia, and immobility compound the thrombosis risk. The patient also needs to plan an alternative contraceptive method during this period.',
+    others: {
+      0: 'Continuing increases perioperative DVT/PE risk significantly.',
+      2: 'A double dose worsens the risk profile.',
+      3: 'Switching formulations does not address the estrogen-thrombosis link.'
+    }
+  },
+  {
+    topic: 'Reproductive',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A pregnant patient at 32 weeks with severe preeclampsia is admitted. The provider orders labor induction. What is the rationale?',
+    options: [
+      'Preeclampsia carries serious maternal and fetal risk',
+      'Preeclampsia is not actually an indication for induction',
+      'The patient is term and induction is routine',
+      'Induction is being done only for patient convenience'
+    ],
+    answer: 0,
+    concept: 'Preeclampsia induction rationale',
+    rationale: 'Preeclampsia and eclampsia are medical indications for induction because continuing the pregnancy puts both mother and fetus at risk.',
+    deepExplanation: 'Other indications include abruptio placentae, PROM, gestational HTN, fetal compromise, oligohydramnios, fetal demise, and maternal medical conditions like DM or renal disease. Delivery is the definitive treatment for severe preeclampsia.',
+    others: {
+      1: 'Preeclampsia IS an indication for induction.',
+      2: 'At 32 weeks the patient is preterm, not term.',
+      3: 'This is a medical decision, not a convenience one.'
+    }
+  },
+  {
+    topic: 'Reproductive',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient receiving chemotherapy for colon cancer has developed significant anemia. The provider prescribes off-label testosterone. The patient asks why a male hormone is being given. What is the nurse\'s best explanation?',
+    options: [
+      '"Testosterone destroys cancer cells faster than chemo alone."',
+      '"Testosterone has erythropoietic effects and increases red blood cell production."',
+      '"Testosterone reduces nausea from your chemotherapy."',
+      '"Testosterone protects your ovaries during chemotherapy."'
+    ],
+    answer: 1,
+    concept: 'Testosterone off-label use',
+    rationale: 'Testosterone has erythropoietic effects (stimulates RBC production), making it useful off-label for chemo-induced anemia.',
+    deepExplanation: 'The androgenic effect on bone marrow stimulates erythropoiesis, increasing hemoglobin and reducing the need for transfusions. The patient should be reassured this is an established off-label use.',
+    others: {
+      0: 'Testosterone does not destroy cancer cells.',
+      2: 'Testosterone does not specifically reduce chemo-induced nausea.',
+      3: 'Testosterone does not protect ovaries from chemo damage.'
+    }
+  },
+  {
+    topic: 'Neuro',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A pregnant patient with epilepsy on valproic acid asks her nurse if she should continue the medication. What is the nurse\'s best response?',
+    options: [
+      '"Continue the valproic acid — it is the safest AED in pregnancy."',
+      '"Stop the valproic acid immediately and any seizures will be brief."',
+      '"Speak with your provider — VPA carries higher fetal risk and other AEDs may be safer."',
+      '"Switch to two AEDs to reduce the dose of each."'
+    ],
+    answer: 2,
+    concept: 'VPA pregnancy concern',
+    rationale: 'Valproic acid (VPA) carries the highest teratogenic risk among AEDs and should specifically be avoided in pregnant patients — the provider should evaluate alternatives.',
+    deepExplanation: 'VPA is associated with neural tube defects, cognitive impairment, and major malformations at significantly higher rates than other AEDs. The general approach is monotherapy at the lowest effective dose with folic acid 400 mcg/day, while specifically avoiding VPA.',
+    others: {
+      0: 'VPA is NOT safe in pregnancy — it is the worst-offending AED.',
+      1: 'Stopping AEDs causes seizures that harm both patient and fetus.',
+      3: 'Polytherapy increases teratogenic risk.'
+    }
+  },
+  {
+    topic: 'Reproductive',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A nursing student is reviewing labor induction indications with the preceptor. Which patient case would NOT meet criteria for induction?',
+    options: [
+      'Patient with severe preeclampsia at 36 weeks',
+      'Patient with rupture of membranes 24 hours ago without labor',
+      'Patient at 39 weeks who simply requests an early delivery date',
+      'Patient with confirmed fetal demise at 30 weeks'
+    ],
+    answer: 2,
+    concept: 'Labor induction limits',
+    rationale: 'Patient preference alone is not a medical indication for labor induction — there must be a maternal or fetal medical reason.',
+    deepExplanation: 'Valid indications include preeclampsia/eclampsia, PROM, abruptio placentae, gestational HTN, maternal DM/renal/pulmonary disease, fetal compromise, oligohydramnios, and fetal demise. Patient convenience is not on this list.',
+    others: {
+      0: 'Severe preeclampsia at 36 weeks is a clear indication.',
+      1: 'PROM is an indication.',
+      3: 'Fetal demise is an indication for induction to safely deliver.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A male patient is being discharged on finasteride. Which patient statement requires further teaching?',
+    options: [
+      '"My wife should not handle these pills if they\'re broken."',
+      '"I can stop taking the drug as soon as my symptoms improve."',
+      '"I cannot donate blood for at least one month after I stop the drug."',
+      '"I will not see full benefit for 6 to 12 months."'
+    ],
+    answer: 1,
+    concept: 'Finasteride lifelong therapy',
+    rationale: 'Finasteride is typically lifelong therapy for severe BPH — stopping it allows symptoms to return because the drug only manages, not cures, the condition.',
+    deepExplanation: 'The other statements demonstrate correct understanding: pregnant women must avoid broken pills (teratogenicity), males must avoid donating blood for 1 month after d/c (6 months for dutasteride), and full benefit takes 6–12 months.',
+    others: {
+      0: 'Correct teaching — broken pills are dangerous to pregnant women.',
+      2: 'Correct teaching about blood donation.',
+      3: 'Correct teaching about onset of full benefit.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on terazosin is admitted with a fall after standing up from the toilet. The nurse reviews the timing of his medication. When was the most likely time he took the drug?',
+    options: [
+      'In the early afternoon with lunch',
+      'Right at bedtime as a first dose',
+      'Immediately upon waking up that morning',
+      'With dinner at 6 PM'
+    ],
+    answer: 2,
+    concept: 'Terazosin first-dose hypotension',
+    rationale: 'First-dose orthostatic hypotension with terazosin is most pronounced when patients take it in the morning — bedtime dosing is preferred for the first dose to minimize fall risk.',
+    deepExplanation: 'A morning dose followed by getting out of bed and moving around is the highest-risk scenario. By contrast, taking it at bedtime allows the orthostatic effect to occur during sleep when the patient is supine.',
+    others: {
+      0: 'Afternoon dosing is less risky than morning.',
+      1: 'Bedtime is the preferred first-dose timing.',
+      3: 'Evening dosing is also lower-risk than morning.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    confirmed: false,
+    type: 'sata',
+    stem: 'A patient newly prescribed sildenafil is being educated. Which statements indicate correct understanding? Select all that apply.',
+    options: [
+      '"I should take it about 60 minutes before activity."',
+      '"I can drink grapefruit juice with my pills."',
+      '"I cannot use this drug if I take nitrates."',
+      '"An erection over 4 hours is an emergency."',
+      '"I should take it daily at bedtime."',
+      '"I should report sudden vision changes immediately."'
+    ],
+    answerArr: [0, 2, 3, 5],
+    concept: 'Sildenafil teaching SATA',
+    rationale: 'Correct points: take 60 min before activity, avoid nitrates, priapism over 4 hours is an emergency, sudden vision changes need urgent evaluation. Grapefruit juice should be avoided, and sildenafil is on-demand, not daily.',
+    perOptionExplanations: {
+      0: '<strong>60 minutes before</strong> — correct timing for onset.',
+      2: '<strong>No nitrates</strong> — life-threatening hypotension risk.',
+      3: '<strong>Priapism over 4 hours</strong> — emergency to prevent permanent damage.',
+      5: '<strong>Sudden vision changes</strong> — possible NAION, must report immediately.'
+    },
+    others: {
+      1: 'Grapefruit juice should be AVOIDED — it increases drug levels.',
+      4: 'Sildenafil for ED is on-demand, not daily at bedtime.'
+    }
+  },
+  {
+    topic: 'Reproductive',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on a combination oral contraceptive comes to the clinic complaining of severe headache and visual disturbances. What is the priority action?',
+    options: [
+      'Reassure her these are common side effects of birth control',
+      'Recommend over-the-counter ibuprofen for the headache',
+      'Notify the provider immediately and prepare to evaluate for stroke',
+      'Schedule a follow-up appointment in 2 weeks'
+    ],
+    answer: 2,
+    concept: 'Combo OC stroke warning',
+    rationale: 'Severe headache with visual disturbances in a patient on estrogen-containing contraceptives requires immediate evaluation for stroke or retinal vein thrombosis.',
+    deepExplanation: 'Estrogen increases thrombotic risk. The combination of severe headache and visual disturbances is a classic warning sign that should never be dismissed. Other red flags include leg pain (DVT), chest pain/SOB (PE).',
+    others: {
+      0: 'Severe headache with vision changes is NOT a common minor side effect.',
+      1: 'OTC ibuprofen treatment is inappropriate without ruling out stroke.',
+      3: 'Two weeks is too long to wait for evaluation.'
+    }
+  },
+  {
+    topic: 'Reproductive',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on a progestin-only pill calls reporting irregular spotting between cycles. What is the nurse\'s best response?',
+    options: [
+      '"Spotting can be common with the mini-pill — continue as prescribed."',
+      '"Stop the pill immediately — this is dangerous bleeding."',
+      '"Switch to a combination pill instead today."',
+      '"Take a double dose to suppress the bleeding pattern."'
+    ],
+    answer: 0,
+    concept: 'Mini-pill spotting expectations',
+    rationale: 'Irregular bleeding, spotting, and amenorrhea are common, expected effects of the progestin-only pill — the patient should be reassured and encouraged to continue.',
+    deepExplanation: 'These bleeding patterns are due to the lower hormone exposure compared with combo pills. Patients should be taught about this in advance to avoid stopping the medication unnecessarily.',
+    others: {
+      1: 'Spotting is not dangerous and does not require stopping the drug.',
+      2: 'Switching pills is a clinic decision, not the immediate plan.',
+      3: 'Doubling the dose is unsafe.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on bethanechol for postpartum urinary retention develops bradycardia (HR 48), wheezing, and excessive salivation. What is the nurse\'s priority action?',
+    options: [
+      'Continue the medication — these are expected effects',
+      'Hold the next dose and notify the provider immediately',
+      'Encourage the patient to drink more water',
+      'Apply oxygen via nasal cannula and continue the medication'
+    ],
+    answer: 1,
+    concept: 'Bethanechol cholinergic crisis',
+    rationale: 'Bradycardia, bronchoconstriction (wheezing), and excessive salivation are signs of cholinergic toxicity (SLUDGE-like effects) — hold the dose and notify the provider.',
+    deepExplanation: 'These are signs of muscarinic overstimulation. Atropine is the antidote for cholinergic toxicity. The nurse cannot continue administering a drug that is causing toxicity, and oxygen alone doesn\'t address the underlying problem.',
+    others: {
+      0: 'Toxicity signs require holding the drug, not continuing.',
+      2: 'Hydration doesn\'t address the cholinergic toxicity.',
+      3: 'Oxygen helps respiratory symptoms but doesn\'t address the drug toxicity.'
+    }
+  },
+  {
+    topic: 'Reproductive',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A pregnant patient with epilepsy is started on monotherapy. Which additional intervention is most important to add?',
+    options: [
+      'Daily aspirin 81 mg to prevent preeclampsia',
+      'Folic acid 400 mcg daily to reduce neural tube defects',
+      'Iron supplements 325 mg twice daily',
+      'Calcium 1000 mg daily for bone health'
+    ],
+    answer: 1,
+    concept: 'AED + folic acid',
+    rationale: 'Folic acid 400 mcg daily is essential for pregnant patients on AEDs to reduce the risk of neural tube defects.',
+    deepExplanation: 'AEDs interfere with folate metabolism, increasing the baseline NTD risk. Higher doses (often 4 mg/day) may be recommended for patients with prior history of NTD pregnancy. Iron and calcium are part of routine prenatal care but not specific to AED therapy.',
+    others: {
+      0: 'Aspirin is not a routine intervention for all AED-pregnant patients.',
+      2: 'Iron is part of routine prenatal care but not the priority addition.',
+      3: 'Calcium is part of routine prenatal care but not the priority addition.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient prescribed sildenafil shows the nurse his current medications. Which medication on the list is an absolute contraindication?',
+    options: [
+      'Isosorbide mononitrate 30 mg daily',
+      'Metoprolol 25 mg twice daily',
+      'Atorvastatin 40 mg at bedtime',
+      'Levothyroxine 75 mcg in the morning'
+    ],
+    answer: 0,
+    concept: 'Nitrate identification',
+    rationale: 'Isosorbide mononitrate is a nitrate — combining it with sildenafil is an absolute contraindication due to risk of life-threatening hypotension.',
+    deepExplanation: 'The nurse must recognize all forms of nitrates (nitroglycerin SL, IV, patch; isosorbide; isosorbide mononitrate). Both sildenafil and nitrates cause vasodilation through nitric oxide pathways, and the combination can drop blood pressure catastrophically.',
+    others: {
+      1: 'Beta-blockers require caution but are not absolutely contraindicated like nitrates.',
+      2: 'Statins are not contraindicated with sildenafil.',
+      3: 'Levothyroxine is not contraindicated with sildenafil.'
+    }
+  },
+  {
+    topic: 'Reproductive',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A 22-year-old patient at her 6-week prenatal visit reports she takes carbamazepine for seizures. Which intervention should the nurse anticipate?',
+    options: [
+      'Stop the carbamazepine entirely until after delivery',
+      'Add valproic acid for better seizure control',
+      'Provider to evaluate maintaining monotherapy with folic acid supplementation',
+      'Increase the dose to compensate for pregnancy weight gain'
+    ],
+    answer: 2,
+    concept: 'AED management in pregnancy',
+    rationale: 'The standard approach is to continue AED monotherapy (one drug only) at the lowest effective dose, and add folic acid 400 mcg/day to reduce NTD risk.',
+    deepExplanation: 'Stopping carbamazepine risks seizures that harm both patient and fetus. Adding VPA would be exactly the wrong move because VPA is the worst-offending AED in pregnancy. Empiric dose increases without monitoring are also inappropriate.',
+    others: {
+      0: 'Stopping AEDs causes seizures, which harm both mother and fetus.',
+      1: 'Adding VPA increases teratogenic risk significantly.',
+      3: 'Empiric dose increases without monitoring are not appropriate.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on terazosin reports nasal stuffiness that has been going on since starting the medication. Which response by the nurse is most accurate?',
+    options: [
+      '"This is a sign of allergic reaction — stop the medication."',
+      '"This is an expected effect of alpha-1 blockers like terazosin."',
+      '"You need to switch to a different BPH medication immediately."',
+      '"This means you have a sinus infection from the medication."'
+    ],
+    answer: 1,
+    concept: 'Terazosin nasal congestion expected',
+    rationale: 'Nasal congestion is an expected effect of alpha-1 blockers like terazosin due to vasodilation of nasal mucosa — it does not require stopping the drug.',
+    deepExplanation: 'Patients should be reassured this is not a drug allergy. Decongestants containing pseudoephedrine should be used cautiously because they can counteract the antihypertensive effect. The expected effects of terazosin include orthostatic hypotension, reflex tachycardia, and nasal congestion.',
+    others: {
+      0: 'This is not an allergic reaction — it is an expected drug effect.',
+      2: 'No need to switch medications for an expected effect.',
+      3: 'Nasal congestion from vasodilation is not a sinus infection.'
+    }
+  },
+  {
+    topic: 'Reproductive',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient who has been on a combination oral contraceptive for 3 years is starting an estrogen-containing patch instead. Which patient finding would the nurse report immediately?',
+    options: [
+      'Mild breast tenderness during the first cycle',
+      'Light spotting during the first month',
+      'Sudden onset chest pain with shortness of breath',
+      'Slight decrease in menstrual flow'
+    ],
+    answer: 2,
+    concept: 'Estrogen + thrombosis',
+    rationale: 'Sudden chest pain with shortness of breath is a sign of pulmonary embolism — a life-threatening complication of estrogen-containing contraceptives.',
+    deepExplanation: 'Both pills and patches carry the same thrombosis risk. The patient should be taught to immediately report leg pain, chest pain, SOB, severe headache, and sudden visual changes. Mild breast tenderness, spotting, and changes in flow are common, expected effects.',
+    others: {
+      0: 'Mild breast tenderness is a common, expected effect.',
+      1: 'Light spotting is common during the first month.',
+      3: 'Decreased menstrual flow is a common expected effect.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient takes sildenafil at 8 PM. He calls the ED at 2 AM with chest pain. The provider considers giving nitroglycerin. What is the safe minimum wait time before nitrates can be given?',
+    options: [
+      '6 hours total from sildenafil dose',
+      '24 hours total from sildenafil dose',
+      '12 hours total from sildenafil dose',
+      'No waiting period needed if monitored closely'
+    ],
+    answer: 1,
+    concept: 'Sildenafil washout calculation',
+    rationale: 'A 24-hour washout is required between sildenafil and nitrates regardless of monitoring level — the patient needs to wait until 8 PM the following day before nitrates can be safely given.',
+    deepExplanation: 'Combining the two drugs causes life-threatening hypotension because both cause vasodilation through nitric oxide pathways. The risk persists for 24 hours even if vital signs appear stable. Alternative therapies for the chest pain must be considered during the washout period.',
+    others: {
+      0: '6 hours is too short — the risk persists.',
+      2: '12 hours is still inadequate.',
+      3: 'Even with close monitoring, the 24-hour rule applies.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+const TOTAL = questions.length;
+let currentQ = 0;
+let totalPoints = 0;
+let answers = [];
+
+function startQuiz() {
+  document.getElementById('start-screen').style.display = 'none';
+  document.getElementById('quiz-container').style.display = 'block';
+  showQuestion();
+}
+
+function showQuestion() {
+  if (currentQ >= TOTAL) { showResults(); return; }
+  const q = questions[currentQ];
+  document.getElementById('progress-text').textContent = `Question ${currentQ + 1} / ${TOTAL}`;
+  document.getElementById('progress-fill').style.width = `${((currentQ) / TOTAL) * 100}%`;
+  document.getElementById('score-text').textContent = `Score: ${totalPoints.toFixed(1)}`;
+
+  const area = document.getElementById('question-area');
+  let html = `<div class="question-card">
+    <div class="q-number">Question ${currentQ + 1}</div>`;
+  if (q.confirmed) html += `<div class="confirmed-banner">⚠ Confirmed Test Item — recalled from actual exam</div>`;
+  html += `<div class="q-stem">${q.stem}</div>`;
+  if (q.type === 'sata') html += `<div style="font-family:'DM Mono', monospace; font-size:12px; color:var(--purple); margin-bottom:12px;">SELECT ALL THAT APPLY</div>`;
+  html += `<div class="options" id="options-list">`;
+  q.options.forEach((opt, i) => {
+    const letter = String.fromCharCode(65 + i);
+    html += `<button class="option" data-idx="${i}" onclick="toggleOption(${i})">
+      <span class="option-letter">${letter}</span>
+      <span>${opt}</span>
+    </button>`;
+  });
+  html += `</div>
+    <button class="submit-btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit Answer</button>
+    <div class="rationale" id="rationale"></div>
+  </div>`;
+  area.innerHTML = html;
+}
+
+let selectedIdx = q_type_is_sata() ? [] : null;
+
+function q_type_is_sata() { return questions[currentQ] && questions[currentQ].type === 'sata'; }
+
+function toggleOption(i) {
+  const q = questions[currentQ];
+  const opts = document.querySelectorAll('.option');
+  if (q.type === 'sata') {
+    if (!Array.isArray(selectedIdx)) selectedIdx = [];
+    const pos = selectedIdx.indexOf(i);
+    if (pos >= 0) {
+      selectedIdx.splice(pos, 1);
+      opts[i].classList.remove('selected');
+    } else {
+      selectedIdx.push(i);
+      opts[i].classList.add('selected');
+    }
+    document.getElementById('submit-btn').disabled = selectedIdx.length === 0;
+  } else {
+    selectedIdx = i;
+    opts.forEach(o => o.classList.remove('selected'));
+    opts[i].classList.add('selected');
+    document.getElementById('submit-btn').disabled = false;
+  }
+}
+
+function submitAnswer() {
+  const q = questions[currentQ];
+  const opts = document.querySelectorAll('.option');
+  opts.forEach(o => { o.disabled = true; o.onclick = null; });
+  document.getElementById('submit-btn').style.display = 'none';
+
+  let pts = 0;
+  let verdict = '';
+  let userAnswer = null;
+
+  if (q.type === 'sata') {
+    const correct = q.answerArr;
+    const selected = Array.isArray(selectedIdx) ? selectedIdx : [];
+    let correctSelected = 0, wrongSelected = 0;
+    selected.forEach(s => { if (correct.includes(s)) correctSelected++; else wrongSelected++; });
+    pts = Math.max(0, (correctSelected - wrongSelected) / correct.length);
+    if (pts === 1) verdict = 'correct';
+    else if (pts > 0) verdict = 'partial';
+    else verdict = 'wrong';
+
+    opts.forEach((o, i) => {
+      const isCorr = correct.includes(i);
+      const isSel = selected.includes(i);
+      if (isCorr && isSel) o.classList.add('correct');
+      else if (isCorr && !isSel) o.classList.add('missed');
+      else if (!isCorr && isSel) o.classList.add('wrong');
+    });
+    userAnswer = selected;
+  } else {
+    if (selectedIdx === q.answer) { pts = 1; verdict = 'correct'; }
+    else { pts = 0; verdict = 'wrong'; }
+    opts.forEach((o, i) => {
+      if (i === q.answer) o.classList.add('correct');
+      else if (i === selectedIdx) o.classList.add('wrong');
+    });
+    userAnswer = selectedIdx;
+  }
+
+  totalPoints += pts;
+  answers.push({ q, userAnswer, pts, verdict });
+  document.getElementById('score-text').textContent = `Score: ${totalPoints.toFixed(1)}`;
+
+  showRationale(q, verdict, pts);
+}
+
+function showRationale(q, verdict, pts) {
+  const r = document.getElementById('rationale');
+  let verdictTxt = verdict === 'correct' ? 'Correct' : verdict === 'partial' ? `Partial Credit (${pts.toFixed(2)})` : 'Incorrect';
+  let html = `<span class="verdict ${verdict}">${verdictTxt}</span>
+    <span class="concept-pill">${q.concept}</span>`;
+
+  if (q.type === 'sata') {
+    html += `<div class="sata-legend">
+      <span><span class="legend-dot green"></span>Correct &amp; selected</span>
+      <span><span class="legend-dot yellow"></span>Correct but missed</span>
+      <span><span class="legend-dot red"></span>Incorrect &amp; selected</span>
+    </div>`;
+    html += `<h4>Why these are correct</h4>`;
+    q.answerArr.forEach(i => {
+      html += `<div class="correct-answer-display">${q.options[i]}<br><small style="color:var(--ink-soft);">${q.perOptionExplanations[i]}</small></div>`;
+    });
+    html += `<p><strong>Overall:</strong> ${q.rationale}</p>`;
+    if (q.others && Object.keys(q.others).length > 0) {
+      html += `<h4>Why the others are wrong</h4><ul class="others-list">`;
+      Object.keys(q.others).forEach(k => {
+        html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+      });
+      html += `</ul>`;
+    }
+  } else {
+    html += `<div class="correct-answer-display"><strong>Correct answer:</strong> ${q.options[q.answer]}</div>
+      <p>${q.rationale}</p>
+      <h4>The clinical reasoning</h4>
+      <p>${q.deepExplanation}</p>`;
+    if (q.others && Object.keys(q.others).length > 0) {
+      html += `<h4>Why the others are wrong</h4><ul class="others-list">`;
+      Object.keys(q.others).forEach(k => {
+        html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+      });
+      html += `</ul>`;
+    }
+  }
+  html += `<button class="next-btn" onclick="nextQuestion()">${currentQ + 1 >= TOTAL ? 'See Results' : 'Next Question →'}</button>`;
+  r.innerHTML = html;
+  r.classList.add('show');
+}
+
+function nextQuestion() {
+  currentQ++;
+  selectedIdx = q_type_is_sata() ? [] : null;
+  showQuestion();
+}
+
+function showResults() {
+  document.getElementById('quiz-container').style.display = 'none';
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  let perfMsg = '';
+  if (pct >= 90) perfMsg = 'Exam ready. Strong clinical reasoning on application items.';
+  else if (pct >= 80) perfMsg = 'Solid performance. Review missed concepts and you\'re in great shape.';
+  else if (pct >= 70) perfMsg = 'Decent foundation but you\'ve got gaps. The application questions are where the exam will challenge you — review carefully.';
+  else perfMsg = 'Review carefully. Re-read your missed concepts and try this drill again before moving on.';
+
+  let missedHtml = '';
+  const missed = answers.filter(a => a.verdict !== 'correct');
+  if (missed.length > 0) {
+    missedHtml = `<div class="missed-list"><h3>Missed concepts</h3>`;
+    missed.forEach(m => {
+      const ans = m.q.type === 'sata' ? m.q.answerArr.map(i => m.q.options[i]).join('; ') : m.q.options[m.q.answer];
+      missedHtml += `<div class="missed-item">
+        <span class="concept-pill">${m.q.concept}</span>
+        ${m.q.confirmed ? '<span class="concept-pill" style="background:var(--purple-pale);color:var(--purple);">Confirmed item</span>' : ''}
+        <div class="preview">${m.q.stem}</div>
+        <div class="answer-line">→ ${ans}</div>
+        <div class="rationale-line">${m.q.rationale}</div>
+      </div>`;
+    });
+    missedHtml += `</div>`;
+  }
+
+  const today = new Date().toLocaleDateString();
+  localStorage.setItem('score_urinaryrepro_deepdrill', JSON.stringify({
+    pct, pts: totalPoints.toFixed(1), total: TOTAL, date: today
+  }));
+
+  document.getElementById('results-area').innerHTML = `
+    <div class="results-card">
+      <span class="badge">Urinary &amp; Reproductive — Deep Drill Complete</span>
+      <div class="results-score">${totalPoints.toFixed(1)} / ${TOTAL}</div>
+      <div class="results-pct">${pct}%</div>
+      <div class="perf-msg">${perfMsg}</div>
+      ${missedHtml}
+      <button class="retry-btn" onclick="location.reload()">Retry Drill</button>
+    </div>
+  `;
+  document.getElementById('results-area').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Psych — Knowledge Check</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0a2540;
+  --navy-soft: #1a3a5c;
+  --teal: #0d9488;
+  --teal-soft: #14b8a6;
+  --teal-pale: #f0fdfa;
+  --purple: #7c3aed;
+  --purple-pale: #f5f3ff;
+  --gold: #f59e0b;
+  --ink: #1a1a1a;
+  --ink-soft: #3a3a3a;
+  --muted: #6b7280;
+  --bg: #fafaf7;
+  --card: #ffffff;
+  --line: #e5e0d5;
+  --correct: #059669;
+  --correct-bg: #ecfdf5;
+  --wrong: #dc2626;
+  --wrong-bg: #fef2f2;
+  --partial: #d97706;
+  --partial-bg: #fffbeb;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; padding: 40px 20px 100px; }
+.container { max-width: 800px; margin: 0 auto; }
+.header { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--teal); padding: 28px 32px; margin-bottom: 24px; }
+.badge { display: inline-block; background: var(--teal-pale); color: var(--teal); font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 3px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px; }
+h1 { font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--navy); margin-bottom: 6px; font-weight: 400; }
+.subtitle { color: var(--muted); font-size: 15px; }
+.progress-bar { background: var(--card); border: 1px solid var(--line); padding: 16px 24px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; font-family: 'DM Mono', monospace; font-size: 13px; color: var(--ink-soft); }
+.progress-track { flex: 1; height: 4px; background: var(--line); margin: 0 20px; border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--teal); width: 0%; transition: width 0.3s ease; }
+.question-card { background: var(--card); border: 1px solid var(--line); padding: 32px; margin-bottom: 20px; }
+.q-number { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); letter-spacing: 0.5px; margin-bottom: 12px; }
+.confirmed-banner { background: var(--purple-pale); border-left: 3px solid var(--purple); color: var(--purple); font-family: 'DM Mono', monospace; font-size: 11px; padding: 8px 12px; margin-bottom: 16px; letter-spacing: 0.3px; text-transform: uppercase; }
+.q-stem { font-size: 17px; color: var(--ink); margin-bottom: 24px; font-weight: 500; line-height: 1.5; }
+.options { display: flex; flex-direction: column; gap: 10px; }
+.option { background: var(--card); border: 1.5px solid var(--line); padding: 14px 18px; cursor: pointer; transition: all 0.15s ease; font-size: 15px; display: flex; align-items: flex-start; gap: 12px; text-align: left; width: 100%; font-family: inherit; color: var(--ink); }
+.option:hover:not(:disabled) { border-color: var(--teal); background: var(--teal-pale); }
+.option:disabled { cursor: not-allowed; }
+.option-letter { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: var(--muted); flex-shrink: 0; padding-top: 1px; }
+.option.selected { border-color: var(--teal); background: var(--teal-pale); }
+.option.correct { border-color: var(--correct); background: var(--correct-bg); }
+.option.correct .option-letter { color: var(--correct); }
+.option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+.option.wrong .option-letter { color: var(--wrong); }
+.option.missed { border-color: var(--partial); background: var(--partial-bg); border-style: dashed; }
+.option.missed .option-letter { color: var(--partial); }
+.submit-btn, .next-btn { background: var(--navy); color: white; border: none; padding: 12px 28px; font-family: inherit; font-size: 15px; font-weight: 500; cursor: pointer; margin-top: 20px; transition: background 0.15s; }
+.submit-btn:hover, .next-btn:hover { background: var(--navy-soft); }
+.submit-btn:disabled { background: var(--muted); cursor: not-allowed; }
+.rationale { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--line); display: none; }
+.rationale.show { display: block; }
+.verdict { display: inline-block; padding: 6px 14px; font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px; }
+.verdict.correct { background: var(--correct-bg); color: var(--correct); }
+.verdict.wrong { background: var(--wrong-bg); color: var(--wrong); }
+.verdict.partial { background: var(--partial-bg); color: var(--partial); }
+.concept-pill { display: inline-block; background: var(--teal-pale); color: var(--teal); font-family: 'DM Mono', monospace; font-size: 11px; padding: 4px 10px; border-radius: 3px; margin-left: 8px; letter-spacing: 0.3px; }
+.rationale h4 { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--navy); margin: 16px 0 8px; font-weight: 400; }
+.rationale p { margin-bottom: 10px; color: var(--ink-soft); font-size: 15px; }
+.rationale .correct-answer-display { background: var(--correct-bg); border-left: 3px solid var(--correct); padding: 10px 14px; margin: 12px 0; font-size: 14px; }
+.others-list { margin-top: 12px; }
+.others-list li { list-style: none; padding: 8px 0; border-top: 1px solid var(--line); font-size: 14px; color: var(--ink-soft); }
+.others-list li strong { color: var(--ink); }
+.sata-legend { display: flex; gap: 16px; margin: 12px 0; flex-wrap: wrap; font-family: 'DM Mono', monospace; font-size: 11px; }
+.sata-legend span { display: flex; align-items: center; gap: 6px; }
+.legend-dot { width: 12px; height: 12px; border-radius: 2px; display: inline-block; }
+.legend-dot.green { background: var(--correct); }
+.legend-dot.yellow { background: var(--partial); border: 1px dashed var(--partial); }
+.legend-dot.red { background: var(--wrong); }
+.results-card { background: var(--card); border: 1px solid var(--line); padding: 40px; text-align: center; }
+.results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--navy); margin: 16px 0; font-weight: 400; }
+.results-pct { font-family: 'DM Mono', monospace; font-size: 24px; color: var(--teal); margin-bottom: 24px; }
+.perf-msg { font-size: 17px; color: var(--ink-soft); margin-bottom: 24px; padding: 16px; background: var(--teal-pale); border-left: 3px solid var(--teal); text-align: left; }
+.missed-list { text-align: left; margin-top: 32px; }
+.missed-list h3 { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--navy); margin-bottom: 16px; font-weight: 400; }
+.missed-item { padding: 14px 0; border-top: 1px solid var(--line); }
+.missed-item .preview { font-size: 14px; color: var(--ink-soft); margin: 6px 0; }
+.missed-item .answer-line { font-size: 13px; color: var(--correct); font-family: 'DM Mono', monospace; margin-top: 4px; }
+.missed-item .rationale-line { font-size: 13px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+.retry-btn { background: var(--teal); color: white; border: none; padding: 14px 32px; font-family: inherit; font-size: 15px; font-weight: 500; cursor: pointer; margin-top: 32px; }
+.retry-btn:hover { background: var(--teal-soft); }
+.back-btn { position: fixed; bottom: 24px; right: 24px; background: var(--navy); color: white; text-decoration: none; padding: 12px 20px; font-family: 'DM Mono', monospace; font-size: 13px; border-radius: 4px; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+.back-btn:hover { background: var(--navy-soft); }
+.start-screen { background: var(--card); border: 1px solid var(--line); padding: 48px 40px; text-align: center; }
+.start-screen h2 { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--navy); margin-bottom: 12px; font-weight: 400; }
+.start-screen p { color: var(--ink-soft); margin-bottom: 8px; }
+.start-stats { display: flex; justify-content: center; gap: 32px; margin: 24px 0 32px; font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); }
+.start-btn { background: var(--teal); color: white; border: none; padding: 14px 36px; font-family: inherit; font-size: 15px; font-weight: 500; cursor: pointer; }
+.start-btn:hover { background: var(--teal-soft); }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div id="start-screen" class="start-screen">
+  <span class="badge">Knowledge Check</span>
+  <h2>Psych</h2>
+  <p>Direct recall — covers all 8 blueprint items: antipsychotics, lithium, benzos, anxiolytics, SSRIs, TCAs.</p>
+  <div class="start-stats">
+    <span>25 questions</span>
+    <span>•</span>
+    <span>Standard NCLEX format</span>
+    <span>•</span>
+    <span>Rationales after each</span>
+  </div>
+  <button class="start-btn" onclick="startQuiz()">Begin</button>
+</div>
+
+<div id="quiz-container" style="display:none;">
+  <div class="header">
+    <span class="badge">Psych — Knowledge Check</span>
+    <h1>Antipsychotics, mood stabilizers &amp; more</h1>
+    <p class="subtitle">Direct recall — clinical wording from review sheets</p>
+  </div>
+  <div class="progress-bar">
+    <span id="progress-text">Question 1 / 25</span>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <span id="score-text">Score: 0</span>
+  </div>
+  <div id="question-area"></div>
+</div>
+
+<div id="results-area" style="display:none;"></div>
+
+</div>
+<a href="index.html" class="back-btn">← Study Hub</a>
+
+<script>
+const questions = [
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'First-generation antipsychotics (FGAs) carry a higher risk of which adverse effect compared with second-generation agents?',
+    options: [
+      'Significant metabolic effects like weight gain and diabetes',
+      'Acute agranulocytosis from bone marrow suppression',
+      'Severe dyslipidemia and elevated triglyceride levels',
+      'Extrapyramidal symptoms (EPS) and movement disorders'
+    ],
+    answer: 3,
+    concept: 'FGA vs SGA EPS',
+    rationale: 'FGAs carry a HIGHER risk of extrapyramidal symptoms (EPS) — movement disorders like dystonia, akathisia, and tardive dyskinesia.',
+    deepExplanation: 'FGAs strongly block D2 receptors in the CNS, which is what produces EPS. SGAs have moderate dopamine blockade and stronger serotonin blockade, so they cause LESS EPS but MORE metabolic effects (weight gain, diabetes, dyslipidemia).',
+    others: {
+      0: 'Metabolic effects are HIGHER with SGAs, not FGAs.',
+      1: 'Agranulocytosis is associated with SGAs (especially clozapine).',
+      2: 'Dyslipidemia is HIGHER with SGAs.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'Second-generation antipsychotics (SGAs) carry a higher risk of which group of adverse effects?',
+    options: [
+      'Severe extrapyramidal symptoms and movement disorders',
+      'Metabolic effects: weight gain, diabetes, dyslipidemia',
+      'Acute hypotensive crisis from dopamine receptors',
+      'Severe parkinsonian rigidity and pill-rolling tremor'
+    ],
+    answer: 1,
+    concept: 'SGA metabolic risk',
+    rationale: 'SGAs carry a HIGHER risk of metabolic side effects: weight gain, diabetes, and dyslipidemia.',
+    deepExplanation: 'SGAs work through moderate dopamine blockade plus stronger serotonin blockade. Their main risk profile is metabolic (cardiometabolic syndrome) plus a higher rate of agranulocytosis (especially clozapine). EPS risk is LOWER with SGAs than with FGAs.',
+    others: {
+      0: 'EPS is more common with FGAs.',
+      2: 'Hypotensive crisis is not the primary SGA risk.',
+      3: 'Parkinsonian symptoms are EPS, more common with FGAs.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'Clozapine is which class of antipsychotic?',
+    options: [
+      'First-generation antipsychotic (FGA)',
+      'MAO inhibitor antidepressant',
+      'Second-generation antipsychotic (SGA)',
+      'Typical anxiolytic medication'
+    ],
+    answer: 2,
+    concept: 'Clozapine class',
+    rationale: 'Clozapine is a second-generation antipsychotic (SGA).',
+    deepExplanation: 'Clozapine carries a particularly high risk of agranulocytosis among SGAs, which is why it requires strict CBC monitoring. It is typically reserved for treatment-resistant schizophrenia.',
+    others: {
+      0: 'Clozapine is NOT an FGA.',
+      1: 'MAOIs treat depression, not psychosis.',
+      3: 'Clozapine is an antipsychotic, not an anxiolytic.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on clozapine should immediately report which symptoms?',
+    options: [
+      'Mild morning fatigue and dry mouth',
+      'Slight increase in appetite at meals',
+      'Pink or rosy cheeks after exercise',
+      'Fever, sore throat, or mouth ulcers'
+    ],
+    answer: 3,
+    concept: 'Clozapine agranulocytosis',
+    rationale: 'Fever, sore throat, and mouth ulcers are signs of agranulocytosis — a dangerous drop in neutrophils that requires immediate evaluation.',
+    deepExplanation: 'Clozapine carries a particularly high risk of agranulocytosis. Patients require initial weekly blood tests, then periodic monitoring throughout treatment and after discontinuation. The drug is discontinued if neutrophils drop below 1000.',
+    others: {
+      0: 'Mild fatigue and dry mouth are not the priority warning signs.',
+      1: 'Increased appetite is expected, not a red flag.',
+      2: 'Pink cheeks after exercise are normal.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'How often must CBC monitoring occur during the initial period of clozapine therapy?',
+    options: [
+      'Once weekly during the initial phase of therapy',
+      'Once per month for the first 6 months on therapy',
+      'Once every 6 months after starting the medication',
+      'Only annually with routine yearly labs'
+    ],
+    answer: 0,
+    concept: 'Clozapine CBC monitoring',
+    rationale: 'Clozapine requires weekly CBC monitoring during initial therapy due to the high risk of agranulocytosis.',
+    deepExplanation: 'After initial weekly monitoring, the schedule becomes periodic throughout treatment and continues after discontinuation. This is why clozapine has REMS (Risk Evaluation and Mitigation Strategy) requirements that must be followed closely.',
+    others: {
+      1: 'Monthly is too infrequent for initial monitoring.',
+      2: 'Every 6 months is too infrequent.',
+      3: 'Annual labs are too infrequent.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'Lithium is the drug of choice for which type of mania?',
+    options: [
+      'Drug-induced mania from steroid use',
+      'Postpartum hypomania during early weeks',
+      'Mixed mania with significant depressive features',
+      'Euphoric mania in classic bipolar disorder'
+    ],
+    answer: 3,
+    concept: 'Lithium DOC',
+    rationale: 'Lithium is the drug of choice for euphoric mania.',
+    deepExplanation: 'Lithium is a mood stabilizer used to relieve symptoms during manic and depressive episodes and to prevent recurrence. It works less well for mixed states and rapid-cycling bipolar.',
+    others: {
+      0: 'Drug-induced mania is treated by stopping the offending drug.',
+      1: 'Postpartum hypomania is not the classic lithium indication.',
+      2: 'Mixed mania responds less well to lithium.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'sata',
+    stem: 'Which baseline assessments are required before starting lithium therapy? Select all that apply.',
+    options: [
+      'Renal function: creatinine and clearance',
+      'Thyroid function: T3, T4, and TSH levels',
+      'Pulmonary function tests with spirometry',
+      'Serum sodium and other electrolytes',
+      'Hearing screening with full audiometry',
+      'Visual acuity baseline testing values'
+    ],
+    answerArr: [0, 1, 3],
+    concept: 'Lithium baseline labs',
+    rationale: 'Critical baseline tests: renal function (lithium is renally excreted), thyroid function (lithium causes hypothyroidism/goiter), and electrolytes (especially sodium — low Na+ leads to lithium retention and toxicity).',
+    perOptionExplanations: {
+      0: '<strong>Renal function</strong> — lithium is excreted by the kidneys; impaired kidneys lead to toxicity.',
+      1: '<strong>Thyroid function</strong> — lithium can cause goiter and hypothyroidism.',
+      3: '<strong>Sodium and electrolytes</strong> — low sodium causes lithium retention and toxicity.'
+    },
+    others: {
+      2: 'PFTs are not required for lithium initiation.',
+      4: 'Audiometry is not required.',
+      5: 'Visual acuity is not required.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on lithium should be taught to AVOID which substance to prevent toxicity?',
+    options: [
+      'Standard table salt with all daily meals',
+      'NSAIDs like ibuprofen and naproxen',
+      'Whole milk taken with each meal',
+      'Standard prenatal vitamin supplements'
+    ],
+    answer: 1,
+    concept: 'Lithium + NSAIDs',
+    rationale: 'NSAIDs (ibuprofen, naproxen) reduce renal lithium clearance and cause toxicity — patients should use aspirin or sulindac instead.',
+    deepExplanation: 'Diuretics (especially loop diuretics like furosemide) and anticholinergics also raise lithium toxicity risk. Patients should not reduce salt intake either, since low sodium causes lithium retention.',
+    others: {
+      0: 'Patients should NOT reduce salt — low sodium causes lithium retention.',
+      2: 'Whole milk is not contraindicated.',
+      3: 'Prenatal vitamins are not contraindicated (though pregnancy itself raises lithium safety concerns).'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on lithium develops hand tremors, slurred speech, and increased thirst (polydipsia). What do these findings most likely indicate?',
+    options: [
+      'Therapeutic lithium levels and expected effects',
+      'A normal stress response to medication',
+      'Lithium toxicity requiring evaluation',
+      'Mild dehydration from inadequate water intake'
+    ],
+    answer: 2,
+    concept: 'Lithium toxicity recognition',
+    rationale: 'Slurred speech, polydipsia, and hand tremors are signs of TOXIC lithium levels — the patient needs immediate evaluation.',
+    deepExplanation: 'Therapeutic levels show only temporary GI effects (nausea, abdominal bloating). Toxicity progresses to slurred speech, polydipsia, hand tremors, and eventually severe neurologic symptoms, seizures, coma, and death. Lithium has a narrow therapeutic window.',
+    others: {
+      0: 'These are NOT therapeutic effects.',
+      1: 'These findings are not stress responses.',
+      3: 'These findings exceed simple dehydration.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'Why must patients on lithium maintain a consistent salt intake?',
+    options: [
+      'High salt causes hypertension on lithium',
+      'Salt activates lithium too quickly in the body',
+      'Salt blocks lithium from reaching the brain',
+      'Low sodium causes lithium retention and toxicity'
+    ],
+    answer: 3,
+    concept: 'Lithium + salt',
+    rationale: 'Low sodium levels cause lithium retention in the body, raising lithium to toxic levels.',
+    deepExplanation: 'Lithium and sodium share renal handling. When sodium drops, the kidneys retain more lithium to compensate, driving lithium to toxic levels. This is why diuretics (which cause sodium loss) are also problematic.',
+    others: {
+      0: 'High salt is not the primary concern with lithium.',
+      1: 'This is not how sodium affects lithium.',
+      2: 'Salt does not block lithium from the brain.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'How often should serum lithium levels be monitored during the initial period of therapy?',
+    options: [
+      'Once a year at annual physical visits',
+      'Every 2 to 3 days during initial therapy',
+      'Only when symptoms of toxicity appear',
+      'Once a month for the first 6 months'
+    ],
+    answer: 1,
+    concept: 'Lithium level monitoring',
+    rationale: 'Serum lithium levels are monitored every 2 to 3 days during initial therapy, then every 3 to 6 months during maintenance.',
+    deepExplanation: 'The narrow therapeutic window and toxicity risk demand frequent early monitoring until levels are stable. Once therapeutic and stable, monitoring becomes less frequent but is still required indefinitely.',
+    others: {
+      0: 'Annual is far too infrequent for lithium monitoring.',
+      2: 'Symptom-based monitoring fails because toxicity can be insidious.',
+      3: 'Monthly is too infrequent during initial therapy.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'Flurazepam is which class of medication?',
+    options: [
+      'SSRI antidepressant for depression',
+      'First-generation antipsychotic medication',
+      'Benzodiazepine used for sleep induction',
+      'Mood stabilizer for bipolar disorder'
+    ],
+    answer: 2,
+    concept: 'Flurazepam class',
+    rationale: 'Flurazepam is a benzodiazepine used for both falling asleep and maintaining sleep.',
+    deepExplanation: 'Like other BZDs, it works at GABA-A receptors to enhance GABA\'s inhibitory effect. Flurazepam has a long half-life with active metabolites, which contributes to its profile.',
+    others: {
+      0: 'Flurazepam is not an SSRI.',
+      1: 'Flurazepam is not an antipsychotic.',
+      3: 'Flurazepam is not a mood stabilizer.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient starting flurazepam should be taught to expect which next-day effect?',
+    options: [
+      'Severe morning agitation and tremors',
+      'Acute hypertension upon waking up',
+      'Marked next-day euphoria and energy',
+      'Residual drowsiness or "hangover effect"'
+    ],
+    answer: 3,
+    concept: 'Flurazepam hangover',
+    rationale: 'Flurazepam produces active metabolites with a long half-life, causing residual or "hangover" effects with next-day drowsiness — this is normal and expected.',
+    deepExplanation: 'Patients must be taught about driving and safety hazards because of next-day sedation. The long half-life is sometimes a benefit (for sleep maintenance) and sometimes a drawback (residual sedation).',
+    others: {
+      0: 'Agitation and tremors suggest withdrawal, not normal effects.',
+      1: 'Hypertension is not a typical effect.',
+      2: 'BZDs cause sedation, not euphoria/energy.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'Buspirone is used for which condition and how does its onset compare with benzodiazepines?',
+    options: [
+      'Anxiety; effects develop over several weeks',
+      'Insomnia; works within 30 minutes of dosing',
+      'Acute panic; works within 5 to 10 minutes',
+      'Depression; effects develop within 24 hours'
+    ],
+    answer: 0,
+    concept: 'Buspirone onset',
+    rationale: 'Buspirone is an anxiolytic for chronic anxiety — its effects develop slowly over several weeks.',
+    deepExplanation: 'Unlike BZDs, buspirone does not cause sedation and has no abuse or dependence potential. It is NOT useful for acute panic attacks because of its slow onset — a benzo should be used PRN for rapid relief.',
+    others: {
+      1: 'Buspirone does not work in 30 minutes and isn\'t for insomnia.',
+      2: 'Buspirone doesn\'t work for acute panic — too slow.',
+      3: 'Buspirone is not an antidepressant.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on buspirone has a panic attack and asks if they should take an extra dose for rapid relief. What is the nurse\'s best response?',
+    options: [
+      '"Yes, take an extra dose right away for the panic attack."',
+      '"Buspirone won\'t work fast — a benzodiazepine is used PRN for panic."',
+      '"Take 3 doses at once to overcome the panic attack."',
+      '"Stop the buspirone and start a different anxiolytic."'
+    ],
+    answer: 1,
+    concept: 'Buspirone NOT for acute panic',
+    rationale: 'Buspirone does NOT work quickly enough for acute panic — a benzodiazepine should be used PRN for rapid relief instead.',
+    deepExplanation: 'Buspirone\'s onset is over several weeks, making it useless for acute panic episodes. Patients with both chronic anxiety and panic episodes are often on scheduled buspirone PLUS a PRN benzo for breakthrough panic.',
+    others: {
+      0: 'An extra dose won\'t produce rapid relief.',
+      2: 'Three doses at once is unsafe and ineffective for acute panic.',
+      3: 'Switching agents is a clinic decision, not the immediate plan.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on buspirone should avoid which substance?',
+    options: [
+      'Standard tap water with daily meals',
+      'Whole grain bread at breakfast',
+      'Standard table salt at all meals',
+      'Grapefruit juice during therapy'
+    ],
+    answer: 3,
+    concept: 'Buspirone + grapefruit',
+    rationale: 'Patients on buspirone should avoid grapefruit juice, erythromycin, and ketoconazole — all CYP3A4 inhibitors that raise buspirone levels.',
+    deepExplanation: 'Grapefruit juice inhibits intestinal CYP3A4, slowing breakdown of many drugs and raising serum levels. Erythromycin and ketoconazole have similar interactions through this pathway.',
+    others: {
+      0: 'Water is not contraindicated.',
+      1: 'Whole grain bread is not contraindicated.',
+      2: 'Salt restriction is not part of buspirone teaching (that\'s lithium).'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'How long does fluoxetine typically take to produce a therapeutic antidepressant effect?',
+    options: [
+      'Within the first 24 hours of dosing',
+      'Within 3 to 5 days of starting',
+      'About 4 weeks on average',
+      'Approximately 6 months of treatment'
+    ],
+    answer: 2,
+    concept: 'Fluoxetine onset',
+    rationale: 'Fluoxetine is an SSRI; antidepressant effects take about 4 weeks on average to develop.',
+    deepExplanation: 'Patients should not change or alter the drug before at least 4 weeks of treatment to allow therapeutic effect to develop. Suicide risk is highest during the first couple of weeks before mood improves but energy returns.',
+    others: {
+      0: 'SSRIs do not work in 24 hours.',
+      1: 'A few days is too short for therapeutic effect.',
+      3: 'Six months is far too long — therapeutic effect emerges much sooner.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient is being switched from fluoxetine to an MAOI. How long must the washout period be?',
+    options: [
+      '14 days',
+      '24 hours',
+      '3 days',
+      '6 months'
+    ],
+    answer: 0,
+    concept: 'Fluoxetine + MAOI washout',
+    rationale: 'A 14-day washout period is mandatory between fluoxetine (or any SSRI) and an MAOI to prevent serotonin syndrome.',
+    deepExplanation: 'Combining serotonergic agents creates serotonin syndrome — agitation, confusion, hyperthermia, hyperreflexia, clonus, autonomic instability. The 14-day window allows fluoxetine to clear before adding an MAOI.',
+    others: {
+      1: '24 hours is far too short.',
+      2: 'Three days is also too short.',
+      3: 'Six months is unnecessarily long.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'Which SSRI is the drug of choice for breastfeeding mothers with depression?',
+    options: [
+      'Sertraline (Zoloft)',
+      'Fluoxetine (Prozac)',
+      'Paroxetine (Paxil)',
+      'Citalopram (Celexa)'
+    ],
+    answer: 0,
+    concept: 'SSRI in lactation',
+    rationale: 'Sertraline (Zoloft) is the preferred drug of choice for lactation — it does not cross easily into breast milk.',
+    deepExplanation: 'The Edinburgh Postnatal Depression Scale (EPDS) is used for screening at the 6-8 week postpartum mark. Risk vs. benefit is always assessed by the provider for any antidepressant used during lactation.',
+    others: {
+      1: 'Fluoxetine is avoided in pregnancy and lactation.',
+      2: 'Paroxetine is not the preferred lactation choice.',
+      3: 'Citalopram is not the preferred lactation choice.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'Tricyclic antidepressants (TCAs) are contraindicated or cautioned in patients with which condition?',
+    options: [
+      'Mild seasonal allergies and rhinitis',
+      'Cardiac disease due to cardiotoxicity risk',
+      'Long-standing depression for many years',
+      'Routine annual physical exam findings'
+    ],
+    answer: 1,
+    concept: 'TCAs + cardiac disease',
+    rationale: 'TCAs are contraindicated in cardiac disease due to cardiotoxicity — they can cause dysrhythmias at high doses.',
+    deepExplanation: 'TCAs also have profound anti-SLUD (anticholinergic) effects, cause sedation (given at night), and cause orthostatic hypotension. They have a high suicide risk because they are easy to OD on, and they are strictly contraindicated within 14 days of MAOIs.',
+    others: {
+      0: 'Allergies are not contraindications.',
+      2: 'Long-standing depression is the indication, not a contraindication.',
+      3: 'Routine exam findings are not contraindications.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'sata',
+    stem: 'Which conditions or medications represent contraindications or cautions with TCAs? Select all that apply.',
+    options: [
+      'Mild seasonal allergies and seasonal rhinitis',
+      'Concurrent use of anticholinergic medications',
+      'Active cardiac disease and dysrhythmias',
+      'Tramadol and other serotonergic opioids',
+      'Standard prenatal vitamin supplements',
+      'MAOI use within the past 14 days'
+    ],
+    answerArr: [1, 2, 3, 5],
+    concept: 'TCA contraindications SATA',
+    rationale: 'TCAs are contraindicated/cautioned with: anticholinergics (additive ANTI-SLUD effects), cardiac disease (cardiotoxicity), tramadol/serotonergic opioids (serotonin syndrome), and recent MAOI use (14-day washout required).',
+    perOptionExplanations: {
+      1: '<strong>Anticholinergics</strong> — TCAs already cause anti-SLUD effects; adding more intensifies adverse effects like urinary hesitancy.',
+      2: '<strong>Cardiac disease</strong> — TCAs are cardiotoxic at high doses.',
+      3: '<strong>Tramadol</strong> — serotonergic opioids combined with TCAs cause serotonin syndrome.',
+      5: '<strong>MAOI within 14 days</strong> — serotonin syndrome risk; 14-day washout required.'
+    },
+    others: {
+      0: 'Allergies are not a contraindication.',
+      4: 'Prenatal vitamins are not contraindicated.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'Why are TCAs typically given at night?',
+    options: [
+      'To improve absorption with the evening meal',
+      'Because they cause sedation and help with sleep',
+      'To avoid interactions with morning medications',
+      'Because they cause severe morning hyperactivity'
+    ],
+    answer: 1,
+    concept: 'TCAs at night',
+    rationale: 'TCAs cause sedation, so they are given at night to help with sleep and minimize daytime drowsiness.',
+    deepExplanation: 'For older patients, TCAs are sometimes given q12 to reduce cardiac toxicity risk. The sedation effect is largely due to histamine blockade and anticholinergic effects.',
+    others: {
+      0: 'Absorption is not the reason for nighttime dosing.',
+      2: 'This is not the primary reason.',
+      3: 'TCAs cause sedation, not hyperactivity.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on a TCA reports lightheadedness when standing up from a chair. What teaching should the nurse provide?',
+    options: [
+      'Stop the TCA and call the provider tonight',
+      'Take a double dose to prevent the symptom',
+      'Sit or lie down when feeling lightheaded',
+      'Switch to a different antidepressant immediately'
+    ],
+    answer: 2,
+    concept: 'TCA orthostatic',
+    rationale: 'TCAs cause orthostatic hypotension — patients should sit or lie down when feeling lightheaded to prevent falls.',
+    deepExplanation: 'Patients should also be taught to change positions slowly. Orthostatic hypotension is from alpha-1 blockade. The risk is highest when starting therapy or after dose increases.',
+    others: {
+      0: 'Stopping the TCA without provider input is not the first action.',
+      1: 'Doubling the dose worsens orthostatic hypotension.',
+      3: 'Switching is a clinic decision, not the immediate teaching.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'Fluoxetine can be used to treat which conditions in addition to depression?',
+    options: [
+      'Acute bacterial pneumonia and bronchitis',
+      'Diabetes mellitus and chronic hypertension',
+      'OCD, panic disorder, bipolar, and bulimia',
+      'Severe muscle pain and chronic arthritis'
+    ],
+    answer: 2,
+    concept: 'Fluoxetine indications',
+    rationale: 'Fluoxetine can treat bipolar disorder, OCD, panic disorder, and bulimia in addition to depression.',
+    deepExplanation: 'Fluoxetine\'s broad indications reflect serotonergic involvement in many psychiatric conditions. Patients should still be on the drug for at least 4 weeks before evaluating efficacy.',
+    others: {
+      0: 'Fluoxetine does not treat infections.',
+      1: 'Fluoxetine does not treat metabolic conditions.',
+      3: 'Fluoxetine is not an analgesic.'
+    }
+  },
+  {
+    topic: 'Psych',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient is started on fluoxetine. The nurse should monitor most closely for which risk during the first couple of weeks?',
+    options: [
+      'Increased suicide risk',
+      'Sudden severe hypertension',
+      'Acute kidney failure',
+      'Significant weight gain'
+    ],
+    answer: 0,
+    concept: 'Fluoxetine suicide risk',
+    rationale: 'Suicide risk is highest during the first couple of weeks of SSRI therapy — energy returns before mood improves, increasing the ability to act on suicidal thoughts.',
+    deepExplanation: 'This is a Black Box Warning for SSRIs in young adults. A benzodiazepine is often continued as a taper until the antidepressant\'s effects are seen, partly to manage anxiety during this vulnerable window.',
+    others: {
+      1: 'Hypertension is not the primary first-week concern.',
+      2: 'AKI is not a typical SSRI risk.',
+      3: 'Weight gain is a long-term concern, not first-week priority.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+const TOTAL = questions.length;
+let currentQ = 0;
+let totalPoints = 0;
+let answers = [];
+
+function startQuiz() {
+  document.getElementById('start-screen').style.display = 'none';
+  document.getElementById('quiz-container').style.display = 'block';
+  showQuestion();
+}
+
+function showQuestion() {
+  if (currentQ >= TOTAL) { showResults(); return; }
+  const q = questions[currentQ];
+  document.getElementById('progress-text').textContent = `Question ${currentQ + 1} / ${TOTAL}`;
+  document.getElementById('progress-fill').style.width = `${((currentQ) / TOTAL) * 100}%`;
+  document.getElementById('score-text').textContent = `Score: ${totalPoints.toFixed(1)}`;
+
+  const area = document.getElementById('question-area');
+  let html = `<div class="question-card">
+    <div class="q-number">Question ${currentQ + 1}</div>`;
+  if (q.confirmed) html += `<div class="confirmed-banner">⚠ Confirmed Test Item — recalled from actual exam</div>`;
+  html += `<div class="q-stem">${q.stem}</div>`;
+  if (q.type === 'sata') html += `<div style="font-family:'DM Mono', monospace; font-size:12px; color:var(--purple); margin-bottom:12px;">SELECT ALL THAT APPLY</div>`;
+  html += `<div class="options" id="options-list">`;
+  q.options.forEach((opt, i) => {
+    const letter = String.fromCharCode(65 + i);
+    html += `<button class="option" data-idx="${i}" onclick="toggleOption(${i})">
+      <span class="option-letter">${letter}</span>
+      <span>${opt}</span>
+    </button>`;
+  });
+  html += `</div>
+    <button class="submit-btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit Answer</button>
+    <div class="rationale" id="rationale"></div>
+  </div>`;
+  area.innerHTML = html;
+}
+
+let selectedIdx = q_type_is_sata() ? [] : null;
+
+function q_type_is_sata() { return questions[currentQ] && questions[currentQ].type === 'sata'; }
+
+function toggleOption(i) {
+  const q = questions[currentQ];
+  const opts = document.querySelectorAll('.option');
+  if (q.type === 'sata') {
+    if (!Array.isArray(selectedIdx)) selectedIdx = [];
+    const pos = selectedIdx.indexOf(i);
+    if (pos >= 0) {
+      selectedIdx.splice(pos, 1);
+      opts[i].classList.remove('selected');
+    } else {
+      selectedIdx.push(i);
+      opts[i].classList.add('selected');
+    }
+    document.getElementById('submit-btn').disabled = selectedIdx.length === 0;
+  } else {
+    selectedIdx = i;
+    opts.forEach(o => o.classList.remove('selected'));
+    opts[i].classList.add('selected');
+    document.getElementById('submit-btn').disabled = false;
+  }
+}
+
+function submitAnswer() {
+  const q = questions[currentQ];
+  const opts = document.querySelectorAll('.option');
+  opts.forEach(o => { o.disabled = true; o.onclick = null; });
+  document.getElementById('submit-btn').style.display = 'none';
+
+  let pts = 0;
+  let verdict = '';
+  let userAnswer = null;
+
+  if (q.type === 'sata') {
+    const correct = q.answerArr;
+    const selected = Array.isArray(selectedIdx) ? selectedIdx : [];
+    let correctSelected = 0, wrongSelected = 0;
+    selected.forEach(s => { if (correct.includes(s)) correctSelected++; else wrongSelected++; });
+    pts = Math.max(0, (correctSelected - wrongSelected) / correct.length);
+    if (pts === 1) verdict = 'correct';
+    else if (pts > 0) verdict = 'partial';
+    else verdict = 'wrong';
+
+    opts.forEach((o, i) => {
+      const isCorr = correct.includes(i);
+      const isSel = selected.includes(i);
+      if (isCorr && isSel) o.classList.add('correct');
+      else if (isCorr && !isSel) o.classList.add('missed');
+      else if (!isCorr && isSel) o.classList.add('wrong');
+    });
+    userAnswer = selected;
+  } else {
+    if (selectedIdx === q.answer) { pts = 1; verdict = 'correct'; }
+    else { pts = 0; verdict = 'wrong'; }
+    opts.forEach((o, i) => {
+      if (i === q.answer) o.classList.add('correct');
+      else if (i === selectedIdx) o.classList.add('wrong');
+    });
+    userAnswer = selectedIdx;
+  }
+
+  totalPoints += pts;
+  answers.push({ q, userAnswer, pts, verdict });
+  document.getElementById('score-text').textContent = `Score: ${totalPoints.toFixed(1)}`;
+
+  showRationale(q, verdict, pts);
+}
+
+function showRationale(q, verdict, pts) {
+  const r = document.getElementById('rationale');
+  let verdictTxt = verdict === 'correct' ? 'Correct' : verdict === 'partial' ? `Partial Credit (${pts.toFixed(2)})` : 'Incorrect';
+  let html = `<span class="verdict ${verdict}">${verdictTxt}</span>
+    <span class="concept-pill">${q.concept}</span>`;
+
+  if (q.type === 'sata') {
+    html += `<div class="sata-legend">
+      <span><span class="legend-dot green"></span>Correct &amp; selected</span>
+      <span><span class="legend-dot yellow"></span>Correct but missed</span>
+      <span><span class="legend-dot red"></span>Incorrect &amp; selected</span>
+    </div>`;
+    html += `<h4>Why these are correct</h4>`;
+    q.answerArr.forEach(i => {
+      html += `<div class="correct-answer-display">${q.options[i]}<br><small style="color:var(--ink-soft);">${q.perOptionExplanations[i]}</small></div>`;
+    });
+    html += `<p><strong>Overall:</strong> ${q.rationale}</p>`;
+    if (q.others && Object.keys(q.others).length > 0) {
+      html += `<h4>Why the others are wrong</h4><ul class="others-list">`;
+      Object.keys(q.others).forEach(k => {
+        html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+      });
+      html += `</ul>`;
+    }
+  } else {
+    html += `<div class="correct-answer-display"><strong>Correct answer:</strong> ${q.options[q.answer]}</div>
+      <p>${q.rationale}</p>
+      <h4>The clinical reasoning</h4>
+      <p>${q.deepExplanation}</p>`;
+    if (q.others && Object.keys(q.others).length > 0) {
+      html += `<h4>Why the others are wrong</h4><ul class="others-list">`;
+      Object.keys(q.others).forEach(k => {
+        html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+      });
+      html += `</ul>`;
+    }
+  }
+  html += `<button class="next-btn" onclick="nextQuestion()">${currentQ + 1 >= TOTAL ? 'See Results' : 'Next Question →'}</button>`;
+  r.innerHTML = html;
+  r.classList.add('show');
+}
+
+function nextQuestion() {
+  currentQ++;
+  selectedIdx = q_type_is_sata() ? [] : null;
+  showQuestion();
+}
+
+function showResults() {
+  document.getElementById('quiz-container').style.display = 'none';
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  let perfMsg = '';
+  if (pct >= 90) perfMsg = 'Exam ready. You have a strong grasp on this content.';
+  else if (pct >= 80) perfMsg = 'Solid performance. Review any missed concepts and you\'ll be ready.';
+  else if (pct >= 70) perfMsg = 'Decent foundation but you\'ve got gaps. Re-read your missed concepts before moving on.';
+  else perfMsg = 'Review carefully. Re-read the source material on missed concepts before retrying.';
+
+  let missedHtml = '';
+  const missed = answers.filter(a => a.verdict !== 'correct');
+  if (missed.length > 0) {
+    missedHtml = `<div class="missed-list"><h3>Missed concepts</h3>`;
+    missed.forEach(m => {
+      const ans = m.q.type === 'sata' ? m.q.answerArr.map(i => m.q.options[i]).join('; ') : m.q.options[m.q.answer];
+      missedHtml += `<div class="missed-item">
+        <span class="concept-pill">${m.q.concept}</span>
+        ${m.q.confirmed ? '<span class="concept-pill" style="background:var(--purple-pale);color:var(--purple);">Confirmed item</span>' : ''}
+        <div class="preview">${m.q.stem}</div>
+        <div class="answer-line">→ ${ans}</div>
+        <div class="rationale-line">${m.q.rationale}</div>
+      </div>`;
+    });
+    missedHtml += `</div>`;
+  }
+
+  const today = new Date().toLocaleDateString();
+  localStorage.setItem('score_psych_knowledge', JSON.stringify({
+    pct, pts: totalPoints.toFixed(1), total: TOTAL, date: today
+  }));
+
+  document.getElementById('results-area').innerHTML = `
+    <div class="results-card">
+      <span class="badge">Psych — Knowledge Check Complete</span>
+      <div class="results-score">${totalPoints.toFixed(1)} / ${TOTAL}</div>
+      <div class="results-pct">${pct}%</div>
+      <div class="perf-msg">${perfMsg}</div>
+      ${missedHtml}
+      <button class="retry-btn" onclick="location.reload()">Retry Quiz</button>
+    </div>
+  `;
+  document.getElementById('results-area').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

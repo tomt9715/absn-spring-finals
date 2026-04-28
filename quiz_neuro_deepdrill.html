@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neuro — Deep Drill</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0a2540;
+  --navy-soft: #1a3a5c;
+  --teal: #0d9488;
+  --teal-soft: #14b8a6;
+  --teal-pale: #f0fdfa;
+  --purple: #7c3aed;
+  --purple-soft: #8b5cf6;
+  --purple-pale: #f5f3ff;
+  --gold: #f59e0b;
+  --ink: #1a1a1a;
+  --ink-soft: #3a3a3a;
+  --muted: #6b7280;
+  --bg: #fafaf7;
+  --card: #ffffff;
+  --line: #e5e0d5;
+  --correct: #059669;
+  --correct-bg: #ecfdf5;
+  --wrong: #dc2626;
+  --wrong-bg: #fef2f2;
+  --partial: #d97706;
+  --partial-bg: #fffbeb;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; padding: 40px 20px 100px; }
+.container { max-width: 800px; margin: 0 auto; }
+.header { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--purple); padding: 28px 32px; margin-bottom: 24px; }
+.badge { display: inline-block; background: var(--purple-pale); color: var(--purple); font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 3px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px; }
+h1 { font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--navy); margin-bottom: 6px; font-weight: 400; }
+.subtitle { color: var(--muted); font-size: 15px; }
+.progress-bar { background: var(--card); border: 1px solid var(--line); padding: 16px 24px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; font-family: 'DM Mono', monospace; font-size: 13px; color: var(--ink-soft); }
+.progress-track { flex: 1; height: 4px; background: var(--line); margin: 0 20px; border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--purple); width: 0%; transition: width 0.3s ease; }
+.question-card { background: var(--card); border: 1px solid var(--line); padding: 32px; margin-bottom: 20px; }
+.q-number { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); letter-spacing: 0.5px; margin-bottom: 12px; }
+.confirmed-banner { background: var(--purple-pale); border-left: 3px solid var(--purple); color: var(--purple); font-family: 'DM Mono', monospace; font-size: 11px; padding: 8px 12px; margin-bottom: 16px; letter-spacing: 0.3px; text-transform: uppercase; }
+.q-stem { font-size: 17px; color: var(--ink); margin-bottom: 24px; font-weight: 500; line-height: 1.5; }
+.options { display: flex; flex-direction: column; gap: 10px; }
+.option { background: var(--card); border: 1.5px solid var(--line); padding: 14px 18px; cursor: pointer; transition: all 0.15s ease; font-size: 15px; display: flex; align-items: flex-start; gap: 12px; text-align: left; width: 100%; font-family: inherit; color: var(--ink); }
+.option:hover:not(:disabled) { border-color: var(--purple); background: var(--purple-pale); }
+.option:disabled { cursor: not-allowed; }
+.option-letter { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: var(--muted); flex-shrink: 0; padding-top: 1px; }
+.option.selected { border-color: var(--purple); background: var(--purple-pale); }
+.option.correct { border-color: var(--correct); background: var(--correct-bg); }
+.option.correct .option-letter { color: var(--correct); }
+.option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+.option.wrong .option-letter { color: var(--wrong); }
+.option.missed { border-color: var(--partial); background: var(--partial-bg); border-style: dashed; }
+.option.missed .option-letter { color: var(--partial); }
+.submit-btn, .next-btn { background: var(--navy); color: white; border: none; padding: 12px 28px; font-family: inherit; font-size: 15px; font-weight: 500; cursor: pointer; margin-top: 20px; transition: background 0.15s; }
+.submit-btn:hover, .next-btn:hover { background: var(--navy-soft); }
+.submit-btn:disabled { background: var(--muted); cursor: not-allowed; }
+.rationale { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--line); display: none; }
+.rationale.show { display: block; }
+.verdict { display: inline-block; padding: 6px 14px; font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px; }
+.verdict.correct { background: var(--correct-bg); color: var(--correct); }
+.verdict.wrong { background: var(--wrong-bg); color: var(--wrong); }
+.verdict.partial { background: var(--partial-bg); color: var(--partial); }
+.concept-pill { display: inline-block; background: var(--purple-pale); color: var(--purple); font-family: 'DM Mono', monospace; font-size: 11px; padding: 4px 10px; border-radius: 3px; margin-left: 8px; letter-spacing: 0.3px; }
+.rationale h4 { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--navy); margin: 16px 0 8px; font-weight: 400; }
+.rationale p { margin-bottom: 10px; color: var(--ink-soft); font-size: 15px; }
+.rationale .correct-answer-display { background: var(--correct-bg); border-left: 3px solid var(--correct); padding: 10px 14px; margin: 12px 0; font-size: 14px; }
+.others-list { margin-top: 12px; }
+.others-list li { list-style: none; padding: 8px 0; border-top: 1px solid var(--line); font-size: 14px; color: var(--ink-soft); }
+.others-list li strong { color: var(--ink); }
+.sata-legend { display: flex; gap: 16px; margin: 12px 0; flex-wrap: wrap; font-family: 'DM Mono', monospace; font-size: 11px; }
+.sata-legend span { display: flex; align-items: center; gap: 6px; }
+.legend-dot { width: 12px; height: 12px; border-radius: 2px; display: inline-block; }
+.legend-dot.green { background: var(--correct); }
+.legend-dot.yellow { background: var(--partial); border: 1px dashed var(--partial); }
+.legend-dot.red { background: var(--wrong); }
+.results-card { background: var(--card); border: 1px solid var(--line); padding: 40px; text-align: center; }
+.results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--navy); margin: 16px 0; font-weight: 400; }
+.results-pct { font-family: 'DM Mono', monospace; font-size: 24px; color: var(--purple); margin-bottom: 24px; }
+.perf-msg { font-size: 17px; color: var(--ink-soft); margin-bottom: 24px; padding: 16px; background: var(--purple-pale); border-left: 3px solid var(--purple); text-align: left; }
+.missed-list { text-align: left; margin-top: 32px; }
+.missed-list h3 { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--navy); margin-bottom: 16px; font-weight: 400; }
+.missed-item { padding: 14px 0; border-top: 1px solid var(--line); }
+.missed-item .preview { font-size: 14px; color: var(--ink-soft); margin: 6px 0; }
+.missed-item .answer-line { font-size: 13px; color: var(--correct); font-family: 'DM Mono', monospace; margin-top: 4px; }
+.missed-item .rationale-line { font-size: 13px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+.retry-btn { background: var(--purple); color: white; border: none; padding: 14px 32px; font-family: inherit; font-size: 15px; font-weight: 500; cursor: pointer; margin-top: 32px; }
+.retry-btn:hover { background: var(--purple-soft); }
+.back-btn { position: fixed; bottom: 24px; right: 24px; background: var(--navy); color: white; text-decoration: none; padding: 12px 20px; font-family: 'DM Mono', monospace; font-size: 13px; border-radius: 4px; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+.back-btn:hover { background: var(--navy-soft); }
+.start-screen { background: var(--card); border: 1px solid var(--line); padding: 48px 40px; text-align: center; }
+.start-screen h2 { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--navy); margin-bottom: 12px; font-weight: 400; }
+.start-screen p { color: var(--ink-soft); margin-bottom: 8px; }
+.start-stats { display: flex; justify-content: center; gap: 32px; margin: 24px 0 32px; font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); }
+.start-btn { background: var(--purple); color: white; border: none; padding: 14px 36px; font-family: inherit; font-size: 15px; font-weight: 500; cursor: pointer; }
+.start-btn:hover { background: var(--purple-soft); }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div id="start-screen" class="start-screen">
+  <span class="badge">Deep Drill</span>
+  <h2>Neuro</h2>
+  <p>NCLEX-style application — priority triage, wrong teaching, which patient first.</p>
+  <p style="font-size:14px; color:var(--muted); margin-top:8px;">You'll need to know the concept AND apply it to a clinical scenario.</p>
+  <div class="start-stats">
+    <span>25 questions</span>
+    <span>•</span>
+    <span>Application-level</span>
+    <span>•</span>
+    <span>Paraphrased options</span>
+  </div>
+  <button class="start-btn" onclick="startQuiz()">Begin</button>
+</div>
+
+<div id="quiz-container" style="display:none;">
+  <div class="header">
+    <span class="badge">Neuro — Deep Drill</span>
+    <h1>Application &amp; clinical reasoning</h1>
+    <p class="subtitle">NCLEX-style scenarios — priority, teaching, recognition</p>
+  </div>
+  <div class="progress-bar">
+    <span id="progress-text">Question 1 / 25</span>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <span id="score-text">Score: 0</span>
+  </div>
+  <div id="question-area"></div>
+</div>
+
+<div id="results-area" style="display:none;"></div>
+
+</div>
+<a href="index.html" class="back-btn">← Study Hub</a>
+
+<script>
+const questions = [
+  {
+    topic: 'Neuro',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A nurse caring for four patients on carbamazepine reviews their CBCs. Which patient should the nurse notify the provider about first?',
+    options: [
+      'A patient with a WBC of 2800 and complaints of sore throat',
+      'A patient whose hemoglobin dropped from 13.5 to 13.1 today',
+      'A patient whose platelets are stable at 220,000 currently',
+      'A patient with a normal absolute neutrophil count today'
+    ],
+    answer: 0,
+    concept: 'Carbamazepine WBC threshold',
+    rationale: 'Carbamazepine should be discontinued if WBC drops below 3000 — a WBC of 2800 with infection signs (sore throat) is an emergency.',
+    deepExplanation: 'This combination indicates evolving agranulocytosis with active infection risk. The drug must be held immediately and the patient evaluated. The other findings are stable or non-concerning.',
+    others: {
+      1: 'A 0.4 g/dL drop in hemoglobin is not urgent.',
+      2: 'Stable platelets are fine.',
+      3: 'A normal ANC is reassuring, not concerning.'
+    }
+  },
+  {
+    topic: 'Neuro',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on carbamazepine asks why they are getting routine CBCs every few months. What is the nurse\'s best response?',
+    options: [
+      '"To check your kidney function while on this medication."',
+      '"To ensure you have enough vitamin D in your bloodstream."',
+      '"To check that your thyroid hormone levels stay normal."',
+      '"To monitor for fatal aplastic anemia and other blood problems."'
+    ],
+    answer: 3,
+    concept: 'Carbamazepine CBC rationale',
+    rationale: 'Periodic CBCs monitor for fatal aplastic anemia and other myelosuppression — a known carbamazepine risk.',
+    deepExplanation: 'Carbamazepine causes leukopenia, anemia, and thrombocytopenia, with rare but fatal aplastic anemia. The drug should be discontinued if WBC drops below 3000. Patients should also report fever, sore throat, infection, pallor, weakness, bruising, or petechiae.',
+    others: {
+      0: 'CBCs do not assess kidney function.',
+      1: 'Vitamin D levels are not checked by CBC.',
+      2: 'Thyroid function is checked by TSH/T4, not CBC.'
+    }
+  },
+  {
+    topic: 'Neuro',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on donepezil reports a fall last night when getting up to use the bathroom. Which assessment finding most likely explains this?',
+    options: [
+      'Severe orthostatic hypertension after dosing',
+      'Acute hyperglycemia from the medication',
+      'Bradycardia syncope from the cholinergic effect',
+      'Tachycardia from sympathetic stimulation'
+    ],
+    answer: 2,
+    concept: 'Donepezil bradycardia syncope',
+    rationale: 'Donepezil can cause bradycardia syncope — a known fall risk that is why bedtime dosing is preferred.',
+    deepExplanation: 'Cholinesterase inhibition increases acetylcholine, which stimulates muscarinic receptors in the heart and slows it. With bedtime dosing, the patient is already supine if syncope occurs. Patients getting up to use the bathroom in the middle of the night are particularly at risk.',
+    others: {
+      0: 'Donepezil tends to LOWER BP, not raise it.',
+      1: 'Donepezil does not cause hyperglycemia.',
+      3: 'Donepezil causes BRADY-cardia, not tachycardia.'
+    }
+  },
+  {
+    topic: 'Neuro',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A nursing student asks the preceptor why donepezil is started at 5 mg and held there for 1-3 months before increasing. What is the best response?',
+    options: [
+      '"To allow the patient time to adjust to taking medications."',
+      '"To minimize the cholinergic SLUDGE adverse effects."',
+      '"Insurance requires this slow titration for coverage."',
+      '"This is just a habit and there is no real reason."'
+    ],
+    answer: 1,
+    concept: 'Donepezil titration rationale',
+    rationale: 'The slow titration minimizes cholinergic SLUDGE adverse effects — patients tolerate the lower dose first before increasing.',
+    deepExplanation: 'Starting at 5 mg for 1-3 months allows the body to adjust before titrating to 10 mg for another 1-3 months. Rapid titration causes intolerable nausea, vomiting, diarrhea, and other cholinergic effects, leading to discontinuation. Mnemonic: "DONepezil → DOING the most: SLUD."',
+    others: {
+      0: 'This is not the primary clinical rationale.',
+      2: 'Insurance is not the medical reason.',
+      3: 'There is a clear pharmacologic rationale.'
+    }
+  },
+  {
+    topic: 'Neuro',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A family member of a patient with newly diagnosed mild Alzheimer\'s asks why the provider prescribed donepezil instead of memantine. What is the best response?',
+    options: [
+      '"Donepezil is approved for all stages, but memantine is reserved for moderate to severe disease."',
+      '"Memantine is more expensive than donepezil for most insurance plans."',
+      '"Donepezil completely reverses early Alzheimer\'s symptoms in most patients."',
+      '"Memantine is only used after donepezil therapy has clearly failed."'
+    ],
+    answer: 0,
+    concept: 'Donepezil vs memantine staging',
+    rationale: 'Donepezil is approved for all stages of AD, while memantine is reserved for moderate to severe AD.',
+    deepExplanation: 'In advanced disease, the two drugs are often combined for additive benefit on different pathways (cholinergic + glutamatergic). Neither drug reverses Alzheimer\'s — both only modestly slow progression.',
+    others: {
+      1: 'Cost is not the primary clinical reason for the choice.',
+      2: 'Donepezil does not reverse symptoms.',
+      3: 'Memantine staging is based on disease severity, not donepezil failure.'
+    }
+  },
+  {
+    topic: 'Neuro',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A nurse is preparing to administer a cholinesterase inhibitor to a patient with a history of severe asthma. What is the priority action?',
+    options: [
+      'Give the medication after a peak flow assessment',
+      'Increase the patient\'s rescue inhaler dose',
+      'Notify the provider of the asthma history before administering',
+      'Place the patient on continuous pulse oximetry'
+    ],
+    answer: 2,
+    concept: 'Cholinesterase + severe asthma',
+    rationale: 'Cholinesterase inhibitors cause bronchoconstriction (one of the "Killer B\'s") — severe asthma is a major caution that requires provider notification before administering.',
+    deepExplanation: 'Increased acetylcholine stimulates muscarinic receptors in airways, causing bronchospasm. Other Killer B\'s include bradycardia and bronchorrhea. The provider may want to choose an alternative agent or proceed with extra precautions.',
+    others: {
+      0: 'Peak flow alone does not address the underlying CI risk.',
+      1: 'The nurse cannot independently change the patient\'s inhaler dosing.',
+      3: 'Pulse ox alone does not address the asthma exacerbation risk.'
+    }
+  },
+  {
+    topic: 'Neuro',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient with newly diagnosed moderate Alzheimer\'s disease is being started on memantine. The patient\'s daughter asks how it works. What is the best explanation?',
+    options: [
+      '"It boosts acetylcholine to improve memory and recall."',
+      '"It blocks excess calcium from damaging brain cells."',
+      '"It replaces dopamine that is missing in the brain."',
+      '"It directly reverses brain plaques in Alzheimer\'s."'
+    ],
+    answer: 1,
+    concept: 'Memantine MOA explanation',
+    rationale: 'Memantine blocks NMDA receptors, preventing excess calcium from entering brain cells — this provides neuroprotection.',
+    deepExplanation: 'In Alzheimer\'s, too much glutamate opens NMDA receptors, allowing excess calcium influx that damages and kills brain cells. Memantine blocks calcium when glutamate is low while permitting normal signaling when glutamate is high. It does NOT reverse plaques or restore lost function — it slows ongoing damage.',
+    others: {
+      0: 'That describes cholinesterase inhibitors like donepezil, not memantine.',
+      2: 'That describes levodopa for Parkinson\'s.',
+      3: 'No current AD drug reverses plaques.'
+    }
+  },
+  {
+    topic: 'Neuro',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient with Parkinson\'s on levodopa/carbidopa returns to clinic complaining the medication has stopped working as well as it did 6 years ago. What is the most likely explanation?',
+    options: [
+      'The patient has developed an acute drug allergy',
+      'Levodopa has a maximum 5-year benefit window',
+      'A higher protein diet would restore effectiveness',
+      'The patient is taking the medication too frequently'
+    ],
+    answer: 1,
+    concept: 'Levodopa 5-year benefit',
+    rationale: 'Levodopa has a maximum 5-year benefit — after that, effectiveness wanes despite higher doses.',
+    deepExplanation: 'This phenomenon (sometimes called "wearing off") is why providers often delay levodopa initiation and use other Parkinson\'s drugs first when possible. Once that 5-year window closes, alternative strategies (DBS, dopamine agonists, MAO-B inhibitors) become more important.',
+    others: {
+      0: 'Drug allergy doesn\'t typically present as decreased efficacy over years.',
+      2: 'High protein REDUCES levodopa absorption — wouldn\'t restore effectiveness.',
+      3: 'Frequency is set by the prescription, not the patient.'
+    }
+  },
+  {
+    topic: 'Neuro',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on long-term levodopa develops new involuntary jerking movements of the arms and face. What is the nurse\'s priority action?',
+    options: [
+      'Tell the patient this means the disease has progressed beyond treatment',
+      'Encourage the patient to push through the movements with exercise',
+      'Increase the dose to overcome the involuntary movements',
+      'Report the dyskinesias to the provider for possible dose reduction'
+    ],
+    answer: 3,
+    concept: 'Levodopa paradox dyskinesias',
+    rationale: 'Levodopa can cause paradox dyskinesias — extra involuntary movement that requires a dose REDUCTION, not an increase. Long-term occurrence should be reported.',
+    deepExplanation: 'Dyskinesias often emerge after years of levodopa therapy and represent excess dopamine activity. Counterintuitively, the response is to lower the dose, not raise it. The nurse should report this finding so the provider can adjust dosing.',
+    others: {
+      0: 'Dyskinesias don\'t mean the disease is untreatable.',
+      1: 'Pushing through doesn\'t resolve drug-induced dyskinesias.',
+      2: 'Increasing the dose worsens dyskinesias.'
+    }
+  },
+  {
+    topic: 'Neuro',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on levodopa/carbidopa is being discharged. The nurse provides dietary teaching. Which patient statement requires further teaching?',
+    options: [
+      '"I will spread my protein intake throughout the day."',
+      '"I will avoid grilled steaks and large portions of meat."',
+      '"I will eat a high-protein meal right before each dose."',
+      '"I will tell my MAOI provider that I take levodopa."'
+    ],
+    answer: 2,
+    concept: 'Levodopa wrong teaching',
+    rationale: 'Eating high-protein meals around levodopa dosing reduces drug absorption — this teaching needs correction.',
+    deepExplanation: 'Mnemonic: "LEVO → LEAVE the chicken alone." Dietary amino acids compete with levodopa for transport across the gut and BBB. The other statements show correct understanding of dietary precautions and the MAOI interaction.',
+    others: {
+      0: 'Spreading protein throughout the day is correct teaching.',
+      1: 'Avoiding large meat portions is correct teaching.',
+      3: 'Disclosing levodopa use is correct — MAOIs require 14-day washout.'
+    }
+  },
+  {
+    topic: 'Neuro',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on levodopa/carbidopa was just started on an MAOI for depression. The nurse notes a BP of 220/130. What is the most likely explanation?',
+    options: [
+      'Hypertensive crisis from MAOI + levodopa interaction',
+      'Acute kidney injury from medication interaction',
+      'Worsening of underlying Parkinson\'s symptoms',
+      'A normal stress response to hospitalization'
+    ],
+    answer: 0,
+    concept: 'Levodopa + MAOI crisis',
+    rationale: 'Combining MAOI with levodopa causes hypertensive crisis — this is why a 14-day washout is required between the two drugs.',
+    deepExplanation: 'MAOIs prevent breakdown of dopamine and other catecholamines. When combined with levodopa (which increases brain dopamine), the result is dangerous catecholamine accumulation and hypertensive crisis. Mnemonic: "LEVO → LEAVE the MAO."',
+    others: {
+      1: 'AKI doesn\'t typically cause this acute BP elevation.',
+      2: 'Parkinson\'s itself doesn\'t cause hypertensive crisis.',
+      3: 'A BP of 220/130 is not a normal stress response.'
+    }
+  },
+  {
+    topic: 'Neuro',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A nursing student asks why levodopa is always combined with carbidopa. What is the preceptor\'s best response?',
+    options: [
+      '"Carbidopa enhances dopamine receptor binding directly in the brain."',
+      '"Carbidopa is a placebo — it has no real effect on Parkinson\'s."',
+      '"Carbidopa reduces nausea by acting as a central antiemetic."',
+      '"Carbidopa prevents levodopa breakdown peripherally so more reaches the brain."'
+    ],
+    answer: 3,
+    concept: 'Carbidopa peripheral protection',
+    rationale: 'Carbidopa prevents levodopa from breaking down in the periphery so more can reach the brain — acting as levodopa\'s "guardian."',
+    deepExplanation: 'Carbidopa does NOT cross the blood-brain barrier. It works peripherally by inhibiting decarboxylase, which would otherwise convert levodopa to dopamine before it reaches the brain. This combination allows lower levodopa doses and reduces peripheral side effects (nausea, hypotension).',
+    others: {
+      0: 'Carbidopa does not enhance receptor binding — it protects levodopa.',
+      1: 'Carbidopa is essential, not a placebo.',
+      2: 'Carbidopa has indirect antiemetic effect by reducing peripheral dopamine, but the primary purpose is to spare levodopa for the brain.'
+    }
+  },
+  {
+    topic: 'Neuro',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A nurse is preparing oral neostigmine for a patient with myasthenia gravis. What is the priority action before administration?',
+    options: [
+      'Assess the patient\'s ability to swallow safely',
+      'Check the patient\'s blood pressure in both arms',
+      'Verify the patient\'s most recent stool record',
+      'Confirm the patient\'s current weight in kilograms'
+    ],
+    answer: 0,
+    concept: 'Neostigmine swallow safety',
+    rationale: 'Patients with MG must have their ability to swallow assessed before PO neostigmine due to dysphagia risk and aspiration.',
+    deepExplanation: 'Dysphagia is a hallmark MG symptom and a sign of under-treatment. If the patient cannot safely swallow, administering oral medication risks aspiration. The provider may need to use IV/IM neostigmine instead.',
+    others: {
+      1: 'BP is reasonable but not the priority for PO neostigmine.',
+      2: 'Stool record is not relevant to PO administration.',
+      3: 'Weight does not need verification each dose.'
+    }
+  },
+  {
+    topic: 'Neuro',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient with MG on neostigmine reports excessive drooling, abdominal cramping, and increased sweating. What is the nurse\'s priority action?',
+    options: [
+      'Increase the next neostigmine dose for better control',
+      'Encourage the patient to drink more water and rest',
+      'Apply an antiperspirant and continue current dosing',
+      'Hold the next dose and notify the provider for possible dose reduction'
+    ],
+    answer: 3,
+    concept: 'Neostigmine over-treatment',
+    rationale: 'These are SLUD/cholinergic crisis findings indicating over-treatment — the dose should be REDUCED, not increased. Atropine is the antidote for severe overdose.',
+    deepExplanation: 'Differentiation is critical because the response is opposite: under-treatment (ptosis, dysphagia, weakness) needs MORE drug. Over-treatment (excessive salivation, cramping, sweating, SLUDGE effects) needs LESS drug. Mistaking one for the other can be fatal.',
+    others: {
+      0: 'Increasing the dose with cholinergic crisis would make it worse.',
+      1: 'Reassurance doesn\'t address an evolving cholinergic crisis.',
+      2: 'Antiperspirant doesn\'t address the underlying overdose.'
+    }
+  },
+  {
+    topic: 'Neuro',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient with MG comes to the ED with severe muscle weakness. The provider asks the nurse to differentiate between under-treatment and over-treatment. Which finding most strongly suggests UNDER-treatment?',
+    options: [
+      'Excessive drooling and continuous abdominal cramping',
+      'Drooping eyelids (ptosis) and difficulty swallowing',
+      'Severe diarrhea and frequent urination',
+      'Profuse sweating and increased lacrimation'
+    ],
+    answer: 1,
+    concept: 'MG under-treatment recognition',
+    rationale: 'Ptosis and dysphagia are classic signs of UNDER-treatment with neostigmine — MG symptoms are returning because there is not enough drug.',
+    deepExplanation: 'The patient needs a dose INCREASE. Ptosis (drooping eyelids) and dysphagia (difficulty swallowing) are hallmark MG symptoms that emerge when ACh is insufficient. The other findings describe OVER-treatment (cholinergic crisis from too much drug).',
+    others: {
+      0: 'Drooling and cramping = OVER-treatment.',
+      2: 'Diarrhea and urinary symptoms = OVER-treatment SLUD effects.',
+      3: 'Sweating and lacrimation = OVER-treatment cholinergic effects.'
+    }
+  },
+  {
+    topic: 'Neuro',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A nurse is preparing to administer sumatriptan to a patient with a migraine. Which finding in the patient\'s history would be a contraindication?',
+    options: [
+      'Family history of seasonal allergies and rhinitis',
+      'Current oral contraceptive use for past 3 years',
+      'History of CAD with stent placement 2 years ago',
+      'Past viral infection with full recovery 6 months ago'
+    ],
+    answer: 2,
+    concept: 'Sumatriptan + CAD',
+    rationale: 'Sumatriptan is contraindicated in CAD due to coronary vasospasm risk — the drug causes vasoconstriction that can precipitate ischemia in already-narrowed arteries.',
+    deepExplanation: 'Other contraindications include ischemic heart disease, prior MI, and uncontrolled HTN. The drug is also contraindicated with ergotamine, other triptans, SSRIs, and SNRIs (serotonin syndrome risk).',
+    others: {
+      0: 'Allergies are not a sumatriptan contraindication.',
+      1: 'OCs are not a contraindication.',
+      3: 'Past viral infection with recovery is not a contraindication.'
+    }
+  },
+  {
+    topic: 'Neuro',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on sumatriptan also takes fluoxetine for depression. What is the nurse\'s priority concern?',
+    options: [
+      'Risk of hypoglycemia from drug interaction',
+      'Increased migraine frequency from the combination',
+      'Reduced sumatriptan effectiveness over time',
+      'Risk of serotonin syndrome from the combination'
+    ],
+    answer: 3,
+    concept: 'Sumatriptan + SSRI',
+    rationale: 'Combining sumatriptan with an SSRI like fluoxetine creates serotonin syndrome risk — this combination should be avoided.',
+    deepExplanation: 'Serotonin syndrome presents with agitation, confusion, hyperthermia, hyperreflexia, clonus, autonomic instability. Both drugs increase serotonergic activity. Sumatriptan must never be combined with ergotamine, other triptans, SSRIs, or SNRIs.',
+    others: {
+      0: 'No hypoglycemia risk from this combination.',
+      1: 'The interaction does not increase migraine frequency.',
+      2: 'The risk is not reduced effectiveness — it\'s acute toxicity.'
+    }
+  },
+  {
+    topic: 'Neuro',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient is brought to the ED with suspected benzodiazepine overdose. The provider orders flumazenil. Which finding would be most concerning during administration?',
+    options: [
+      'Sudden onset of seizure activity',
+      'Mild improvement in level of consciousness',
+      'Slight increase in respiratory rate',
+      'Return of normal pupillary response'
+    ],
+    answer: 0,
+    concept: 'Flumazenil seizure',
+    rationale: 'Flumazenil can cause seizures — especially in patients with chronic benzo use or mixed overdoses. This is the most concerning adverse effect.',
+    deepExplanation: 'In benzo-tolerant patients, abrupt reversal removes the GABA-mediated seizure suppression and can precipitate seizures. Flumazenil is also of limited help in directly reversing respiratory depression — airway support remains critical regardless.',
+    others: {
+      1: 'Improving LOC is the desired effect, not a concern.',
+      2: 'Increased respiratory rate is also a desired effect.',
+      3: 'Normal pupil response is reassuring.'
+    }
+  },
+  {
+    topic: 'Neuro',
+    confirmed: false,
+    type: 'sata',
+    stem: 'The nurse is reviewing patient teaching for carbamazepine. Which statements indicate correct understanding? Select all that apply.',
+    options: [
+      '"I will avoid grapefruit juice while taking this medication."',
+      '"I will report any fever, sore throat, or unusual bruising."',
+      '"I can have my regular morning coffee with this drug."',
+      '"I should expect periodic CBC blood work to be drawn."',
+      '"I should drink alcohol moderately to help with my anxiety."',
+      '"I should stop the drug if my next refill is delayed."'
+    ],
+    answerArr: [0, 1, 3],
+    concept: 'Carbamazepine teaching SATA',
+    rationale: 'Correct teaching: avoid grapefruit, report myelosuppression signs, expect periodic CBCs. Incorrect: alcohol with AEDs is unsafe, abrupt discontinuation risks seizures.',
+    perOptionExplanations: {
+      0: '<strong>Avoid grapefruit</strong> — inhibits CYP3A4, raises drug levels.',
+      1: '<strong>Report fever, sore throat, bruising</strong> — myelosuppression signs.',
+      3: '<strong>Periodic CBCs</strong> — monitor for fatal aplastic anemia.'
+    },
+    others: {
+      2: 'Coffee is not a primary concern, but the framing as a "regular" routine is fine — however, this isn\'t one of the key teaching points.',
+      4: 'Alcohol with AEDs is not safe and worsens CNS depression.',
+      5: 'Patients should never abruptly stop AEDs — risk of breakthrough seizures.'
+    }
+  },
+  {
+    topic: 'Neuro',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A 75-year-old patient with severe Alzheimer\'s on combined donepezil and memantine therapy is admitted for new-onset bradycardia of 38. Which medication is most likely contributing?',
+    options: [
+      'Donepezil — cholinergic effect causing bradycardia',
+      'Memantine — direct cardiac effect causing bradycardia',
+      'Both equally — they share the same mechanism',
+      'Neither — bradycardia is not a known effect of either drug'
+    ],
+    answer: 0,
+    concept: 'Donepezil bradycardia',
+    rationale: 'Donepezil causes bradycardia from increased acetylcholine — one of the "Killer B\'s" of cholinergic toxicity.',
+    deepExplanation: 'Donepezil and other cholinesterase inhibitors increase ACh, which slows heart rate. Memantine works on NMDA receptors and does not have this cardiac effect. The provider may need to hold donepezil or reduce the dose.',
+    others: {
+      1: 'Memantine is an NMDA antagonist with no direct cardiac slowing.',
+      2: 'They have different mechanisms.',
+      3: 'Bradycardia is a known and serious effect of donepezil.'
+    }
+  },
+  {
+    topic: 'Neuro',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient with Parkinson\'s on levodopa/carbidopa reports new visual hallucinations of small animals in the room. What is the nurse\'s priority action?',
+    options: [
+      'Tell the patient to ignore them — they are harmless',
+      'Hold the medication and notify the provider',
+      'Encourage the patient to interact with the hallucinations',
+      'Increase the levodopa dose to overcome the symptom'
+    ],
+    answer: 1,
+    concept: 'Levodopa hallucinations priority',
+    rationale: 'Hallucinations are a serious adverse effect of levodopa — the nurse should hold the next dose and notify the provider for evaluation.',
+    deepExplanation: 'Levodopa increases brain dopamine, which can produce psychiatric effects including hallucinations and psychosis. The provider may reduce the dose, switch agents, or add an antipsychotic. Levodopa should not be stopped abruptly because that can trigger neuroleptic malignant syndrome — the provider determines the safe taper.',
+    others: {
+      0: 'Hallucinations need provider evaluation, not dismissal.',
+      2: 'Encouraging interaction reinforces the experience.',
+      3: 'Increasing the dose worsens hallucinations.'
+    }
+  },
+  {
+    topic: 'Neuro',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient with MG is in the ICU with worsening weakness. The nurse must determine if this is myasthenic crisis (under-treatment) or cholinergic crisis (over-treatment). Which assessment finding most reliably differentiates the two?',
+    options: [
+      'The patient\'s blood pressure trend over the past hour',
+      'The size of the patient\'s pupils on examination',
+      'The presence or absence of excessive salivation',
+      'The level of pain reported by the patient'
+    ],
+    answer: 2,
+    concept: 'MG crisis differentiation',
+    rationale: 'Excessive salivation indicates cholinergic crisis (over-treatment, SLUDGE effects). Its absence with weakness suggests myasthenic crisis (under-treatment).',
+    deepExplanation: 'Both crises present with weakness, but the SLUDGE/cholinergic findings only occur in over-treatment. Other distinguishing features: under-treatment shows ptosis and dysphagia; over-treatment shows salivation, lacrimation, urination, diarrhea, bradycardia, bronchospasm. Atropine is used for cholinergic crisis.',
+    others: {
+      0: 'BP trend can change in either crisis.',
+      1: 'Pupil size alone is not the most reliable differentiator.',
+      3: 'Pain is not the differentiating feature.'
+    }
+  },
+  {
+    topic: 'Neuro',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on sumatriptan asks about long-term use. Which response by the nurse is most accurate?',
+    options: [
+      'Sumatriptan is taken to abort an active migraine, not for prevention',
+      'Sumatriptan should be taken daily for migraine prevention',
+      'Sumatriptan can be taken hourly until pain is fully gone',
+      'Sumatriptan has no specific time limit between doses'
+    ],
+    answer: 0,
+    concept: 'Sumatriptan abortive use',
+    rationale: 'Sumatriptan is used for abortive therapy — stopping an ongoing migraine attack. It is not for prevention.',
+    deepExplanation: 'Triptans cause vasoconstriction of intracranial blood vessels and suppress release of inflammatory neuropeptides. "Triptans shrink vessels and stop pain chemicals." For migraine PREVENTION, other agents (beta-blockers, anticonvulsants, CGRP inhibitors) are used.',
+    others: {
+      1: 'Sumatriptan is NOT a daily preventive drug.',
+      2: 'Hourly dosing is not safe.',
+      3: 'There are dose limits to prevent toxicity.'
+    }
+  },
+  {
+    topic: 'Neuro',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient on flumazenil for benzo overdose remains hypoxic with shallow respirations despite improved level of consciousness. What is the nurse\'s priority understanding?',
+    options: [
+      'Give a second dose of flumazenil to fix breathing',
+      'Flumazenil reverses sedation but is of limited help with respiratory depression',
+      'The patient must be having a stroke — call rapid response',
+      'Hypoxia is expected and self-resolves with flumazenil'
+    ],
+    answer: 1,
+    concept: 'Flumazenil respiratory limitation',
+    rationale: 'Flumazenil reverses sedation but is of limited help in directly reversing respiratory depression — airway support and oxygenation remain critical.',
+    deepExplanation: 'Even with improved consciousness, the patient may still need ventilatory support, supplemental O2, or intubation. Repeat flumazenil doses don\'t fix breathing. The drug also carries seizure risk, especially in chronic benzo users or mixed overdoses.',
+    others: {
+      0: 'A second dose doesn\'t reverse respiratory depression.',
+      2: 'Hypoxia from benzo OD is the expected pattern, not stroke.',
+      3: 'Hypoxia does NOT self-resolve — it requires active management.'
+    }
+  },
+  {
+    topic: 'Neuro',
+    confirmed: false,
+    type: 'standard',
+    stem: 'A patient newly started on carbamazepine reports an unusual rash spreading on his trunk. The patient is of Asian descent. What is the priority action?',
+    options: [
+      'Apply a moisturizing lotion and reassess in 24 hours',
+      'Continue the medication — rash is a known mild side effect',
+      'Recommend an OTC antihistamine for the itching',
+      'Hold the dose and notify the provider immediately'
+    ],
+    answer: 3,
+    concept: 'Carbamazepine SJS/TEN risk',
+    rationale: 'Patients of Asian descent are at increased risk for Stevens-Johnson Syndrome (SJS) and toxic epidermal necrolysis (TEN) on carbamazepine — any rash must be reported immediately.',
+    deepExplanation: 'SJS and TEN are life-threatening hypersensitivity reactions presenting with rash that can progress to widespread skin sloughing. Asian patients have a higher rate of HLA-B*1502 allele, which is strongly associated with this reaction. Patients of Asian descent may be screened genetically before starting carbamazepine.',
+    others: {
+      0: 'Watching and reassessing 24 hours later could be fatal.',
+      1: 'A spreading rash is NOT a benign side effect of carbamazepine.',
+      2: 'Antihistamines mask a potentially life-threatening reaction.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+const TOTAL = questions.length;
+let currentQ = 0;
+let totalPoints = 0;
+let answers = [];
+
+function startQuiz() {
+  document.getElementById('start-screen').style.display = 'none';
+  document.getElementById('quiz-container').style.display = 'block';
+  showQuestion();
+}
+
+function showQuestion() {
+  if (currentQ >= TOTAL) { showResults(); return; }
+  const q = questions[currentQ];
+  document.getElementById('progress-text').textContent = `Question ${currentQ + 1} / ${TOTAL}`;
+  document.getElementById('progress-fill').style.width = `${((currentQ) / TOTAL) * 100}%`;
+  document.getElementById('score-text').textContent = `Score: ${totalPoints.toFixed(1)}`;
+
+  const area = document.getElementById('question-area');
+  let html = `<div class="question-card">
+    <div class="q-number">Question ${currentQ + 1}</div>`;
+  if (q.confirmed) html += `<div class="confirmed-banner">⚠ Confirmed Test Item — recalled from actual exam</div>`;
+  html += `<div class="q-stem">${q.stem}</div>`;
+  if (q.type === 'sata') html += `<div style="font-family:'DM Mono', monospace; font-size:12px; color:var(--purple); margin-bottom:12px;">SELECT ALL THAT APPLY</div>`;
+  html += `<div class="options" id="options-list">`;
+  q.options.forEach((opt, i) => {
+    const letter = String.fromCharCode(65 + i);
+    html += `<button class="option" data-idx="${i}" onclick="toggleOption(${i})">
+      <span class="option-letter">${letter}</span>
+      <span>${opt}</span>
+    </button>`;
+  });
+  html += `</div>
+    <button class="submit-btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit Answer</button>
+    <div class="rationale" id="rationale"></div>
+  </div>`;
+  area.innerHTML = html;
+}
+
+let selectedIdx = q_type_is_sata() ? [] : null;
+
+function q_type_is_sata() { return questions[currentQ] && questions[currentQ].type === 'sata'; }
+
+function toggleOption(i) {
+  const q = questions[currentQ];
+  const opts = document.querySelectorAll('.option');
+  if (q.type === 'sata') {
+    if (!Array.isArray(selectedIdx)) selectedIdx = [];
+    const pos = selectedIdx.indexOf(i);
+    if (pos >= 0) {
+      selectedIdx.splice(pos, 1);
+      opts[i].classList.remove('selected');
+    } else {
+      selectedIdx.push(i);
+      opts[i].classList.add('selected');
+    }
+    document.getElementById('submit-btn').disabled = selectedIdx.length === 0;
+  } else {
+    selectedIdx = i;
+    opts.forEach(o => o.classList.remove('selected'));
+    opts[i].classList.add('selected');
+    document.getElementById('submit-btn').disabled = false;
+  }
+}
+
+function submitAnswer() {
+  const q = questions[currentQ];
+  const opts = document.querySelectorAll('.option');
+  opts.forEach(o => { o.disabled = true; o.onclick = null; });
+  document.getElementById('submit-btn').style.display = 'none';
+
+  let pts = 0;
+  let verdict = '';
+  let userAnswer = null;
+
+  if (q.type === 'sata') {
+    const correct = q.answerArr;
+    const selected = Array.isArray(selectedIdx) ? selectedIdx : [];
+    let correctSelected = 0, wrongSelected = 0;
+    selected.forEach(s => { if (correct.includes(s)) correctSelected++; else wrongSelected++; });
+    pts = Math.max(0, (correctSelected - wrongSelected) / correct.length);
+    if (pts === 1) verdict = 'correct';
+    else if (pts > 0) verdict = 'partial';
+    else verdict = 'wrong';
+
+    opts.forEach((o, i) => {
+      const isCorr = correct.includes(i);
+      const isSel = selected.includes(i);
+      if (isCorr && isSel) o.classList.add('correct');
+      else if (isCorr && !isSel) o.classList.add('missed');
+      else if (!isCorr && isSel) o.classList.add('wrong');
+    });
+    userAnswer = selected;
+  } else {
+    if (selectedIdx === q.answer) { pts = 1; verdict = 'correct'; }
+    else { pts = 0; verdict = 'wrong'; }
+    opts.forEach((o, i) => {
+      if (i === q.answer) o.classList.add('correct');
+      else if (i === selectedIdx) o.classList.add('wrong');
+    });
+    userAnswer = selectedIdx;
+  }
+
+  totalPoints += pts;
+  answers.push({ q, userAnswer, pts, verdict });
+  document.getElementById('score-text').textContent = `Score: ${totalPoints.toFixed(1)}`;
+
+  showRationale(q, verdict, pts);
+}
+
+function showRationale(q, verdict, pts) {
+  const r = document.getElementById('rationale');
+  let verdictTxt = verdict === 'correct' ? 'Correct' : verdict === 'partial' ? `Partial Credit (${pts.toFixed(2)})` : 'Incorrect';
+  let html = `<span class="verdict ${verdict}">${verdictTxt}</span>
+    <span class="concept-pill">${q.concept}</span>`;
+
+  if (q.type === 'sata') {
+    html += `<div class="sata-legend">
+      <span><span class="legend-dot green"></span>Correct &amp; selected</span>
+      <span><span class="legend-dot yellow"></span>Correct but missed</span>
+      <span><span class="legend-dot red"></span>Incorrect &amp; selected</span>
+    </div>`;
+    html += `<h4>Why these are correct</h4>`;
+    q.answerArr.forEach(i => {
+      html += `<div class="correct-answer-display">${q.options[i]}<br><small style="color:var(--ink-soft);">${q.perOptionExplanations[i]}</small></div>`;
+    });
+    html += `<p><strong>Overall:</strong> ${q.rationale}</p>`;
+    if (q.others && Object.keys(q.others).length > 0) {
+      html += `<h4>Why the others are wrong</h4><ul class="others-list">`;
+      Object.keys(q.others).forEach(k => {
+        html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+      });
+      html += `</ul>`;
+    }
+  } else {
+    html += `<div class="correct-answer-display"><strong>Correct answer:</strong> ${q.options[q.answer]}</div>
+      <p>${q.rationale}</p>
+      <h4>The clinical reasoning</h4>
+      <p>${q.deepExplanation}</p>`;
+    if (q.others && Object.keys(q.others).length > 0) {
+      html += `<h4>Why the others are wrong</h4><ul class="others-list">`;
+      Object.keys(q.others).forEach(k => {
+        html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+      });
+      html += `</ul>`;
+    }
+  }
+  html += `<button class="next-btn" onclick="nextQuestion()">${currentQ + 1 >= TOTAL ? 'See Results' : 'Next Question →'}</button>`;
+  r.innerHTML = html;
+  r.classList.add('show');
+}
+
+function nextQuestion() {
+  currentQ++;
+  selectedIdx = q_type_is_sata() ? [] : null;
+  showQuestion();
+}
+
+function showResults() {
+  document.getElementById('quiz-container').style.display = 'none';
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  let perfMsg = '';
+  if (pct >= 90) perfMsg = 'Exam ready. Strong clinical reasoning on application items.';
+  else if (pct >= 80) perfMsg = 'Solid performance. Review missed concepts and you\'re in great shape.';
+  else if (pct >= 70) perfMsg = 'Decent foundation but you\'ve got gaps. The application questions are where the exam will challenge you — review carefully.';
+  else perfMsg = 'Review carefully. Re-read your missed concepts and try this drill again before moving on.';
+
+  let missedHtml = '';
+  const missed = answers.filter(a => a.verdict !== 'correct');
+  if (missed.length > 0) {
+    missedHtml = `<div class="missed-list"><h3>Missed concepts</h3>`;
+    missed.forEach(m => {
+      const ans = m.q.type === 'sata' ? m.q.answerArr.map(i => m.q.options[i]).join('; ') : m.q.options[m.q.answer];
+      missedHtml += `<div class="missed-item">
+        <span class="concept-pill">${m.q.concept}</span>
+        ${m.q.confirmed ? '<span class="concept-pill" style="background:var(--purple-pale);color:var(--purple);">Confirmed item</span>' : ''}
+        <div class="preview">${m.q.stem}</div>
+        <div class="answer-line">→ ${ans}</div>
+        <div class="rationale-line">${m.q.rationale}</div>
+      </div>`;
+    });
+    missedHtml += `</div>`;
+  }
+
+  const today = new Date().toLocaleDateString();
+  localStorage.setItem('score_neuro_deepdrill', JSON.stringify({
+    pct, pts: totalPoints.toFixed(1), total: TOTAL, date: today
+  }));
+
+  document.getElementById('results-area').innerHTML = `
+    <div class="results-card">
+      <span class="badge">Neuro — Deep Drill Complete</span>
+      <div class="results-score">${totalPoints.toFixed(1)} / ${TOTAL}</div>
+      <div class="results-pct">${pct}%</div>
+      <div class="perf-msg">${perfMsg}</div>
+      ${missedHtml}
+      <button class="retry-btn" onclick="location.reload()">Retry Drill</button>
+    </div>
+  `;
+  document.getElementById('results-area').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

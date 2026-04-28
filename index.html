@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pharm II Final — Study Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0a2540;
+  --navy-soft: #1a3a5c;
+  --teal: #0d9488;
+  --teal-soft: #14b8a6;
+  --teal-pale: #f0fdfa;
+  --purple: #7c3aed;
+  --purple-soft: #8b5cf6;
+  --purple-pale: #f5f3ff;
+  --gold: #f59e0b;
+  --gold-pale: #fef3c7;
+  --green: #059669;
+  --green-pale: #ecfdf5;
+  --yellow: #d97706;
+  --yellow-pale: #fffbeb;
+  --red: #dc2626;
+  --red-pale: #fef2f2;
+  --ink: #1a1a1a;
+  --ink-soft: #3a3a3a;
+  --muted: #6b7280;
+  --bg: #fafaf7;
+  --card: #ffffff;
+  --line: #e5e0d5;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; padding: 40px 20px 80px; }
+.container { max-width: 1000px; margin: 0 auto; }
+
+.hero { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--navy); padding: 36px 40px; margin-bottom: 32px; }
+.hero-badge { display: inline-block; background: var(--navy); color: white; font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; padding: 6px 12px; border-radius: 3px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 16px; }
+.hero h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy); margin-bottom: 8px; font-weight: 400; line-height: 1.15; }
+.hero .subtitle { color: var(--muted); font-size: 17px; margin-bottom: 16px; }
+.hero-stats { display: flex; gap: 24px; flex-wrap: wrap; font-family: 'DM Mono', monospace; font-size: 13px; color: var(--ink-soft); margin-top: 20px; }
+.hero-stat { display: flex; flex-direction: column; gap: 2px; }
+.hero-stat-label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+.hero-stat-value { color: var(--navy); font-size: 18px; font-weight: 500; font-family: 'Outfit', sans-serif; }
+
+.section-header { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--navy); margin: 32px 0 16px; padding-left: 14px; border-left: 4px solid var(--teal); font-weight: 400; }
+
+/* Featured exam simulator card */
+.sim-card { background: linear-gradient(135deg, #0a2540 0%, #1a3a5c 100%); color: white; padding: 32px 36px; margin-bottom: 32px; border-radius: 4px; position: relative; overflow: hidden; }
+.sim-card::before { content: ''; position: absolute; top: 0; right: 0; width: 200px; height: 200px; background: radial-gradient(circle, rgba(13,148,136,0.15) 0%, transparent 70%); }
+.sim-badge { display: inline-block; background: var(--gold); color: var(--navy); font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 3px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px; position: relative; z-index: 1; }
+.sim-card h2 { font-family: 'DM Serif Display', serif; font-size: 28px; margin-bottom: 8px; font-weight: 400; position: relative; z-index: 1; }
+.sim-card p { color: rgba(255,255,255,0.85); margin-bottom: 16px; font-size: 15px; position: relative; z-index: 1; }
+.sim-meta { display: flex; gap: 20px; flex-wrap: wrap; font-family: 'DM Mono', monospace; font-size: 12px; color: rgba(255,255,255,0.7); margin-bottom: 20px; position: relative; z-index: 1; }
+.sim-btn { background: var(--teal); color: white; border: none; padding: 12px 24px; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; position: relative; z-index: 1; transition: background 0.15s; }
+.sim-btn:hover { background: var(--teal-soft); }
+.sim-btn:disabled, .sim-btn.coming-soon { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.6); cursor: not-allowed; }
+.sim-score { position: relative; z-index: 1; margin-top: 12px; padding: 10px 14px; background: rgba(255,255,255,0.08); border-left: 2px solid var(--teal); font-family: 'DM Mono', monospace; font-size: 12px; }
+
+/* Topic blocks */
+.topic-block { background: var(--card); border: 1px solid var(--line); margin-bottom: 20px; overflow: hidden; }
+.topic-header { padding: 20px 28px; border-left: 4px solid var(--teal); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.topic-header.high-weight { border-left-color: var(--gold); background: linear-gradient(90deg, var(--gold-pale) 0%, transparent 100%); }
+.topic-title { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--navy); font-weight: 400; }
+.weight-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 11px; padding: 4px 10px; border-radius: 3px; letter-spacing: 0.3px; background: var(--teal-pale); color: var(--teal); }
+.weight-pill.high { background: var(--gold-pale); color: #92400e; border: 1px solid var(--gold); }
+.topic-quizzes { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-top: 1px solid var(--line); }
+.quiz-card { padding: 22px 28px; text-decoration: none; color: var(--ink); transition: background 0.15s; display: flex; flex-direction: column; gap: 10px; border-right: 1px solid var(--line); }
+.quiz-card:last-child { border-right: none; }
+.quiz-card:hover { background: var(--bg); }
+.quiz-type-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.quiz-type-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 11px; padding: 3px 9px; border-radius: 3px; letter-spacing: 0.3px; text-transform: uppercase; }
+.quiz-type-pill.kc { background: var(--teal-pale); color: var(--teal); }
+.quiz-type-pill.dd { background: var(--purple-pale); color: var(--purple); }
+.quiz-card h3 { font-family: 'DM Serif Display', serif; font-size: 17px; color: var(--navy); font-weight: 400; }
+.quiz-card .quiz-meta { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.score-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 3px; font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; }
+.score-badge.high { background: var(--green-pale); color: var(--green); }
+.score-badge.mid { background: var(--yellow-pale); color: var(--yellow); }
+.score-badge.low { background: var(--red-pale); color: var(--red); }
+.score-badge.none { background: #f3f4f6; color: var(--muted); }
+.score-dot { width: 6px; height: 6px; border-radius: 50%; }
+.score-dot.high { background: var(--green); }
+.score-dot.mid { background: var(--yellow); }
+.score-dot.low { background: var(--red); }
+.score-dot.none { background: var(--muted); }
+
+@media (max-width: 640px) {
+  .topic-quizzes { grid-template-columns: 1fr; }
+  .quiz-card { border-right: none; border-bottom: 1px solid var(--line); }
+  .quiz-card:last-child { border-bottom: none; }
+  .hero h1 { font-size: 32px; }
+}
+
+/* Footer note */
+.footer-note { margin-top: 40px; padding: 20px 24px; background: var(--card); border: 1px solid var(--line); font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); line-height: 1.7; }
+.footer-note strong { color: var(--ink); }
+.legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; }
+
+/* Reset all scores button */
+.reset-link { background: none; border: none; color: var(--muted); font-family: 'DM Mono', monospace; font-size: 11px; cursor: pointer; text-decoration: underline; padding: 0; margin-top: 12px; }
+.reset-link:hover { color: var(--red); }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="hero">
+  <span class="hero-badge">Pharm II Final · Study Hub</span>
+  <h1>Pharmacology II Final Exam Prep</h1>
+  <p class="subtitle">12 quizzes covering all 6 blueprint sections + full exam simulator</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-label">Final exam</span>
+      <span class="hero-stat-value">75 questions</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-label">Pass threshold</span>
+      <span class="hero-stat-value">≥77%</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-label">Sections covered</span>
+      <span class="hero-stat-value">6 of 6</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-label">Total practice Q</span>
+      <span class="hero-stat-value">320</span>
+    </div>
+  </div>
+</div>
+
+<!-- Exam Simulator Featured Card -->
+<div class="sim-card">
+  <span class="sim-badge">⚖ Full Exam Simulator</span>
+  <h2>75-Question Final Simulator</h2>
+  <p>Fresh questions weighted to the blueprint distribution. Closest practice to the real exam.</p>
+  <div class="sim-meta">
+    <span>15 Hem/Onc</span>
+    <span>•</span>
+    <span>13 Pain</span>
+    <span>•</span>
+    <span>10 Neuro</span>
+    <span>•</span>
+    <span>9 Psych</span>
+    <span>•</span>
+    <span>9 Endo</span>
+    <span>•</span>
+    <span>11 Repro/Urinary</span>
+    <span>•</span>
+    <span>8 Wild card</span>
+  </div>
+  <a href="exam_simulator.html" class="sim-btn" id="sim-btn">Begin Simulation</a>
+  <div id="sim-score-display"></div>
+</div>
+
+<h2 class="section-header">Topic Practice Quizzes</h2>
+
+<!-- Hem/Onc - HIGH WEIGHT -->
+<div class="topic-block">
+  <div class="topic-header high-weight">
+    <span class="topic-title">🎗️ Hem/Onc</span>
+    <span class="weight-pill high">15/75 on final · highest weight</span>
+  </div>
+  <div class="topic-quizzes">
+    <a href="quiz_hemonc_knowledge.html" class="quiz-card">
+      <div class="quiz-type-row">
+        <span class="quiz-type-pill kc">Knowledge Check</span>
+        <span id="badge_hemonc_knowledge"></span>
+      </div>
+      <h3>Cancer biology, chemo &amp; complications</h3>
+      <div class="quiz-meta">
+        <span>30 questions</span>
+        <span>•</span>
+        <span>Direct recall</span>
+      </div>
+    </a>
+    <a href="quiz_hemonc_deepdrill.html" class="quiz-card">
+      <div class="quiz-type-row">
+        <span class="quiz-type-pill dd">Deep Drill</span>
+        <span id="badge_hemonc_deepdrill"></span>
+      </div>
+      <h3>Application &amp; clinical reasoning</h3>
+      <div class="quiz-meta">
+        <span>30 questions</span>
+        <span>•</span>
+        <span>NCLEX-style</span>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- Pain - HIGH WEIGHT -->
+<div class="topic-block">
+  <div class="topic-header high-weight">
+    <span class="topic-title">💊 Pain</span>
+    <span class="weight-pill high">13/75 on final · 2nd biggest</span>
+  </div>
+  <div class="topic-quizzes">
+    <a href="quiz_pain_knowledge.html" class="quiz-card">
+      <div class="quiz-type-row">
+        <span class="quiz-type-pill kc">Knowledge Check</span>
+        <span id="badge_pain_knowledge"></span>
+      </div>
+      <h3>Opioids, patches &amp; pediatric care</h3>
+      <div class="quiz-meta">
+        <span>25 questions</span>
+        <span>•</span>
+        <span>Direct recall</span>
+      </div>
+    </a>
+    <a href="quiz_pain_deepdrill.html" class="quiz-card">
+      <div class="quiz-type-row">
+        <span class="quiz-type-pill dd">Deep Drill</span>
+        <span id="badge_pain_deepdrill"></span>
+      </div>
+      <h3>Application &amp; clinical reasoning</h3>
+      <div class="quiz-meta">
+        <span>25 questions</span>
+        <span>•</span>
+        <span>NCLEX-style</span>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- Neuro -->
+<div class="topic-block">
+  <div class="topic-header">
+    <span class="topic-title">🧠 Neuro Pharm</span>
+    <span class="weight-pill">~10/75 on final</span>
+  </div>
+  <div class="topic-quizzes">
+    <a href="quiz_neuro_knowledge.html" class="quiz-card">
+      <div class="quiz-type-row">
+        <span class="quiz-type-pill kc">Knowledge Check</span>
+        <span id="badge_neuro_knowledge"></span>
+      </div>
+      <h3>Alzheimer's, Parkinson's, MS, MG, seizures</h3>
+      <div class="quiz-meta">
+        <span>25 questions</span>
+        <span>•</span>
+        <span>Direct recall</span>
+      </div>
+    </a>
+    <a href="quiz_neuro_deepdrill.html" class="quiz-card">
+      <div class="quiz-type-row">
+        <span class="quiz-type-pill dd">Deep Drill</span>
+        <span id="badge_neuro_deepdrill"></span>
+      </div>
+      <h3>Application &amp; clinical reasoning</h3>
+      <div class="quiz-meta">
+        <span>25 questions</span>
+        <span>•</span>
+        <span>NCLEX-style</span>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- Psych -->
+<div class="topic-block">
+  <div class="topic-header">
+    <span class="topic-title">🩺 Psych</span>
+    <span class="weight-pill">~9/75 on final</span>
+  </div>
+  <div class="topic-quizzes">
+    <a href="quiz_psych_knowledge.html" class="quiz-card">
+      <div class="quiz-type-row">
+        <span class="quiz-type-pill kc">Knowledge Check</span>
+        <span id="badge_psych_knowledge"></span>
+      </div>
+      <h3>Antipsychotics, lithium, SSRIs, TCAs</h3>
+      <div class="quiz-meta">
+        <span>25 questions</span>
+        <span>•</span>
+        <span>Direct recall</span>
+      </div>
+    </a>
+    <a href="quiz_psych_deepdrill.html" class="quiz-card">
+      <div class="quiz-type-row">
+        <span class="quiz-type-pill dd">Deep Drill</span>
+        <span id="badge_psych_deepdrill"></span>
+      </div>
+      <h3>Application &amp; clinical reasoning</h3>
+      <div class="quiz-meta">
+        <span>25 questions</span>
+        <span>•</span>
+        <span>NCLEX-style</span>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- Endocrine -->
+<div class="topic-block">
+  <div class="topic-header">
+    <span class="topic-title">🩸 Endocrine</span>
+    <span class="weight-pill">~9/75 on final</span>
+  </div>
+  <div class="topic-quizzes">
+    <a href="quiz_endocrine_knowledge.html" class="quiz-card">
+      <div class="quiz-type-row">
+        <span class="quiz-type-pill kc">Knowledge Check</span>
+        <span id="badge_endocrine_knowledge"></span>
+      </div>
+      <h3>Diabetes, thyroid, pituitary, adrenal</h3>
+      <div class="quiz-meta">
+        <span>25 questions</span>
+        <span>•</span>
+        <span>Direct recall</span>
+      </div>
+    </a>
+    <a href="quiz_endocrine_deepdrill.html" class="quiz-card">
+      <div class="quiz-type-row">
+        <span class="quiz-type-pill dd">Deep Drill</span>
+        <span id="badge_endocrine_deepdrill"></span>
+      </div>
+      <h3>Application &amp; clinical reasoning</h3>
+      <div class="quiz-meta">
+        <span>25 questions</span>
+        <span>•</span>
+        <span>NCLEX-style</span>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- Urinary + Repro -->
+<div class="topic-block">
+  <div class="topic-header">
+    <span class="topic-title">💧 Urinary &amp; Reproductive</span>
+    <span class="weight-pill">~11/75 on final</span>
+  </div>
+  <div class="topic-quizzes">
+    <a href="quiz_urinaryrepro_knowledge.html" class="quiz-card">
+      <div class="quiz-type-row">
+        <span class="quiz-type-pill kc">Knowledge Check</span>
+        <span id="badge_urinaryrepro_knowledge"></span>
+      </div>
+      <h3>UTI meds, BPH, contraception, L&amp;D drugs</h3>
+      <div class="quiz-meta">
+        <span>25 questions</span>
+        <span>•</span>
+        <span>Direct recall</span>
+      </div>
+    </a>
+    <a href="quiz_urinaryrepro_deepdrill.html" class="quiz-card">
+      <div class="quiz-type-row">
+        <span class="quiz-type-pill dd">Deep Drill</span>
+        <span id="badge_urinaryrepro_deepdrill"></span>
+      </div>
+      <h3>Application &amp; clinical reasoning</h3>
+      <div class="quiz-meta">
+        <span>25 questions</span>
+        <span>•</span>
+        <span>NCLEX-style</span>
+      </div>
+    </a>
+  </div>
+</div>
+
+<div class="footer-note">
+  <strong>Score legend</strong>
+  <div class="legend">
+    <span class="legend-item"><span class="score-dot high"></span> ≥85% — strong</span>
+    <span class="legend-item"><span class="score-dot mid"></span> 70-84% — review missed concepts</span>
+    <span class="legend-item"><span class="score-dot low"></span> &lt;70% — re-study before retrying</span>
+    <span class="legend-item"><span class="score-dot none"></span> Not yet attempted</span>
+  </div>
+  <p style="margin-top: 12px;">Your scores save automatically in this browser. Re-taking a quiz overwrites your previous score for that quiz.</p>
+  <button class="reset-link" onclick="resetAllScores()">Reset all scores</button>
+</div>
+
+</div>
+
+<script>
+const QUIZ_KEYS = [
+  'hemonc_knowledge', 'hemonc_deepdrill',
+  'pain_knowledge', 'pain_deepdrill',
+  'neuro_knowledge', 'neuro_deepdrill',
+  'psych_knowledge', 'psych_deepdrill',
+  'endocrine_knowledge', 'endocrine_deepdrill',
+  'urinaryrepro_knowledge', 'urinaryrepro_deepdrill'
+];
+
+function getScoreClass(pct) {
+  if (pct >= 85) return 'high';
+  if (pct >= 70) return 'mid';
+  return 'low';
+}
+
+function renderScore(key) {
+  const el = document.getElementById('badge_' + key);
+  if (!el) return;
+  const raw = localStorage.getItem('score_' + key);
+  if (!raw) {
+    el.outerHTML = '<span class="score-badge none" id="badge_' + key + '"><span class="score-dot none"></span>Not attempted</span>';
+    return;
+  }
+  try {
+    const data = JSON.parse(raw);
+    const cls = getScoreClass(data.pct);
+    el.outerHTML = '<span class="score-badge ' + cls + '" id="badge_' + key + '"><span class="score-dot ' + cls + '"></span>' + data.pct + '% · ' + data.date + '</span>';
+  } catch (e) {
+    el.outerHTML = '<span class="score-badge none" id="badge_' + key + '"><span class="score-dot none"></span>Not attempted</span>';
+  }
+}
+
+function renderSimScore() {
+  const display = document.getElementById('sim-score-display');
+  const raw = localStorage.getItem('score_exam_simulator');
+  if (!raw) return;
+  try {
+    const data = JSON.parse(raw);
+    const cls = getScoreClass(data.pct);
+    let label;
+    if (cls === 'high') label = '✓ EXAM READY';
+    else if (cls === 'mid') label = '◐ Almost there';
+    else label = '⚠ Below pass threshold';
+    display.innerHTML = '<div class="sim-score">Last attempt: <strong>' + data.pct + '%</strong> (' + data.pts + '/' + data.total + ') · ' + label + ' · ' + data.date + '</div>';
+  } catch (e) {}
+}
+
+function resetAllScores() {
+  if (!confirm('Reset all quiz scores? This cannot be undone.')) return;
+  QUIZ_KEYS.forEach(key => localStorage.removeItem('score_' + key));
+  localStorage.removeItem('score_exam_simulator');
+  location.reload();
+}
+
+// Render all scores on load
+QUIZ_KEYS.forEach(renderScore);
+renderSimScore();
+
+// Disable sim button if file doesn't exist yet
+fetch('exam_simulator.html', { method: 'HEAD' }).then(r => {
+  if (!r.ok) {
+    const btn = document.getElementById('sim-btn');
+    btn.classList.add('coming-soon');
+    btn.textContent = 'Coming soon';
+    btn.removeAttribute('href');
+    btn.style.pointerEvents = 'none';
+  }
+}).catch(() => {
+  const btn = document.getElementById('sim-btn');
+  btn.classList.add('coming-soon');
+  btn.textContent = 'Coming soon';
+  btn.removeAttribute('href');
+  btn.style.pointerEvents = 'none';
+});
+</script>
+</body>
+</html>
