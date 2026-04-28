@@ -1,0 +1,1773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pharm II Final — Exam Simulator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0a2540;
+  --navy-soft: #1a3a5c;
+  --teal: #0d9488;
+  --teal-soft: #14b8a6;
+  --teal-pale: #f0fdfa;
+  --purple: #7c3aed;
+  --purple-pale: #f5f3ff;
+  --gold: #f59e0b;
+  --gold-pale: #fef3c7;
+  --ink: #1a1a1a;
+  --ink-soft: #3a3a3a;
+  --muted: #6b7280;
+  --bg: #fafaf7;
+  --card: #ffffff;
+  --line: #e5e0d5;
+  --correct: #059669;
+  --correct-bg: #ecfdf5;
+  --wrong: #dc2626;
+  --wrong-bg: #fef2f2;
+  --partial: #d97706;
+  --partial-bg: #fffbeb;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; padding: 40px 20px 100px; }
+.container { max-width: 800px; margin: 0 auto; }
+.header { background: linear-gradient(135deg, #0a2540 0%, #1a3a5c 100%); color: white; border-left: 4px solid var(--gold); padding: 32px 36px; margin-bottom: 24px; border-radius: 4px; }
+.badge { display: inline-block; background: var(--gold); color: var(--navy); font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 3px; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px; }
+h1 { font-family: 'DM Serif Display', serif; font-size: 32px; margin-bottom: 6px; font-weight: 400; }
+.subtitle { color: rgba(255,255,255,0.85); font-size: 15px; }
+.progress-bar { background: var(--card); border: 1px solid var(--line); padding: 16px 24px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; font-family: 'DM Mono', monospace; font-size: 13px; color: var(--ink-soft); }
+.progress-track { flex: 1; height: 4px; background: var(--line); margin: 0 20px; border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--gold); width: 0%; transition: width 0.3s ease; }
+.question-card { background: var(--card); border: 1px solid var(--line); padding: 32px; margin-bottom: 20px; }
+.q-number { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); letter-spacing: 0.5px; margin-bottom: 6px; }
+.q-section-tag { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--navy); background: var(--gold-pale); padding: 2px 8px; border-radius: 3px; display: inline-block; margin-bottom: 12px; letter-spacing: 0.3px; }
+.q-stem { font-size: 17px; color: var(--ink); margin-bottom: 24px; font-weight: 500; line-height: 1.5; }
+.options { display: flex; flex-direction: column; gap: 10px; }
+.option { background: var(--card); border: 1.5px solid var(--line); padding: 14px 18px; cursor: pointer; transition: all 0.15s ease; font-size: 15px; display: flex; align-items: flex-start; gap: 12px; text-align: left; width: 100%; font-family: inherit; color: var(--ink); }
+.option:hover:not(:disabled) { border-color: var(--gold); background: var(--gold-pale); }
+.option:disabled { cursor: not-allowed; }
+.option-letter { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: var(--muted); flex-shrink: 0; padding-top: 1px; }
+.option.selected { border-color: var(--gold); background: var(--gold-pale); }
+.option.correct { border-color: var(--correct); background: var(--correct-bg); }
+.option.correct .option-letter { color: var(--correct); }
+.option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+.option.wrong .option-letter { color: var(--wrong); }
+.option.missed { border-color: var(--partial); background: var(--partial-bg); border-style: dashed; }
+.option.missed .option-letter { color: var(--partial); }
+.submit-btn, .next-btn { background: var(--navy); color: white; border: none; padding: 12px 28px; font-family: inherit; font-size: 15px; font-weight: 500; cursor: pointer; margin-top: 20px; transition: background 0.15s; }
+.submit-btn:hover, .next-btn:hover { background: var(--navy-soft); }
+.submit-btn:disabled { background: var(--muted); cursor: not-allowed; }
+.rationale { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--line); display: none; }
+.rationale.show { display: block; }
+.verdict { display: inline-block; padding: 6px 14px; font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px; }
+.verdict.correct { background: var(--correct-bg); color: var(--correct); }
+.verdict.wrong { background: var(--wrong-bg); color: var(--wrong); }
+.verdict.partial { background: var(--partial-bg); color: var(--partial); }
+.rationale h4 { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--navy); margin: 16px 0 8px; font-weight: 400; }
+.rationale p { margin-bottom: 10px; color: var(--ink-soft); font-size: 15px; }
+.rationale .correct-answer-display { background: var(--correct-bg); border-left: 3px solid var(--correct); padding: 10px 14px; margin: 12px 0; font-size: 14px; }
+.others-list { margin-top: 12px; }
+.others-list li { list-style: none; padding: 8px 0; border-top: 1px solid var(--line); font-size: 14px; color: var(--ink-soft); }
+.others-list li strong { color: var(--ink); }
+.sata-legend { display: flex; gap: 16px; margin: 12px 0; flex-wrap: wrap; font-family: 'DM Mono', monospace; font-size: 11px; }
+.sata-legend span { display: flex; align-items: center; gap: 6px; }
+.legend-dot { width: 12px; height: 12px; border-radius: 2px; display: inline-block; }
+.legend-dot.green { background: var(--correct); }
+.legend-dot.yellow { background: var(--partial); border: 1px dashed var(--partial); }
+.legend-dot.red { background: var(--wrong); }
+.results-card { background: var(--card); border: 1px solid var(--line); padding: 40px; text-align: center; }
+.results-score { font-family: 'DM Serif Display', serif; font-size: 84px; color: var(--navy); margin: 16px 0; font-weight: 400; line-height: 1; }
+.results-pct { font-family: 'DM Mono', monospace; font-size: 28px; color: var(--gold); margin-bottom: 8px; }
+.results-pass-fail { font-family: 'DM Mono', monospace; font-size: 14px; padding: 8px 16px; display: inline-block; margin-bottom: 24px; letter-spacing: 0.5px; text-transform: uppercase; }
+.results-pass-fail.pass { background: var(--correct-bg); color: var(--correct); }
+.results-pass-fail.fail { background: var(--wrong-bg); color: var(--wrong); }
+.perf-msg { font-size: 16px; color: var(--ink-soft); margin-bottom: 24px; padding: 16px; background: var(--gold-pale); border-left: 3px solid var(--gold); text-align: left; }
+.section-breakdown { margin: 24px 0; text-align: left; }
+.section-breakdown h3 { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--navy); margin-bottom: 12px; font-weight: 400; }
+.section-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border-bottom: 1px solid var(--line); font-family: 'DM Mono', monospace; font-size: 13px; }
+.section-row:last-child { border-bottom: none; }
+.section-row .name { color: var(--ink); }
+.section-row .stats { color: var(--muted); }
+.section-row .stats strong { color: var(--navy); }
+.missed-list { text-align: left; margin-top: 32px; }
+.missed-list h3 { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--navy); margin-bottom: 16px; font-weight: 400; }
+.missed-item { padding: 14px 0; border-top: 1px solid var(--line); }
+.missed-item .preview { font-size: 14px; color: var(--ink-soft); margin: 6px 0; }
+.missed-item .answer-line { font-size: 13px; color: var(--correct); font-family: 'DM Mono', monospace; margin-top: 4px; }
+.missed-item .rationale-line { font-size: 13px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+.section-tag-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 2px 8px; border-radius: 3px; background: var(--gold-pale); color: var(--navy); letter-spacing: 0.3px; }
+.retry-btn { background: var(--gold); color: var(--navy); border: none; padding: 14px 32px; font-family: inherit; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 32px; }
+.retry-btn:hover { background: #d97706; }
+.back-btn { position: fixed; bottom: 24px; right: 24px; background: var(--navy); color: white; text-decoration: none; padding: 12px 20px; font-family: 'DM Mono', monospace; font-size: 13px; border-radius: 4px; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+.back-btn:hover { background: var(--navy-soft); }
+.start-screen { background: var(--card); border: 1px solid var(--line); padding: 48px 40px; text-align: center; }
+.start-screen h2 { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--navy); margin-bottom: 12px; font-weight: 400; }
+.start-screen p { color: var(--ink-soft); margin-bottom: 8px; }
+.distribution { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 20px 0; padding: 16px; background: var(--bg); border: 1px solid var(--line); }
+.dist-item { text-align: center; padding: 8px; }
+.dist-item .label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); display: block; }
+.dist-item .value { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--navy); }
+.start-stats { display: flex; justify-content: center; gap: 24px; margin: 24px 0 32px; font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); flex-wrap: wrap; }
+.start-btn { background: var(--gold); color: var(--navy); border: none; padding: 16px 40px; font-family: inherit; font-size: 16px; font-weight: 600; cursor: pointer; }
+.start-btn:hover { background: #d97706; }
+.warning-banner { background: var(--gold-pale); border: 1px solid var(--gold); padding: 14px 18px; margin: 16px 0; font-size: 13px; color: #92400e; border-radius: 3px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div id="start-screen" class="start-screen">
+  <span class="badge" style="background:var(--navy);color:white;">⚖ Full Exam Simulator</span>
+  <h2>75-Question Final Simulator</h2>
+  <p>This is the closest practice you'll get to the actual final exam.</p>
+  <p style="font-size:14px;color:var(--muted);margin-top:8px;">Fresh questions weighted to the blueprint distribution — none repeated from your topic quizzes.</p>
+
+  <div class="distribution">
+    <div class="dist-item"><span class="value">15</span><span class="label">Hem/Onc</span></div>
+    <div class="dist-item"><span class="value">13</span><span class="label">Pain</span></div>
+    <div class="dist-item"><span class="value">10</span><span class="label">Neuro</span></div>
+    <div class="dist-item"><span class="value">9</span><span class="label">Psych</span></div>
+    <div class="dist-item"><span class="value">9</span><span class="label">Endocrine</span></div>
+    <div class="dist-item"><span class="value">11</span><span class="label">Urinary/Repro</span></div>
+    <div class="dist-item" style="grid-column:span 3;border-top:1px solid var(--line);padding-top:12px;margin-top:8px;"><span class="value">8</span><span class="label">Mixed wild card</span></div>
+  </div>
+
+  <div class="warning-banner">
+    <strong>⚠ Pass threshold: 77%</strong> — that's 58 of 75 correct. Below 77% means you need more review before the real exam.
+  </div>
+
+  <div class="start-stats">
+    <span>75 questions</span>
+    <span>•</span>
+    <span>NCLEX format</span>
+    <span>•</span>
+    <span>Section breakdown at end</span>
+  </div>
+  <button class="start-btn" onclick="startQuiz()">Begin Simulation</button>
+</div>
+
+<div id="quiz-container" style="display:none;">
+  <div class="header">
+    <span class="badge">⚖ Exam Simulator · 75 Q</span>
+    <h1>Pharm II Final Simulator</h1>
+    <p class="subtitle">Weighted to actual exam distribution · Pass threshold 77%</p>
+  </div>
+  <div class="progress-bar">
+    <span id="progress-text">Question 1 / 75</span>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <span id="score-text">Score: 0</span>
+  </div>
+  <div id="question-area"></div>
+</div>
+
+<div id="results-area" style="display:none;"></div>
+
+</div>
+<a href="index.html" class="back-btn">← Study Hub</a>
+
+<script>
+const questions = [
+  {
+    section: "Hem/Onc",
+    type: "standard",
+    stem: "A patient receiving chemotherapy has these labs: WBC 6,200, Hgb 9.2, Plt 22,000, ANC 1,500. Which finding requires the MOST immediate intervention?",
+    options: [
+      "The hemoglobin of 9.2 g/dL",
+      "The ANC of 1,500",
+      "The WBC of 6,200",
+      "The platelet count of 22,000"
+    ],
+    answer: 3,
+    rationale: "Platelets at 22,000 put the patient near critical bleeding threshold (<20,000) — bleeding precautions, no NSAIDs, and avoiding invasive procedures are urgent.",
+    others: {
+      0: "Hgb 9.2 indicates anemia but is not the most urgent.",
+      1: "ANC 1,500 is mildly low but well above the 500 chemo-hold threshold.",
+      2: "WBC 6,200 is normal range."
+    }
+  },
+  {
+    section: "Hem/Onc",
+    type: "standard",
+    stem: "A patient asks why some chemo cycles are spaced 21 days apart. What is the best explanation?",
+    options: [
+      "It is purely a billing schedule for insurance",
+      "It allows healthy bone marrow to recover between cycles",
+      "Cancer cells need 21 days to weaken between doses",
+      "The drug remains in the body for exactly 21 days"
+    ],
+    answer: 1,
+    rationale: "The 21-day spacing allows normal bone marrow (high growth fraction) to recover between cycles — preventing severe cumulative myelosuppression while still attacking cancer.",
+    others: {
+      0: "Spacing has medical, not billing, rationale.",
+      2: "Cancer cells regrow, not weaken, between cycles.",
+      3: "Drug clearance varies by agent."
+    }
+  },
+  {
+    section: "Hem/Onc",
+    type: "standard",
+    stem: "A patient with chemo-induced N/V is being prescribed prophylactic antiemetics. The nurse expects which class to be ordered?",
+    options: [
+      "Loop diuretics",
+      "Serotonin (5-HT3) antagonists",
+      "Beta-adrenergic blockers",
+      "Calcium channel blockers"
+    ],
+    answer: 1,
+    rationale: "Serotonin (5-HT3) antagonists like ondansetron are first-line prophylactic antiemetics for chemo-induced N/V.",
+    others: {
+      0: "Diuretics treat fluid overload.",
+      2: "Beta-blockers treat HTN/dysrhythmias.",
+      3: "CCBs treat HTN."
+    }
+  },
+  {
+    section: "Hem/Onc",
+    type: "standard",
+    stem: "A patient with cancer has these biopsy findings: well-differentiated cells, encapsulated mass, no lymph node involvement. The nurse interprets these findings as consistent with which type of growth?",
+    options: [
+      "Benign neoplasm with low recurrence risk",
+      "Aggressive metastatic malignancy",
+      "Stage IV malignant carcinoma",
+      "Anaplastic high-grade tumor"
+    ],
+    answer: 0,
+    rationale: "Well-differentiated, encapsulated, no lymph node involvement = classic benign features. Benign tumors are localized, slow-growing, and have rare recurrence after removal.",
+    others: {
+      1: "Metastatic disease shows lymph involvement and undifferentiated cells.",
+      2: "Stage IV = metastatic.",
+      3: "Anaplastic = undifferentiated, opposite finding."
+    }
+  },
+  {
+    section: "Hem/Onc",
+    type: "standard",
+    stem: "A patient with neutropenia has new diarrhea, abdominal cramping, and a temp of 100.6°F. What is the priority concern?",
+    options: [
+      "Routine GI virus that will resolve on its own",
+      "Side effect of dietary changes during chemo",
+      "Possible C. difficile infection in a vulnerable patient",
+      "Normal stress response to ongoing treatment"
+    ],
+    answer: 2,
+    rationale: "A neutropenic patient with fever and diarrhea raises serious concern for C. difficile or other GI infection — needs urgent stool studies, contact isolation, and provider notification.",
+    others: {
+      0: "Cannot dismiss fever in a neutropenic patient.",
+      1: "Diet changes don't cause fever.",
+      3: "Fever is not a normal stress response."
+    }
+  },
+  {
+    section: "Hem/Onc",
+    type: "sata",
+    stem: "A patient receiving chemotherapy is at risk for tumor lysis syndrome. Which interventions are appropriate? Select all that apply.",
+    options: [
+      "Increase fluid intake to flush metabolites",
+      "Administer allopurinol prophylactically",
+      "Restrict all fluids to under 1 liter daily",
+      "Monitor potassium, phosphate, and uric acid",
+      "Encourage a high-protein diet daily",
+      "Monitor renal function with BUN and creatinine"
+    ],
+    answerArr: [0,1,3,5],
+    rationale: "Tumor lysis syndrome management: hydration, allopurinol prophylaxis, monitor electrolytes (K+, phosphate, uric acid), and renal function. Fluid restriction and high protein worsen the picture.",
+    perOptionExplanations: {
+      0: "<strong>Increase fluids</strong> — flushes uric acid and metabolites.",
+      1: "<strong>Allopurinol</strong> — prevents urate crystal formation.",
+      3: "<strong>Monitor K+, phosphate, uric acid</strong> — these elevate dangerously.",
+      5: "<strong>Monitor renal function</strong> — urate crystals damage kidneys."
+    },
+    others: {
+      2: "Fluid restriction worsens TLS.",
+      4: "High protein increases uric acid load."
+    }
+  },
+  {
+    section: "Hem/Onc",
+    type: "standard",
+    stem: "A nurse is reviewing patient teaching for chemotherapy. Which statement by the patient indicates correct understanding?",
+    options: [
+      "\"I will eat raw sushi and salads to maintain my appetite.\"",
+      "\"I will resume my contact sports league activities now.\"",
+      "\"I will host my grandchildren's birthday party next week.\"",
+      "\"I will avoid live vaccines while my immunity is suppressed.\""
+    ],
+    answer: 3,
+    rationale: "Patients on chemo should AVOID live vaccines during immunosuppression — they can cause active disease. Inactivated vaccines are generally OK with provider input.",
+    others: {
+      0: "Raw foods carry infection risk.",
+      1: "Contact sports risk bleeding from thrombocytopenia.",
+      2: "Crowds with children are infection risk."
+    }
+  },
+  {
+    section: "Hem/Onc",
+    type: "standard",
+    stem: "Which type of cancer cell does NOT respond well to standard chemotherapy?",
+    options: [
+      "Cells with high proliferation in S-phase",
+      "Cells with rapid mitosis in G2-phase",
+      "Cells dormant in the G0 resting phase",
+      "Cells with active DNA synthesis"
+    ],
+    answer: 2,
+    rationale: "Cells in G0 (resting phase) are largely unaffected by chemotherapy — chemo targets actively dividing cells with high growth fraction.",
+    others: {
+      0: "S-phase cells are vulnerable to many agents.",
+      1: "G2 cells are actively dividing and vulnerable.",
+      3: "DNA synthesis = vulnerable phase."
+    }
+  },
+  {
+    section: "Hem/Onc",
+    type: "standard",
+    stem: "A patient with multiple myeloma asks about her tumor markers. The nurse explains tumor markers are MOST useful for which purpose?",
+    options: [
+      "Monitoring treatment response and recurrence",
+      "Replacing the need for any imaging studies",
+      "Curing the cancer through marker reduction",
+      "Predicting the exact day of cancer recurrence"
+    ],
+    answer: 0,
+    rationale: "Tumor markers track disease progression, treatment response, and recurrence — they're monitoring tools, not diagnostic alone or therapeutic.",
+    others: {
+      1: "Markers complement imaging, not replace it.",
+      2: "Markers don't treat cancer.",
+      3: "Markers indicate trends, not exact dates."
+    }
+  },
+  {
+    section: "Hem/Onc",
+    type: "standard",
+    stem: "A patient receiving filgrastim is being educated on the medication. Which side effect should be reported immediately?",
+    options: [
+      "Mild bone pain in the hips and ribs",
+      "Severe left upper quadrant abdominal pain",
+      "Slight fatigue after the injection",
+      "Pink color at the injection site"
+    ],
+    answer: 1,
+    rationale: "Severe LUQ pain on filgrastim suggests splenic rupture — a rare but serious adverse effect requiring immediate evaluation.",
+    others: {
+      0: "Mild bone pain is the most common side effect.",
+      2: "Mild fatigue is common.",
+      3: "Pink at injection site is normal."
+    }
+  },
+  {
+    section: "Hem/Onc",
+    type: "standard",
+    stem: "A patient with a TNM staging of T2 N0 M0 asks what this means. What is the most accurate response?",
+    options: [
+      "A small tumor with no lymph spread and no metastasis",
+      "A large tumor with extensive metastatic spread",
+      "A benign tumor that does not require treatment",
+      "A tumor that has spread to multiple organs"
+    ],
+    answer: 0,
+    rationale: "T2 N0 M0 = moderate tumor size, NO lymph node involvement, NO metastasis. This is a localized cancer with favorable staging.",
+    others: {
+      1: "Extensive metastasis would be N+ and M1.",
+      2: "TNM staging is for malignant tumors.",
+      3: "M1 indicates metastasis, not M0."
+    }
+  },
+  {
+    section: "Hem/Onc",
+    type: "standard",
+    stem: "A patient on chemo asks why their hair is growing back a different color and texture. What is the most accurate response?",
+    options: [
+      "\"This indicates a serious complication needing evaluation.\"",
+      "\"Your immune system is now attacking your hair follicles.\"",
+      "\"Hair follicle regrowth often produces different texture or color.\"",
+      "\"You should stop all hair products to allow normal regrowth.\""
+    ],
+    answer: 2,
+    rationale: "Chemo-damaged hair follicles often regrow with different texture, color, or curl pattern — a known and harmless effect that resolves over time.",
+    others: {
+      0: "This is normal, not a complication.",
+      1: "It is not autoimmune.",
+      3: "Hair products do not cause this."
+    }
+  },
+  {
+    section: "Hem/Onc",
+    type: "standard",
+    stem: "A chemo patient develops severe stomatitis with extensive ulcerations. The provider orders opioid analgesics. The nurse understands this is appropriate because:",
+    options: [
+      "Magic mouthwash works better with opioids",
+      "Severe stomatitis needs opioid pain control",
+      "Opioids reverse oral mucosa damage from chemo",
+      "Severe stomatitis is treated with topical antibiotics"
+    ],
+    answer: 1,
+    rationale: "Severe stomatitis requires opioid analgesia — magic mouthwash (lidocaine + diphenhydramine) is reserved for MILD cases only.",
+    others: {
+      0: "Magic mouthwash is for mild cases alone.",
+      2: "Opioids treat pain, not damage.",
+      3: "Antibiotics treat infection if present, not first-line."
+    }
+  },
+  {
+    section: "Hem/Onc",
+    type: "standard",
+    stem: "A patient with cancer has been told her treatment goal is \"prolongation of life.\" The patient asks what this means. What is the best response?",
+    options: [
+      "\"Your cancer will be completely eliminated within 6 months.\"",
+      "\"Treatment will have no effect on your survival outcome.\"",
+      "\"You will live longer than untreated, but cure is not the goal.\"",
+      "\"You will require comfort care without active treatment.\""
+    ],
+    answer: 2,
+    rationale: "Prolongation of life means living longer than without treatment, while accepting that cure is not realistic. It is the middle goal between cure and palliation.",
+    others: {
+      0: "Cure goal aims for elimination.",
+      1: "Treatment does extend life.",
+      3: "That describes palliation."
+    }
+  },
+  {
+    section: "Hem/Onc",
+    type: "standard",
+    stem: "A patient with thrombocytopenia (Plt 14,000) requires a bedside procedure. What is the priority nursing action?",
+    options: [
+      "Proceed with the procedure as scheduled",
+      "Apply pressure to the site for 5 minutes after the procedure",
+      "Reduce the procedure dose by 50% before starting",
+      "Notify the provider — platelet transfusion is likely needed"
+    ],
+    answer: 3,
+    rationale: "Platelets at 14,000 are below 20,000 (spontaneous bleeding threshold). Provider notification for likely platelet transfusion before any invasive procedure.",
+    others: {
+      0: "Proceeding without addressing low platelets risks severe bleeding.",
+      1: "Pressure alone is insufficient at this level.",
+      2: "Procedure doses don't apply."
+    }
+  },
+  {
+    section: "Pain",
+    type: "standard",
+    stem: "A patient is being prescribed a new opioid. The patient takes which other medication that would be MOST concerning for additive CNS depression?",
+    options: [
+      "Lorazepam for chronic anxiety",
+      "Lisinopril for blood pressure control",
+      "Atorvastatin for high cholesterol",
+      "Levothyroxine for hypothyroidism"
+    ],
+    answer: 0,
+    rationale: "Lorazepam (a benzodiazepine) combined with opioids causes additive CNS and respiratory depression — a major safety concern requiring careful evaluation.",
+    others: {
+      1: "Lisinopril is not a CNS depressant.",
+      2: "Statins are not CNS depressants.",
+      3: "Levothyroxine is a thyroid hormone replacement."
+    }
+  },
+  {
+    section: "Pain",
+    type: "standard",
+    stem: "A nurse is teaching a patient about acute vs chronic pain. Which patient situation BEST illustrates chronic pain?",
+    options: [
+      "Pain from a sprained ankle 3 days ago",
+      "Lower back pain present for the past 8 months",
+      "Post-op pain after a hip replacement 2 weeks ago",
+      "Headache from sinus pressure since yesterday"
+    ],
+    answer: 1,
+    rationale: "Pain present for over 6 months is classified as chronic pain — the 8-month back pain meets this definition.",
+    others: {
+      0: "Sprained ankle 3 days ago = acute.",
+      2: "Post-op 2 weeks = acute.",
+      3: "Sinus headache since yesterday = acute."
+    }
+  },
+  {
+    section: "Pain",
+    type: "standard",
+    stem: "A patient on a fentanyl patch develops a fever of 102°F from a viral illness. What is the nurse's priority concern?",
+    options: [
+      "Fever increases fentanyl absorption — risk for toxicity",
+      "Fever decreases fentanyl absorption — risk for inadequate pain control",
+      "Fever has no clinically significant impact on patches",
+      "The patch must be replaced every 12 hours during fever"
+    ],
+    answer: 0,
+    rationale: "Fever (elevated body temperature) increases fentanyl absorption from the patch, raising serum levels and risking respiratory depression — similar to direct heat exposure.",
+    others: {
+      1: "Fever increases, not decreases, absorption.",
+      2: "Fever is highly significant.",
+      3: "Patch is q72h regardless; the issue is monitoring for toxicity."
+    }
+  },
+  {
+    section: "Pain",
+    type: "standard",
+    stem: "A 4-year-old with viral influenza has a fever of 101.8°F. The parents ask about giving aspirin from their medicine cabinet. What is the priority response?",
+    options: [
+      "\"Aspirin is fine for a 4-year-old with influenza.\"",
+      "\"Give aspirin only if acetaminophen does not work.\"",
+      "\"Aspirin in viral illness can cause Reye's syndrome.\"",
+      "\"Give a half adult aspirin tablet for the fever.\""
+    ],
+    answer: 2,
+    rationale: "Aspirin is contraindicated in pediatric viral illness due to Reye's syndrome risk — a rare but devastating liver and brain disease. Use APAP or ibuprofen instead.",
+    others: {
+      0: "Aspirin is contraindicated.",
+      1: "Aspirin should never be given to a child with viral illness.",
+      3: "Half-dose aspirin still has full Reye's risk."
+    }
+  },
+  {
+    section: "Pain",
+    type: "standard",
+    stem: "A nurse is monitoring a patient receiving IV morphine. Which finding requires immediate intervention?",
+    options: [
+      "Patient reports pain is now 3/10 instead of 8/10",
+      "Patient appears drowsy but is rousable",
+      "Patient has a respiratory rate of 6 breaths/min",
+      "Patient reports mild itching around the IV site"
+    ],
+    answer: 2,
+    rationale: "RR of 6 indicates significant opioid-induced respiratory depression — naloxone and ventilation support may be needed immediately.",
+    others: {
+      0: "Pain reduction from 8 to 3 = good response.",
+      1: "Mild drowsiness is expected.",
+      3: "Itching is a common opioid effect, not emergent."
+    }
+  },
+  {
+    section: "Pain",
+    type: "standard",
+    stem: "A patient on chronic opioid therapy for cancer pain reports they need higher doses to achieve the same relief. What does this indicate?",
+    options: [
+      "The patient is becoming addicted to the opioid",
+      "The patient is developing tolerance to analgesia",
+      "The cancer pain has worsened significantly",
+      "The patient is having a severe drug allergic reaction"
+    ],
+    answer: 1,
+    rationale: "Tolerance develops with chronic opioid use — patients require larger doses to achieve the same analgesic effect. This is physiologic, not addiction.",
+    others: {
+      0: "Tolerance ≠ addiction (compulsive use despite harm).",
+      2: "May be true but tolerance is the more specific concept asked.",
+      3: "Allergic reactions present differently (rash, anaphylaxis)."
+    }
+  },
+  {
+    section: "Pain",
+    type: "standard",
+    stem: "A patient using a 4% OTC lidocaine patch tells the nurse \"I bought 3 patches and use them all at once for my back pain.\" What is the priority response?",
+    options: [
+      "\"That's fine for OTC patches — apply as many as needed.\"",
+      "\"Apply them only once a week instead of daily.\"",
+      "\"Switch to 5% RX patches for better effect.\"",
+      "\"The 4% OTC dose is 1 patch per application.\""
+    ],
+    answer: 3,
+    rationale: "The 4% OTC lidocaine patch dosing is 1 patch per application (for ages 12+). Using 3 OTC patches risks lidocaine toxicity. The 5% RX allows up to 3 patches in adults.",
+    others: {
+      0: "OTC max is 1 patch.",
+      1: "Frequency isn't the issue — quantity is.",
+      2: "Switching agents requires provider eval, not the immediate teaching."
+    }
+  },
+  {
+    section: "Pain",
+    type: "standard",
+    stem: "A patient on methadone reports new-onset dizziness and palpitations. The ECG shows QT of 530 msec. What is the priority action?",
+    options: [
+      "Continue methadone — these are common side effects",
+      "Reduce the dose by 25% and recheck in 48 hours",
+      "Discontinue methadone and notify the provider",
+      "Add a beta-blocker to manage the palpitations"
+    ],
+    answer: 2,
+    rationale: "QT >500 msec on methadone requires DISCONTINUATION — torsades de pointes risk. The symptoms suggest the dysrhythmia may already be developing.",
+    others: {
+      0: "These symptoms with QT >500 are dangerous.",
+      1: "Dose reduction is not the standard for QT >500.",
+      3: "Beta-blockers don't shorten QT."
+    }
+  },
+  {
+    section: "Pain",
+    type: "standard",
+    stem: "A patient on oxymorphone ER tells the nurse \"I crush my tablets and dissolve them in juice for easier swallowing.\" What is the priority response?",
+    options: [
+      "\"Always take oxymorphone ER tablets whole — never crush.\"",
+      "\"That works fine — oxymorphone absorbs well any way.\"",
+      "\"Try cutting them in half instead of crushing them.\"",
+      "\"Take the tablets with food to soften them up.\""
+    ],
+    answer: 0,
+    rationale: "Oxymorphone ER tablets must be swallowed whole — they are abuse-deterrent extended-release. Crushing destroys the controlled release and risks fatal overdose.",
+    others: {
+      1: "Crushing causes dose dumping.",
+      2: "Cutting also disrupts ER mechanism.",
+      3: "Food alters absorption (oxymorphone needs empty stomach)."
+    }
+  },
+  {
+    section: "Pain",
+    type: "standard",
+    stem: "A nurse reviewing a chart notes the patient is receiving oxycodone 10 mg q6h for 5 days. Is this patient considered \"opioid tolerant\"?",
+    options: [
+      "Yes — any opioid use over 24 hours equals tolerance",
+      "No — the patient needs at least 1 week of therapy",
+      "Yes — 5 days is sufficient for tolerance",
+      "No — oxycodone never produces tolerance"
+    ],
+    answer: 1,
+    rationale: "Opioid-tolerant requires at least 1 week of 60 mg oral morphine equivalents daily. This patient at 5 days does not yet meet the duration criterion.",
+    others: {
+      0: "24 hours is not enough.",
+      2: "5 days is below the 1-week threshold.",
+      3: "All opioids produce tolerance."
+    }
+  },
+  {
+    section: "Pain",
+    type: "standard",
+    stem: "A breastfeeding mother is being prescribed an analgesic for postpartum cesarean pain. Which option is SAFEST?",
+    options: [
+      "Codeine 30 mg PO every 4 hours",
+      "Aspirin 650 mg PO every 6 hours",
+      "Acetaminophen and ibuprofen alternating",
+      "Methadone 5 mg PO every 8 hours"
+    ],
+    answer: 2,
+    rationale: "Acetaminophen and ibuprofen alternating provides effective pain relief with the safest profile in lactation. Codeine carries a BBW for breastfeeding due to CYP2D6 rapid metabolizer risk.",
+    others: {
+      0: "Codeine BBW in breastfeeding.",
+      1: "Aspirin enters breast milk.",
+      3: "Methadone is a controlled substance not first-line."
+    }
+  },
+  {
+    section: "Pain",
+    type: "standard",
+    stem: "A nurse is reviewing a patient's daily medications. The patient is on long-term opioids and reports persistent constipation despite using a daily docusate-senna combination. What should the nurse anticipate?",
+    options: [
+      "Discontinuation of all bowel medications",
+      "Switching to a different opioid that does not cause constipation",
+      "Reducing fluid intake to firm up stools",
+      "Adding an osmotic laxative like polyethylene glycol"
+    ],
+    answer: 3,
+    rationale: "When docusate-senna fails, escalate to osmotic laxatives (PEG, lactulose). Eventually peripheral mu antagonists (methylnaltrexone) may be needed.",
+    others: {
+      0: "Discontinuing worsens constipation.",
+      1: "All opioids cause constipation.",
+      2: "Reducing fluids worsens constipation."
+    }
+  },
+  {
+    section: "Pain",
+    type: "standard",
+    stem: "A patient prescribed oxymorphone is being educated on administration. Which patient statement indicates correct understanding?",
+    options: [
+      "\"I will swallow the tablet whole on an empty stomach.\"",
+      "\"I will take it with meals to reduce stomach upset.\"",
+      "\"I will crush the pill and mix it with applesauce.\"",
+      "\"I will take it with milk to coat my stomach.\""
+    ],
+    answer: 0,
+    rationale: "Oxymorphone must be taken on an empty stomach (food alters absorption) AND swallowed whole (ER abuse-deterrent formulation that must not be crushed/chewed/split).",
+    others: {
+      1: "Food alters absorption.",
+      2: "Crushing causes fatal dose dumping.",
+      3: "Milk is food — alters absorption."
+    }
+  },
+  {
+    section: "Neuro",
+    type: "standard",
+    stem: "A patient with Parkinson's disease is taking levodopa-carbidopa. The patient reports hallucinations and confusion. What is the most likely cause?",
+    options: [
+      "Levodopa toxicity from elevated dopamine levels",
+      "Severe vitamin B12 deficiency",
+      "Sudden withdrawal effects from the drug",
+      "Reduced absorption due to high-protein diet"
+    ],
+    answer: 0,
+    rationale: "Levodopa toxicity causes hallucinations, confusion, and dyskinesias from excessive dopaminergic activity in the brain — a known dose-related ADE.",
+    others: {
+      1: "B12 deficiency presents with neuropathy and macrocytic anemia.",
+      2: "Withdrawal causes worsening Parkinson symptoms.",
+      3: "High protein reduces, not increases, levodopa effect."
+    }
+  },
+  {
+    section: "Neuro",
+    type: "standard",
+    stem: "A patient with myasthenia gravis is taking pyridostigmine. The patient suddenly develops weakness, sweating, salivation, and miosis. What is the priority concern?",
+    options: [
+      "Myasthenic crisis from undertreatment",
+      "Cholinergic crisis from overtreatment",
+      "Normal response after morning dose",
+      "Common cold with autonomic features"
+    ],
+    answer: 1,
+    rationale: "Cholinergic crisis presents with SLUDGE/anti-anti-SLUD findings (salivation, lacrimation, urination, diaphoresis, GI upset, emesis, miosis) plus weakness — indicates pyridostigmine OVERdose.",
+    deepExplanation: "Differentiating myasthenic vs cholinergic crisis is critical. Both cause weakness. Cholinergic crisis adds the cholinergic excess signs (sweating, salivation, miosis). Tensilon test or holding the drug helps distinguish.",
+    others: {
+      0: "Myasthenic crisis = weakness without cholinergic excess.",
+      2: "These signs are not normal.",
+      3: "Symptoms specific to cholinergic excess."
+    }
+  },
+  {
+    section: "Neuro",
+    type: "standard",
+    stem: "A patient with Alzheimer's disease is starting donepezil. Which baseline assessment is MOST important?",
+    options: [
+      "Heart rate and rhythm — bradycardia risk",
+      "Visual acuity — blurred vision risk",
+      "Temperature — hyperthermia risk",
+      "Joint range of motion — stiffness risk"
+    ],
+    answer: 0,
+    rationale: "Donepezil (cholinesterase inhibitor) increases acetylcholine, causing bradycardia and AV block — baseline HR and rhythm are essential before starting.",
+    others: {
+      1: "Vision is not a primary concern.",
+      2: "Hyperthermia is not a typical AE.",
+      3: "Joint stiffness is not a key concern."
+    }
+  },
+  {
+    section: "Neuro",
+    type: "standard",
+    stem: "A patient with multiple sclerosis is receiving interferon beta. The patient asks why \"flu-like symptoms\" are common. What is the most accurate response?",
+    options: [
+      "Interferon causes a real influenza infection",
+      "Flu-like symptoms indicate the drug is failing",
+      "The drug contains live influenza virus",
+      "These are immune-mediated effects of the drug"
+    ],
+    answer: 3,
+    rationale: "Interferon beta causes immune-mediated flu-like symptoms (fever, chills, myalgia, fatigue) — these are expected effects, often managed with NSAIDs and bedtime dosing.",
+    others: {
+      0: "It does not cause real flu.",
+      1: "Flu-like symptoms are expected, not failure.",
+      2: "No live virus."
+    }
+  },
+  {
+    section: "Neuro",
+    type: "standard",
+    stem: "A patient with epilepsy is on phenytoin. Which therapeutic level should the nurse expect?",
+    options: [
+      "1-3 mcg/mL",
+      "5-9 mcg/mL",
+      "10-20 mcg/mL",
+      "25-40 mcg/mL"
+    ],
+    answer: 2,
+    rationale: "Phenytoin therapeutic range is 10-20 mcg/mL. Below 10 = subtherapeutic; above 20 = toxic (nystagmus, ataxia, sedation, eventually seizures and death).",
+    others: {
+      0: "Subtherapeutic.",
+      1: "Subtherapeutic.",
+      3: "Highly toxic."
+    }
+  },
+  {
+    section: "Neuro",
+    type: "standard",
+    stem: "A patient on phenytoin presents with nystagmus, ataxia, and slurred speech. The phenytoin level is 28 mcg/mL. What is the most likely explanation?",
+    options: [
+      "Subtherapeutic level — needs higher dose",
+      "Therapeutic level with normal effects",
+      "Phenytoin toxicity from elevated level",
+      "Acute alcohol intoxication unrelated"
+    ],
+    answer: 2,
+    rationale: "Phenytoin level of 28 is toxic (>20). Classic toxicity signs include nystagmus, ataxia, slurred speech, and confusion. Severe toxicity progresses to seizures and death.",
+    others: {
+      0: "Level is far above therapeutic.",
+      1: "Therapeutic is 10-20.",
+      3: "Lab values point to phenytoin."
+    }
+  },
+  {
+    section: "Neuro",
+    type: "standard",
+    stem: "A patient on long-term phenytoin should have which assessment done routinely?",
+    options: [
+      "Annual renal ultrasound imaging",
+      "Gum and oral hygiene assessment",
+      "Pulmonary function testing every visit",
+      "Daily blood pressure with positional changes"
+    ],
+    answer: 1,
+    rationale: "Phenytoin causes gingival hyperplasia (gum overgrowth) — patients need good oral hygiene with soft-bristle toothbrush and regular dental care.",
+    others: {
+      0: "Routine renal imaging is not indicated.",
+      2: "PFTs are not standard.",
+      3: "Orthostatic BP is not the primary monitoring."
+    }
+  },
+  {
+    section: "Neuro",
+    type: "standard",
+    stem: "A patient with migraine asks about preventive medications. Which class is commonly used for prophylaxis?",
+    options: [
+      "Triptans like sumatriptan",
+      "Beta-blockers like propranolol",
+      "Acute opioids for severe attacks",
+      "Topical lidocaine patches"
+    ],
+    answer: 1,
+    rationale: "Beta-blockers (propranolol) are commonly used for migraine PROPHYLAXIS — they prevent attacks. Triptans are for ACUTE migraine treatment, not prevention.",
+    others: {
+      0: "Triptans = acute, not prevention.",
+      2: "Opioids are not preferred for migraine.",
+      3: "Lidocaine patches are not migraine therapy."
+    }
+  },
+  {
+    section: "Neuro",
+    type: "standard",
+    stem: "A patient with Parkinson's disease is being taught about a new medication. Which dietary teaching is MOST important?",
+    options: [
+      "Increase dietary protein significantly",
+      "Avoid all dairy products with the medication",
+      "Avoid taking with high-protein meals",
+      "Take only with grapefruit juice for absorption"
+    ],
+    answer: 2,
+    rationale: "Levodopa absorption is reduced by amino acids — patients should AVOID taking it with high-protein meals. Take 30 minutes before or 1 hour after meals.",
+    others: {
+      0: "High protein REDUCES levodopa effect.",
+      1: "Dairy is not specifically contraindicated.",
+      3: "Grapefruit juice does not improve absorption."
+    }
+  },
+  {
+    section: "Neuro",
+    type: "standard",
+    stem: "A patient taking sumatriptan for acute migraine reports new chest tightness during an attack. What is the priority concern?",
+    options: [
+      "Normal feeling that resolves with the migraine",
+      "Pulmonary embolism from the medication",
+      "Mild anxiety from the migraine experience",
+      "Coronary vasoconstriction — serious cardiac concern"
+    ],
+    answer: 3,
+    rationale: "Sumatriptan causes vasoconstriction. Chest tightness in a patient on triptans raises concern for coronary vasoconstriction (especially in patients with cardiac risk) — needs immediate evaluation.",
+    others: {
+      0: "Cannot dismiss chest tightness on triptans.",
+      1: "PE is not the typical triptan AE.",
+      2: "Cardiac concern takes priority."
+    }
+  },
+  {
+    section: "Psych",
+    type: "standard",
+    stem: "A patient on haloperidol (FGA) develops uncontrolled rhythmic movements of the tongue and lips. The nurse recognizes this as which condition?",
+    options: [
+      "Tardive dyskinesia from chronic FGA use",
+      "Acute hypoglycemia requiring sugar",
+      "Allergic reaction to the medication",
+      "Normal response that will self-resolve"
+    ],
+    answer: 0,
+    rationale: "Tardive dyskinesia (involuntary rhythmic tongue, lip, and face movements) is a serious EPS effect of long-term FGA use — often irreversible. Provider must be notified.",
+    others: {
+      1: "Hypoglycemia presents differently.",
+      2: "Not allergic features.",
+      3: "TD is not self-resolving."
+    }
+  },
+  {
+    section: "Psych",
+    type: "standard",
+    stem: "A patient on olanzapine (SGA) for 1 year has gained 35 pounds and now has fasting glucose of 165 mg/dL. The nurse recognizes which complication?",
+    options: [
+      "Metabolic syndrome from SGA therapy",
+      "Tardive dyskinesia from chronic use",
+      "Acute thyroid disorder requiring testing",
+      "Normal aging changes unrelated to medication"
+    ],
+    answer: 0,
+    rationale: "Significant weight gain plus elevated glucose on an SGA = metabolic syndrome (weight gain, diabetes, dyslipidemia). This is the major risk profile of SGAs over EPS.",
+    others: {
+      1: "TD is movement disorder, not metabolic.",
+      2: "Thyroid disorders present differently.",
+      3: "These changes are drug-induced."
+    }
+  },
+  {
+    section: "Psych",
+    type: "standard",
+    stem: "A patient on lithium has a serum level of 1.8 mEq/L. The nurse interprets this finding as:",
+    options: [
+      "Subtherapeutic — dose increase needed",
+      "Within normal therapeutic range",
+      "Above therapeutic range — toxicity risk",
+      "Critical low requiring lithium hold"
+    ],
+    answer: 2,
+    rationale: "Lithium therapeutic range is 0.6-1.2 mEq/L (some maintenance up to 1.5). A level of 1.8 is above therapeutic, approaching toxicity (>2.0 is severe toxicity).",
+    others: {
+      0: "Above range, not below.",
+      1: "Above 1.2 is concerning.",
+      3: "It is high, not low."
+    }
+  },
+  {
+    section: "Psych",
+    type: "standard",
+    stem: "A patient on an SSRI for 4 days reports increased agitation, confusion, hyperthermia, and clonus. The nurse recognizes which condition?",
+    options: [
+      "Lithium toxicity from elevated serum level",
+      "Serotonin syndrome",
+      "Neuroleptic malignant syndrome (NMS)",
+      "Acute alcohol withdrawal"
+    ],
+    answer: 1,
+    rationale: "Agitation, confusion, hyperthermia, and clonus are classic serotonin syndrome — caused by excess serotonergic activity, often from drug interactions (SSRI + MAOI, tramadol, etc.).",
+    others: {
+      0: "Lithium toxicity has tremor and slurred speech, not clonus.",
+      2: "NMS occurs with antipsychotics, has rigidity not clonus.",
+      3: "Alcohol withdrawal has tremor, no hyperreflexia/clonus."
+    }
+  },
+  {
+    section: "Psych",
+    type: "standard",
+    stem: "A patient on a TCA tells the nurse \"I take a long bath every night to relax before bed.\" What is the priority teaching?",
+    options: [
+      "\"Hot baths are great for sleep on TCAs.\"",
+      "\"Skip baths entirely while you are taking TCAs.\"",
+      "\"Take only cold or lukewarm baths daily on TCAs.\"",
+      "\"Avoid prolonged hot baths — orthostatic hypotension risk.\""
+    ],
+    answer: 3,
+    rationale: "TCAs cause orthostatic hypotension. Hot baths cause vasodilation that compounds orthostasis — patient is at risk for falls when standing up after a hot bath.",
+    others: {
+      0: "Hot baths are dangerous due to orthostasis.",
+      1: "Skipping baths entirely is unnecessary.",
+      2: "No need for cold baths."
+    }
+  },
+  {
+    section: "Psych",
+    type: "standard",
+    stem: "A nurse is reviewing antipsychotic teaching with a student. Which statement requires correction?",
+    options: [
+      "\"FGAs cause more EPS than SGAs.\"",
+      "\"SGAs cause more metabolic effects than FGAs.\"",
+      "\"Clozapine requires regular CBC monitoring.\"",
+      "\"All antipsychotics treat anxiety as primary use.\""
+    ],
+    answer: 3,
+    rationale: "Antipsychotics treat psychotic disorders (schizophrenia, bipolar mania), not anxiety as primary use. Buspirone or benzodiazepines treat anxiety. The other statements are correct.",
+    others: {
+      0: "Correct — FGAs higher EPS.",
+      1: "Correct — SGAs higher metabolic.",
+      2: "Correct — clozapine requires CBCs for agranulocytosis."
+    }
+  },
+  {
+    section: "Psych",
+    type: "standard",
+    stem: "A patient on fluoxetine asks how long they should stay on the medication once they feel better. What is the most accurate teaching?",
+    options: [
+      "Continue for at least 6 to 12 months after improvement",
+      "Stop the drug as soon as you feel better",
+      "Stay on the drug only during winter months",
+      "Take it as needed when feeling depressed"
+    ],
+    answer: 0,
+    rationale: "After response to SSRI therapy, treatment is typically continued for 6-12 months to prevent relapse. First-episode patients need at least this duration; recurrent depression may require lifelong therapy.",
+    others: {
+      1: "Stopping early causes relapse.",
+      2: "Year-round therapy is standard.",
+      3: "SSRIs are not PRN drugs."
+    }
+  },
+  {
+    section: "Psych",
+    type: "standard",
+    stem: "A nurse is teaching about lithium safety. Which patient statement indicates the BEST understanding?",
+    options: [
+      "\"I will limit my fluid intake to 4 glasses per day.\"",
+      "\"I will go on a low-sodium diet to be heart-healthy.\"",
+      "\"I will report tremors, slurred speech, or excessive thirst.\"",
+      "\"I will take ibuprofen for headaches as needed.\""
+    ],
+    answer: 2,
+    rationale: "Reporting toxicity signs (tremors, slurred speech, polydipsia) is critical lithium teaching. Patients should drink 8-10 glasses of water daily, maintain salt intake, and avoid NSAIDs.",
+    others: {
+      0: "Need 8-10 glasses, not 4.",
+      1: "Low-sodium causes lithium toxicity.",
+      3: "NSAIDs cause lithium toxicity."
+    }
+  },
+  {
+    section: "Psych",
+    type: "standard",
+    stem: "A patient on long-term FGA therapy develops fever, severe muscle rigidity, altered mental status, and autonomic instability. The nurse recognizes this as:",
+    options: [
+      "Serotonin syndrome from drug interaction",
+      "Acute lithium toxicity",
+      "Neuroleptic malignant syndrome (NMS)",
+      "Tardive dyskinesia worsening"
+    ],
+    answer: 2,
+    rationale: "NMS classic tetrad: fever (hyperthermia), severe muscle rigidity, altered mental status, autonomic instability. A medical emergency requiring immediate stopping of the antipsychotic and supportive care.",
+    others: {
+      0: "Serotonin syndrome has clonus, hyperreflexia, not rigidity.",
+      1: "Lithium toxicity has tremors, slurred speech, not rigidity.",
+      3: "TD has movement disorders without fever or rigidity."
+    }
+  },
+  {
+    section: "Endocrine",
+    type: "standard",
+    stem: "A patient with type 1 diabetes is sick with the flu and has been vomiting. The patient asks if she should hold her insulin. What is the priority response?",
+    options: [
+      "Yes — hold insulin until you can eat normally",
+      "Cut the insulin dose by 75% during illness",
+      "Hold the long-acting but take the short-acting",
+      "No — never stop insulin during illness; risk of DKA"
+    ],
+    answer: 3,
+    rationale: "Type 1 diabetics must NEVER stop insulin during illness — risk of DKA. Sick day rules: continue insulin, monitor glucose more frequently, check ketones, hydrate, and call provider if levels are unstable.",
+    others: {
+      0: "Stopping insulin causes DKA.",
+      1: "Major dose cuts during illness can precipitate DKA.",
+      2: "Both insulins are usually still needed."
+    }
+  },
+  {
+    section: "Endocrine",
+    type: "standard",
+    stem: "A patient on metformin is being prepared for a CT scan with IV contrast. What is the priority nursing action?",
+    options: [
+      "Give an extra dose of metformin pre-procedure",
+      "Hold metformin around the contrast administration",
+      "Switch to insulin permanently after the scan",
+      "Reduce the metformin dose by 50% afterward"
+    ],
+    answer: 1,
+    rationale: "Metformin is held around IV iodinated contrast (typically held the day of and 48 hours after) due to risk of contrast-induced nephropathy and lactic acidosis if AKI develops.",
+    others: {
+      0: "Extra dose increases risk.",
+      2: "Permanent switch is not standard.",
+      3: "Brief hold is the standard, not dose reduction."
+    }
+  },
+  {
+    section: "Endocrine",
+    type: "standard",
+    stem: "A patient newly started on levothyroxine asks when they should take it. What is the most accurate teaching?",
+    options: [
+      "With breakfast for better absorption",
+      "On an empty stomach 30-60 minutes before breakfast",
+      "With a calcium supplement at bedtime",
+      "Anytime — timing does not matter"
+    ],
+    answer: 1,
+    rationale: "Levothyroxine should be taken on an empty stomach 30-60 minutes before breakfast — food, calcium, iron, and antacids significantly reduce absorption.",
+    others: {
+      0: "Food reduces absorption.",
+      2: "Calcium reduces absorption.",
+      3: "Timing matters significantly."
+    }
+  },
+  {
+    section: "Endocrine",
+    type: "standard",
+    stem: "A patient is receiving insulin glargine (Lantus). The nurse should teach the patient that this insulin:",
+    options: [
+      "Is mixed with regular insulin in the same syringe",
+      "Has a peak effect 2-4 hours after injection",
+      "Has no peak — provides 24-hour basal coverage",
+      "Should be given with each meal as a bolus"
+    ],
+    answer: 2,
+    rationale: "Glargine (Lantus) is a long-acting basal insulin with NO peak — provides steady 24-hour coverage. Cannot be mixed with other insulins in the same syringe.",
+    others: {
+      0: "Glargine cannot be mixed.",
+      1: "Glargine has no peak.",
+      3: "Glargine is basal, not bolus."
+    }
+  },
+  {
+    section: "Endocrine",
+    type: "standard",
+    stem: "A patient with hyperthyroidism is starting methimazole. Which adverse effect is MOST critical to teach the patient to report?",
+    options: [
+      "Mild morning fatigue and lethargy",
+      "Mild weight gain over time",
+      "Slight increase in appetite",
+      "Sore throat, fever, or signs of infection"
+    ],
+    answer: 3,
+    rationale: "Methimazole carries a BBW for agranulocytosis. Patients must report sore throat, fever, or any signs of infection IMMEDIATELY — could indicate dangerous neutropenia.",
+    others: {
+      0: "Mild fatigue is common, not critical.",
+      1: "Weight gain is expected (improving from hyperthyroid state).",
+      2: "Increased appetite is expected."
+    }
+  },
+  {
+    section: "Endocrine",
+    type: "standard",
+    stem: "A patient with Addison's disease takes hydrocortisone daily. During an acute illness, what change is anticipated?",
+    options: [
+      "Increase the hydrocortisone dose (\"stress dose\")",
+      "Stop the hydrocortisone until illness resolves",
+      "Reduce the dose by 50% to prevent toxicity",
+      "No change is needed during illness"
+    ],
+    answer: 0,
+    rationale: "Addison's patients require STRESS DOSING of hydrocortisone during illness, surgery, or trauma — failure to do so can precipitate adrenal crisis (life-threatening).",
+    deepExplanation: "Patients should have an emergency injectable hydrocortisone kit and medical alert ID. Stress dosing is typically 2-3x the maintenance dose during illness.",
+    others: {
+      1: "Stopping causes adrenal crisis.",
+      2: "Reducing causes adrenal crisis.",
+      3: "Stress dosing IS needed."
+    }
+  },
+  {
+    section: "Endocrine",
+    type: "standard",
+    stem: "A patient is taking exogenous prednisone long-term. The nurse should teach the patient to:",
+    options: [
+      "Stop the medication abruptly when feeling better",
+      "Skip doses if blood pressure is normal",
+      "Taper the dose gradually under provider supervision",
+      "Double the dose if symptoms recur"
+    ],
+    answer: 2,
+    rationale: "Long-term steroids must be tapered gradually — abrupt discontinuation causes adrenal crisis because the adrenal glands are suppressed and need time to recover function.",
+    others: {
+      0: "Abrupt stop causes adrenal crisis.",
+      1: "Skipping causes withdrawal/crisis.",
+      3: "Doubling without provider input is unsafe."
+    }
+  },
+  {
+    section: "Endocrine",
+    type: "standard",
+    stem: "A patient on sulfonylurea (glipizide) reports tremors, sweating, and confusion 4 hours after dosing. What is the priority concern?",
+    options: [
+      "Acute pancreatitis from the medication",
+      "Hypoglycemia from sulfonylurea action",
+      "Severe allergic reaction to the medication",
+      "Acute hyperglycemic episode requiring dose increase"
+    ],
+    answer: 1,
+    rationale: "Sulfonylureas (glipizide, glyburide) stimulate insulin release and can cause hypoglycemia (tremors, sweating, confusion, hunger). Treat with fast-acting glucose; recheck in 15 minutes.",
+    others: {
+      0: "Pancreatitis presents with abdominal pain.",
+      2: "Allergic reactions present with rash, itching, anaphylaxis.",
+      3: "These are HYPOglycemia signs."
+    }
+  },
+  {
+    section: "Endocrine",
+    type: "standard",
+    stem: "A patient with diabetes insipidus is started on desmopressin (DDAVP). The nurse should monitor for which adverse effect?",
+    options: [
+      "Hyponatremia from water retention",
+      "Severe hypokalemia from diuresis",
+      "Persistent polyuria despite therapy",
+      "Acute hyperglycemia from drug effect"
+    ],
+    answer: 0,
+    rationale: "Desmopressin causes water retention to treat DI — but excess water retention dilutes sodium, causing hyponatremia. Monitor sodium levels and watch for symptoms (confusion, seizures).",
+    others: {
+      1: "DDAVP retains water, not increases potassium loss.",
+      2: "Persistent polyuria = drug not working.",
+      3: "Hyperglycemia is not a typical AE."
+    }
+  },
+  {
+    section: "Urinary/Repro",
+    type: "standard",
+    stem: "A patient is taking nitrofurantoin for a UTI. The patient asks why their urine is brown. What is the most accurate response?",
+    options: [
+      "This indicates serious kidney damage",
+      "You are dehydrated and need to drink more",
+      "Stop the antibiotic immediately",
+      "Brown urine is a normal harmless side effect"
+    ],
+    answer: 3,
+    rationale: "Nitrofurantoin causes harmless brown discoloration of urine — patients should be educated about this expected effect to prevent unnecessary alarm.",
+    others: {
+      0: "Brown urine on nitrofurantoin is benign.",
+      1: "Dehydration causes dark yellow, not brown.",
+      2: "No need to stop for color change."
+    }
+  },
+  {
+    section: "Urinary/Repro",
+    type: "standard",
+    stem: "A patient on phenazopyridine for UTI dysuria asks why their urine is bright orange. What is the most accurate response?",
+    options: [
+      "This is normal — phenazopyridine stains urine orange",
+      "Stop the medication and call the provider",
+      "Drink more water to prevent the color change",
+      "Switch to a different urinary analgesic now"
+    ],
+    answer: 0,
+    rationale: "Phenazopyridine causes bright orange-red urine discoloration — this is a normal and expected effect. Patients should also be told it stains contact lenses and clothing.",
+    others: {
+      1: "No need to stop.",
+      2: "Color is not from dehydration.",
+      3: "Switching is not needed."
+    }
+  },
+  {
+    section: "Urinary/Repro",
+    type: "standard",
+    stem: "A patient with BPH is taking tamsulosin. Which adverse effect should the patient be educated to watch for?",
+    options: [
+      "Severe hypertension on rising",
+      "Orthostatic hypotension and dizziness",
+      "Acute urinary retention worsening",
+      "Persistent hyperthermia and rigors"
+    ],
+    answer: 1,
+    rationale: "Tamsulosin is an alpha-1 blocker — causes orthostatic hypotension and dizziness, especially with the first dose. Patients should rise slowly and have first-dose precautions.",
+    others: {
+      0: "Causes hypotension, not hypertension.",
+      2: "Tamsulosin RELIEVES retention.",
+      3: "Hyperthermia is not a typical AE."
+    }
+  },
+  {
+    section: "Urinary/Repro",
+    type: "standard",
+    stem: "A patient is taking finasteride for BPH. The patient's pregnant wife asks if she can handle the tablets. What is the priority response?",
+    options: [
+      "\"Pregnant women must not handle crushed or broken tablets.\"",
+      "\"Crushed finasteride is safe for pregnant women.\"",
+      "\"Only handle the tablets with disposable gloves on.\"",
+      "\"Pregnant women can take the medication if needed.\""
+    ],
+    answer: 0,
+    rationale: "Finasteride is a known teratogen — pregnant women must not handle crushed or broken tablets due to risk of fetal genital malformations.",
+    others: {
+      1: "Crushed tablets are dangerous to handle in pregnancy.",
+      2: "Whole tablets in coating are safer; crushed are absorbed.",
+      3: "Pregnant women must not take it."
+    }
+  },
+  {
+    section: "Urinary/Repro",
+    type: "standard",
+    stem: "A patient is taking oxybutynin for overactive bladder. Which side effect is MOST common?",
+    options: [
+      "Severe acute hypertension",
+      "Profuse diaphoresis and salivation",
+      "Dry mouth and constipation",
+      "Severe persistent diarrhea"
+    ],
+    answer: 2,
+    rationale: "Oxybutynin is anticholinergic — classic anti-SLUD effects: dry mouth, constipation, urinary retention, blurred vision, dry eyes. Educate patients on managing dry mouth with hydration.",
+    others: {
+      0: "HTN is not the primary AE.",
+      1: "Anti-SLUD = OPPOSITE of these.",
+      3: "Constipation, not diarrhea."
+    }
+  },
+  {
+    section: "Urinary/Repro",
+    type: "standard",
+    stem: "A patient is being prescribed combined oral contraceptives. Which patient history is a CONTRAINDICATION?",
+    options: [
+      "Mild seasonal allergies and rhinitis",
+      "Well-controlled hypertension on monotherapy",
+      "History of DVT or thromboembolism",
+      "Routine annual gynecologic exam"
+    ],
+    answer: 2,
+    rationale: "Combined oral contraceptives (estrogen-containing) are contraindicated with history of DVT/PE/thromboembolism due to increased clotting risk. Other CIs include smokers >35yo, breast cancer, severe HTN.",
+    others: {
+      0: "Allergies are not a contraindication.",
+      1: "Well-controlled HTN may be acceptable.",
+      3: "Routine exam is not a CI."
+    }
+  },
+  {
+    section: "Urinary/Repro",
+    type: "standard",
+    stem: "A pregnant patient at 37 weeks is being induced with oxytocin. The nurse should monitor for which complication?",
+    options: [
+      "Tetanic contractions and uterine rupture risk",
+      "Decreased fetal heart rate baseline only",
+      "Mild maternal nausea and lower back pain",
+      "Slowed early labor progression always"
+    ],
+    answer: 0,
+    rationale: "Oxytocin can cause uterine hyperstimulation — tetanic contractions (>90 sec, <2 min apart) risk uterine rupture and fetal compromise. The infusion is stopped if hyperstimulation occurs.",
+    others: {
+      1: "FHR changes need full evaluation, not just baseline.",
+      2: "Mild N/V and back pain are routine labor.",
+      3: "Oxytocin accelerates, not slows labor."
+    }
+  },
+  {
+    section: "Urinary/Repro",
+    type: "standard",
+    stem: "A patient at 24 weeks gestation is in preterm labor. Which medication is used to STOP the contractions?",
+    options: [
+      "Oxytocin (Pitocin)",
+      "Methylergonovine",
+      "Misoprostol vaginal",
+      "Magnesium sulfate"
+    ],
+    answer: 3,
+    rationale: "Magnesium sulfate is the tocolytic of choice — relaxes uterine smooth muscle to stop preterm contractions. It is also used for fetal neuroprotection in preterm labor.",
+    others: {
+      0: "Oxytocin INDUCES, not stops, contractions.",
+      1: "Methergine treats postpartum hemorrhage.",
+      2: "Misoprostol RIPENS the cervix."
+    }
+  },
+  {
+    section: "Urinary/Repro",
+    type: "standard",
+    stem: "A postpartum patient has uterine atony with hemorrhage. The provider orders methylergonovine (Methergine). The nurse must verify which finding before administration?",
+    options: [
+      "Patient blood pressure is not elevated",
+      "Patient blood glucose is within range",
+      "Patient is no longer breastfeeding",
+      "Patient has voided in the last hour"
+    ],
+    answer: 0,
+    rationale: "Methylergonovine causes vasoconstriction and is contraindicated in HTN — administering to a hypertensive patient can cause severe HTN, stroke, or MI. Always verify BP before giving.",
+    others: {
+      1: "Glucose is not the primary check.",
+      2: "Methergine is OK in lactation.",
+      3: "Voiding is not the priority check."
+    }
+  },
+  {
+    section: "Urinary/Repro",
+    type: "standard",
+    stem: "A patient on magnesium sulfate develops absent deep tendon reflexes, RR of 8, and confusion. What is the priority action?",
+    options: [
+      "Continue the infusion at the current rate",
+      "Stop the infusion and prepare calcium gluconate",
+      "Increase the infusion to overcome resistance",
+      "Switch to a different tocolytic agent"
+    ],
+    answer: 1,
+    rationale: "Absent DTRs, RR <12, and confusion = MAGNESIUM TOXICITY. Stop the infusion and prepare CALCIUM GLUCONATE (the antidote). Continuous monitoring required.",
+    others: {
+      0: "Continuing worsens toxicity.",
+      2: "Increasing causes severe toxicity.",
+      3: "The toxicity must be reversed first."
+    }
+  },
+  {
+    section: "Urinary/Repro",
+    type: "standard",
+    stem: "A patient is starting trimethoprim-sulfamethoxazole (Bactrim) for a UTI. Which patient history is a contraindication?",
+    options: [
+      "Mild seasonal allergies and rhinitis",
+      "Routine annual physical findings",
+      "Sulfa drug allergy with prior reaction",
+      "Mild lactose intolerance with dairy"
+    ],
+    answer: 2,
+    rationale: "Bactrim contains sulfamethoxazole (a sulfa drug) — contraindicated in patients with sulfa allergy. May cause Stevens-Johnson syndrome or other severe reactions.",
+    others: {
+      0: "Mild allergies are not a contraindication.",
+      1: "Routine findings are not relevant.",
+      3: "Lactose intolerance is not relevant."
+    }
+  },
+  {
+    section: "Wild Card",
+    type: "standard",
+    stem: "A nurse is preparing to administer multiple medications. Which medication should be given on an EMPTY stomach?",
+    options: [
+      "Metformin for type 2 diabetes",
+      "Aspirin 81 mg for cardiac prevention",
+      "Sertraline for depression",
+      "Levothyroxine for hypothyroidism"
+    ],
+    answer: 3,
+    rationale: "Levothyroxine must be taken on an empty stomach 30-60 minutes before breakfast — food significantly reduces absorption. Oxymorphone also requires empty stomach.",
+    others: {
+      0: "Metformin is taken with meals to reduce GI upset.",
+      1: "Aspirin is taken with food to reduce GI bleeding.",
+      2: "Sertraline can be taken with or without food."
+    }
+  },
+  {
+    section: "Wild Card",
+    type: "standard",
+    stem: "A patient has the following list of medications. Which combination is MOST concerning for serotonin syndrome?",
+    options: [
+      "Lisinopril + atorvastatin + aspirin",
+      "Fluoxetine + tramadol + methylene blue",
+      "Metformin + glipizide + insulin",
+      "Levothyroxine + calcium + vitamin D"
+    ],
+    answer: 1,
+    rationale: "Fluoxetine (SSRI), tramadol (serotonergic opioid), AND methylene blue (MAOI properties) all increase serotonin — a triple combination at high risk for serotonin syndrome.",
+    others: {
+      0: "Cardiovascular drugs, no serotonin risk.",
+      2: "Diabetes drugs, no serotonin risk.",
+      3: "Endocrine/supplements, no serotonin risk."
+    }
+  },
+  {
+    section: "Wild Card",
+    type: "standard",
+    stem: "A patient is at risk for which complication when prescribed a NEW medication carrying a black box warning for QT prolongation?",
+    options: [
+      "Acute myocardial infarction",
+      "Severe peripheral neuropathy",
+      "Sudden cardiac death from torsades de pointes",
+      "Acute liver failure within 48 hours"
+    ],
+    answer: 2,
+    rationale: "QT prolongation predisposes to torsades de pointes (a polymorphic VT) — can degenerate to VF and sudden cardiac death. Methadone, haloperidol, and certain SSRIs/antibiotics carry this BBW.",
+    others: {
+      0: "MI is not the QT prolongation risk.",
+      1: "Neuropathy is not the QT issue.",
+      3: "Liver failure is not the QT issue."
+    }
+  },
+  {
+    section: "Wild Card",
+    type: "sata",
+    stem: "A nurse is reviewing medications that should NOT be crushed or chewed. Select all that apply.",
+    options: [
+      "Oxymorphone extended-release tablets",
+      "Standard immediate-release acetaminophen",
+      "Morphine sulfate ER capsules",
+      "Plain regular aspirin tablets",
+      "Methylphenidate ER (Concerta)",
+      "Standard ibuprofen tablets"
+    ],
+    answerArr: [0,2,4],
+    rationale: "NEVER crush extended-release formulations — destroys the controlled-release mechanism, causes dose dumping, and may be fatal. Standard immediate-release and plain tablets can typically be split or crushed.",
+    perOptionExplanations: {
+      0: "<strong>Oxymorphone ER</strong> — abuse-deterrent, must be swallowed whole.",
+      2: "<strong>Morphine sulfate ER</strong> — extended-release; alcohol BBW; never crush.",
+      4: "<strong>Methylphenidate ER (Concerta)</strong> — OROS technology destroyed by crushing."
+    },
+    others: {
+      1: "Standard acetaminophen can be crushed.",
+      3: "Plain aspirin can be crushed (enteric-coated cannot).",
+      5: "Standard ibuprofen can be crushed."
+    }
+  },
+  {
+    section: "Wild Card",
+    type: "standard",
+    stem: "A patient is being educated on a new medication. Which statement BEST demonstrates understanding of \"first-pass effect\"?",
+    options: [
+      "The drug works fastest after the first dose",
+      "The drug crosses the blood-brain barrier first",
+      "The first cycle of chemo is the most effective",
+      "The drug is metabolized before reaching circulation"
+    ],
+    answer: 3,
+    rationale: "First-pass effect = oral medication metabolized by the liver BEFORE reaching systemic circulation. This reduces bioavailability and is why some drugs require higher PO doses than IV equivalents.",
+    others: {
+      0: "Not about onset speed.",
+      1: "BBB crossing is a different concept.",
+      2: "First-order kinetics is different."
+    }
+  },
+  {
+    section: "Wild Card",
+    type: "standard",
+    stem: "A patient on multiple medications develops new severe rash, fever, and mouth ulcerations. What is the priority concern?",
+    options: [
+      "Stevens-Johnson syndrome — medical emergency",
+      "Mild side effect that will self-resolve",
+      "Routine viral infection unrelated to drugs",
+      "Normal stress response to medication"
+    ],
+    answer: 0,
+    rationale: "Severe rash + fever + mucosal lesions = Stevens-Johnson syndrome (SJS) — a life-threatening drug reaction. Common triggers include sulfa drugs, anticonvulsants (phenytoin, carbamazepine), and allopurinol. Stop the drug and provide intensive care.",
+    others: {
+      1: "SJS is a medical emergency, not mild.",
+      2: "Drug reaction is more likely with this constellation.",
+      3: "Not a stress response."
+    }
+  },
+  {
+    section: "Wild Card",
+    type: "standard",
+    stem: "A nurse is educating a patient on safe medication storage at home. Which statement requires correction?",
+    options: [
+      "\"I will keep medications in their original labeled containers.\"",
+      "\"I will store fentanyl patches in my child's reach for emergencies.\"",
+      "\"I will check expiration dates before taking any medication.\"",
+      "\"I will keep medications in a locked cabinet away from children.\""
+    ],
+    answer: 1,
+    rationale: "Fentanyl patches MUST be stored away from children and pets — even used patches contain fatal amounts of drug. NEVER store within child's reach.",
+    others: {
+      0: "Original containers preserve labeling and identity.",
+      2: "Checking expiration is correct.",
+      3: "Locked storage prevents diversion and accidental exposure."
+    }
+  },
+  {
+    section: "Wild Card",
+    type: "standard",
+    stem: "A patient is taking warfarin and reports they have started taking a new herbal supplement. Which supplement is MOST concerning?",
+    options: [
+      "Calcium carbonate for bone health",
+      "Glucosamine for joint health support",
+      "Vitamin D3 for general immune health",
+      "Ginkgo biloba for memory support"
+    ],
+    answer: 3,
+    rationale: "Ginkgo biloba has antiplatelet effects — combined with warfarin, dramatically increases bleeding risk. Other concerning herbals: ginger, garlic, ginseng, fish oil, vitamin E.",
+    others: {
+      0: "Calcium has no significant warfarin interaction.",
+      1: "Glucosamine is not a major bleeding risk.",
+      2: "Vitamin D is generally safe."
+    }
+  }
+
+];
+
+// === QUIZ ENGINE ===
+const TOTAL = questions.length;
+let currentQ = 0;
+let totalPoints = 0;
+let answers = [];
+
+function startQuiz() {
+  document.getElementById('start-screen').style.display = 'none';
+  document.getElementById('quiz-container').style.display = 'block';
+  showQuestion();
+}
+
+function showQuestion() {
+  if (currentQ >= TOTAL) { showResults(); return; }
+  const q = questions[currentQ];
+  document.getElementById('progress-text').textContent = `Question ${currentQ + 1} / ${TOTAL}`;
+  document.getElementById('progress-fill').style.width = `${((currentQ) / TOTAL) * 100}%`;
+  document.getElementById('score-text').textContent = `Score: ${totalPoints.toFixed(1)}`;
+
+  const area = document.getElementById('question-area');
+  let html = `<div class="question-card">
+    <div class="q-number">Question ${currentQ + 1} of ${TOTAL}</div>
+    <span class="q-section-tag">${q.section}</span>
+    <div class="q-stem">${q.stem}</div>`;
+  if (q.type === 'sata') html += `<div style="font-family:'DM Mono', monospace; font-size:12px; color:var(--purple); margin-bottom:12px;">SELECT ALL THAT APPLY</div>`;
+  html += `<div class="options" id="options-list">`;
+  q.options.forEach((opt, i) => {
+    const letter = String.fromCharCode(65 + i);
+    html += `<button class="option" data-idx="${i}" onclick="toggleOption(${i})">
+      <span class="option-letter">${letter}</span>
+      <span>${opt}</span>
+    </button>`;
+  });
+  html += `</div>
+    <button class="submit-btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit Answer</button>
+    <div class="rationale" id="rationale"></div>
+  </div>`;
+  area.innerHTML = html;
+}
+
+let selectedIdx = q_type_is_sata() ? [] : null;
+
+function q_type_is_sata() { return questions[currentQ] && questions[currentQ].type === 'sata'; }
+
+function toggleOption(i) {
+  const q = questions[currentQ];
+  const opts = document.querySelectorAll('.option');
+  if (q.type === 'sata') {
+    if (!Array.isArray(selectedIdx)) selectedIdx = [];
+    const pos = selectedIdx.indexOf(i);
+    if (pos >= 0) {
+      selectedIdx.splice(pos, 1);
+      opts[i].classList.remove('selected');
+    } else {
+      selectedIdx.push(i);
+      opts[i].classList.add('selected');
+    }
+    document.getElementById('submit-btn').disabled = selectedIdx.length === 0;
+  } else {
+    selectedIdx = i;
+    opts.forEach(o => o.classList.remove('selected'));
+    opts[i].classList.add('selected');
+    document.getElementById('submit-btn').disabled = false;
+  }
+}
+
+function submitAnswer() {
+  const q = questions[currentQ];
+  const opts = document.querySelectorAll('.option');
+  opts.forEach(o => { o.disabled = true; o.onclick = null; });
+  document.getElementById('submit-btn').style.display = 'none';
+
+  let pts = 0;
+  let verdict = '';
+  let userAnswer = null;
+
+  if (q.type === 'sata') {
+    const correct = q.answerArr;
+    const selected = Array.isArray(selectedIdx) ? selectedIdx : [];
+    let correctSelected = 0, wrongSelected = 0;
+    selected.forEach(s => { if (correct.includes(s)) correctSelected++; else wrongSelected++; });
+    pts = Math.max(0, (correctSelected - wrongSelected) / correct.length);
+    if (pts === 1) verdict = 'correct';
+    else if (pts > 0) verdict = 'partial';
+    else verdict = 'wrong';
+
+    opts.forEach((o, i) => {
+      const isCorr = correct.includes(i);
+      const isSel = selected.includes(i);
+      if (isCorr && isSel) o.classList.add('correct');
+      else if (isCorr && !isSel) o.classList.add('missed');
+      else if (!isCorr && isSel) o.classList.add('wrong');
+    });
+    userAnswer = selected;
+  } else {
+    if (selectedIdx === q.answer) { pts = 1; verdict = 'correct'; }
+    else { pts = 0; verdict = 'wrong'; }
+    opts.forEach((o, i) => {
+      if (i === q.answer) o.classList.add('correct');
+      else if (i === selectedIdx) o.classList.add('wrong');
+    });
+    userAnswer = selectedIdx;
+  }
+
+  totalPoints += pts;
+  answers.push({ q, userAnswer, pts, verdict });
+  document.getElementById('score-text').textContent = `Score: ${totalPoints.toFixed(1)}`;
+
+  showRationale(q, verdict, pts);
+}
+
+function showRationale(q, verdict, pts) {
+  const r = document.getElementById('rationale');
+  let verdictTxt = verdict === 'correct' ? 'Correct' : verdict === 'partial' ? `Partial (${pts.toFixed(2)})` : 'Incorrect';
+  let html = `<span class="verdict ${verdict}">${verdictTxt}</span>`;
+
+  if (q.type === 'sata') {
+    html += `<div class="sata-legend">
+      <span><span class="legend-dot green"></span>Correct &amp; selected</span>
+      <span><span class="legend-dot yellow"></span>Correct but missed</span>
+      <span><span class="legend-dot red"></span>Incorrect &amp; selected</span>
+    </div>`;
+    html += `<h4>Why these are correct</h4>`;
+    q.answerArr.forEach(i => {
+      html += `<div class="correct-answer-display">${q.options[i]}<br><small style="color:var(--ink-soft);">${q.perOptionExplanations[i]}</small></div>`;
+    });
+    html += `<p>${q.rationale}</p>`;
+    if (q.others && Object.keys(q.others).length > 0) {
+      html += `<h4>Why the others are wrong</h4><ul class="others-list">`;
+      Object.keys(q.others).forEach(k => {
+        html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+      });
+      html += `</ul>`;
+    }
+  } else {
+    html += `<div class="correct-answer-display"><strong>Correct answer:</strong> ${q.options[q.answer]}</div>
+      <p>${q.rationale}</p>`;
+    if (q.deepExplanation) html += `<h4>The clinical reasoning</h4><p>${q.deepExplanation}</p>`;
+    if (q.others && Object.keys(q.others).length > 0) {
+      html += `<h4>Why the others are wrong</h4><ul class="others-list">`;
+      Object.keys(q.others).forEach(k => {
+        html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+      });
+      html += `</ul>`;
+    }
+  }
+  html += `<button class="next-btn" onclick="nextQuestion()">${currentQ + 1 >= TOTAL ? 'See Results' : 'Next →'}</button>`;
+  r.innerHTML = html;
+  r.classList.add('show');
+}
+
+function nextQuestion() {
+  currentQ++;
+  selectedIdx = q_type_is_sata() ? [] : null;
+  showQuestion();
+}
+
+function showResults() {
+  document.getElementById('quiz-container').style.display = 'none';
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  const passed = pct >= 77;
+
+  let perfMsg = '';
+  if (pct >= 90) perfMsg = 'Excellent. You are exam-ready with a strong margin above pass.';
+  else if (pct >= 85) perfMsg = 'Strong performance. You\'re comfortably above pass — review missed concepts as polish.';
+  else if (pct >= 77) perfMsg = 'You passed. Review your missed sections carefully — the real exam may shift questions slightly.';
+  else if (pct >= 70) perfMsg = 'Below pass threshold. Re-study weak sections and retake. The actual final won\'t be more forgiving.';
+  else perfMsg = 'Significant gaps. Re-read your missed sections from review sheets and complete topic quizzes again before retaking.';
+
+  // Section breakdown
+  const sectionStats = {};
+  answers.forEach(a => {
+    const s = a.q.section;
+    if (!sectionStats[s]) sectionStats[s] = { correct: 0, total: 0, points: 0 };
+    sectionStats[s].total++;
+    sectionStats[s].points += a.pts;
+    if (a.verdict === 'correct') sectionStats[s].correct++;
+  });
+
+  let breakdownHtml = '<div class="section-breakdown"><h3>Section breakdown</h3>';
+  const sectionOrder = ['Hem/Onc', 'Pain', 'Neuro', 'Psych', 'Endocrine', 'Urinary/Repro', 'Wild Card'];
+  sectionOrder.forEach(s => {
+    if (sectionStats[s]) {
+      const stat = sectionStats[s];
+      const sPct = Math.round((stat.points / stat.total) * 100);
+      breakdownHtml += `<div class="section-row">
+        <span class="name">${s}</span>
+        <span class="stats"><strong>${stat.points.toFixed(1)}/${stat.total}</strong> · ${sPct}%</span>
+      </div>`;
+    }
+  });
+  breakdownHtml += '</div>';
+
+  let missedHtml = '';
+  const missed = answers.filter(a => a.verdict !== 'correct');
+  if (missed.length > 0) {
+    missedHtml = `<div class="missed-list"><h3>Missed questions (${missed.length})</h3>`;
+    missed.forEach(m => {
+      const ans = m.q.type === 'sata' ? m.q.answerArr.map(i => m.q.options[i]).join('; ') : m.q.options[m.q.answer];
+      missedHtml += `<div class="missed-item">
+        <span class="section-tag-pill">${m.q.section}</span>
+        <div class="preview">${m.q.stem}</div>
+        <div class="answer-line">→ ${ans}</div>
+        <div class="rationale-line">${m.q.rationale}</div>
+      </div>`;
+    });
+    missedHtml += `</div>`;
+  }
+
+  const today = new Date().toLocaleDateString();
+  localStorage.setItem('score_exam_simulator', JSON.stringify({
+    pct, pts: totalPoints.toFixed(1), total: TOTAL, date: today
+  }));
+
+  document.getElementById('results-area').innerHTML = `
+    <div class="results-card">
+      <span class="badge" style="background:var(--navy);color:white;">⚖ Exam Simulator Complete</span>
+      <div class="results-score">${totalPoints.toFixed(1)} / ${TOTAL}</div>
+      <div class="results-pct">${pct}%</div>
+      <div class="results-pass-fail ${passed ? 'pass' : 'fail'}">${passed ? '✓ Passed (≥77%)' : '✗ Below pass threshold'}</div>
+      <div class="perf-msg">${perfMsg}</div>
+      ${breakdownHtml}
+      ${missedHtml}
+      <button class="retry-btn" onclick="location.reload()">Retake Simulator</button>
+    </div>
+  `;
+  document.getElementById('results-area').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
