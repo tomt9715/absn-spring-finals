@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 30 Hematologic Disorders — Knowledge Check</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0a2540; --navy-soft: #1a3a5c;
+  --teal: #0d9488; --teal-pale: #f0fdfa;
+  --purple: #7c3aed; --purple-pale: #f5f3ff;
+  --gold: #f59e0b; --ink: #1a1a1a; --ink-soft: #3a3a3a; --muted: #6b7280;
+  --bg: #fafaf7; --card: #ffffff; --line: #e5e0d5;
+  --correct: #059669; --correct-bg: #ecfdf5;
+  --wrong: #dc2626; --wrong-bg: #fef2f2;
+  --partial: #d97706; --partial-bg: #fffbeb;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; padding: 32px 16px 80px; min-height: 100vh; }
+.container { max-width: 760px; margin: 0 auto; }
+.eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1.5px; color: var(--teal); text-transform: uppercase; margin-bottom: 12px; }
+h1 { font-family: 'DM Serif Display', serif; font-size: 36px; color: var(--navy); margin-bottom: 8px; line-height: 1.15; }
+.tagline { color: var(--muted); margin-bottom: 32px; font-size: 16px; }
+.start-card, .question-card, .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 32px; margin-bottom: 24px; }
+.start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0; }
+.start-stat { border: 1px solid var(--line); border-radius: 4px; padding: 16px; text-align: center; }
+.start-stat-num { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--teal); display: block; }
+.start-stat-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px; color: var(--muted); text-transform: uppercase; margin-top: 4px; }
+.btn { background: var(--teal); color: white; border: none; padding: 14px 32px; font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 600; border-radius: 4px; cursor: pointer; transition: background 0.15s; }
+.btn:hover { background: #0b7a70; }
+.btn:disabled { background: var(--muted); cursor: not-allowed; }
+.btn-secondary { background: var(--navy); }
+.btn-secondary:hover { background: var(--navy-soft); }
+.progress-bar { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; margin-bottom: 24px; }
+.progress-fill { height: 100%; background: var(--teal); transition: width 0.3s; }
+.q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
+.q-stem { font-size: 18px; color: var(--ink); margin-bottom: 24px; line-height: 1.5; }
+.options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+.option { border: 1.5px solid var(--line); border-radius: 6px; padding: 14px 18px; cursor: pointer; transition: all 0.15s; background: var(--card); font-size: 15px; display: flex; align-items: flex-start; gap: 12px; }
+.option:hover:not(.locked) { border-color: var(--teal); background: var(--teal-pale); }
+.option.selected { border-color: var(--teal); background: var(--teal-pale); }
+.option.correct { border-color: var(--correct); background: var(--correct-bg); }
+.option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+.option-letter { font-family: 'DM Mono', monospace; font-weight: 500; color: var(--muted); min-width: 18px; }
+.option.correct .option-letter { color: var(--correct); }
+.option.wrong .option-letter { color: var(--wrong); }
+.rationale { background: var(--teal-pale); border-left: 3px solid var(--teal); padding: 16px 20px; border-radius: 0 6px 6px 0; margin-bottom: 20px; font-size: 14px; line-height: 1.6; }
+.rationale strong { color: var(--navy); }
+.concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.5px; background: var(--teal); color: white; padding: 3px 10px; border-radius: 100px; margin-bottom: 10px; text-transform: uppercase; }
+.others-list { margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); font-size: 13px; color: var(--ink-soft); }
+.others-list div { margin-bottom: 6px; }
+.btn-row { display: flex; gap: 12px; justify-content: flex-end; }
+.results-score { font-family: 'DM Serif Display', serif; font-size: 56px; text-align: center; margin: 12px 0; }
+.results-score.pass { color: var(--correct); }
+.results-score.borderline { color: var(--partial); }
+.results-score.fail { color: var(--wrong); }
+.results-pts { font-family: 'DM Mono', monospace; text-align: center; color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+.perf-msg { text-align: center; margin: 16px 0 32px; font-size: 16px; color: var(--ink-soft); font-style: italic; }
+.missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+.missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+.missed-item .stem { font-weight: 500; margin-bottom: 8px; }
+.missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+.missed-item .rat { color: var(--ink-soft); font-size: 13px; }
+.back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+.hidden { display: none; }
+</style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Knowledge Check · Chapter 30</div>
+  <h1>Hematologic Disorders</h1>
+  <p class="tagline">Direct recall: polycythemia vera and the four leukemias (AML, CML, ALL, CLL).</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">25</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">MC</span><span class="start-stat-label">Format</span></div>
+      <div class="start-stat"><span class="start-stat-num">Yes</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">Each question is direct recall from your review guides. Answer, get instant rationale, move on.</p>
+    <button class="btn" onclick="begin()">Begin</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 25</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Knowledge Check</div>
+    <h1>Hematologic Disorders</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 25 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Quiz</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'What is the underlying pathophysiology of polycythemia vera?',
+    options: [
+      'Decreased white blood cell production',
+      'Increased volume of red blood cells',
+      'Defective platelet function only',
+      'Bone marrow failure of all cell lines'
+    ],
+    answer: 1,
+    concept: 'Polycythemia Vera Patho',
+    rationale: 'Polycythemia vera is characterized by an increased volume of RBCs. This thickens the blood and increases clot risk.',
+    others: {
+      0: 'Polycythemia is RBC excess, not WBC deficiency.',
+      2: 'Platelet defects describe other disorders, not polycythemia.',
+      3: 'Bone marrow failure describes aplastic anemia.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A patient with mild polycythemia vera asks about treatment. What is the appropriate response?',
+    options: [
+      'Aggressive chemotherapy is required immediately',
+      'No treatment is needed if the disease is mild',
+      'Bone marrow transplant is the only option',
+      'Immediate platelet transfusion is required'
+    ],
+    answer: 1,
+    concept: 'Mild PV Management',
+    rationale: 'No treatment is needed for mild polycythemia vera. The disease is monitored. Treatment escalates only if symptoms worsen.',
+    others: {
+      0: 'Aggressive chemo is not first-line in mild disease.',
+      2: 'BMT is reserved for severe or refractory cases.',
+      3: 'Polycythemia is excess RBCs, not platelet issue requiring transfusion.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'Which procedure is used to treat moderate-to-severe polycythemia vera?',
+    options: [
+      'Therapeutic phlebotomy',
+      'Packed RBC transfusion',
+      'Iron supplementation',
+      'Platelet apheresis'
+    ],
+    answer: 0,
+    concept: 'Therapeutic Phlebotomy',
+    rationale: 'Therapeutic phlebotomy involves the HCP removing blood from a vein. The goal is to lower the number of blood cells (specifically RBCs) in polycythemia vera.',
+    others: {
+      1: 'Transfusion adds RBCs — opposite of what is needed.',
+      2: 'Iron raises Hgb production — contraindicated in PV.',
+      3: 'Platelet apheresis is for thrombocytosis, not RBC excess.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'What are the classic signs and symptoms of polycythemia vera?',
+    options: [
+      'Fatigue and pallor',
+      'Petechiae and easy bruising',
+      'Headache and dizziness',
+      'High fever and sore throat'
+    ],
+    answer: 2,
+    concept: 'PV S/S',
+    rationale: 'Classic signs of polycythemia vera are headache and dizziness, caused by thickened blood and reduced cerebral perfusion.',
+    others: {
+      0: 'Fatigue and pallor are anemia signs.',
+      1: 'Petechiae and bruising signal thrombocytopenia.',
+      3: 'Fever and sore throat suggest leukopenia.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'Which leukemia is most common in adults?',
+    options: [
+      'Acute Myeloid Leukemia (AML)',
+      'Chronic Myeloid Leukemia (CML)',
+      'Acute Lymphocytic Leukemia (ALL)',
+      'Hodgkin Lymphoma'
+    ],
+    answer: 0,
+    concept: 'AML Demographics',
+    rationale: 'AML is the most common adult leukemia, with peak incidence around age 67. CLL is the most prevalent overall in adults but AML is most common acute form.',
+    others: {
+      1: 'CML is rare under 20 (mean age 64) but less common than AML.',
+      2: 'ALL is the most common pediatric leukemia.',
+      3: 'Hodgkin lymphoma is a different cancer (lymphoma, not leukemia).'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A patient with AML presents with fever, fatigue, bleeding, bone pain, and gum hyperplasia. The CBC shows decreased RBCs and platelets. What is the underlying mechanism?',
+    options: [
+      'Defect in stem cells affecting all myeloid lines',
+      'Proliferation of immature lymphoid cells only',
+      'B lymphocyte malignant clone',
+      'Loss of clotting factor production'
+    ],
+    answer: 0,
+    concept: 'AML Patho',
+    rationale: 'AML is a defect in stem cells affecting all myeloid lines (monocytes, granulocytes, erythrocytes, platelets). This is the most common nonlymphocytic leukemia.',
+    others: {
+      1: 'Lymphoid proliferation describes ALL.',
+      2: 'B lymphocyte clone describes CLL.',
+      3: 'Clotting factor loss is hemophilia.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'What are the major causes of death in AML?',
+    options: [
+      'Stroke and pulmonary embolism',
+      'Infection and bleeding',
+      'Renal failure and dehydration',
+      'Cardiac arrest and seizures'
+    ],
+    answer: 1,
+    concept: 'AML Mortality',
+    rationale: 'Major causes of death in AML are infection (from low WBC) and bleeding (from low platelets). 5-year survival is around 26%.',
+    others: {
+      0: 'Stroke and PE are not the primary AML causes of death.',
+      2: 'Renal failure is not the primary cause.',
+      3: 'Cardiac arrest is not the primary cause.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'What is the main treatment approach for AML?',
+    options: [
+      'Watch and wait without treatment',
+      'Aggressive induction chemotherapy and HSCT',
+      'Iron and B12 supplementation',
+      'Daily aspirin therapy alone'
+    ],
+    answer: 1,
+    concept: 'AML Treatment',
+    rationale: 'AML treatment is aggressive: induction chemotherapy, hematopoietic stem cell transplant (HSCT), and supportive care.',
+    others: {
+      0: 'Watch and wait is for early CLL, not AML.',
+      2: 'Vitamins do not treat leukemia.',
+      3: 'Aspirin is not a leukemia treatment.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'What is the underlying pathophysiology of CML?',
+    options: [
+      'Defect affecting all myeloid stem cell lines',
+      'Proliferation of immature lymphoid stem cells',
+      'Bone marrow failure of all cell production',
+      'Myeloid stem cell mutation causing uncontrolled proliferation'
+    ],
+    answer: 3,
+    concept: 'CML Patho',
+    rationale: 'CML involves a myeloid stem cell mutation causing uncontrolled proliferation. The Philadelphia chromosome (BCR-ABL fusion) is the genetic hallmark.',
+    others: {
+      0: 'Defect affecting all myeloid lines describes AML.',
+      1: 'Lymphoid stem cell proliferation describes ALL.',
+      2: 'Bone marrow failure describes aplastic anemia.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A patient with CML is asymptomatic and has incidental leukocytosis on CBC. Which stage does this represent?',
+    options: [
+      'Chronic stage',
+      'Accelerated stage',
+      'Blast stage',
+      'Terminal stage'
+    ],
+    answer: 0,
+    concept: 'CML Chronic Stage',
+    rationale: 'The chronic stage of CML is characterized by slow growth and mild symptoms. Patients are often asymptomatic with incidental WBC elevation on CBC.',
+    others: {
+      1: 'Accelerated stage shows rapid growth and severe symptoms with therapy resistance.',
+      2: 'Blast stage is highly aggressive with organ metastasis.',
+      3: '"Terminal" is not a recognized CML stage.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'What is the primary treatment for CML?',
+    options: [
+      'IVIG monthly infusions',
+      'Therapeutic phlebotomy weekly',
+      'Imatinib mesylate (Gleevec)',
+      'Daily corticosteroids only'
+    ],
+    answer: 2,
+    concept: 'CML Primary Tx',
+    rationale: 'Imatinib mesylate (Gleevec) is the primary treatment for CML. It blocks BCR-ABL signaling — the genetic driver. Chemo and HSCT are also used.',
+    others: {
+      0: 'IVIG is used in immune deficiencies and CLL with infections.',
+      1: 'Phlebotomy is for polycythemia vera.',
+      3: 'Corticosteroids alone are not standard.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'Which leukemia is the most common pediatric leukemia, with peak incidence at age 4?',
+    options: [
+      'AML',
+      'CML',
+      'ALL',
+      'CLL'
+    ],
+    answer: 2,
+    concept: 'ALL Demographics',
+    rationale: 'ALL (Acute Lymphocytic Leukemia) is the most common pediatric leukemia, peaking around age 4 and affecting boys more often.',
+    others: {
+      0: 'AML peaks around age 67 (adult).',
+      1: 'CML is rare under 20 (mean age 64).',
+      3: 'CLL has mean age 72 (adults only).'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A child with ALL presents with bone pain, hepatosplenomegaly, and frequent headaches with vomiting. The headaches/vomiting indicate which complication?',
+    options: [
+      'Migraine headaches unrelated to leukemia',
+      'Side effect of routine chemotherapy',
+      'CNS involvement of ALL',
+      'Acute appendicitis'
+    ],
+    answer: 2,
+    concept: 'ALL CNS Involvement',
+    rationale: 'CNS involvement is common in ALL, presenting with headaches and vomiting from leukemic cells in the central nervous system.',
+    others: {
+      0: 'Sudden persistent headaches in ALL are not migraine.',
+      1: 'Chemo side effects depend on drug; CNS symptoms in ALL more often = disease.',
+      3: 'Appendicitis presents with abdominal pain pattern.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'What is the prognosis for ALL in children compared to adults?',
+    options: [
+      '85% in children, less than 45% in adults',
+      'Equal prognosis (~50%) in both groups',
+      'Better in adults than in children',
+      'Universally poor in both groups (<10%)'
+    ],
+    answer: 0,
+    concept: 'ALL Prognosis',
+    rationale: 'ALL prognosis is much better in children (85%) than adults (<45%). Pediatric protocols have made ALL one of the most curable childhood cancers.',
+    others: {
+      1: 'Prognosis differs significantly by age.',
+      2: 'Children have BETTER prognosis than adults.',
+      3: 'Childhood ALL has favorable prognosis.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'Which medications are used in ALL treatment?',
+    options: [
+      'Phlebotomy and B12 supplements daily',
+      'Iron and folate supplementation regimens',
+      'Antiviral medications administered weekly',
+      'Chemo, HSCT, monoclonal antibodies, steroids'
+    ],
+    answer: 3,
+    concept: 'ALL Treatment',
+    rationale: 'ALL is treated with chemotherapy, HSCT, monoclonal antibodies, and corticosteroids — a multi-modal approach yielding strong pediatric outcomes.',
+    others: {
+      0: 'Phlebotomy is for polycythemia.',
+      1: 'Iron/folate treat anemias, not leukemia.',
+      2: 'Antivirals do not treat leukemia.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'What is the underlying pathophysiology of CLL?',
+    options: [
+      'Defect in stem cells affecting all myeloid lines',
+      'Myeloid stem cell mutation with proliferation',
+      'Proliferation of immature lymphoid stem cells',
+      'Malignant clone of B lymphocytes'
+    ],
+    answer: 3,
+    concept: 'CLL Patho',
+    rationale: 'CLL involves a malignant clone of B lymphocytes. It is the most prevalent adult leukemia (mean age 72).',
+    others: {
+      0: 'Myeloid stem cell defect describes AML.',
+      1: 'Myeloid mutation with uncontrolled proliferation describes CML.',
+      2: 'Immature lymphoid stem cell proliferation describes ALL.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A patient with CLL presents with fever, drenching night sweats, and unintentional weight loss. What are these called?',
+    options: [
+      '"B Symptoms"',
+      'Cushing\'s triad',
+      'Beck\'s triad',
+      'Virchow\'s triad'
+    ],
+    answer: 0,
+    concept: 'B Symptoms',
+    rationale: '"B Symptoms" — fever, night sweats, and unintentional weight loss — are characteristic of CLL and lymphomas. Their presence affects staging and prognosis.',
+    others: {
+      1: 'Cushing\'s triad is for increased intracranial pressure.',
+      2: 'Beck\'s triad is for cardiac tamponade.',
+      3: 'Virchow\'s triad describes thrombosis risk factors.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'What is the typical management approach for early-stage CLL?',
+    options: [
+      'Aggressive chemotherapy immediately',
+      '"Watch and wait" monitoring',
+      'Bone marrow transplant within 30 days',
+      'Phlebotomy weekly'
+    ],
+    answer: 1,
+    concept: 'CLL Watch and Wait',
+    rationale: 'Early-stage CLL uses "watch and wait" monitoring. Treatment is held until disease progression. Survival ranges 2-14 years.',
+    others: {
+      0: 'Aggressive chemo is for advanced stages.',
+      2: 'BMT is not first-line for early CLL.',
+      3: 'Phlebotomy is for polycythemia vera.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A CLL patient has frequent infections. Which medication may be used to prevent recurrent infection?',
+    options: [
+      'Iron supplementation orally',
+      'Daily aspirin therapy',
+      'Therapeutic phlebotomy',
+      'IVIG (intravenous immunoglobulin)'
+    ],
+    answer: 3,
+    concept: 'IVIG in CLL',
+    rationale: 'CLL patients have impaired antibody production. IVIG (intravenous immunoglobulin) is used to prevent recurrent infections in CLL with hypogammaglobulinemia.',
+    others: {
+      0: 'Iron does not prevent infections.',
+      1: 'Aspirin does not prevent infections.',
+      2: 'Phlebotomy is unrelated.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'Which leukemia is "the most prevalent adult leukemia" with mean age 72?',
+    options: [
+      'CLL (Chronic Lymphocytic Leukemia)',
+      'CML (Chronic Myeloid Leukemia)',
+      'AML (Acute Myeloid Leukemia)',
+      'ALL (Acute Lymphocytic Leukemia)'
+    ],
+    answer: 0,
+    concept: 'CLL Demographics',
+    rationale: 'CLL is the most prevalent adult leukemia. Mean age is 72. Often asymptomatic and discovered incidentally.',
+    others: {
+      1: 'CML mean age is 64.',
+      2: 'AML peaks around 67 — most common ACUTE leukemia in adults.',
+      3: 'ALL is most common pediatric leukemia.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A patient with CML progresses to a stage with rapid growth, severe symptoms, and resistance to therapy. Which stage is this?',
+    options: [
+      'Chronic stage',
+      'Remission stage',
+      'Recovery stage',
+      'Accelerated stage'
+    ],
+    answer: 3,
+    concept: 'CML Accelerated Stage',
+    rationale: 'The accelerated stage of CML shows rapid growth, severe symptoms, and therapy resistance. It is the second of three CML progression stages.',
+    others: {
+      0: 'Chronic stage is slow with mild symptoms.',
+      1: 'Remission is improvement, not progression.',
+      2: '"Recovery" is not a CML progression stage.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A nurse is reviewing CBC findings for a suspected AML patient. Which findings does the nurse expect?',
+    options: [
+      'Increased RBCs and platelets',
+      'Decreased RBCs and platelets',
+      'Normal RBCs with increased platelets',
+      'High Hgb with low WBC'
+    ],
+    answer: 1,
+    concept: 'AML CBC Findings',
+    rationale: 'AML displaces normal cells in the bone marrow. CBC typically shows decreased RBCs (anemia) and decreased platelets (bleeding risk). WBCs may be high, normal, or low.',
+    others: {
+      0: 'Polycythemia vera shows increased RBCs.',
+      2: 'AML typically lowers platelets, not increases.',
+      3: 'Pattern doesn\'t fit AML.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'Which patient profile MOST fits the typical CML presentation?',
+    options: [
+      'A 4-year-old with bone pain and hepatosplenomegaly',
+      'A 25-year-old with fever, fatigue, and gum hyperplasia',
+      'A 64-year-old with mild fatigue and incidental leukocytosis',
+      'A 72-year-old with fever, night sweats, and weight loss'
+    ],
+    answer: 2,
+    concept: 'CML Demographics & Presentation',
+    rationale: 'CML mean age is 64. Classic presentation is mild symptoms (malaise, anorexia, weight loss, confusion) — often discovered incidentally on routine CBC showing leukocytosis.',
+    others: {
+      0: 'Age 4 with bone pain fits ALL.',
+      1: 'Young adult with gum hyperplasia and bleeding fits AML.',
+      3: 'Age 72 with B symptoms fits CLL.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'What additional finding is common with CML besides leukocytosis?',
+    options: [
+      'Tender hepatosplenomegaly',
+      'Pulmonary edema with frothy sputum',
+      'Heart murmurs on auscultation',
+      'Joint deformities and contractures'
+    ],
+    answer: 0,
+    concept: 'CML Findings',
+    rationale: 'CML typically shows tender hepatosplenomegaly (enlarged liver and spleen) along with malaise, anorexia, weight loss, and confusion.',
+    others: {
+      1: 'Pulmonary edema is not a CML finding.',
+      2: 'Heart murmurs are unrelated to CML.',
+      3: 'Joint deformities are seen in rheumatic disorders.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A nurse is teaching about the four leukemias. Which statement correctly distinguishes them?',
+    options: [
+      'AML and ALL are both chronic; CML and CLL are acute',
+      'AML peaks ~67, CML mean 64, ALL peaks age 4, CLL mean 72',
+      'All four leukemias have identical demographic patterns',
+      'Only ALL affects pediatric patients; others are adult-only'
+    ],
+    answer: 1,
+    concept: 'Leukemia Comparison',
+    rationale: 'Demographics: AML peaks ~67 (adult), CML mean 64 (rare under 20), ALL peaks age 4 (pediatric, but adult cases occur), CLL mean 72 (most prevalent adult).',
+    others: {
+      0: 'AML and ALL are ACUTE; CML and CLL are CHRONIC.',
+      2: 'They differ significantly in demographics.',
+      3: 'Adults can develop ALL too (worse prognosis).'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let totalPts = 0;
+let answers = [];
+let selectedOption = null;
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  selectedOption = null;
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${questions.length}`;
+  document.getElementById('q-points').textContent = `${totalPts.toFixed(1)} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / questions.length) * 100}%`;
+  document.getElementById('q-stem').textContent = q.stem;
+  const optsHtml = q.options.map((opt, i) => `
+    <div class="option" data-idx="${i}" onclick="selectOption(${i})">
+      <span class="option-letter">${String.fromCharCode(65+i)}.</span>
+      <span>${opt}</span>
+    </div>
+  `).join('');
+  document.getElementById('q-options').innerHTML = optsHtml;
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').innerHTML = '';
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  selectedOption = idx;
+  document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
+  document.querySelector(`.option[data-idx="${idx}"]`).classList.add('selected');
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  const q = questions[currentQ];
+  const correct = q.answer;
+  const isCorrect = selectedOption === correct;
+  const pts = isCorrect ? 1 : 0;
+  totalPts += pts;
+  answers.push({ q, selected: selectedOption, correct, pts });
+
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.add('locked');
+    el.onclick = null;
+    if (i === correct) el.classList.add('correct');
+    else if (i === selectedOption) el.classList.add('wrong');
+  });
+
+  let othersHtml = '';
+  if (q.others) {
+    othersHtml = '<div class="others-list">';
+    Object.keys(q.others).forEach(k => {
+      othersHtml += `<div><strong>${String.fromCharCode(65+parseInt(k))}.</strong> ${q.others[k]}</div>`;
+    });
+    othersHtml += '</div>';
+  }
+
+  const ratHtml = `
+    <div class="rationale">
+      <span class="concept-pill">${q.concept}</span>
+      <div><strong>${isCorrect ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>
+      ${q.deepExplanation ? `<div style="margin-top:8px; color: var(--ink-soft);">${q.deepExplanation}</div>` : ''}
+      ${othersHtml}
+    </div>
+  `;
+  const rArea = document.getElementById('rationale-area');
+  rArea.innerHTML = ratHtml;
+  rArea.classList.remove('hidden');
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+  document.getElementById('q-points').textContent = `${totalPts.toFixed(1)} pts`;
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= questions.length) showResults();
+  else renderQuestion();
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+  const pct = (totalPts / questions.length) * 100;
+  const scoreEl = document.getElementById('r-score');
+  scoreEl.textContent = `${pct.toFixed(0)}%`;
+  if (pct >= 85) scoreEl.classList.add('pass');
+  else if (pct >= 70) scoreEl.classList.add('borderline');
+  else scoreEl.classList.add('fail');
+  document.getElementById('r-pts').textContent = `${totalPts.toFixed(1)} / ${questions.length} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Excellent recall — you know this chapter cold.';
+  else if (pct >= 77) msg = 'Passing — keep reviewing the missed concepts.';
+  else if (pct >= 60) msg = 'Below passing — focus on the missed concepts before the exam.';
+  else msg = 'This chapter needs more review. Re-read the source guide and retake.';
+  document.getElementById('r-msg').textContent = msg;
+
+  const missed = answers.filter(a => a.pts < 1);
+  if (missed.length > 0) {
+    let html = '<h3>Missed Concepts</h3>';
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${String.fromCharCode(65+m.correct)}. ${m.q.options[m.correct]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+
+  const result = {
+    pct: parseFloat(pct.toFixed(1)),
+    pts: parseFloat(totalPts.toFixed(1)),
+    total: questions.length,
+    date: new Date().toISOString().split('T')[0]
+  };
+  localStorage.setItem('score_hematdisorders_knowledge', JSON.stringify(result));
+}
+</script>
+</body>
+</html>
