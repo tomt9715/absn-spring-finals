@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 30 Hematologic Disorders — Deep Drill</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0a2540; --navy-soft: #1a3a5c;
+  --teal: #0d9488; --teal-pale: #f0fdfa;
+  --purple: #7c3aed; --purple-pale: #f5f3ff;
+  --gold: #f59e0b; --ink: #1a1a1a; --ink-soft: #3a3a3a; --muted: #6b7280;
+  --bg: #fafaf7; --card: #ffffff; --line: #e5e0d5;
+  --correct: #059669; --correct-bg: #ecfdf5;
+  --wrong: #dc2626; --wrong-bg: #fef2f2;
+  --partial: #d97706; --partial-bg: #fffbeb;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; padding: 32px 16px 80px; min-height: 100vh; }
+.container { max-width: 760px; margin: 0 auto; }
+.eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1.5px; color: var(--purple); text-transform: uppercase; margin-bottom: 12px; }
+h1 { font-family: 'DM Serif Display', serif; font-size: 36px; color: var(--navy); margin-bottom: 8px; line-height: 1.15; }
+.tagline { color: var(--muted); margin-bottom: 32px; font-size: 16px; }
+.start-card, .question-card, .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 32px; margin-bottom: 24px; }
+.start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0; }
+.start-stat { border: 1px solid var(--line); border-radius: 4px; padding: 16px; text-align: center; }
+.start-stat-num { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--purple); display: block; }
+.start-stat-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px; color: var(--muted); text-transform: uppercase; margin-top: 4px; }
+.btn { background: var(--purple); color: white; border: none; padding: 14px 32px; font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 600; border-radius: 4px; cursor: pointer; transition: background 0.15s; }
+.btn:hover { background: #6d28d9; }
+.btn:disabled { background: var(--muted); cursor: not-allowed; }
+.btn-secondary { background: var(--navy); }
+.btn-secondary:hover { background: var(--navy-soft); }
+.progress-bar { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; margin-bottom: 24px; }
+.progress-fill { height: 100%; background: var(--purple); transition: width 0.3s; }
+.q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
+.q-stem { font-size: 18px; color: var(--ink); margin-bottom: 24px; line-height: 1.5; }
+.options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+.option { border: 1.5px solid var(--line); border-radius: 6px; padding: 14px 18px; cursor: pointer; transition: all 0.15s; background: var(--card); font-size: 15px; display: flex; align-items: flex-start; gap: 12px; }
+.option:hover:not(.locked) { border-color: var(--purple); background: var(--purple-pale); }
+.option.selected { border-color: var(--purple); background: var(--purple-pale); }
+.option.correct { border-color: var(--correct); background: var(--correct-bg); }
+.option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+.option-letter { font-family: 'DM Mono', monospace; font-weight: 500; color: var(--muted); min-width: 18px; }
+.option.correct .option-letter { color: var(--correct); }
+.option.wrong .option-letter { color: var(--wrong); }
+.rationale { background: var(--purple-pale); border-left: 3px solid var(--purple); padding: 16px 20px; border-radius: 0 6px 6px 0; margin-bottom: 20px; font-size: 14px; line-height: 1.6; }
+.rationale strong { color: var(--navy); }
+.concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.5px; background: var(--purple); color: white; padding: 3px 10px; border-radius: 100px; margin-bottom: 10px; text-transform: uppercase; }
+.others-list { margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); font-size: 13px; color: var(--ink-soft); }
+.others-list div { margin-bottom: 6px; }
+.btn-row { display: flex; gap: 12px; justify-content: flex-end; }
+.results-score { font-family: 'DM Serif Display', serif; font-size: 56px; text-align: center; margin: 12px 0; }
+.results-score.pass { color: var(--correct); }
+.results-score.borderline { color: var(--partial); }
+.results-score.fail { color: var(--wrong); }
+.results-pts { font-family: 'DM Mono', monospace; text-align: center; color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+.perf-msg { text-align: center; margin: 16px 0 32px; font-size: 16px; color: var(--ink-soft); font-style: italic; }
+.missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+.missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+.missed-item .stem { font-weight: 500; margin-bottom: 8px; }
+.missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+.missed-item .rat { color: var(--ink-soft); font-size: 13px; }
+.back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+.hidden { display: none; }
+</style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Deep Drill · Chapter 30</div>
+  <h1>Hematologic Disorders</h1>
+  <p class="tagline">NCLEX-style application: priority decisions and clinical judgment for polycythemia vera and the four leukemias.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">25</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">MC</span><span class="start-stat-label">Format</span></div>
+      <div class="start-stat"><span class="start-stat-num">Yes</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">Higher-difficulty NCLEX-style scenarios. Apply your knowledge to clinical-judgment situations.</p>
+    <button class="btn" onclick="begin()">Begin</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 25</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Deep Drill</div>
+    <h1>Hematologic Disorders</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 25 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Quiz</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A 67-year-old patient is admitted with fatigue, gum bleeding, and a CBC showing decreased RBCs and platelets with elevated WBCs. Which leukemia does the nurse suspect?',
+    options: [
+      'AML (Acute Myeloid Leukemia)',
+      'CLL (Chronic Lymphocytic Leukemia)',
+      'ALL (Acute Lymphocytic Leukemia)',
+      'Hodgkin lymphoma'
+    ],
+    answer: 0,
+    concept: 'AML Recognition',
+    rationale: 'AML peaks around age 67. Classic presentation: fatigue, bleeding, gum hyperplasia, with CBC showing decreased RBCs and platelets. Bone pain and hepatosplenomegaly are common.',
+    others: {
+      1: 'CLL has mean age 72 with "B symptoms" (fever, night sweats, weight loss).',
+      2: 'ALL is most common in children (peak age 4).',
+      3: 'Hodgkin lymphoma is a lymphoma, not leukemia.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A 4-year-old presents with bone pain, hepatosplenomegaly, persistent headaches, and vomiting. Which condition does the nurse suspect?',
+    options: [
+      'Migraine with abdominal involvement',
+      'AML with CNS spread',
+      'ALL with CNS involvement',
+      'Polycythemia vera'
+    ],
+    answer: 2,
+    concept: 'ALL with CNS Involvement',
+    rationale: 'ALL is the most common pediatric leukemia (peak age 4). Bone pain and hepatosplenomegaly are classic. CNS involvement is common — presenting with headaches and vomiting.',
+    others: {
+      0: 'Migraine does not cause hepatosplenomegaly.',
+      1: 'AML peaks at age 67, not 4.',
+      3: 'Polycythemia vera presents with headache and dizziness from thick blood, but not typical pediatric pattern.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A 72-year-old with CLL and a history of recurrent pneumonias is admitted. Which medication is MOST appropriate to prevent further infections?',
+    options: [
+      'Daily oral corticosteroids',
+      'IVIG (intravenous immunoglobulin)',
+      'Iron supplementation orally',
+      'Daily prophylactic aspirin'
+    ],
+    answer: 1,
+    concept: 'IVIG in CLL',
+    rationale: 'CLL patients have impaired antibody production (hypogammaglobulinemia). IVIG is used in CLL with recurrent infections to provide passive antibody protection.',
+    others: {
+      0: 'Daily steroids would worsen infection risk.',
+      2: 'Iron does not prevent infections.',
+      3: 'Aspirin does not prevent infections.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A patient with polycythemia vera is being discharged after therapeutic phlebotomy. Which patient statement indicates a need for FURTHER teaching?',
+    options: [
+      '"I should drink plenty of fluids to stay hydrated."',
+      '"I should take iron supplements to build my blood back up."',
+      '"I will report any sudden chest pain or stroke symptoms."',
+      '"I should report headache and dizziness if they worsen."'
+    ],
+    answer: 1,
+    concept: 'PV Iron Avoidance',
+    rationale: 'Polycythemia vera patients should AVOID iron supplements — iron promotes RBC production, the opposite of treatment goals. Therapeutic phlebotomy aims to LOWER blood cells.',
+    others: {
+      0: 'Hydration thins blood and is appropriate.',
+      2: 'Stroke and MI are real risks from thickened blood; reporting is appropriate.',
+      3: 'Headache and dizziness signal disease progression and should be reported.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A nurse is caring for four hematology patients. Which patient should be assessed FIRST?',
+    options: [
+      'A CLL patient awaiting "watch and wait" follow-up labs',
+      'A polycythemia vera patient post-phlebotomy with stable VS',
+      'An ALL pediatric patient with severe headache and projectile vomiting',
+      'A CML patient on imatinib reporting baseline mild fatigue'
+    ],
+    answer: 2,
+    concept: 'Priority Triage',
+    rationale: 'Severe headache and projectile vomiting in an ALL patient suggest CNS involvement with potentially raised intracranial pressure — a neurologic emergency. Priority assessment.',
+    others: {
+      0: 'Watch and wait is stable monitoring; not urgent.',
+      1: 'Stable post-phlebotomy patient is not urgent.',
+      3: 'Baseline mild fatigue on stable therapy is expected.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A patient with CML has been on imatinib (Gleevec) and asks how it works. The BEST nursing response is:',
+    options: [
+      '"It blocks the BCR-ABL signal causing your cancer."',
+      '"It boosts your immune system to fight cancer cells."',
+      '"It replaces your bone marrow with healthy cells."',
+      '"It reduces your platelet count to prevent clotting."'
+    ],
+    answer: 0,
+    concept: 'Imatinib Mechanism',
+    rationale: 'Imatinib mesylate (Gleevec) blocks BCR-ABL signaling — the genetic driver of CML (Philadelphia chromosome). It is a targeted therapy.',
+    others: {
+      1: 'Imatinib is targeted therapy, not immune boosting.',
+      2: 'Imatinib does not replace marrow.',
+      3: 'Platelet count reduction is not its mechanism.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A patient with newly diagnosed AML is hospitalized for induction chemotherapy. Which is the PRIORITY nursing concern?',
+    options: [
+      'Promoting independence and discharge planning',
+      'Encouraging socialization with other patients',
+      'Encouraging aggressive physical therapy',
+      'Preventing infection and bleeding'
+    ],
+    answer: 3,
+    concept: 'AML Priority Concerns',
+    rationale: 'AML patients have decreased WBCs (infection risk) and decreased platelets (bleeding risk). These are the two major causes of death in AML. Prevention is priority.',
+    others: {
+      0: 'Discharge planning is not priority during acute treatment.',
+      1: 'Socialization is contraindicated during induction (infection risk).',
+      2: 'Aggressive PT increases bleeding and fatigue.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A nurse is teaching a parent of a child with newly diagnosed ALL. Which statement indicates the parent needs additional teaching?',
+    options: [
+      '"My child has a much better prognosis than an adult would."',
+      '"Treatment will include chemo and possibly steroids."',
+      '"This is a different disease than the AML my friend\'s child had."',
+      '"My child can return to school during induction chemotherapy."'
+    ],
+    answer: 3,
+    concept: 'ALL Treatment Reality',
+    rationale: 'During induction chemotherapy, the child is severely immunosuppressed and CANNOT return to school due to infection risk. This requires further teaching.',
+    others: {
+      0: 'Correct — pediatric ALL has 85% prognosis vs <45% adult.',
+      1: 'Correct — chemo, HSCT, monoclonal antibodies, and corticosteroids are used.',
+      2: 'Correct — ALL and AML are different leukemias.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A 64-year-old patient is in the clinic for a routine annual physical. CBC is unremarkable except for WBC of 18,000 (normal 4,000-11,000). The patient denies symptoms. Which leukemia is MOST likely?',
+    options: [
+      'CLL in early "watch and wait" phase',
+      'Acute Myeloid Leukemia (AML)',
+      'Chronic Myeloid Leukemia in chronic stage',
+      'Acute Lymphocytic Leukemia (ALL)'
+    ],
+    answer: 2,
+    concept: 'CML Chronic Stage Presentation',
+    rationale: 'CML in chronic stage is often asymptomatic and discovered incidentally on routine CBC showing leukocytosis. Mean age is 64. This profile fits chronic CML.',
+    others: {
+      0: 'CLL has mean age 72 and may show "B symptoms".',
+      1: 'AML presents with severe symptoms (fever, bleeding), not asymptomatic.',
+      3: 'ALL is most common pediatric (peak age 4).'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A patient with CLL reports new fever, drenching night sweats, and 15-pound unintentional weight loss over 2 months. What is the BEST nursing interpretation?',
+    options: [
+      'Routine viral illness — no action needed',
+      '"B Symptoms" indicating CLL progression',
+      'Side effect of "watch and wait" approach',
+      'Routine aging changes for the elderly'
+    ],
+    answer: 1,
+    concept: 'B Symptoms in CLL',
+    rationale: '"B Symptoms" — fever, night sweats, and unintentional weight loss — indicate CLL progression, which may move the patient out of "watch and wait" into active treatment.',
+    others: {
+      0: 'B symptoms are NOT a routine viral illness.',
+      2: '"Watch and wait" itself does not cause B symptoms.',
+      3: 'New fever and weight loss are NEVER routine aging.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A patient with polycythemia vera develops sudden severe leg pain, calf swelling, and warmth. What is the priority nursing action?',
+    options: [
+      'Apply ice for 30 minutes and elevate the leg',
+      'Encourage ambulation to reduce stiffness',
+      'Notify the provider — assess for DVT',
+      'Massage the calf to relieve discomfort'
+    ],
+    answer: 2,
+    concept: 'PV Thrombosis Risk',
+    rationale: 'Polycythemia vera thickens blood and dramatically increases DVT/PE/stroke/MI risk. Sudden unilateral calf pain, swelling, and warmth signal possible DVT. Notify provider immediately.',
+    others: {
+      0: 'Ice is symptomatic only and delays diagnosis.',
+      1: 'Ambulation can dislodge a clot, causing pulmonary embolism.',
+      3: 'Massaging a possible DVT can dislodge the clot — contraindicated.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A nurse is reviewing the assignment for a patient with severe AML during induction. Which task is APPROPRIATE to delegate to a UAP?',
+    options: [
+      'Initial assessment of new oral lesions and bleeding',
+      'Helping the patient bathe with sterile linens',
+      'Teaching about neutropenic precautions',
+      'Adjusting platelet transfusion infusion rate'
+    ],
+    answer: 1,
+    concept: 'AML Delegation',
+    rationale: 'Helping with hygiene using sterile linens is within UAP scope. Assessment, teaching, and titrating transfusions all require nursing judgment.',
+    others: {
+      0: 'Assessment requires RN judgment.',
+      2: 'Patient teaching is RN responsibility.',
+      3: 'Transfusion adjustment requires RN judgment.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A nurse is admitting a patient with acute leukemia. Which finding requires the MOST immediate intervention?',
+    options: [
+      'Reports of fatigue and mild bone pain on movement',
+      'Temperature of 100.6°F with WBC of 1,500',
+      'Pallor of conjunctiva and mucous membranes',
+      'Mild bruising on bilateral lower extremities'
+    ],
+    answer: 1,
+    concept: 'Neutropenic Fever Priority',
+    rationale: 'Fever in a neutropenic patient (WBC 1,500) is a MEDICAL EMERGENCY — even low-grade fever can indicate life-threatening sepsis. Immediate cultures and broad-spectrum antibiotics are needed.',
+    others: {
+      0: 'Fatigue and bone pain are expected in leukemia.',
+      2: 'Pallor is expected with anemia.',
+      3: 'Mild bruising is expected with thrombocytopenia.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A patient asks the nurse why early CLL is managed with "watch and wait" instead of immediate chemotherapy. The BEST response is:',
+    options: [
+      '"Chemo causes too many side effects to use in CLL ever."',
+      '"CLL always self-resolves without intervention."',
+      '"Treatment is delayed until symptoms worsen, since survival is 2-14 years."',
+      '"This approach is rarely used and your case is unusual."'
+    ],
+    answer: 2,
+    concept: 'CLL Watch and Wait Rationale',
+    rationale: 'CLL has variable survival of 2-14 years. Early treatment provides no survival benefit and exposes patients to side effects. "Watch and wait" defers therapy until symptoms or progression occur.',
+    others: {
+      0: 'Chemo IS used in advanced CLL.',
+      1: 'CLL does not self-resolve.',
+      3: '"Watch and wait" is standard for early CLL — common practice.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A child with ALL is receiving induction chemotherapy. Which nursing action is essential before each dose?',
+    options: [
+      'Ensure family is present for emotional support',
+      'Verify the child has eaten a full meal',
+      'Have the child stand and walk to ensure mobility',
+      'Verify the child\'s identity using two identifiers'
+    ],
+    answer: 3,
+    concept: 'Chemo Safety',
+    rationale: 'Two-identifier patient verification is REQUIRED before any chemotherapy administration — chemo errors can be fatal. Joint Commission patient safety standard.',
+    others: {
+      0: 'Family support is helpful but not the essential safety check.',
+      1: 'Full meal not always required and is not the priority safety step.',
+      2: 'Mobility is unrelated to chemo administration safety.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A patient with CML who has been on imatinib for 2 years presents with rapid worsening symptoms, organ involvement, and lab evidence of disease progression. Which CML stage is suspected?',
+    options: [
+      'Chronic stage',
+      'Remission stage',
+      'Recovery stage',
+      'Blast stage'
+    ],
+    answer: 3,
+    concept: 'CML Blast Stage',
+    rationale: 'Blast stage of CML is highly aggressive with organ metastasis. It is the third and most severe stage after chronic and accelerated.',
+    others: {
+      0: 'Chronic stage is slow with mild symptoms — opposite of described picture.',
+      1: 'Remission is improvement, not worsening.',
+      2: '"Recovery" is not a CML stage.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A polycythemia vera patient is receiving aspirin 81 mg daily as prevention. The nurse understands that the purpose is to:',
+    options: [
+      'Reduce thrombotic risk from increased blood viscosity',
+      'Treat headaches caused by polycythemia',
+      'Stimulate bone marrow to produce more cells',
+      'Replace the need for therapeutic phlebotomy'
+    ],
+    answer: 0,
+    concept: 'Aspirin in PV',
+    rationale: 'Low-dose aspirin is used in polycythemia vera to reduce thrombotic risk from thickened blood. PV dramatically increases stroke, MI, and DVT risk.',
+    others: {
+      1: 'Aspirin treats headache symptomatically but is not the primary purpose in PV.',
+      2: 'Aspirin does not stimulate bone marrow.',
+      3: 'Aspirin does not replace phlebotomy in moderate-severe disease.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A nurse is reviewing four patients on the unit. Which patient profile fits ALL?',
+    options: [
+      'A 4-year-old with bone pain, headaches, and hepatosplenomegaly',
+      'A 67-year-old with fever, gum hyperplasia, and pancytopenia',
+      'A 64-year-old with mild fatigue and incidental high WBC',
+      'A 72-year-old with fever, night sweats, and weight loss'
+    ],
+    answer: 0,
+    concept: 'ALL Demographics',
+    rationale: 'ALL is most common pediatric leukemia (peak age 4). Classic features: bone pain, CNS involvement (headaches), hepatosplenomegaly.',
+    others: {
+      1: 'Age 67 with gum hyperplasia and pancytopenia fits AML.',
+      2: 'Age 64 with incidental leukocytosis fits CML.',
+      3: 'Age 72 with B symptoms fits CLL.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A nurse is teaching a leukemia patient about home care after discharge. Which patient statement indicates UNDERSTANDING of safety?',
+    options: [
+      '"I will use a hard-bristle toothbrush for thorough cleaning."',
+      '"I can resume gardening to keep myself busy."',
+      '"I will avoid raw or undercooked foods like sushi."',
+      '"I should host a welcome-home party for visitors."'
+    ],
+    answer: 2,
+    concept: 'Leukemia Home Safety',
+    rationale: 'Avoiding raw/undercooked foods (sushi, deli meats, soft cheeses, runny eggs) is essential in leukemia patients due to immunosuppression and infection risk.',
+    others: {
+      0: 'Hard bristles cause gum bleeding in thrombocytopenia.',
+      1: 'Soil and plants harbor pathogens — gardening is contraindicated.',
+      3: 'Crowds and visitors increase infection risk.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A patient with AML develops a temperature of 101.8°F. The nurse\'s priority action is to:',
+    options: [
+      'Administer acetaminophen 650 mg orally',
+      'Apply cooling blankets to reduce temperature',
+      'Notify the provider and obtain blood cultures',
+      'Document the finding and reassess in 1 hour'
+    ],
+    answer: 2,
+    concept: 'Neutropenic Fever Priority Action',
+    rationale: 'In a neutropenic AML patient, fever ≥101°F is a MEDICAL EMERGENCY. Notify provider, obtain cultures BEFORE antibiotics, and start broad-spectrum antibiotics within 1 hour.',
+    others: {
+      0: 'Treating fever symptomatically without identifying cause is dangerous.',
+      1: 'Cooling without treatment delays critical care.',
+      3: 'Reassessing in 1 hour delays critical intervention.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A patient with polycythemia vera is scheduled for therapeutic phlebotomy. Which assessment is MOST important before the procedure?',
+    options: [
+      'Patient\'s last meal time and food preferences',
+      'Patient\'s favorite music for procedure comfort',
+      'Patient\'s weekend activity and family plans',
+      'Baseline VS, hematocrit, and hydration status'
+    ],
+    answer: 3,
+    concept: 'Pre-Phlebotomy Assessment',
+    rationale: 'Baseline VS (especially BP), hematocrit, and hydration status are essential before therapeutic phlebotomy. Removing blood can cause hypotension, especially if dehydrated or borderline hypotensive.',
+    others: {
+      0: 'Last meal is not the priority.',
+      1: 'Music preference is comfort, not safety.',
+      2: 'Activity plans are not relevant.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A nurse delegates care for an early-stage CLL patient on "watch and wait" to a new RN. Which orientation point is MOST important?',
+    options: [
+      'Aggressive chemotherapy regimens for CLL',
+      'Bone marrow transplant pre-procedure care',
+      'Monitoring for B symptoms signaling progression',
+      'Setting up IVIG infusion equipment'
+    ],
+    answer: 2,
+    concept: 'CLL Monitoring Priority',
+    rationale: 'During "watch and wait," the priority is monitoring for B symptoms (fever, night sweats, weight loss), enlarged lymph nodes, or rising WBC — signs that may move the patient to active treatment.',
+    others: {
+      0: 'Aggressive chemo is for advanced CLL — not relevant in early stage.',
+      1: 'BMT is uncommon in early CLL.',
+      3: 'IVIG is for CLL with recurrent infections, not all early CLL.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A patient receiving induction chemotherapy for AML develops a platelet count of 8,000 (normal 150,000-400,000). Which intervention is MOST critical?',
+    options: [
+      'Administer prescribed platelet transfusion immediately',
+      'Encourage frequent ambulation to prevent clots',
+      'Discontinue all medications and observe',
+      'Increase oral intake of leafy green vegetables'
+    ],
+    answer: 0,
+    concept: 'Critical Thrombocytopenia Tx',
+    rationale: 'Platelets at 8,000 represent CRITICAL thrombocytopenia with high spontaneous bleeding risk (especially intracranial). Immediate platelet transfusion is needed.',
+    others: {
+      1: 'Ambulation increases bleeding risk; activity must be cautious.',
+      2: 'Discontinuing medications without provider orders is inappropriate.',
+      3: 'Leafy greens contain vitamin K but cannot raise platelets quickly enough.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A patient with CML on imatinib reports new-onset peripheral edema, weight gain, and shortness of breath. What is the BEST nursing action?',
+    options: [
+      'Encourage the patient to exercise more vigorously',
+      'Tell the patient these are normal medication effects',
+      'Restrict the patient\'s fluid intake aggressively',
+      'Notify the provider — possible cardiac side effects'
+    ],
+    answer: 3,
+    concept: 'Imatinib Cardiac Side Effects',
+    rationale: 'Imatinib can cause fluid retention, peripheral edema, and rare cardiac dysfunction (heart failure). New edema with weight gain and dyspnea warrants provider notification.',
+    others: {
+      0: 'Vigorous exercise worsens fluid overload symptoms.',
+      1: 'These are concerning side effects, not normal expected.',
+      2: 'Aggressive fluid restriction without provider input could harm.'
+    }
+  },
+  {
+    topic: 'HematDisorders',
+    type: 'standard',
+    stem: 'A nurse is reviewing four patients with hematologic disorders. Which patient should be assessed FIRST?',
+    options: [
+      'A polycythemia vera patient with stable HCT post-phlebotomy',
+      'An AML patient with new sudden severe headache and confusion',
+      'A CLL patient on watch and wait awaiting routine labs',
+      'A CML patient with stable mild fatigue on imatinib'
+    ],
+    answer: 1,
+    concept: 'AML Bleeding Priority',
+    rationale: 'Sudden severe headache and confusion in an AML patient suggests possible intracranial bleeding from severe thrombocytopenia. This is a neurologic emergency requiring immediate action.',
+    others: {
+      0: 'Stable post-phlebotomy is not urgent.',
+      2: 'Routine labs in stable patient are not urgent.',
+      3: 'Stable mild fatigue on therapy is expected.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let totalPts = 0;
+let answers = [];
+let selectedOption = null;
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  selectedOption = null;
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${questions.length}`;
+  document.getElementById('q-points').textContent = `${totalPts.toFixed(1)} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / questions.length) * 100}%`;
+  document.getElementById('q-stem').textContent = q.stem;
+  const optsHtml = q.options.map((opt, i) => `
+    <div class="option" data-idx="${i}" onclick="selectOption(${i})">
+      <span class="option-letter">${String.fromCharCode(65+i)}.</span>
+      <span>${opt}</span>
+    </div>
+  `).join('');
+  document.getElementById('q-options').innerHTML = optsHtml;
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').innerHTML = '';
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  selectedOption = idx;
+  document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
+  document.querySelector(`.option[data-idx="${idx}"]`).classList.add('selected');
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  const q = questions[currentQ];
+  const correct = q.answer;
+  const isCorrect = selectedOption === correct;
+  const pts = isCorrect ? 1 : 0;
+  totalPts += pts;
+  answers.push({ q, selected: selectedOption, correct, pts });
+
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.add('locked');
+    el.onclick = null;
+    if (i === correct) el.classList.add('correct');
+    else if (i === selectedOption) el.classList.add('wrong');
+  });
+
+  let othersHtml = '';
+  if (q.others) {
+    othersHtml = '<div class="others-list">';
+    Object.keys(q.others).forEach(k => {
+      othersHtml += `<div><strong>${String.fromCharCode(65+parseInt(k))}.</strong> ${q.others[k]}</div>`;
+    });
+    othersHtml += '</div>';
+  }
+
+  const ratHtml = `
+    <div class="rationale">
+      <span class="concept-pill">${q.concept}</span>
+      <div><strong>${isCorrect ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>
+      ${q.deepExplanation ? `<div style="margin-top:8px; color: var(--ink-soft);">${q.deepExplanation}</div>` : ''}
+      ${othersHtml}
+    </div>
+  `;
+  const rArea = document.getElementById('rationale-area');
+  rArea.innerHTML = ratHtml;
+  rArea.classList.remove('hidden');
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+  document.getElementById('q-points').textContent = `${totalPts.toFixed(1)} pts`;
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= questions.length) showResults();
+  else renderQuestion();
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+  const pct = (totalPts / questions.length) * 100;
+  const scoreEl = document.getElementById('r-score');
+  scoreEl.textContent = `${pct.toFixed(0)}%`;
+  if (pct >= 85) scoreEl.classList.add('pass');
+  else if (pct >= 70) scoreEl.classList.add('borderline');
+  else scoreEl.classList.add('fail');
+  document.getElementById('r-pts').textContent = `${totalPts.toFixed(1)} / ${questions.length} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Excellent — you handle priority decisions well.';
+  else if (pct >= 77) msg = 'Passing — review missed scenarios for the test.';
+  else if (pct >= 60) msg = 'Below passing — focus on priority and safety judgments.';
+  else msg = 'This chapter needs deeper review. Re-read scenarios and retake.';
+  document.getElementById('r-msg').textContent = msg;
+
+  const missed = answers.filter(a => a.pts < 1);
+  if (missed.length > 0) {
+    let html = '<h3>Missed Concepts</h3>';
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${String.fromCharCode(65+m.correct)}. ${m.q.options[m.correct]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+
+  const result = {
+    pct: parseFloat(pct.toFixed(1)),
+    pts: parseFloat(totalPts.toFixed(1)),
+    total: questions.length,
+    date: new Date().toISOString().split('T')[0]
+  };
+  localStorage.setItem('score_hematdisorders_deepdrill', JSON.stringify(result));
+}
+</script>
+</body>
+</html>
