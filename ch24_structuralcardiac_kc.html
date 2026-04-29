@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 24 Structural &amp; Infectious Cardiac — Knowledge Check</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-soft: #14b8a6;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+      --partial: #d97706;
+      --partial-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .start-stat { text-align: center; padding: 18px 12px; background: var(--teal-pale); border-radius: 8px; border: 1px solid var(--line); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--teal); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer; background: var(--teal); color: white; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--teal); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--teal-soft); background: var(--teal-pale); }
+    .option.selected { border-color: var(--teal); background: var(--teal-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--teal); color: white; border-color: var(--teal); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--teal-pale); border-left: 3px solid var(--teal); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--teal); color: white; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--teal); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Knowledge Check · Chapter 24</div>
+  <h1>Structural &amp; Infectious Cardiac</h1>
+  <p class="tagline">Direct recall: endocarditis (S/S, treatment, prophylaxis), rheumatic fever and its valve consequences, aortic stenosis.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">15</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">MC</span><span class="start-stat-label">Format</span></div>
+      <div class="start-stat"><span class="start-stat-num">Yes</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">Each question is direct recall from your review guides. Answer, get instant rationale, move on.</p>
+    <button class="btn" onclick="begin()">Begin</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 15</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Knowledge Check</div>
+    <h1>Structural &amp; Infectious Cardiac</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 15 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Quiz</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'What part of the heart does endocarditis directly affect?',
+    options: [
+      'The pericardial sac surrounding the entire heart',
+      'The endocardium and the heart valves',
+      'The myocardial muscle layer of the ventricles',
+      'The coronary arteries supplying blood to the heart'
+    ],
+    answer: 1,
+    concept: 'Endocarditis Definition',
+    rationale: 'Endocarditis is an infection of the endocardium, which lines the inner surface of the heart, including the heart valves. The valves are the most commonly affected site.',
+    others: {
+      0: 'Inflammation of the pericardial sac is pericarditis, not endocarditis.',
+      2: 'Inflammation of the myocardium is myocarditis.',
+      3: 'Coronary artery involvement is coronary artery disease.'
+    }
+  },
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'Which of the following is a classic cutaneous finding in endocarditis?',
+    options: [
+      'Generalized urticaria with raised welts on the trunk',
+      'A bright red butterfly rash spread across the cheeks',
+      'Bronzed skin discoloration on the face and the hands',
+      'Petechiae and splinter hemorrhages under the fingernails'
+    ],
+    answer: 3,
+    concept: 'Endocarditis S/S',
+    rationale: 'Petechiae and splinter hemorrhages (thin red-brown streaks under the nails) are classic findings in endocarditis caused by tiny embolic events from valve vegetations.',
+    others: {
+      0: 'Generalized urticaria suggests an allergic reaction.',
+      1: 'A butterfly rash is associated with SLE.',
+      2: 'Bronzed skin is associated with Addison disease.'
+    }
+  },
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'Which auscultation finding is most consistent with new-onset endocarditis?',
+    options: [
+      'A new heart murmur not present on previous physical exams',
+      'A pericardial friction rub heard at the left sternal border',
+      'Crackles in the bilateral lower lung lobes posteriorly',
+      'Distant heart sounds best heard from the apex of the heart'
+    ],
+    answer: 0,
+    concept: 'Endocarditis Murmur',
+    rationale: 'A new heart murmur is a classic finding in endocarditis because the infection damages valve leaflets, leading to regurgitation or stenosis that produces an audible murmur.',
+    others: {
+      1: 'A pericardial friction rub is heard in pericarditis.',
+      2: 'Crackles indicate pulmonary congestion, not endocarditis directly.',
+      3: 'Distant heart sounds suggest pericardial effusion or cardiac tamponade.'
+    }
+  },
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'A patient is being treated for endocarditis. Which treatment course should the nurse anticipate?',
+    options: [
+      'Oral antibiotics for 7 to 10 days at home with weekly clinic visits',
+      'A single dose of IV antibiotics in the ED followed by discharge',
+      'IV antibiotics for 2 to 6 weeks to clear the valve infection',
+      'Oral antiviral therapy for 14 days as an outpatient at home'
+    ],
+    answer: 2,
+    concept: 'Endocarditis Treatment',
+    rationale: 'Endocarditis requires IV antibiotics for 2 to 6 weeks. The bacteria embedded in valve vegetations are protected from immune response, so prolonged high-dose IV therapy is needed to clear the infection.',
+    others: {
+      0: 'Oral antibiotics for 7 to 10 days are not adequate for valve vegetations.',
+      1: 'A single dose is insufficient to clear deep-seated valve infections.',
+      3: 'Endocarditis is bacterial, not viral.'
+    }
+  },
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'A patient with a history of endocarditis is scheduled for a dental cleaning. What teaching is most important?',
+    options: [
+      'Avoid all dental procedures for the rest of their life',
+      'Take prophylactic antibiotics before the dental procedure',
+      'Reschedule for a time after immune system reconstitution',
+      'Begin a course of antiviral medication beforehand'
+    ],
+    answer: 1,
+    concept: 'Endocarditis Prophylaxis',
+    rationale: 'Patients with a history of endocarditis or with high-risk cardiac conditions should take prophylactic antibiotics before dental or surgical procedures to prevent bacteria from entering the bloodstream and seeding heart valves.',
+    others: {
+      0: 'Avoiding all dental care is unrealistic and damages oral health.',
+      2: 'Immune reconstitution does not apply to typical endocarditis patients.',
+      3: 'Antiviral medication does not prevent bacterial endocarditis.'
+    }
+  },
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'The nurse is providing discharge teaching to a patient who completed treatment for endocarditis. Which statement reflects correct understanding?',
+    options: [
+      '"I will skip flossing because it could make my gums bleed and bring back the infection."',
+      '"I will avoid drinking water during meals to keep bacteria from reaching my heart."',
+      '"I will brush twice daily, floss, and see my dentist regularly to prevent recurrence."',
+      '"I will take a multivitamin daily to keep the endocarditis from coming back home."'
+    ],
+    answer: 2,
+    concept: 'Endocarditis Oral Hygiene',
+    rationale: 'Good oral hygiene is essential for preventing recurrent endocarditis. Brushing, flossing, and routine dental care reduce oral bacterial load and lower the risk of bacteria seeding heart valves.',
+    others: {
+      0: 'Skipping flossing actually increases oral bacteria and recurrence risk.',
+      1: 'Water intake does not prevent endocarditis recurrence.',
+      3: 'Multivitamins do not prevent bacterial endocarditis.'
+    }
+  },
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'Which untreated infection is the cause of rheumatic fever?',
+    options: [
+      'Group A beta-hemolytic streptococcal pharyngitis',
+      'Streptococcus pneumoniae pneumonia in adults',
+      'Methicillin-resistant Staphylococcus aureus infections',
+      'Pseudomonas aeruginosa wound contamination'
+    ],
+    answer: 0,
+    concept: 'Rheumatic Fever Cause',
+    rationale: 'Rheumatic fever is caused by untreated Group A beta-hemolytic Streptococcus, typically following untreated strep throat. Prompt antibiotic treatment of strep throat in children prevents this complication.',
+    others: {
+      1: 'Strep pneumoniae causes pneumonia, not rheumatic fever.',
+      2: 'MRSA causes skin and soft tissue infections, not rheumatic fever.',
+      3: 'Pseudomonas does not cause rheumatic fever.'
+    }
+  },
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'Which long-term cardiac complication is most associated with rheumatic fever?',
+    options: [
+      'Coronary artery disease from accelerated atherosclerosis',
+      'Pulmonary hypertension and right heart strain over time',
+      'Atrial fibrillation in young children with prior infection',
+      'Rheumatic heart disease with severe damage to heart valves'
+    ],
+    answer: 3,
+    concept: 'Rheumatic Heart Disease',
+    rationale: 'Rheumatic fever can lead to rheumatic heart disease, which severely damages heart valves. Mitral stenosis is the most common valve consequence after rheumatic fever.',
+    others: {
+      0: 'CAD is caused by atherosclerosis, not rheumatic fever.',
+      1: 'Pulmonary hypertension is not the primary rheumatic fever sequela.',
+      2: 'Atrial fibrillation is not a hallmark consequence in children.'
+    }
+  },
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'Which heart valve is most commonly affected after a child has had rheumatic fever?',
+    options: [
+      'The mitral valve, often resulting in mitral stenosis',
+      'The pulmonary valve, leading to pulmonary regurgitation',
+      'The aortic valve, leading to severe aortic regurgitation',
+      'The tricuspid valve, with progressive tricuspid stenosis'
+    ],
+    answer: 0,
+    concept: 'Mitral Stenosis from RHD',
+    rationale: 'Rheumatic heart disease most commonly damages the mitral valve, leading to mitral stenosis. This is a key teaching point for pediatric history of rheumatic fever.',
+    others: {
+      1: 'Pulmonary valve damage is uncommon with rheumatic fever.',
+      2: 'Aortic valve damage can occur but is not the most common.',
+      3: 'Tricuspid valve damage is uncommon as a rheumatic fever consequence.'
+    }
+  },
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'Which teaching is most important for parents to prevent rheumatic fever in their child?',
+    options: [
+      'Avoid all crowded indoor spaces during cold weather seasons',
+      'Give a daily aspirin to suppress fevers throughout childhood',
+      'Treat strep throat promptly with the full course of antibiotics',
+      'Limit dairy intake to reduce production of upper airway mucus'
+    ],
+    answer: 2,
+    concept: 'Rheumatic Fever Prevention',
+    rationale: 'The key to preventing rheumatic fever is prompt and complete treatment of strep throat with antibiotics. Untreated or partially treated Group A strep is what triggers the autoimmune response.',
+    others: {
+      0: 'Avoiding crowds does not prevent rheumatic fever specifically.',
+      1: 'Daily aspirin in children risks Reye syndrome and is not preventive.',
+      3: 'Limiting dairy does not affect rheumatic fever risk.'
+    }
+  },
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'What is the underlying pathophysiology of aortic stenosis?',
+    options: [
+      'Backward flow of blood through the aortic valve during systole',
+      'Inflammation of the aortic root and the surrounding tissues',
+      'Sudden complete rupture of the aortic valve leaflet structure',
+      'Narrowing of the aortic valve restricting blood flow from the LV'
+    ],
+    answer: 3,
+    concept: 'Aortic Stenosis Pathophysiology',
+    rationale: 'Aortic stenosis is the narrowing of the aortic valve, which restricts blood flow from the left ventricle into the aorta during systole.',
+    others: {
+      0: 'Backward flow during systole describes aortic regurgitation.',
+      1: 'Inflammation of the aortic root is aortitis.',
+      2: 'Acute valve rupture is a different structural emergency.'
+    }
+  },
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'Which clinical pattern is most consistent with aortic stenosis?',
+    options: [
+      'Severe orthopnea and pink frothy sputum at rest in bed',
+      'Often asymptomatic until the disease becomes more advanced',
+      'Acute chest pain radiating down the left arm with diaphoresis',
+      'Sudden hemoptysis with right upper quadrant abdominal pain'
+    ],
+    answer: 1,
+    concept: 'Aortic Stenosis S/S',
+    rationale: 'Aortic stenosis is often asymptomatic for years. As it advances, dizziness and dyspnea on exertion are common. Symptoms tend to appear late in the disease course.',
+    others: {
+      0: 'Orthopnea and pink frothy sputum suggest pulmonary edema or HF.',
+      2: 'Acute radiating chest pain suggests MI.',
+      3: 'Hemoptysis with RUQ pain points to other diagnoses, not aortic stenosis.'
+    }
+  },
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'Which symptoms are most typical when aortic stenosis becomes symptomatic?',
+    options: [
+      'Bilateral leg swelling with cool, clammy skin',
+      'Dizziness and dyspnea, often on exertion',
+      'Sudden onset of bright red hemoptysis',
+      'Chronic productive cough with greenish sputum'
+    ],
+    answer: 1,
+    concept: 'Aortic Stenosis Symptoms',
+    rationale: 'Once symptomatic, aortic stenosis typically presents with dizziness and dyspnea, especially on exertion, due to decreased cardiac output through the narrowed valve.',
+    others: {
+      0: 'Bilateral leg swelling is more typical of right-sided HF.',
+      2: 'Hemoptysis is not the hallmark of aortic stenosis.',
+      3: 'Productive cough with green sputum is a respiratory infection.'
+    }
+  },
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'Which diagnostic test is the standard for diagnosing aortic stenosis?',
+    options: [
+      'Echocardiography',
+      'Cardiac catheterization with stent placement',
+      'Plain chest radiograph in two views',
+      'Pulmonary function testing with spirometry'
+    ],
+    answer: 0,
+    concept: 'Aortic Stenosis Diagnosis',
+    rationale: 'Echocardiography is the standard diagnostic test for aortic stenosis. It visualizes valve structure, measures the pressure gradient across the valve, and assesses left ventricular function.',
+    others: {
+      1: 'Cardiac catheterization can assist but is not the first-line diagnostic.',
+      2: 'Chest X-ray does not diagnose valve narrowing.',
+      3: 'PFTs assess lung function, not heart valves.'
+    }
+  },
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'What is the definitive treatment for severe aortic stenosis?',
+    options: [
+      'Lifelong oral diuretic therapy with daily weight monitoring',
+      'Daily aspirin and a statin medication regimen for life',
+      'Sublingual nitroglycerin as needed for any chest pain',
+      'Surgical replacement of the aortic valve'
+    ],
+    answer: 3,
+    concept: 'Aortic Stenosis Treatment',
+    rationale: 'The definitive treatment for severe aortic stenosis is surgical replacement of the aortic valve. Medical therapy can manage symptoms but does not correct the structural narrowing.',
+    others: {
+      0: 'Diuretics manage symptoms of fluid overload but do not correct stenosis.',
+      1: 'Aspirin and statins address atherosclerosis, not valve narrowing.',
+      2: 'Nitroglycerin can worsen symptoms in severe aortic stenosis.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let score = 0;
+let totalPoints = 0;
+let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_structuralcardiac_knowledge';
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  document.getElementById('q-stem').textContent = q.stem;
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong recall on a thin chapter. Move on to the Deep Drill for application scenarios.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed concepts below before moving to the Deep Drill.';
+  else if (pct >= 60) msg = 'Below pass threshold. Re-read the Ch 24 review section, retry, then move to the Deep Drill.';
+  else msg = 'Lots of room to grow. Re-study Ch 24 carefully — endocarditis, rheumatic fever, aortic stenosis — and run this again.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>

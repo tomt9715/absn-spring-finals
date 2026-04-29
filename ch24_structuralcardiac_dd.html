@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 24 Structural &amp; Infectious Cardiac — Deep Drill</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-soft: #14b8a6;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-soft: #8b5cf6;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+      --partial: #d97706;
+      --partial-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--purple); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .start-stat { text-align: center; padding: 18px 12px; background: var(--purple-pale); border-radius: 8px; border: 1px solid var(--line); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--purple); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer; background: var(--purple); color: white; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--purple); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--purple-soft); background: var(--purple-pale); }
+    .option.selected { border-color: var(--purple); background: var(--purple-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--purple); color: white; border-color: var(--purple); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--purple-pale); border-left: 3px solid var(--purple); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--purple); color: white; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--purple); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Deep Drill · Chapter 24</div>
+  <h1>Structural &amp; Infectious Cardiac</h1>
+  <p class="tagline">NCLEX-style application: prophylaxis decisions, recognition of endocarditis embolic findings, post-rheumatic fever assessment, and aortic stenosis priorities.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">15</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">MC</span><span class="start-stat-label">Format</span></div>
+      <div class="start-stat"><span class="start-stat-num">Yes</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">These are scenario-based application questions. Read carefully, watch for distractors, and reason through priority before selecting.</p>
+    <button class="btn" onclick="begin()">Begin</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 15</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Deep Drill</div>
+    <h1>Structural &amp; Infectious Cardiac</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 15 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Quiz</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'A patient with a prosthetic mitral valve is being scheduled for a tooth extraction next week. Which order does the nurse expect to see prior to the procedure?',
+    options: [
+      'Prophylactic IV vancomycin started 7 days before the procedure',
+      'Oral prophylactic antibiotics taken 1 hour before the procedure',
+      'Daily multivitamin started the morning of the procedure',
+      'No prophylaxis is needed because antibiotics are overprescribed'
+    ],
+    answer: 1,
+    concept: 'Endocarditis Prophylaxis',
+    rationale: 'Patients with prosthetic valves or prior endocarditis should take prophylactic oral antibiotics typically 1 hour before dental procedures. This prevents transient bacteremia from seeding the valve.',
+    others: {
+      0: 'IV vancomycin started a week early is not standard prophylaxis.',
+      2: 'A multivitamin does not prevent bacterial endocarditis.',
+      3: 'High-risk cardiac patients DO need dental prophylaxis per guidelines.'
+    }
+  },
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'A patient hospitalized with endocarditis suddenly develops left-sided weakness and slurred speech. What is the priority nursing action?',
+    options: [
+      'Document the finding and reassess in 30 minutes per protocol',
+      'Reposition the patient and offer reassurance to reduce anxiety',
+      'Notify the provider immediately and prepare for stroke workup',
+      'Administer the next scheduled dose of IV antibiotic on time'
+    ],
+    answer: 2,
+    concept: 'Embolic Stroke from Endocarditis',
+    rationale: 'New focal neurologic deficits in an endocarditis patient suggest septic embolus to the brain — a stroke complication of valve vegetations. The nurse must notify the provider immediately and prepare for stroke evaluation.',
+    others: {
+      0: 'Waiting 30 minutes during a possible stroke risks irreversible damage.',
+      1: 'Reassurance does not address an emergent neurologic event.',
+      3: 'Antibiotics continue, but the priority is stroke evaluation.'
+    }
+  },
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'The nurse is assessing a patient admitted for suspected endocarditis. Which finding most strongly supports the diagnosis?',
+    options: [
+      'New holosystolic murmur with petechiae on the trunk and palate',
+      'Bilateral lower extremity edema with bibasilar lung crackles',
+      'Sharp chest pain that worsens when patient leans forward',
+      'Productive cough with thick yellow sputum and a fever'
+    ],
+    answer: 0,
+    concept: 'Endocarditis Recognition',
+    rationale: 'A new holosystolic murmur paired with petechiae is highly suggestive of endocarditis. The murmur indicates valve damage and the petechiae reflect microemboli from valve vegetations.',
+    others: {
+      1: 'Bilateral leg edema with crackles points to heart failure.',
+      2: 'Pleuritic chest pain worse leaning forward suggests pericarditis.',
+      3: 'Productive cough with yellow sputum and fever suggests pneumonia.'
+    }
+  },
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'A patient is discharging home with a peripherally inserted central catheter (PICC) for 6 weeks of IV antibiotics for endocarditis. Which patient statement requires further teaching?',
+    options: [
+      '"I will keep the dressing dry and call if I see redness, drainage, or swelling."',
+      '"I will flush the line with saline as instructed and watch for any leaks."',
+      '"I will skip a dose if I forget so I can stay on a once-daily schedule."',
+      '"I will check my temperature daily and call if it goes above 100.4 F."'
+    ],
+    answer: 2,
+    concept: 'PICC Antibiotic Adherence',
+    rationale: 'Skipping antibiotic doses in endocarditis treatment risks treatment failure, valve destruction, and antibiotic resistance. Doses must be given exactly as scheduled. The other statements all reflect correct teaching.',
+    others: {
+      0: 'Dressing care and infection monitoring is correct.',
+      1: 'Flushing per protocol and watching for leaks is correct.',
+      3: 'Daily temp monitoring and reporting fever is correct.'
+    }
+  },
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'A school nurse is assessing a 7-year-old who had untreated strep throat 3 weeks ago. The child now has migratory joint pain, fever, and a new heart murmur. What does the nurse suspect?',
+    options: [
+      'Recurrence of strep pharyngitis with secondary spread to the joints',
+      'Pediatric Lyme disease secondary to a recent tick bite at home',
+      'Acute rheumatic fever with cardiac involvement of the heart',
+      'Childhood lupus erythematosus presenting with new joint symptoms'
+    ],
+    answer: 2,
+    concept: 'Acute Rheumatic Fever',
+    rationale: 'Acute rheumatic fever follows untreated Group A strep by 2-3 weeks and presents with migratory arthritis, fever, and carditis (new murmur). This is the classic Jones criteria picture.',
+    others: {
+      0: 'Recurrent strep does not classically cause murmurs and migratory joint pain.',
+      1: 'Lyme disease has different epidemiology and presentation.',
+      3: 'Lupus is rare in this age and unrelated to recent strep.'
+    }
+  },
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'A nurse is teaching the parents of a child with a history of rheumatic fever. Which statement indicates the parents need more teaching?',
+    options: [
+      '"We will get him to the doctor right away if he has a sore throat with fever."',
+      '"He may need to take long-term penicillin to prevent another rheumatic episode."',
+      '"He should be screened regularly for valve damage and any new heart murmurs."',
+      '"He can skip his medications when he feels healthy and energetic at school."'
+    ],
+    answer: 3,
+    concept: 'Rheumatic Fever Long-Term Care',
+    rationale: 'Children with a history of rheumatic fever often need long-term prophylactic penicillin to prevent recurrence. They should not skip doses just because they feel well — recurrence causes worsening valve damage.',
+    others: {
+      0: 'Prompt evaluation of sore throat with fever is correct.',
+      1: 'Long-term penicillin prophylaxis is recommended.',
+      2: 'Regular cardiac screening is appropriate.'
+    }
+  },
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'A 45-year-old patient who had rheumatic fever as a child reports new dyspnea on exertion. Auscultation reveals a low-pitched rumbling diastolic murmur at the apex. Which valve disorder is most likely?',
+    options: [
+      'Tricuspid regurgitation from chronic right-sided strain',
+      'Aortic stenosis from age-related valve calcification',
+      'Mitral stenosis from prior rheumatic heart disease',
+      'Pulmonary regurgitation from progressive valve disease'
+    ],
+    answer: 2,
+    concept: 'Mitral Stenosis from RHD',
+    rationale: 'Mitral stenosis is the most common late consequence of rheumatic heart disease. The low-pitched diastolic rumble at the apex is the classic murmur. Childhood rheumatic fever often manifests as mitral stenosis decades later.',
+    others: {
+      0: 'Tricuspid regurgitation has different murmur characteristics.',
+      1: 'Aortic stenosis produces a systolic murmur, not diastolic.',
+      3: 'Pulmonary regurgitation is uncommon and rarely from rheumatic disease.'
+    }
+  },
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'A patient with severe aortic stenosis is admitted for elective valve replacement. The nurse is reviewing the medication record and notes a PRN order for sublingual nitroglycerin for chest pain. What is the nurse\'s priority concern?',
+    options: [
+      'Nitroglycerin can cause severe hypotension and worsen perfusion in aortic stenosis',
+      'Nitroglycerin is contraindicated when any oral aspirin therapy is concurrent',
+      'Nitroglycerin must always be given with morphine for adequate pain control',
+      'Nitroglycerin requires admission to the ICU for continuous monitoring'
+    ],
+    answer: 0,
+    concept: 'Nitro Caution in AS',
+    rationale: 'Nitroglycerin is dangerous in severe aortic stenosis because the fixed valve obstruction prevents the heart from compensating for vasodilation. This causes profound hypotension and decreased coronary perfusion.',
+    others: {
+      1: 'Aspirin and nitro are not contraindicated together.',
+      2: 'Nitro does not require concurrent morphine.',
+      3: 'PRN nitro does not require ICU admission.'
+    }
+  },
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'A patient with known aortic stenosis is being discharged. Which symptom should the patient be taught to report immediately?',
+    options: [
+      'Mild fatigue after a full day of normal activity',
+      'Syncope or near-syncope episodes during exertion',
+      'Slight headache after waking in the morning',
+      'Occasional indigestion after a heavy meal'
+    ],
+    answer: 1,
+    concept: 'AS Red Flag Teaching',
+    rationale: 'Syncope on exertion in aortic stenosis is a red flag for severe disease and high mortality without intervention. Once symptomatic, average survival drops significantly without valve replacement.',
+    others: {
+      0: 'Mild fatigue is common and not specific.',
+      2: 'A slight morning headache is unrelated to AS severity.',
+      3: 'Occasional indigestion after heavy meals is not specific to AS.'
+    }
+  },
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'A patient with endocarditis is on day 4 of IV vancomycin. Lab results return: vancomycin trough 24 mcg/mL (target 15-20). What is the priority nursing action?',
+    options: [
+      'Administer the next dose at the regularly scheduled time as ordered',
+      'Hold the next dose and notify the provider for dose adjustment',
+      'Increase IV fluid administration to flush the kidneys aggressively',
+      'Stop the antibiotic completely and discontinue the IV line at once'
+    ],
+    answer: 1,
+    concept: 'Vancomycin Trough',
+    rationale: 'A vancomycin trough of 24 is supratherapeutic and risks nephrotoxicity. The nurse should hold the next dose and notify the provider for adjustment. Stopping the drug entirely is not appropriate without provider orders.',
+    others: {
+      0: 'Giving the next dose with a high trough increases toxicity risk.',
+      2: 'Increasing fluids may help kidney perfusion but does not address dosing.',
+      3: 'Completely stopping antibiotics jeopardizes endocarditis treatment.'
+    }
+  },
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'A patient newly diagnosed with endocarditis asks the nurse, "How did this happen to me?" Which response by the nurse is BEST?',
+    options: [
+      '"It was probably from poor hygiene at home you should rethink your habits."',
+      '"This is a fully random condition with no known cause and there is nothing to learn."',
+      '"You probably ate contaminated food and there is no way to fully prevent it."',
+      '"Bacteria can enter the bloodstream during procedures or infections and lodge on heart valves."'
+    ],
+    answer: 3,
+    concept: 'Patient Education Endocarditis',
+    rationale: 'Endocarditis develops when bacteria enter the bloodstream (via dental work, IV drug use, indwelling catheters, infections) and adhere to damaged or prosthetic valves. This is the accurate, non-blaming explanation.',
+    others: {
+      0: 'Blaming the patient is not therapeutic and is inaccurate.',
+      1: 'Endocarditis has known mechanisms — it is not random.',
+      2: 'Foodborne illness is not the typical endocarditis mechanism.'
+    }
+  },
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'A patient with aortic stenosis develops acute pulmonary edema. Which patient finding is the nurse MOST concerned about?',
+    options: [
+      'Heart rate of 88 beats per minute and regular rhythm',
+      'Reports mild chest tightness with deep inspiration',
+      'BP 78/48 with cool, mottled extremities and confusion',
+      'SpO2 of 92% on 2 liters of oxygen via nasal cannula'
+    ],
+    answer: 2,
+    concept: 'Cardiogenic Shock in AS',
+    rationale: 'BP 78/48 with cool, mottled skin and confusion indicates cardiogenic shock — a critical complication of decompensated aortic stenosis. This requires emergent intervention.',
+    others: {
+      0: 'HR 88 with regular rhythm is not the priority concern.',
+      1: 'Mild chest tightness is concerning but not as critical as shock.',
+      3: 'SpO2 of 92 with supplemental O2 is being managed.'
+    }
+  },
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'The nurse is reviewing the chart of a 60-year-old admitted with a fever and a new diastolic murmur. Which finding most supports a diagnosis of infective endocarditis?',
+    options: [
+      'History of recent hip replacement surgery 6 weeks ago',
+      'Two sets of blood cultures positive for the same organism',
+      'WBC 11,000 with mildly elevated C-reactive protein levels',
+      'A faint murmur heard on a routine physical 5 years ago'
+    ],
+    answer: 1,
+    concept: 'Endocarditis Diagnosis',
+    rationale: 'Two positive blood cultures with the same organism is a major Duke criterion for infective endocarditis. Combined with a new murmur, this strongly supports diagnosis.',
+    others: {
+      0: 'Recent surgery is a risk factor but not diagnostic by itself.',
+      2: 'Mildly elevated WBC and CRP are nonspecific inflammation markers.',
+      3: 'An old murmur is not a new finding.'
+    }
+  },
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'A 12-year-old with a history of rheumatic fever 2 years ago is being seen for a routine sports physical. Which assessment is the priority?',
+    options: [
+      'Auscultation of the heart for new or changed murmurs',
+      'Measurement of standing height and current weight',
+      'Inspection of the skin for any new acne or rashes',
+      'Visual screening for color blindness deficits in both eyes'
+    ],
+    answer: 0,
+    concept: 'Post-RHD Cardiac Screening',
+    rationale: 'Children with prior rheumatic fever are at high risk for late-developing valve damage (especially mitral stenosis). Cardiac auscultation for murmurs is the priority assessment, and any new findings need cardiology referral.',
+    others: {
+      1: 'Height and weight matter but are not the post-RHD priority.',
+      2: 'Skin inspection is not specific to RHD risk.',
+      3: 'Color blindness screening is unrelated to cardiac sequelae.'
+    }
+  },
+  {
+    topic: 'StructInfCardiac',
+    type: 'standard',
+    stem: 'A patient with severe aortic stenosis is preparing for surgical valve replacement. Which preoperative finding is MOST important to report to the surgeon?',
+    options: [
+      'Patient reports mild anxiety about the upcoming surgery in the morning',
+      'Last meal was approximately 9 hours ago before NPO orders started',
+      'Allergy to shellfish noted from a reaction at age 8 years old',
+      'INR of 3.5 in a patient on warfarin for atrial fibrillation'
+    ],
+    answer: 3,
+    concept: 'Preop Bleeding Risk',
+    rationale: 'INR of 3.5 in a surgical candidate is a major bleeding risk. The surgeon must be notified to delay surgery, reverse anticoagulation, or adjust the plan. This is the most urgent of the listed findings.',
+    others: {
+      0: 'Mild anxiety is expected and managed at the bedside.',
+      1: 'NPO for 9 hours is appropriate.',
+      2: 'Shellfish allergy is documented but not the urgent surgical concern.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let score = 0;
+let totalPoints = 0;
+let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_structuralcardiac_deepdrill';
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  document.getElementById('q-stem').textContent = q.stem;
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong application reasoning across endocarditis, RHD, and aortic stenosis. Move on to the next chapter.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed scenarios — application is where the final exam will challenge you.';
+  else if (pct >= 60) msg = 'Below pass threshold. Review missed concepts carefully, then rerun this drill before moving on.';
+  else msg = 'Significant gaps in application. Re-study Ch 24 review materials and the rationales below, then rerun this drill until you hit 77%+.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>
