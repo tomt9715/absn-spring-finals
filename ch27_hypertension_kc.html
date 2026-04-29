@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 27 Hypertension — Knowledge Check</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-soft: #14b8a6;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+      --partial: #d97706;
+      --partial-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .start-stat { text-align: center; padding: 18px 12px; background: var(--teal-pale); border-radius: 8px; border: 1px solid var(--line); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--teal); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer; background: var(--teal); color: white; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--teal); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--teal-soft); background: var(--teal-pale); }
+    .option.selected { border-color: var(--teal); background: var(--teal-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--teal); color: white; border-color: var(--teal); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--teal-pale); border-left: 3px solid var(--teal); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--teal); color: white; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--teal); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Knowledge Check · Chapter 27</div>
+  <h1>Hypertension</h1>
+  <p class="tagline">Direct recall: BP stages, primary vs secondary causes, risk factors, long-term complications, DASH diet, and HTN medications.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">20</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">MC</span><span class="start-stat-label">Format</span></div>
+      <div class="start-stat"><span class="start-stat-num">Yes</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">Each question is direct recall from your review guides. Answer, get instant rationale, move on.</p>
+    <button class="btn" onclick="begin()">Begin</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 20</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Knowledge Check</div>
+    <h1>Hypertension</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 20 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Quiz</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'Which BP reading meets the threshold for the diagnosis of hypertension?',
+    options: [
+      'A single reading of 120/80 mm Hg in clinic',
+      'Any reading below 120/80 mm Hg on home cuff',
+      'A single reading of 110/70 mm Hg taken at home',
+      '2 or more readings of greater than 130/80 mm Hg'
+    ],
+    answer: 3,
+    concept: 'HTN Diagnosis',
+    rationale: 'Hypertension is diagnosed when 2 or more readings show a BP greater than 130/80 mm Hg. A single elevated reading is not enough to diagnose HTN.',
+    others: {
+      0: '120/80 mm Hg is borderline normal, and a single reading does not diagnose HTN.',
+      1: 'A reading below 120/80 is normal.',
+      2: '110/70 is normal BP.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'Which BP reading is classified as Stage 2 hypertension?',
+    options: [
+      '120-129 / less than 80 mm Hg',
+      '130-139 / 80-89 mm Hg',
+      '140 or higher / 90 or higher mm Hg',
+      'Less than 120 / less than 80 mm Hg'
+    ],
+    answer: 2,
+    concept: 'BP Staging',
+    rationale: 'Stage 2 HTN is BP 140/90 mm Hg or higher. Stage 1 is 130-139/80-89, elevated is 120-129/<80, and normal is <120/<80.',
+    others: {
+      0: '120-129/<80 is Elevated BP, not Stage 2.',
+      1: '130-139/80-89 is Stage 1 HTN.',
+      3: '<120/<80 is Normal BP.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'A patient has a BP of 188/124 mm Hg. The nurse identifies this as:',
+    options: [
+      'Hypertensive crisis',
+      'Stage 1 hypertension',
+      'Elevated BP only',
+      'Within normal limits'
+    ],
+    answer: 0,
+    concept: 'Hypertensive Crisis',
+    rationale: 'Hypertensive crisis is BP >180 systolic and/or >120 diastolic. This requires immediate evaluation and treatment to prevent end-organ damage.',
+    others: {
+      1: 'Stage 1 is 130-139/80-89 — much lower than this reading.',
+      2: 'Elevated BP is 120-129/<80.',
+      3: '188/124 is far from normal.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'Why is hypertension referred to as the "silent killer"?',
+    options: [
+      'It always has dramatic visible symptoms that cause sudden death',
+      'It is often asymptomatic, but causes major end-organ damage over time',
+      'It only kills patients during nighttime hours when sleeping',
+      'It silently strengthens the heart and protects against other diseases'
+    ],
+    answer: 1,
+    concept: 'Silent Killer',
+    rationale: 'HTN is called the silent killer because it is often asymptomatic — patients may have no obvious symptoms while chronic high pressure damages the heart, brain, kidneys, and eyes over time.',
+    others: {
+      0: 'HTN typically has NO dramatic symptoms — that is the issue.',
+      2: 'Time of day is not relevant to the silent killer concept.',
+      3: 'HTN damages the heart and other organs, it does not protect them.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'Which of the following is a NON-modifiable risk factor for primary HTN?',
+    options: [
+      'High sodium dietary intake',
+      'Sedentary lifestyle and lack of exercise',
+      'Smoking and excessive alcohol use',
+      'Family history of hypertension'
+    ],
+    answer: 3,
+    concept: 'Non-modifiable Risk',
+    rationale: 'Family history is non-modifiable — patients cannot change their genetic predisposition to HTN. Other non-modifiable factors include age (>65), race (higher in African Americans), and male sex.',
+    others: {
+      0: 'High sodium intake is modifiable.',
+      1: 'Sedentary lifestyle is modifiable.',
+      2: 'Smoking and alcohol use are modifiable.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'Which is a MODIFIABLE risk factor for primary HTN that the patient can change?',
+    options: [
+      'Age greater than 65 years',
+      'African American race or ethnicity',
+      'Smoking and high sodium intake',
+      'Family history of hypertension'
+    ],
+    answer: 2,
+    concept: 'Modifiable Risk',
+    rationale: 'Smoking and high sodium intake are modifiable lifestyle factors. Patients can stop smoking and reduce sodium to lower their HTN risk significantly.',
+    others: {
+      0: 'Age is non-modifiable.',
+      1: 'Race is non-modifiable.',
+      3: 'Family history is non-modifiable.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'Which condition can cause SECONDARY hypertension?',
+    options: [
+      'Family history of hypertension and old age',
+      'Renal disease, pregnancy, or thyroid imbalance',
+      'Genetic predisposition without underlying cause',
+      'Aging process from age 50 or older'
+    ],
+    answer: 1,
+    concept: 'Secondary HTN Causes',
+    rationale: 'Secondary HTN is caused by another medical condition — examples include renal disease, pregnancy, thyroid imbalance, sleep apnea, atherosclerosis, pheochromocytoma, and Cushing disease.',
+    others: {
+      0: 'These describe primary HTN, which has no underlying cause.',
+      2: 'Genetic predisposition without underlying cause = primary HTN.',
+      3: 'Aging is associated with primary HTN, not secondary.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'A nurse is taking a patient BP. What happens if the BP cuff is too SMALL for the arm?',
+    options: [
+      'It produces a falsely high reading',
+      'It produces a falsely low reading',
+      'It produces an accurate reading every time',
+      'It causes the cuff to break during use'
+    ],
+    answer: 0,
+    concept: 'Cuff Size Too Small',
+    rationale: 'A cuff that is too small produces a falsely HIGH reading. The cuff width should be 40% of the arm circumference for accuracy.',
+    others: {
+      1: 'A cuff too small does not produce a falsely low reading.',
+      2: 'Wrong cuff size always affects accuracy.',
+      3: 'Cuff size does not cause it to break.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'What happens if the BP cuff is too LARGE for the arm?',
+    options: [
+      'It produces a falsely high reading',
+      'It produces an accurate reading every time',
+      'It produces a falsely low reading',
+      'It causes the cuff to break during use'
+    ],
+    answer: 2,
+    concept: 'Cuff Size Too Large',
+    rationale: 'A cuff that is too large produces a falsely LOW reading. Proper cuff sizing is essential for accurate BP measurement.',
+    others: {
+      0: 'Too large = falsely low, not high.',
+      1: 'Wrong cuff size affects accuracy.',
+      3: 'Cuff size does not cause breakage.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'What happens to a BP reading if the patient arm is positioned ABOVE heart level during measurement?',
+    options: [
+      'A falsely high BP reading is produced',
+      'A falsely low BP reading is produced',
+      'The reading remains accurate every time',
+      'The reading shows no measurable change'
+    ],
+    answer: 1,
+    concept: 'Arm Above Heart',
+    rationale: 'When the arm is above heart level, gravity reduces the pressure transmitted to the cuff, producing a falsely LOW BP reading. The arm should be at heart level for accuracy.',
+    others: {
+      0: 'Arm above heart causes falsely LOW, not high.',
+      2: 'Arm position affects accuracy.',
+      3: 'Arm position does cause a measurable change.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'A patient says, "My BP is always higher in my doctor office than at home." The nurse explains this phenomenon as:',
+    options: [
+      'Hypertensive crisis',
+      'White-coat syndrome',
+      'Orthostatic hypotension',
+      'Hypotensive episode'
+    ],
+    answer: 1,
+    concept: 'White-coat Syndrome',
+    rationale: 'White-coat syndrome is temporarily elevated BP in a clinical setting due to anxiety. The nurse should allow the patient to relax for several minutes before rechecking.',
+    others: {
+      0: 'Hypertensive crisis is a medical emergency, not anxiety-related.',
+      2: 'Orthostatic hypotension is BP drop with position change.',
+      3: 'A hypotensive episode is low BP, not elevated.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'Which long-term complication is most directly related to unmanaged HTN?',
+    options: [
+      'Bilateral knee pain from joint inflammation',
+      'Gallbladder stone formation over time',
+      'Chronic upper respiratory infections',
+      'Stroke and myocardial infarction'
+    ],
+    answer: 3,
+    concept: 'HTN Complications',
+    rationale: 'Unmanaged HTN damages blood vessels and leads to major complications including stroke, MI, heart failure, and renal failure. These are end-organ damage outcomes.',
+    others: {
+      0: 'Knee pain is not a typical HTN complication.',
+      1: 'Gallbladder stones are not from HTN.',
+      2: 'URIs are not HTN complications.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'A nurse is teaching a patient with HTN about the DASH diet. Which food choice does the DASH diet emphasize?',
+    options: [
+      'Fresh fruits, vegetables, whole grains, and low-fat dairy',
+      'Fast food and high-sodium prepared meals',
+      'Fried foods, processed meats, and salty snacks',
+      'Sugary drinks and high-sugar desserts'
+    ],
+    answer: 0,
+    concept: 'DASH Diet',
+    rationale: 'The DASH diet (Dietary Approaches to Stop Hypertension) emphasizes fresh fruits, vegetables, whole grains, and low-fat dairy. It also limits sodium, saturated fat, and processed foods.',
+    others: {
+      1: 'Fast food is high sodium and not DASH-aligned.',
+      2: 'Fried foods, processed meats, and salty snacks are NOT DASH-aligned.',
+      3: 'Sugary drinks and desserts are not part of DASH.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'Which lifestyle modification is recommended for HTN management?',
+    options: [
+      'Increase saturated fat intake to maintain higher cholesterol levels',
+      'Smoke cigarettes after meals to relax the patient blood vessels',
+      'Maintain a sedentary lifestyle to conserve energy each day',
+      'Engage in moderate exercise 3 to 4 times per week'
+    ],
+    answer: 3,
+    concept: 'HTN Lifestyle',
+    rationale: 'Moderate exercise 3-4 times per week is a key HTN lifestyle modification. Other recommendations include weight loss, stress management, smoking cessation, and reducing alcohol.',
+    others: {
+      0: 'Increased saturated fat worsens HTN.',
+      1: 'Smoking causes vasoconstriction and worsens HTN.',
+      2: 'Sedentary lifestyle worsens HTN.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'Which medication class for HTN management ends in -pril?',
+    options: [
+      'ACE inhibitors',
+      'Beta-blockers',
+      'Calcium channel blockers',
+      'Loop diuretics'
+    ],
+    answer: 0,
+    concept: 'ACE Inhibitor Suffix',
+    rationale: 'ACE inhibitors end in -pril (lisinopril, enalapril, captopril). They lower BP by blocking the renin-angiotensin system.',
+    others: {
+      1: 'Beta-blockers end in -lol (metoprolol, atenolol).',
+      2: 'Calcium channel blockers often end in -dipine (amlodipine).',
+      3: 'Loop diuretics often end in -ide (furosemide).'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'A patient is taking metoprolol (a beta-blocker) for HTN. Which finding requires the nurse to hold the next dose?',
+    options: [
+      'BP 142/88 with HR 78 and regular rhythm',
+      'BP 88/56 with HR 48 and irregular rhythm',
+      'BP 130/80 with HR 70 and regular rhythm',
+      'BP 124/76 with HR 80 and regular rhythm'
+    ],
+    answer: 1,
+    concept: 'Beta-blocker Hold',
+    rationale: 'BP 88/56 with HR 48 is outside typical beta-blocker safety parameters (commonly hold for SBP <100 or HR <60). The nurse should hold the dose and notify the provider.',
+    others: {
+      0: 'BP 142/88, HR 78 is safe.',
+      2: 'BP 130/80, HR 70 is safe.',
+      3: 'BP 124/76, HR 80 is safe.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'A patient with HTN is also being checked for Cushing disease. The provider suspects that Cushing has caused the BP elevation. This is an example of:',
+    options: [
+      'Primary hypertension',
+      'Secondary hypertension',
+      'Essential hypertension',
+      'White-coat hypertension'
+    ],
+    answer: 1,
+    concept: 'Secondary HTN Example',
+    rationale: 'Cushing disease causes excess cortisol, which raises BP — this is secondary HTN because the cause is identifiable and treatable. Other secondary causes include renal disease, pheochromocytoma, and thyroid imbalance.',
+    others: {
+      0: 'Primary HTN has no identifiable underlying cause.',
+      2: 'Essential HTN is another name for primary HTN.',
+      3: 'White-coat HTN is anxiety-related elevation in clinical settings.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'Which OTC medication should HTN patients use cautiously and discuss with their provider?',
+    options: [
+      'Acetaminophen for occasional headache or pain',
+      'Standard daily multivitamin without minerals',
+      'Decongestants such as pseudoephedrine for sinus relief',
+      'Plain saline nasal spray for daily dryness in winter'
+    ],
+    answer: 2,
+    concept: 'OTC Decongestant Caution',
+    rationale: 'Decongestants like pseudoephedrine (Sudafed) cause vasoconstriction and can raise BP significantly. HTN patients should avoid these or use only with provider approval.',
+    others: {
+      0: 'Acetaminophen does not significantly raise BP.',
+      1: 'A standard multivitamin without sodium is fine.',
+      3: 'Plain saline nasal spray is local use and does not raise BP.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'A patient with HTN is being taught about lifestyle changes. Which patient statement indicates the BEST understanding of dietary recommendations?',
+    options: [
+      '"I will follow the DASH diet and limit my sodium intake at home."',
+      '"I will eat all the canned soups I want as long as I exercise daily."',
+      '"I will drink alcohol freely as long as I take my BP medication."',
+      '"I will avoid fruits and vegetables to lower my potassium intake."'
+    ],
+    answer: 0,
+    concept: 'DASH Diet Teaching',
+    rationale: 'Following the DASH diet and limiting sodium are core HTN dietary recommendations. The DASH diet emphasizes fruits, vegetables, whole grains, and low-fat dairy.',
+    others: {
+      1: 'Canned soups are high sodium and not OK in unlimited quantities.',
+      2: 'Alcohol moderation matters even with HTN meds.',
+      3: 'Fruits and vegetables are encouraged on DASH, not avoided.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'A patient with HTN has been on medication for 6 weeks. They state, "I feel fine now, so I think I can stop my BP pills." What is the BEST nursing response?',
+    options: [
+      '"That makes sense — feeling fine usually means the BP is normal now."',
+      '"You should taper the dose yourself by skipping every other day."',
+      '"You can stop the medication, but check your BP weekly to be sure."',
+      '"HTN is asymptomatic; you must continue the meds even when feeling fine."'
+    ],
+    answer: 3,
+    concept: 'HTN Med Adherence',
+    rationale: 'HTN is asymptomatic — feeling fine does not mean the BP is controlled. Stopping medication can cause rebound hypertension and increase the risk of stroke, MI, and other complications. Adherence is critical.',
+    others: {
+      0: 'Feeling fine does NOT mean BP is normal in HTN.',
+      1: 'Self-tapering is unsafe.',
+      2: 'Stopping meds without provider direction is unsafe.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let score = 0;
+let totalPoints = 0;
+let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_hypertension_knowledge';
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  document.getElementById('q-stem').textContent = q.stem;
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong recall on hypertension. Move on to the Deep Drill for application scenarios.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed concepts below before moving to the Deep Drill.';
+  else if (pct >= 60) msg = 'Below pass threshold. Re-read Ch 27, retry, then move to the Deep Drill.';
+  else msg = 'Lots of room to grow. Re-study Ch 27 carefully — BP staging, complications, DASH diet, meds — and run this again.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>

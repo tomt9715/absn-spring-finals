@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 27 Hypertension — Deep Drill</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-soft: #14b8a6;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-soft: #8b5cf6;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+      --partial: #d97706;
+      --partial-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--purple); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .start-stat { text-align: center; padding: 18px 12px; background: var(--purple-pale); border-radius: 8px; border: 1px solid var(--line); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--purple); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer; background: var(--purple); color: white; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--purple); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--purple-soft); background: var(--purple-pale); }
+    .option.selected { border-color: var(--purple); background: var(--purple-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--purple); color: white; border-color: var(--purple); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--purple-pale); border-left: 3px solid var(--purple); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--purple); color: white; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--purple); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Deep Drill · Chapter 27</div>
+  <h1>Hypertension</h1>
+  <p class="tagline">NCLEX-style application: hypertensive crisis, medication adherence, BP reading errors, lifestyle counseling traps, and end-organ damage recognition.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">20</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">MC</span><span class="start-stat-label">Format</span></div>
+      <div class="start-stat"><span class="start-stat-num">Yes</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">These are scenario-based application questions. Read carefully, watch for distractors, and reason through priority before selecting.</p>
+    <button class="btn" onclick="begin()">Begin</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 20</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Deep Drill</div>
+    <h1>Hypertension</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 20 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Quiz</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'A patient arrives at the clinic with a BP of 196/118 mm Hg. They report a severe headache and blurred vision. What is the priority nursing action?',
+    options: [
+      'Tell the patient to rest at home and rerun BP in 2 hours',
+      'Administer the patient regular daily oral lisinopril dose',
+      'Notify the provider immediately and prepare to transfer to ED',
+      'Encourage the patient to drink water and recheck in 30 minutes'
+    ],
+    answer: 2,
+    concept: 'Hypertensive Emergency',
+    rationale: 'BP >180/120 with symptoms of end-organ damage (severe headache, blurred vision) is a hypertensive emergency. The patient needs immediate evaluation in the ED for IV antihypertensives and workup for stroke, MI, or other complications.',
+    others: {
+      0: 'Sending the patient home with these symptoms is unsafe.',
+      1: 'Oral medication is not enough for hypertensive emergency.',
+      3: 'Waiting 30 minutes risks irreversible end-organ damage.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'A patient with HTN reports the following BP readings at home over the past week: 142/88, 138/86, 146/92, 140/90. The nurse interprets these readings as:',
+    options: [
+      'Normal BP — no further action is needed at this time',
+      'Stage 2 hypertension — provider should be notified',
+      'Mild elevation — wait another month before any action',
+      'Hypertensive crisis — call 911 right away for transport'
+    ],
+    answer: 1,
+    concept: 'Stage 2 HTN Recognition',
+    rationale: 'BP consistently 140/90 or higher = Stage 2 HTN. Multiple readings above this threshold require provider notification for medication adjustment.',
+    others: {
+      0: 'These readings are clearly elevated, not normal.',
+      2: 'Mild elevation = 120-129/<80, not these readings.',
+      3: 'Hypertensive crisis is >180/>120, much higher than these readings.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'A patient is taking lisinopril for HTN and develops a persistent dry cough. What is the BEST nursing action?',
+    options: [
+      'Tell the patient that the cough will resolve on its own with time',
+      'Recommend OTC dextromethorphan to suppress the cough at home',
+      'Increase the lisinopril dose to address the breakthrough symptom',
+      'Notify the provider — ACE inhibitor cough may require a med change'
+    ],
+    answer: 3,
+    concept: 'ACE Inhibitor Cough',
+    rationale: 'Persistent dry cough is a known ACE inhibitor side effect. The provider may switch the patient to an ARB (angiotensin receptor blocker like losartan), which provides similar BP benefits without the cough.',
+    others: {
+      0: 'ACE inhibitor cough often does not resolve on its own.',
+      1: 'OTC suppressants do not address the underlying drug effect.',
+      2: 'Increasing the dose worsens the side effect.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'A nurse is taking a BP. The patient just walked into the clinic and sat down a few seconds ago. The reading is 158/92. What is the BEST action?',
+    options: [
+      'Document the reading as Stage 2 HTN and notify the provider',
+      'Allow the patient to rest 5 minutes and recheck the BP',
+      'Administer the patient morning antihypertensive medication',
+      'Send the patient to the ED immediately for further workup'
+    ],
+    answer: 1,
+    concept: 'BP Technique Resting',
+    rationale: 'BP should be measured after the patient has rested for at least 5 minutes. Activity, anxiety, or recent walking can falsely elevate BP. Letting the patient rest and rechecking gives the most accurate reading.',
+    others: {
+      0: 'Documenting an inaccurate reading without retest is not good practice.',
+      2: 'Medication should not be given based on a single inaccurate reading.',
+      3: 'ED transfer is not warranted before getting an accurate reading.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'A patient newly diagnosed with HTN says, "I do not feel sick — I will take the medication only when I have a headache." What is the BEST nursing response?',
+    options: [
+      '"That is a reasonable approach — only treat when symptomatic."',
+      '"You can adjust the dose based on how stressed you feel each day."',
+      '"HTN is silent — daily medication prevents stroke and heart attack."',
+      '"Take a double dose with headaches to make up for missed doses."'
+    ],
+    answer: 2,
+    concept: 'HTN Adherence Education',
+    rationale: 'HTN is silent and does not produce reliable symptoms. Daily medication is essential to prevent end-organ damage like stroke, MI, kidney failure, and heart failure. The patient needs clear teaching about consistent adherence.',
+    others: {
+      0: 'PRN dosing for HTN is unsafe.',
+      1: 'Self-adjusting based on stress is unsafe.',
+      3: 'Doubling doses is unsafe.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'A patient on hydrochlorothiazide (HCTZ) for HTN is being monitored. Which lab finding requires immediate attention?',
+    options: [
+      'Sodium 138 mEq/L (normal 135-145)',
+      'Potassium 2.6 mEq/L (normal 3.5-5.0)',
+      'Hemoglobin 14 g/dL (normal 12-16)',
+      'Glucose 92 mg/dL (normal 70-100)'
+    ],
+    answer: 1,
+    concept: 'HCTZ Hypokalemia',
+    rationale: 'HCTZ is a potassium-wasting thiazide diuretic. K+ 2.6 is critically low and risks cardiac arrhythmias. Notify the provider for potassium replacement.',
+    others: {
+      0: 'Sodium 138 is normal.',
+      2: 'Hemoglobin 14 is normal.',
+      3: 'Glucose 92 is normal.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'A patient with HTN is being taught about home BP monitoring. Which patient action requires further teaching?',
+    options: [
+      '"I will sit quietly for 5 minutes before taking my BP each time."',
+      '"I will use the same arm and rest it on the table at heart level."',
+      '"I will take my BP right after drinking my morning cup of coffee."',
+      '"I will record each reading and bring my log to my next visit."'
+    ],
+    answer: 2,
+    concept: 'BP Monitoring Caffeine',
+    rationale: 'Caffeine raises BP temporarily. Patients should avoid caffeine, smoking, and exercise for at least 30 minutes before measuring BP. The other actions are correct technique.',
+    others: {
+      0: '5 minutes of rest before BP is correct.',
+      1: 'Same arm at heart level is correct.',
+      3: 'Recording readings to bring to visits is correct.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'A 65-year-old patient with HTN reports new dizziness when standing up from a chair. The nurse measures: BP lying 132/82 (HR 72), standing 98/64 (HR 94). What does the nurse suspect?',
+    options: [
+      'Orthostatic hypotension likely from antihypertensive medications',
+      'Hypertensive crisis requiring immediate emergency intervention',
+      'Normal BP variability that does not require any intervention',
+      'White-coat syndrome that resolves with continued observation'
+    ],
+    answer: 0,
+    concept: 'Orthostatic Hypotension',
+    rationale: 'A drop of >20 SBP or >10 DBP with position change defines orthostatic hypotension. This is a common side effect of antihypertensives. Teach slow position changes and report to provider.',
+    others: {
+      1: 'BPs are not in crisis range.',
+      2: 'A 34-point SBP drop is not normal variability.',
+      3: 'White-coat syndrome is anxiety-induced elevation, not orthostatic drop.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'A nurse is teaching a patient with HTN about reading food labels. Which item does the nurse identify as concerning?',
+    options: [
+      'A meal with 50 mg of sodium per serving',
+      'A meal with 1200 mg of sodium per serving',
+      'A meal with 100 mg of sodium per serving',
+      'A meal with 200 mg of sodium per serving'
+    ],
+    answer: 1,
+    concept: 'Sodium Label Reading',
+    rationale: 'For HTN management, daily sodium should be limited (often 1500-2300 mg). A single meal with 1200 mg of sodium is a major portion of the daily limit and is concerning.',
+    others: {
+      0: '50 mg per serving is very low and acceptable.',
+      2: '100 mg per serving is acceptable.',
+      3: '200 mg per serving is acceptable.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'A patient with HTN has a history of asthma. Which medication should the nurse question?',
+    options: [
+      'Lisinopril (an ACE inhibitor) for blood pressure control',
+      'Amlodipine (a calcium channel blocker) for BP control',
+      'Hydrochlorothiazide (a thiazide diuretic) for BP control',
+      'Propranolol (a non-selective beta-blocker) for BP control'
+    ],
+    answer: 3,
+    concept: 'Beta-blocker in Asthma',
+    rationale: 'Non-selective beta-blockers like propranolol can cause bronchoconstriction and worsen asthma. The nurse should question this order and may suggest a cardioselective beta-blocker (like metoprolol) or a different class.',
+    others: {
+      0: 'ACE inhibitors are generally safe in asthma.',
+      1: 'Calcium channel blockers are generally safe in asthma.',
+      2: 'Thiazide diuretics are generally safe in asthma.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'A patient with HTN asks why the provider is also recommending exercise even though they take medication. The BEST response is:',
+    options: [
+      '"Exercise replaces the need for medication completely over time."',
+      '"Exercise has no real impact on BP if you are already on medication."',
+      '"Exercise alongside medication improves BP control and overall heart health."',
+      '"Exercise should only be done if your BP medication is not working."'
+    ],
+    answer: 2,
+    concept: 'Exercise + Meds Synergy',
+    rationale: 'Exercise and medication work together. Regular moderate exercise lowers BP, improves cardiovascular health, and may allow for lower medication doses over time. It does not replace medication but enhances overall outcomes.',
+    others: {
+      0: 'Exercise rarely replaces medication entirely in HTN.',
+      1: 'Exercise DOES impact BP even with medication.',
+      3: 'Exercise is part of standard HTN management, not just a backup.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'A patient with HTN is also taking amlodipine. Which side effect should the nurse teach the patient to expect or report?',
+    options: [
+      'Bilateral peripheral edema in the lower extremities',
+      'A persistent dry cough that worsens at night in bed',
+      'Severe hyperkalemia from elevated serum potassium',
+      'Severe hypothyroidism with cold intolerance and weight gain'
+    ],
+    answer: 0,
+    concept: 'CCB Edema',
+    rationale: 'Calcium channel blockers like amlodipine commonly cause peripheral edema due to vasodilation. Teaching includes elevation of legs, monitoring weight, and reporting significant swelling.',
+    others: {
+      1: 'Persistent dry cough is an ACE inhibitor side effect, not CCB.',
+      2: 'Hyperkalemia is more associated with ACE inhibitors and K-sparing diuretics.',
+      3: 'Hypothyroidism is not a typical amlodipine side effect.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'A patient with longstanding HTN has the following labs: BUN 38 (normal 7-20), creatinine 2.4 (normal 0.6-1.2). The nurse recognizes these findings as:',
+    options: [
+      'Evidence of unmanaged HTN causing renal damage',
+      'Normal age-related changes in adults over 60',
+      'A side effect from drinking too much water',
+      'Evidence of acute strep throat infection in adults'
+    ],
+    answer: 0,
+    concept: 'HTN Renal Damage',
+    rationale: 'Elevated BUN and creatinine in a patient with longstanding HTN indicate kidney damage from chronic high pressure. HTN is a leading cause of chronic kidney disease.',
+    others: {
+      1: 'These values are not normal age-related changes.',
+      2: 'Excess water dilutes BUN, not raises it.',
+      3: 'Strep throat does not cause this lab pattern.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'A pregnant patient at 32 weeks gestation has a BP of 156/102 with new proteinuria and severe headache. The nurse recognizes this as:',
+    options: [
+      'Normal pregnancy-related BP changes that resolve after delivery',
+      'White-coat syndrome from clinic anxiety during pregnancy visits',
+      'Possible preeclampsia requiring immediate provider notification',
+      'Routine first-time pregnancy nervousness without medical concern'
+    ],
+    answer: 2,
+    concept: 'Preeclampsia',
+    rationale: 'BP >140/90 after 20 weeks gestation with proteinuria + symptoms (headache, visual changes) suggests preeclampsia — a serious form of pregnancy-induced hypertension. Immediate evaluation is needed to prevent eclampsia (seizures) and other complications.',
+    others: {
+      0: 'BP this high with new proteinuria is NOT normal.',
+      1: 'The symptoms and proteinuria rule out simple white-coat syndrome.',
+      3: 'These findings require medical workup, not dismissal.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'A patient with HTN is being discharged on a beta-blocker. Which patient statement requires further teaching?',
+    options: [
+      '"I will check my pulse before each dose to ensure HR is over 60."',
+      '"I will rise slowly from sitting to standing to avoid dizziness."',
+      '"I will report any new shortness of breath or wheezing right away."',
+      '"I will stop my beta-blocker abruptly if I am feeling fine again."'
+    ],
+    answer: 3,
+    concept: 'Beta-blocker Abrupt Stop',
+    rationale: 'Abruptly stopping a beta-blocker can cause rebound tachycardia, hypertension, angina, or even MI. Patients must taper under provider supervision. The other statements all reflect correct teaching.',
+    others: {
+      0: 'Checking pulse before each dose is correct.',
+      1: 'Rising slowly to avoid orthostatic hypotension is correct.',
+      2: 'Reporting new SOB or wheezing is correct.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'A patient with HTN is on lisinopril and spironolactone. Which lab finding requires immediate notification of the provider?',
+    options: [
+      'Sodium 137 mEq/L (normal 135-145)',
+      'Hemoglobin 13 g/dL (normal 12-16)',
+      'Potassium 6.0 mEq/L (normal 3.5-5.0)',
+      'Glucose 95 mg/dL (normal 70-100)'
+    ],
+    answer: 2,
+    concept: 'Combined Hyperkalemia Risk',
+    rationale: 'Both lisinopril (ACE inhibitor) and spironolactone (K-sparing diuretic) raise potassium. K+ 6.0 is dangerously high and risks fatal arrhythmias. Notify the provider immediately.',
+    others: {
+      0: 'Sodium 137 is normal.',
+      1: 'Hemoglobin 13 is normal.',
+      3: 'Glucose 95 is normal.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'A patient with HTN reports using a salt substitute that contains potassium chloride. The patient is also taking lisinopril. What is the BEST nursing response?',
+    options: [
+      '"Salt substitutes are healthy alternatives and you can use them freely."',
+      '"You should avoid salt substitutes with potassium since lisinopril retains potassium."',
+      '"Use the salt substitute only on alternating days for best results."',
+      '"Salt substitutes are sodium-free so they have no impact on your meds."'
+    ],
+    answer: 1,
+    concept: 'Salt Substitute K Risk',
+    rationale: 'Salt substitutes contain potassium chloride. Combined with ACE inhibitors (which retain potassium), this can cause dangerous hyperkalemia. Teach the patient to avoid potassium-based salt substitutes.',
+    others: {
+      0: 'Salt substitutes are not safe with ACE inhibitors.',
+      2: 'Even alternating days adds to potassium load.',
+      3: 'Salt substitutes have potassium that interacts with lisinopril.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'A 30-year-old patient with no risk factors presents with BP 168/102 and persistent headaches. The provider orders a workup for secondary HTN. Which finding would support a secondary cause?',
+    options: [
+      'Family history of HTN in both parents and a sibling',
+      'Sedentary lifestyle and high-sodium diet over many years',
+      'Daily caffeine intake of 2 cups of regular brewed coffee',
+      'A new pheochromocytoma identified on adrenal CT scan'
+    ],
+    answer: 3,
+    concept: 'Pheochromocytoma',
+    rationale: 'Pheochromocytoma is an adrenal tumor that secretes catecholamines, causing severe HTN. It is a classic secondary HTN cause, especially in younger patients with new severe HTN. Other secondary causes include renal disease, thyroid imbalance, Cushing disease.',
+    others: {
+      0: 'Family history suggests primary, not secondary.',
+      1: 'Lifestyle factors point to primary HTN.',
+      2: 'Daily caffeine alone does not cause secondary HTN.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'The nurse is preparing to delegate tasks for a patient with HTN. Which task is most appropriate to delegate to the unlicensed assistive personnel (UAP)?',
+    options: [
+      'Initial BP measurement using the appropriate cuff size',
+      'Initial admission assessment of the new HTN patient',
+      'Patient teaching about the DASH diet and lifestyle changes',
+      'Adjusting the IV antihypertensive infusion rate as ordered'
+    ],
+    answer: 0,
+    concept: 'HTN Delegation',
+    rationale: 'Routine BP measurement is within UAP scope. Initial assessment, patient teaching, and medication adjustments are all RN-only tasks.',
+    others: {
+      1: 'Initial assessment requires the RN.',
+      2: 'Patient teaching requires the RN.',
+      3: 'Medication adjustment is an RN/provider task.'
+    }
+  },
+  {
+    topic: 'Hypertension',
+    type: 'standard',
+    stem: 'A patient with HTN is being prepared for discharge. Which teaching is the priority for long-term safety?',
+    options: [
+      'Monitor home BP, take meds daily, and report readings >180/120',
+      'Skip BP medication on weekends to give the body a break',
+      'Reduce all dietary fluid intake to less than 1 liter per day',
+      'Avoid all forms of physical exercise to prevent BP elevation'
+    ],
+    answer: 0,
+    concept: 'HTN Discharge Priority',
+    rationale: 'Home BP monitoring, daily medication adherence, and recognizing emergency thresholds (>180/120) are the priority discharge teachings for HTN. These prevent stroke, MI, and other end-organ damage.',
+    others: {
+      1: 'Skipping doses is unsafe and causes rebound elevation.',
+      2: 'Severe fluid restriction is not standard HTN teaching.',
+      3: 'Avoiding exercise worsens HTN.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let score = 0;
+let totalPoints = 0;
+let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_hypertension_deepdrill';
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  document.getElementById('q-stem').textContent = q.stem;
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong application reasoning across HTN, medications, and lifestyle counseling. Move on to the next chapter.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed scenarios — application is where the final exam will challenge you.';
+  else if (pct >= 60) msg = 'Below pass threshold. Review missed concepts carefully and rerun this drill before moving on.';
+  else msg = 'Significant gaps in application. Re-study Ch 27 review materials and the rationales below, then rerun this drill until you hit 77%+.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>
