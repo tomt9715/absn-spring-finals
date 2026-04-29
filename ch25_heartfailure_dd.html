@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 25 Heart Failure — Deep Drill</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-soft: #14b8a6;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-soft: #8b5cf6;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+      --partial: #d97706;
+      --partial-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--purple); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .start-stat { text-align: center; padding: 18px 12px; background: var(--purple-pale); border-radius: 8px; border: 1px solid var(--line); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--purple); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer; background: var(--purple); color: white; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--purple); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--purple-soft); background: var(--purple-pale); }
+    .option.selected { border-color: var(--purple); background: var(--purple-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--purple); color: white; border-color: var(--purple); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--purple-pale); border-left: 3px solid var(--purple); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--purple); color: white; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--purple); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Deep Drill · Chapter 25</div>
+  <h1>Heart Failure</h1>
+  <p class="tagline">NCLEX-style application: pulmonary edema priority response, diuretic monitoring, fluid balance interpretation, and HF discharge teaching scenarios.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">25</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">MC</span><span class="start-stat-label">Format</span></div>
+      <div class="start-stat"><span class="start-stat-num">Yes</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">These are scenario-based application questions. Read carefully, watch for distractors, and reason through priority before selecting.</p>
+    <button class="btn" onclick="begin()">Begin</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 25</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Deep Drill</div>
+    <h1>Heart Failure</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 25 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Quiz</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A 72-year-old patient with HF arrives in the ED with severe dyspnea, frothy pink sputum, and oxygen saturation of 86% on room air. Which action is the priority?',
+    options: [
+      'Administer the next scheduled dose of oral lisinopril by mouth',
+      'Apply oxygen at 4 L/min nasal cannula and elevate HOB to high Fowler',
+      'Insert a urinary catheter to monitor strict urine output',
+      'Schedule a chest X-ray for first thing in the morning'
+    ],
+    answer: 1,
+    concept: 'Pulmonary Edema Priority',
+    rationale: 'Severe dyspnea + frothy pink sputum + SpO2 86% = acute pulmonary edema. The first priority is oxygen and high Fowler positioning to ease the work of breathing. IV diuretics, monitoring, and ICU transfer follow.',
+    others: {
+      0: 'Lisinopril is part of HF management but not the immediate first action.',
+      2: 'Foley insertion is part of monitoring but not the priority.',
+      3: 'Chest X-ray confirms but does not provide the immediate intervention.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with HF reports a 4-pound weight gain over the past 24 hours along with new ankle swelling and shortness of breath. What is the BEST nursing response?',
+    options: [
+      '"This is a normal fluctuation and not something to be worried about."',
+      '"Try cutting back on water intake and reassess yourself in 2 days."',
+      '"You should call your provider right away — this signals fluid retention."',
+      '"Take an extra dose of furosemide and skip your dinner tonight."'
+    ],
+    answer: 2,
+    concept: 'HF Worsening',
+    rationale: '4 lb in 24 hours plus new edema and SOB are signs of decompensating HF. The patient should call the provider immediately — diuretic adjustment, evaluation, and possible admission may be needed.',
+    others: {
+      0: '4 lb in 24 hours is not normal in HF.',
+      1: 'Waiting 2 days risks further decompensation.',
+      3: 'Patients should not self-adjust diuretic doses.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A nurse is preparing to administer furosemide 40 mg IV push to a patient with HF. The latest potassium level is 3.0 mEq/L (normal 3.5-5.0). What is the priority action?',
+    options: [
+      'Administer furosemide as ordered and reassess potassium tomorrow',
+      'Increase the furosemide dose to ensure stronger fluid removal',
+      'Switch to oral furosemide for slower absorption to be safe',
+      'Hold furosemide, notify the provider, and anticipate potassium replacement'
+    ],
+    answer: 3,
+    concept: 'Furosemide Hold for Hypokalemia',
+    rationale: 'Furosemide is potassium-wasting. Giving it with K+ already at 3.0 risks dangerous hypokalemia and arrhythmias. Hold the dose, notify the provider, and anticipate potassium replacement before continuing diuresis.',
+    others: {
+      0: 'Giving furosemide with K+ 3.0 is unsafe.',
+      1: 'Increasing the dose worsens hypokalemia.',
+      2: 'Switching to oral does not solve the underlying low K+ problem.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient newly diagnosed with HF asks why they are weighed every morning. Which response by the nurse is BEST?',
+    options: [
+      '"It tracks how much you are eating each day for your nutrition log."',
+      '"It is hospital protocol — every patient is weighed in the morning."',
+      '"It detects fluid retention early so we can adjust your meds quickly."',
+      '"It tells us how much exercise you are doing throughout the day."'
+    ],
+    answer: 2,
+    concept: 'Daily Weight Rationale',
+    rationale: 'Daily weights detect fluid retention early — a 1-pound gain represents about 1 pint of fluid retention. Catching this early lets the team adjust diuretics before the patient decompensates.',
+    others: {
+      0: 'Daily weights are not for nutrition tracking.',
+      1: 'Daily weights have a specific clinical purpose, not just protocol.',
+      3: 'Daily weights are not for tracking exercise.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with HF has the following signs: bilateral pitting edema 3+, ascites, hepatomegaly, and JVD. Which type of HF is this most consistent with?',
+    options: [
+      'Right-sided heart failure',
+      'Left-sided heart failure',
+      'Acute pulmonary embolism',
+      'High-output cardiac failure'
+    ],
+    answer: 0,
+    concept: 'Right HF Recognition',
+    rationale: 'Pitting edema, ascites, hepatomegaly, and JVD all reflect systemic venous congestion — right-sided HF (R = Rest of body). Blood backs up from the failing right ventricle into the systemic circulation.',
+    others: {
+      1: 'Left-sided HF causes pulmonary symptoms.',
+      2: 'PE causes acute SOB and chest pain, not chronic systemic congestion.',
+      3: 'High-output failure has different clinical findings.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with HF is being taught about discharge medications. Which patient statement requires further teaching?',
+    options: [
+      '"I will take my furosemide in the morning so I sleep better at night."',
+      '"I will check my heart rate before each dose of metoprolol."',
+      '"I will notify my provider if I gain 3 pounds in a single day."',
+      '"I will increase my fluid intake to flush my kidneys aggressively."'
+    ],
+    answer: 3,
+    concept: 'HF Fluid Restriction Teaching',
+    rationale: 'HF patients are typically on fluid restriction (often 1.5-2 L per day). Increasing fluid intake worsens fluid overload and contradicts HF management. The other statements all reflect correct teaching.',
+    others: {
+      0: 'Morning furosemide to avoid sleep disruption is correct.',
+      1: 'Checking HR before metoprolol is correct.',
+      2: 'Reporting 3 lb in 1 day is correct.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A nurse is reviewing labs on a patient with HF on lisinopril (an ACE inhibitor). Which lab result requires immediate notification of the provider?',
+    options: [
+      'Sodium 138 mEq/L (normal 135-145)',
+      'Potassium 6.2 mEq/L (normal 3.5-5.0)',
+      'Hemoglobin 13 g/dL (normal 12-16)',
+      'Glucose 110 mg/dL (normal 70-100)'
+    ],
+    answer: 1,
+    concept: 'ACE Inhibitor Hyperkalemia',
+    rationale: 'ACE inhibitors cause potassium retention. Potassium 6.2 is dangerously high and risks life-threatening arrhythmias. The nurse must notify the provider immediately. Hold lisinopril and anticipate K+-lowering interventions.',
+    others: {
+      0: 'Sodium 138 is normal.',
+      2: 'Hemoglobin 13 is normal.',
+      3: 'Glucose 110 is mildly elevated but not critical.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with HF develops a persistent dry cough since starting lisinopril. The patient denies fever, sputum, or chest pain. What is the BEST nursing action?',
+    options: [
+      'Reassure the patient that this is a temporary normal effect that resolves',
+      'Notify the provider — ACE inhibitor cough is a known side effect',
+      'Encourage the patient to suppress the cough with cough drops at night',
+      'Increase the patient lisinopril dose to control the symptom completely'
+    ],
+    answer: 1,
+    concept: 'ACE Inhibitor Cough',
+    rationale: 'A persistent dry cough is a classic ACE inhibitor side effect. The provider may switch the patient to an ARB (angiotensin receptor blocker like losartan), which provides similar benefits without the cough.',
+    others: {
+      0: 'ACE inhibitor cough often does not resolve and may need med change.',
+      2: 'Cough drops do not address the underlying drug-induced cough.',
+      3: 'Increasing the dose worsens the side effect.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with HF is receiving IV furosemide. Which finding indicates the medication is having the desired effect?',
+    options: [
+      'Heart rate increasing from 80 to 110 over 2 hours',
+      'Urine output of 800 mL over the past 4 hours',
+      'BP dropping from 130/80 to 84/52 over 1 hour',
+      'New onset bilateral lower extremity edema noted'
+    ],
+    answer: 1,
+    concept: 'Furosemide Effect',
+    rationale: 'Increased urine output reflects diuretic effect — fluid is being removed. 800 mL in 4 hours indicates strong diuresis. The nurse continues to monitor for hypotension, hypokalemia, and dehydration.',
+    others: {
+      0: 'Tachycardia may signal volume depletion or other issue, not therapeutic effect.',
+      2: 'A drop to 84/52 is dangerous hypotension, not desired.',
+      3: 'New edema indicates worsening fluid retention, not improvement.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with HF is admitted with acute pulmonary edema. The nurse is reviewing orders. Which order should the nurse question?',
+    options: [
+      'Furosemide 40 mg IV push as a one-time stat dose',
+      'High Fowler position with legs elevated and oxygen at 6 L/min',
+      'IV fluids of normal saline at 200 mL per hour for hydration',
+      'Continuous cardiac monitoring with telemetry strips q4 hours'
+    ],
+    answer: 2,
+    concept: 'IV Fluids in Pulmonary Edema',
+    rationale: 'IV fluids at 200 mL/hour in a patient with pulmonary edema are contraindicated — the patient already has fluid overload. Adding more fluid worsens the situation. The nurse must question this order.',
+    others: {
+      0: 'Furosemide IV is appropriate for pulmonary edema.',
+      1: 'High Fowler with legs elevated and oxygen is correct positioning and oxygenation.',
+      3: 'Continuous cardiac monitoring is appropriate.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with HF on chronic warfarin therapy is also taking furosemide. The nurse notices new bruising on the arms. The latest INR is 4.5 (target 2.0-3.0). What is the priority action?',
+    options: [
+      'Hold warfarin and notify the provider for further orders',
+      'Continue warfarin at the current dose without any changes',
+      'Increase the warfarin dose to address apparent underdosing',
+      'Add aspirin daily for additional thrombosis protection'
+    ],
+    answer: 0,
+    concept: 'INR Bleeding Risk',
+    rationale: 'INR of 4.5 is supratherapeutic. New bruising suggests active bleeding risk. Hold warfarin and notify the provider — vitamin K reversal may be needed.',
+    others: {
+      1: 'Continuing at current dose with bleeding risk is unsafe.',
+      2: 'Increasing the dose worsens bleeding risk.',
+      3: 'Adding aspirin worsens bleeding risk.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with HF asks about exercise after discharge. Which statement by the nurse is BEST?',
+    options: [
+      '"You should avoid all forms of exercise to spare your heart from strain."',
+      '"You can engage in moderate, regular activity such as walking, as tolerated."',
+      '"You should run at a fast pace daily to strengthen your heart muscle quickly."',
+      '"You should only exercise if you feel completely symptom-free at all times."'
+    ],
+    answer: 1,
+    concept: 'HF Exercise Teaching',
+    rationale: 'Stable HF patients benefit from moderate, regular exercise such as walking. Exercise improves cardiac function and quality of life. Patients should stop and rest if they have new symptoms.',
+    others: {
+      0: 'Avoiding all exercise worsens deconditioning.',
+      2: 'High-intensity exercise is unsafe in most HF patients.',
+      3: 'Waiting until completely symptom-free is unrealistic and unnecessary.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with HF is admitted with pulmonary edema. Which assessment finding indicates the patient is improving?',
+    options: [
+      'SpO2 has improved from 86% to 95% on 2 L of nasal cannula',
+      'Heart rate has increased from 92 to 124 beats per minute',
+      'Patient is now reporting more shortness of breath at rest in bed',
+      'New onset of frothy pink sputum and increased restlessness'
+    ],
+    answer: 0,
+    concept: 'Pulmonary Edema Improvement',
+    rationale: 'Improved oxygen saturation shows the patient is responding to oxygen, diuresis, and positioning. This is a positive sign of improvement.',
+    others: {
+      1: 'A rising HR may signal worsening or volume depletion, not improvement.',
+      2: 'Worsening SOB indicates deterioration.',
+      3: 'Frothy pink sputum and restlessness are pulmonary edema signs — not improvement.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with HF is taking digoxin. Which finding should the nurse report immediately?',
+    options: [
+      'Apical pulse rate of 78 beats per minute and regular',
+      'Mild fatigue at the end of an active day',
+      'Stable BP of 124/76 with HR of 80 each morning',
+      'Patient reports yellow-green halos around lights'
+    ],
+    answer: 3,
+    concept: 'Digoxin Toxicity',
+    rationale: 'Yellow-green halos around lights are a classic sign of digoxin toxicity. Other signs include nausea, anorexia, and bradycardia. The nurse should hold the next dose and notify the provider.',
+    others: {
+      0: 'Apical pulse 78 is normal range for digoxin administration.',
+      1: 'Mild end-of-day fatigue is not specific to digoxin toxicity.',
+      2: 'Stable VS are not concerning.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'Before administering digoxin, the nurse measures the apical pulse for one full minute. The pulse is 56 beats per minute. What is the BEST action?',
+    options: [
+      'Administer the dose because the pulse is acceptable for an older adult',
+      'Hold the dose, document the finding, and notify the provider',
+      'Recheck the radial pulse and give the dose if 60 or higher',
+      'Give half the prescribed dose to be safer with administration'
+    ],
+    answer: 1,
+    concept: 'Digoxin HR Hold',
+    rationale: 'For digoxin, hold the dose if the apical pulse is below 60 in adults (or below 90-110 in infants). 56 is below this threshold — hold the dose and notify the provider.',
+    others: {
+      0: 'Below 60 is the standard hold parameter.',
+      2: 'The radial pulse is less reliable; hold based on apical pulse.',
+      3: 'Nurses do not give half doses without an order.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with HF asks why they need to limit fluids. Which response by the nurse is BEST?',
+    options: [
+      '"Limiting fluid prevents your body from holding extra fluid that strains your heart."',
+      '"Limiting fluid keeps you from gaining unwanted weight from water alone."',
+      '"Limiting fluid prevents you from urinating too much during the day."',
+      '"Limiting fluid is just a precaution and not strictly required."'
+    ],
+    answer: 0,
+    concept: 'Fluid Restriction Rationale',
+    rationale: 'Fluid restriction prevents excess fluid retention that worsens HF. The failing heart cannot handle extra preload, so limiting fluid intake reduces strain and decreases pulmonary congestion.',
+    others: {
+      1: 'Weight loss is not the primary goal of HF fluid restriction.',
+      2: 'Reducing urination is not the rationale.',
+      3: 'Fluid restriction IS strictly required in HF.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'The nurse is admitting a patient with new-onset HF and a history of chronic alcoholism. Which type of HF is most likely?',
+    options: [
+      'Cardiomyopathy from chronic alcohol use causing left ventricular dysfunction',
+      'Acute pericarditis from a viral infection picked up at work',
+      'Pulmonary embolism from a recent long international flight',
+      'Endocarditis from a dental procedure several months ago'
+    ],
+    answer: 0,
+    concept: 'Alcoholic Cardiomyopathy',
+    rationale: 'Chronic alcohol abuse causes alcoholic cardiomyopathy — left ventricular dysfunction leading to HF. This is a known etiology and important history-taking point.',
+    others: {
+      1: 'Pericarditis is acute and presents differently.',
+      2: 'PE is acute and not typically a HF presentation.',
+      3: 'Endocarditis can cause HF but valve damage is the mechanism.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with HF is being discharged. Which sign should they be taught to report to the provider?',
+    options: [
+      'Mild morning hunger that resolves after breakfast',
+      'Occasional shoulder discomfort after sleeping in an awkward position',
+      'A slight cough that resolves with drinking water at home',
+      'A weight gain of 3 pounds in 24 hours or 5 pounds in a week'
+    ],
+    answer: 3,
+    concept: 'HF Reportable Signs',
+    rationale: 'A weight gain of 3 lb in 1 day or 5 lb in a week is a key reportable sign in HF — it signals fluid retention. Other reportable signs include increased SOB, new edema, persistent cough, and decreased exercise tolerance.',
+    others: {
+      0: 'Morning hunger is not a HF concern.',
+      1: 'Shoulder discomfort from sleep position is not a HF sign.',
+      2: 'A slight cough that resolves with water is not concerning.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with HF has a low ejection fraction (EF) of 28%. The nurse explains that EF refers to:',
+    options: [
+      'The percentage of blood pumped out of the left ventricle each beat',
+      'The total amount of blood in the heart at any one given moment',
+      'The number of times the heart valves close completely each minute',
+      'The thickness of the heart muscle walls measured during echocardiogram'
+    ],
+    answer: 0,
+    concept: 'Ejection Fraction',
+    rationale: 'Ejection fraction is the percentage of blood pumped out of the left ventricle with each beat. Normal EF is 55-70%. EF 28% is severely reduced and indicates significant systolic HF.',
+    others: {
+      1: 'Total blood volume in the heart is not the EF definition.',
+      2: 'Valve closure count is unrelated to EF.',
+      3: 'Wall thickness is not EF.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with HF has been on furosemide for 2 weeks. The patient now reports muscle cramps, weakness, and palpitations. Which finding is the nurse most likely to discover on assessment?',
+    options: [
+      'Sodium of 142 mEq/L on the morning routine BMP',
+      'Calcium of 9.5 mg/dL on the latest morning lab draw',
+      'Magnesium of 2.0 mg/dL on the most recent lab tray',
+      'Potassium of 2.7 mEq/L on the most recent lab tray'
+    ],
+    answer: 3,
+    concept: 'Furosemide Hypokalemia Signs',
+    rationale: 'Muscle cramps, weakness, and palpitations are classic signs of hypokalemia from furosemide therapy. K+ 2.7 confirms it. The nurse should expect potassium replacement and possibly switching to a potassium-sparing diuretic.',
+    others: {
+      0: 'Normal sodium does not explain symptoms.',
+      1: 'Normal calcium does not explain symptoms.',
+      2: 'Normal magnesium does not explain symptoms.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with HF is being delegated tasks among the team. Which task is most appropriate to delegate to the unlicensed assistive personnel (UAP)?',
+    options: [
+      'Initial admission assessment of the new HF patient',
+      'Daily weight measurement on the same scale at the same time',
+      'Teaching the patient about a low-sodium diet for HF management',
+      'Adjusting the diuretic infusion rate based on urine output'
+    ],
+    answer: 1,
+    concept: 'HF Delegation',
+    rationale: 'Daily weight measurement is within the UAP scope. Initial assessment, teaching, and medication adjustments are all RN-only tasks.',
+    others: {
+      0: 'Initial assessment requires the RN.',
+      2: 'Patient teaching requires the RN.',
+      3: 'Medication adjustment is an RN/provider task.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with HF is reviewing their fluid restriction. The provider has ordered a 1500 mL daily fluid limit. The patient asks how to count fluids that are "not really fluids." What is the BEST response?',
+    options: [
+      '"Only count actual glasses of water or juice toward your daily fluid limit."',
+      '"Only fluids served at meals count toward your daily limit at home."',
+      '"Just round all fluids up to 2 liters per day to make it easier on you."',
+      '"Soup, ice cream, gelatin, ice cubes, and popsicles all count as fluids."'
+    ],
+    answer: 3,
+    concept: 'Fluid Counting Teaching',
+    rationale: 'Anything that is liquid at room temperature counts toward fluid intake — soup, ice cream, gelatin, ice cubes, popsicles, broth, etc. This is essential for accurate fluid restriction in HF.',
+    others: {
+      0: 'Many foods that count as fluids are not just water and juice.',
+      1: 'Fluids count whenever consumed, not just at meals.',
+      2: 'Rounding up violates the prescribed restriction.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with HF is receiving IV diuretics. Which finding requires the nurse to slow or stop the infusion?',
+    options: [
+      'Urine output of 200 mL in the past hour with stable vital signs',
+      'BP dropping from 130/80 to 78/48 over the past 30 minutes',
+      'Respiratory rate decreasing from 28 to 22 breaths per minute',
+      'Lung crackles slightly improving in the lower lung fields'
+    ],
+    answer: 1,
+    concept: 'Diuretic Hypotension',
+    rationale: 'A drop to BP 78/48 indicates dangerous hypotension from over-diuresis. The nurse should slow or stop the infusion and notify the provider. The other findings are signs of improvement.',
+    others: {
+      0: 'Adequate urine output with stable VS is the desired effect.',
+      2: 'RR improving from 28 to 22 is improvement.',
+      3: 'Crackles improving is improvement.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with HF is being discharged with a new prescription for spironolactone. Which statement by the patient indicates the BEST understanding?',
+    options: [
+      '"I will use a salt substitute that contains potassium chloride for flavoring food."',
+      '"I will eat lots of bananas and oranges every day to stay healthy and well."',
+      '"I will limit potassium-rich foods because this drug keeps potassium in the body."',
+      '"I will stop this medication if my urine output decreases below my normal levels."'
+    ],
+    answer: 2,
+    concept: 'Spironolactone K-Sparing',
+    rationale: 'Spironolactone is a potassium-sparing diuretic — it conserves potassium. Patients should LIMIT potassium-rich foods (bananas, oranges, salt substitutes) to prevent hyperkalemia.',
+    others: {
+      0: 'Potassium chloride salt substitutes worsen hyperkalemia risk.',
+      1: 'Bananas and oranges are high in potassium and should be limited.',
+      3: 'Patients should not stop diuretics without provider direction.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with HF is being prepared for discharge. Which goal is the priority for long-term success?',
+    options: [
+      'The patient demonstrates how to monitor daily weights and reportable signs',
+      'The patient correctly names every medication and the typical dose schedule',
+      'The patient signs the consent form for the post-discharge care plan',
+      'The patient identifies all family members on the contact list at discharge'
+    ],
+    answer: 0,
+    concept: 'HF Self-Management',
+    rationale: 'Self-monitoring through daily weights and recognizing reportable signs is the cornerstone of HF self-management. It catches decompensation early and prevents readmissions.',
+    others: {
+      1: 'Knowing meds is important but not the priority for long-term success.',
+      2: 'Signing consent is administrative.',
+      3: 'Family contact info is helpful but not the priority goal.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let score = 0;
+let totalPoints = 0;
+let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_heartfailure_deepdrill';
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  document.getElementById('q-stem').textContent = q.stem;
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong application reasoning across HF, fluid balance, and HF medications. Move on to the next chapter.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed scenarios — application is where the final exam will challenge you.';
+  else if (pct >= 60) msg = 'Below pass threshold. Review missed concepts carefully and rerun this drill — HF is 4 questions on the final.';
+  else msg = 'Significant gaps in application. Re-study Ch 25 review materials and the rationales below, then rerun this drill until you hit 77%+.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>

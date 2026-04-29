@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 25 Heart Failure — Knowledge Check</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-soft: #14b8a6;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+      --partial: #d97706;
+      --partial-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .start-stat { text-align: center; padding: 18px 12px; background: var(--teal-pale); border-radius: 8px; border: 1px solid var(--line); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--teal); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer; background: var(--teal); color: white; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--teal); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--teal-soft); background: var(--teal-pale); }
+    .option.selected { border-color: var(--teal); background: var(--teal-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--teal); color: white; border-color: var(--teal); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--teal-pale); border-left: 3px solid var(--teal); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--teal); color: white; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--teal); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Knowledge Check · Chapter 25</div>
+  <h1>Heart Failure</h1>
+  <p class="tagline">Direct recall: left vs right-sided HF, fluid volume excess, pulmonary edema, daily weights, low sodium diet, and HF medications.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">25</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">MC</span><span class="start-stat-label">Format</span></div>
+      <div class="start-stat"><span class="start-stat-num">Yes</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">Each question is direct recall from your review guides. Answer, get instant rationale, move on.</p>
+    <button class="btn" onclick="begin()">Begin</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 25</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Knowledge Check</div>
+    <h1>Heart Failure</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 25 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Quiz</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'Which set of findings is most consistent with LEFT-sided heart failure?',
+    options: [
+      'Peripheral edema, ascites, JVD, and hepatomegaly',
+      'Dyspnea, crackles, fatigue, and pink frothy sputum',
+      'Bilateral lower extremity ulcers with cool feet',
+      'Severe constipation with chronic abdominal pain'
+    ],
+    answer: 1,
+    concept: 'Left-Sided HF',
+    rationale: 'Left-sided HF backs up into the LUNGS. Remember L for Lungs: dyspnea, SOB, crackles, fatigue, and pink frothy sputum (a classic late finding) all reflect pulmonary congestion.',
+    others: {
+      0: 'Peripheral edema, ascites, JVD, and hepatomegaly = right-sided HF.',
+      2: 'Bilateral leg ulcers and cool feet describe arterial insufficiency.',
+      3: 'Constipation and abdominal pain are not HF hallmarks.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'Which set of findings is most consistent with RIGHT-sided heart failure?',
+    options: [
+      'Peripheral edema, ascites, JVD, and hepatomegaly',
+      'Dyspnea, crackles, and pink frothy sputum at rest',
+      'Productive cough with greenish thick sputum and fever',
+      'Bilateral arterial ulcers with weak distal pulses'
+    ],
+    answer: 0,
+    concept: 'Right-Sided HF',
+    rationale: 'Right-sided HF backs up into the REST of the body. Remember R for Rest of body: peripheral edema, ascites, JVD, and hepatomegaly all reflect systemic venous congestion.',
+    others: {
+      1: 'Dyspnea, crackles, and pink frothy sputum = left-sided HF.',
+      2: 'Productive green sputum with fever suggests pneumonia.',
+      3: 'Bilateral arterial ulcers describe arterial insufficiency.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A nurse is teaching a patient with HF about daily weight monitoring. Which weight gain should the patient report to the provider?',
+    options: [
+      'A weight gain of 0.5 pound over a one-week period',
+      'A weight gain of 1 pound over the past 4 to 5 days',
+      'A weight gain of 3 pounds in 1 day',
+      'A weight gain of any 2 ounces noted on the daily scale'
+    ],
+    answer: 2,
+    concept: 'HF Weight Reporting',
+    rationale: 'A weight gain of 3 pounds in 1 day signals fluid retention and worsening HF. Patients should report this to the provider promptly because diuretic adjustment may be needed.',
+    others: {
+      0: 'Half a pound over a week is not concerning.',
+      1: 'One pound over 4-5 days is not the trigger threshold.',
+      3: '2 ounces is too small to be meaningful and would cause overreporting.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'Which assessment finding indicates fluid volume excess in a patient with HF?',
+    options: [
+      'Crackles on lung auscultation, edema, and JVD',
+      'Cool dry skin with sunken eyes and dark urine',
+      'Tenting skin turgor with dry mucous membranes',
+      'Hypotension with fast capillary refill at fingertips'
+    ],
+    answer: 0,
+    concept: 'Fluid Volume Excess',
+    rationale: 'Crackles on lung auscultation, edema, and JVD are classic fluid volume excess findings in HF. The body is holding onto too much fluid, which backs up into the lungs and tissues.',
+    others: {
+      1: 'Cool dry skin, sunken eyes, dark urine = fluid volume DEFICIT.',
+      2: 'Tenting and dry mucous membranes = dehydration.',
+      3: 'Hypotension with rapid cap refill is not the fluid excess pattern.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with HF is prescribed a low-sodium diet. What is the recommended daily sodium intake?',
+    options: [
+      'Less than 4 grams per day from all sources',
+      'Sodium does not need to be restricted in HF patients',
+      'Less than 6 grams per day from all sources',
+      'Less than 2 grams per day from all sources'
+    ],
+    answer: 3,
+    concept: 'HF Sodium Restriction',
+    rationale: 'A standard HF dietary teaching is sodium intake less than 2 grams per day. Sodium retention causes fluid retention, which worsens HF symptoms.',
+    others: {
+      0: '4 grams is too liberal for HF management.',
+      1: 'Sodium DOES need to be restricted in HF.',
+      2: '6 grams is far too high and worsens fluid retention.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'Which positioning is most appropriate for a patient with acute HF and dyspnea?',
+    options: [
+      'Trendelenburg with the head lower than the feet',
+      'Supine with the head of bed flat at zero degrees',
+      'High Fowler position with legs elevated',
+      'Prone with arms tucked at sides for comfort'
+    ],
+    answer: 2,
+    concept: 'HF Positioning',
+    rationale: 'High Fowler position eases the work of breathing in HF. Elevating the legs further supports venous return without overworking the failing heart.',
+    others: {
+      0: 'Trendelenburg worsens dyspnea by pushing fluid toward the lungs.',
+      1: 'Lying flat worsens pulmonary congestion in HF.',
+      3: 'Prone position is not used for HF dyspnea.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'What is the classic clinical sign of pulmonary edema?',
+    options: [
+      'Cool, dry, hairless extremities',
+      'Frothy pink (blood-tinged) sputum',
+      'Pulsating mass in the abdomen',
+      'Bilateral leg ulcers near the ankles'
+    ],
+    answer: 1,
+    concept: 'Pulmonary Edema Classic Sign',
+    rationale: 'Frothy pink (blood-tinged) sputum is the classic sign of pulmonary edema. The fluid backing into the alveoli mixes with air and a small amount of blood, producing the pink frothy appearance.',
+    others: {
+      0: 'Cool dry hairless extremities suggest arterial insufficiency.',
+      2: 'A pulsating abdominal mass suggests aortic aneurysm.',
+      3: 'Leg ulcers near the ankles suggest venous insufficiency.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with pulmonary edema also presents with which signs?',
+    options: [
+      'Bradycardia, hypotension, and warm dry skin',
+      'Tachycardia, JVD, restlessness, and dyspnea',
+      'Constipation, abdominal pain, and bradypnea',
+      'Hyperthermia, productive cough with green sputum'
+    ],
+    answer: 1,
+    concept: 'Pulmonary Edema S/S',
+    rationale: 'Pulmonary edema presents with tachycardia, JVD, restlessness/anxiety, and dyspnea. Hands are typically cool and moist, and the patient is in severe respiratory distress.',
+    others: {
+      0: 'Bradycardia and warm dry skin do not match pulmonary edema.',
+      2: 'Constipation and bradypnea are not the pulmonary edema picture.',
+      3: 'Hyperthermia with green sputum suggests pneumonia.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with pulmonary edema needs immediate medical management. Which intervention is the priority?',
+    options: [
+      'Oxygen and ventilatory support',
+      'A bedside bath for patient comfort',
+      'Clear liquid diet for nausea management',
+      'Schedule physical therapy for the next day'
+    ],
+    answer: 0,
+    concept: 'Pulmonary Edema Priority',
+    rationale: 'Oxygen and ventilatory support are the priority for pulmonary edema. The patient is hypoxic from fluid in the alveoli. IV meds and ICU admission follow.',
+    others: {
+      1: 'A bath is not a priority during acute pulmonary edema.',
+      2: 'Diet planning is not the priority during acute pulmonary edema.',
+      3: 'PT is not appropriate during acute pulmonary edema.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'Which class of medication is the first-line treatment for fluid volume excess in HF?',
+    options: [
+      'Beta-blockers (metoprolol)',
+      'Statins (atorvastatin)',
+      'Diuretics (furosemide)',
+      'Antihistamines (diphenhydramine)'
+    ],
+    answer: 2,
+    concept: 'HF Diuretics',
+    rationale: 'Diuretics, especially loop diuretics like furosemide (Lasix), are the first-line treatment for fluid volume excess in HF. They promote fluid removal and reduce preload.',
+    others: {
+      0: 'Beta-blockers are part of HF management but not first-line for acute fluid overload.',
+      1: 'Statins address cholesterol, not fluid volume.',
+      3: 'Antihistamines are for allergies, not fluid management.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A nurse is monitoring a HF patient on furosemide (Lasix). Which lab value requires immediate attention?',
+    options: [
+      'Sodium 138 mEq/L (normal 135-145)',
+      'Hemoglobin 13 g/dL (normal 12-16)',
+      'Serum creatinine 0.9 mg/dL (normal 0.6-1.2)',
+      'Potassium 2.8 mEq/L (normal 3.5-5.0)'
+    ],
+    answer: 3,
+    concept: 'Furosemide Hypokalemia',
+    rationale: 'Furosemide is a potassium-wasting loop diuretic. Potassium 2.8 is critically low and increases risk for cardiac arrhythmias. The nurse must notify the provider immediately for potassium replacement.',
+    others: {
+      0: 'Sodium 138 is within normal range.',
+      1: 'Hemoglobin 13 is within normal range.',
+      2: 'Creatinine 0.9 is within normal range.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A nurse is reviewing the diet for a patient with HF. Which food should the patient AVOID?',
+    options: [
+      'Fresh fruits and steamed vegetables',
+      'Plain oatmeal cooked with water',
+      'Canned soup with high added sodium',
+      'Lean grilled chicken with herbs and pepper'
+    ],
+    answer: 2,
+    concept: 'HF Food Avoidance',
+    rationale: 'Canned soups are extremely high in sodium and should be avoided in HF. Patients should also avoid processed foods, fried foods, and OTC drugs containing sodium.',
+    others: {
+      0: 'Fresh fruits and steamed vegetables are HF-friendly.',
+      1: 'Plain oatmeal cooked with water is HF-friendly.',
+      3: 'Lean grilled chicken with herbs is appropriate.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with HF is being discharged. Which lifestyle modification should the nurse emphasize?',
+    options: [
+      'Daily weight monitoring at the same time of day',
+      'Limiting fluid intake to no more than 500 mL daily',
+      'Avoiding all forms of exercise to spare the heart',
+      'Sleeping flat in bed without any extra pillows'
+    ],
+    answer: 0,
+    concept: 'HF Discharge Teaching',
+    rationale: 'Daily weight monitoring at the same time each day (after voiding, before breakfast, in similar clothing) is essential for early detection of fluid retention. Report 3 lb in 1 day.',
+    others: {
+      1: '500 mL is far too restrictive — most HF patients have a 1.5-2 L limit.',
+      2: 'Some moderate exercise is encouraged in stable HF.',
+      3: 'Sleeping flat worsens orthopnea — HF patients often need extra pillows.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'Which assessment is the priority for a patient newly admitted with HF exacerbation?',
+    options: [
+      'Document the patient last bowel movement',
+      'Auscultate for crackles in the lung fields',
+      'Inspect the patient toenails for fungal changes',
+      'Assess reflexes in all four extremities'
+    ],
+    answer: 1,
+    concept: 'HF Priority Assessment',
+    rationale: 'Auscultating for crackles is the priority — they indicate fluid in the lungs from left-sided HF. This guides immediate management decisions including oxygen, diuretics, and positioning.',
+    others: {
+      0: 'Bowel movement timing is not the priority.',
+      2: 'Toenails are not the priority assessment.',
+      3: 'Reflexes are not the priority for HF exacerbation.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with HF has crackles in the lower lung fields, mild SOB, and edema in the ankles. The nurse identifies these as signs of:',
+    options: [
+      'Hypovolemic shock',
+      'Severe dehydration',
+      'Hypothermia from cold exposure',
+      'Fluid volume excess'
+    ],
+    answer: 3,
+    concept: 'HF Fluid Excess',
+    rationale: 'Crackles, SOB, and edema together indicate fluid volume excess — the body is holding onto too much fluid, which backs up into the lungs and tissues. This is the classic HF picture.',
+    others: {
+      0: 'Hypovolemic shock presents with hypotension, tachycardia, and dry mucous membranes.',
+      1: 'Dehydration presents with dry tongue, sunken eyes, and reduced urine output.',
+      2: 'Hypothermia is a temperature issue, not a fluid balance issue.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with HF is being monitored for fluid balance. Which intervention is appropriate for the nurse to perform?',
+    options: [
+      'Encourage at least 4 liters of fluid intake daily for hydration',
+      'Strict intake and output measurement at every shift',
+      'Restrict the patient to bed rest with no movement at all',
+      'Apply ice packs to the lower extremities every 4 hours'
+    ],
+    answer: 1,
+    concept: 'HF I&O Monitoring',
+    rationale: 'Strict I&O measurement is essential in HF to track fluid balance, response to diuretics, and detect worsening fluid retention early.',
+    others: {
+      0: '4 liters of fluid worsens fluid overload in HF.',
+      2: 'Strict bed rest worsens DVT risk and is not standard HF care.',
+      3: 'Ice packs to extremities does not help fluid balance.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'Which clinical finding helps distinguish JVD as a sign of right-sided HF?',
+    options: [
+      'Visible distension of the jugular vein at 45 degrees of head elevation',
+      'Tenderness over the carotid artery during palpation in the neck',
+      'Audible bruit heard when auscultating the carotid arteries directly',
+      'Pulsating ulcer on the lateral aspect of the lower neck region'
+    ],
+    answer: 0,
+    concept: 'JVD',
+    rationale: 'JVD (jugular venous distension) is visible bulging of the jugular vein when the head of the bed is at 45 degrees. It indicates increased central venous pressure, often from right-sided HF.',
+    others: {
+      1: 'Carotid tenderness is not JVD.',
+      2: 'Carotid bruit indicates carotid artery narrowing.',
+      3: 'A neck ulcer is not JVD.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'Which medication class commonly used in HF reduces afterload by blocking the renin-angiotensin system?',
+    options: [
+      'Loop diuretics ending in -ide',
+      'Statins ending in -statin',
+      'ACE inhibitors ending in -pril',
+      'Antibiotics ending in -mycin'
+    ],
+    answer: 2,
+    concept: 'ACE Inhibitors HF',
+    rationale: 'ACE inhibitors (lisinopril, enalapril, captopril) reduce afterload by blocking the renin-angiotensin system. They are a cornerstone of HF management.',
+    others: {
+      0: 'Loop diuretics reduce preload, not afterload via RAAS.',
+      1: 'Statins lower cholesterol.',
+      3: 'Antibiotics treat infection.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'Which finding should make the nurse hold a beta-blocker dose in a HF patient?',
+    options: [
+      'BP 142/88 with HR 78 and regular sinus rhythm',
+      'BP 88/52 with HR 48 and irregular rhythm',
+      'BP 124/76 with HR 72 and regular sinus rhythm',
+      'BP 130/82 with HR 80 and regular sinus rhythm'
+    ],
+    answer: 1,
+    concept: 'Beta-blocker Hold',
+    rationale: 'BP 88/52 with HR 48 is outside typical safety parameters for beta-blockers (commonly hold for SBP <100 or HR <60). The nurse should hold the dose and notify the provider.',
+    others: {
+      0: 'BP 142/88, HR 78 is safe for beta-blocker administration.',
+      2: 'BP 124/76, HR 72 is safe.',
+      3: 'BP 130/82, HR 80 is safe.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with right-sided HF is being assessed. Which finding does the nurse expect?',
+    options: [
+      'Pink frothy sputum and bilateral lung crackles',
+      'Bilateral pitting edema in the lower extremities',
+      'Productive cough with thick yellow-green sputum',
+      'Chest pain that radiates down the left arm'
+    ],
+    answer: 1,
+    concept: 'Right HF Edema',
+    rationale: 'Bilateral pitting edema in the lower extremities reflects systemic venous congestion in right-sided HF. The blood backs up into the body, causing peripheral fluid accumulation.',
+    others: {
+      0: 'Pink frothy sputum and crackles describe LEFT-sided HF.',
+      2: 'Productive yellow-green sputum suggests pneumonia.',
+      3: 'Chest pain radiating down the left arm suggests MI.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with HF is at increased risk for falls. What is the primary reason?',
+    options: [
+      'Patients with HF have weakened bones from chronic disease',
+      'Patients with HF cannot see well due to medication side effects',
+      'Orthostatic hypotension from medications and altered fluid status',
+      'Severe joint pain limits the ability to walk steadily for them'
+    ],
+    answer: 2,
+    concept: 'HF Fall Risk',
+    rationale: 'Orthostatic hypotension from diuretics, antihypertensives, and altered fluid status increases fall risk in HF patients. Teaching slow position changes is part of safety care.',
+    others: {
+      0: 'HF does not directly cause weak bones.',
+      1: 'Vision changes are not the primary fall risk in HF.',
+      3: 'Joint pain is not the typical fall mechanism in HF.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'Which OTC product should HF patients avoid because of high sodium content?',
+    options: [
+      'Acetaminophen tablets in standard 325 mg doses',
+      'Plain saline nasal spray for dryness in winter',
+      'Dental floss for routine daily oral care',
+      'OTC effervescent antacids dissolved in water'
+    ],
+    answer: 3,
+    concept: 'OTC Sodium Avoidance',
+    rationale: 'Effervescent antacids and many OTC effervescent products contain high amounts of sodium, which causes fluid retention and worsens HF. Patients should read OTC labels and avoid these.',
+    others: {
+      0: 'Acetaminophen does not contain significant sodium.',
+      1: 'Plain saline nasal spray is local use, not systemic sodium.',
+      2: 'Dental floss has no sodium.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with HF reports waking up at night gasping for air and needing to sit up. What is this called?',
+    options: [
+      'Paroxysmal nocturnal dyspnea (PND)',
+      'Restless legs syndrome at night',
+      'Sleep paralysis upon awakening',
+      'Acute panic disorder during sleep'
+    ],
+    answer: 0,
+    concept: 'PND',
+    rationale: 'Paroxysmal nocturnal dyspnea (PND) is sudden SOB at night that improves with sitting up. It occurs in HF when fluid redistributes to the lungs while lying flat. PND is a sign of worsening HF and warrants provider notification.',
+    others: {
+      1: 'Restless legs syndrome involves leg movements, not breathing.',
+      2: 'Sleep paralysis involves inability to move on waking.',
+      3: 'Panic disorder is not the typical HF mechanism.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with HF asks how to remember the difference between left- and right-sided HF. The nurse uses what teaching mnemonic?',
+    options: [
+      'Left = Lungs, Right = Rest of body',
+      'Left = Lower body, Right = Respiratory',
+      'Left = Liver, Right = Reflexes',
+      'Left = Lymph nodes, Right = Renal system'
+    ],
+    answer: 0,
+    concept: 'L/R HF Mnemonic',
+    rationale: 'L = Lungs (left-sided HF causes pulmonary congestion: dyspnea, crackles, pink frothy sputum). R = Rest of body (right-sided HF causes systemic congestion: edema, ascites, JVD, hepatomegaly).',
+    others: {
+      1: 'Left does not refer to lower body in HF.',
+      2: 'Liver and reflexes are not the standard HF mnemonic.',
+      3: 'Lymph nodes and renal system are not the HF mnemonic.'
+    }
+  },
+  {
+    topic: 'HeartFailure',
+    type: 'standard',
+    stem: 'A patient with HF is admitted with pulmonary edema. The nurse expects which level of care?',
+    options: [
+      'Discharge home with outpatient diuretic adjustment in clinic',
+      'Routine medical floor admission for observation overnight',
+      'Skilled nursing facility transfer for diuretic monitoring',
+      'ICU admission for oxygen, ventilatory support, and IV meds'
+    ],
+    answer: 3,
+    concept: 'Pulmonary Edema ICU',
+    rationale: 'Pulmonary edema is a critical condition. Standard medical management includes oxygen and ventilatory support, IV medications, and ICU admission. The patient needs intensive monitoring.',
+    others: {
+      0: 'Discharge home is not appropriate for pulmonary edema.',
+      1: 'Routine floor admission is not appropriate for acute pulmonary edema.',
+      2: 'SNF transfer is not appropriate for acute pulmonary edema.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let score = 0;
+let totalPoints = 0;
+let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_heartfailure_knowledge';
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  document.getElementById('q-stem').textContent = q.stem;
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong recall on heart failure. Move on to the Deep Drill for application scenarios.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed concepts below before moving to the Deep Drill.';
+  else if (pct >= 60) msg = 'Below pass threshold. Re-read Ch 25, retry, then move to the Deep Drill.';
+  else msg = 'Lots of room to grow. Re-study Ch 25 carefully — left vs right HF, fluid excess, pulmonary edema — and run this again.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>
