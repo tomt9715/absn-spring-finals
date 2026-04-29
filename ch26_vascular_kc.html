@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 26 Vascular Disorders — Knowledge Check</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-soft: #14b8a6;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+      --partial: #d97706;
+      --partial-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .start-stat { text-align: center; padding: 18px 12px; background: var(--teal-pale); border-radius: 8px; border: 1px solid var(--line); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--teal); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer; background: var(--teal); color: white; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--teal); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--teal-soft); background: var(--teal-pale); }
+    .option.selected { border-color: var(--teal); background: var(--teal-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--teal); color: white; border-color: var(--teal); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--teal-pale); border-left: 3px solid var(--teal); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--teal); color: white; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--teal); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Knowledge Check · Chapter 26</div>
+  <h1>Vascular Disorders</h1>
+  <p class="tagline">Direct recall: Raynaud syndrome, PE recognition and emergency response, DVT, and venous vs arterial insufficiency.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">25</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">MC</span><span class="start-stat-label">Format</span></div>
+      <div class="start-stat"><span class="start-stat-num">Yes</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">Each question is direct recall from your review guides. Answer, get instant rationale, move on.</p>
+    <button class="btn" onclick="begin()">Begin</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 25</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Knowledge Check</div>
+    <h1>Vascular Disorders</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 25 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Quiz</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'What is the underlying pathophysiology of Raynaud phenomenon?',
+    options: [
+      'Reduced blood flow from arteries narrowing in response to cold or stress',
+      'Persistent vasodilation of all peripheral arteries from chronic disease',
+      'Inflammation of the deep venous system causing recurrent stasis',
+      'Sudden complete obstruction of a major artery by an embolus'
+    ],
+    answer: 0,
+    concept: 'Raynaud Pathophysiology',
+    rationale: 'Raynaud phenomenon is reduced blood flow to the extremities caused by arteries narrowing in response to cold or emotional stress. Pallor of fingers and toes is a hallmark.',
+    others: {
+      1: 'Persistent vasodilation does not describe Raynaud.',
+      2: 'Raynaud is an arterial vasospastic disorder, not venous inflammation.',
+      3: 'Sudden arterial obstruction is acute arterial occlusion, not Raynaud.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A patient with Raynaud phenomenon asks what they should avoid. Which response by the nurse is BEST?',
+    options: [
+      '"You should drink at least 8 glasses of water every single day."',
+      '"You should add more iron-rich foods like spinach and red meat."',
+      '"You should avoid cold exposure, stress, and any form of nicotine."',
+      '"You should sleep with your hands above your head every night."'
+    ],
+    answer: 2,
+    concept: 'Raynaud Triggers',
+    rationale: 'Raynaud is triggered by cold exposure and stress. Nicotine in any form (cigarettes, vaping, gum, patches) causes vasoconstriction and worsens episodes. Avoidance of these is core teaching.',
+    others: {
+      0: 'Hydration is generally good but does not specifically address Raynaud.',
+      1: 'Iron-rich foods do not affect Raynaud severity.',
+      3: 'Hands above the head does not improve Raynaud.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A patient with Raynaud reports their fingers turn pale and numb when going outside in winter. What is the priority teaching?',
+    options: [
+      'Wash hands frequently in cold water to build vascular tolerance',
+      'Wear warm gloves and limit time outdoors in cold temperatures',
+      'Apply ice packs to the affected fingers when symptoms start',
+      'Restrict all caffeine for life starting from this very morning'
+    ],
+    answer: 1,
+    concept: 'Raynaud Cold Avoidance',
+    rationale: 'The hallmark of Raynaud management is minimizing cold exposure. Warm gloves, layered clothing, and limiting outdoor time during cold weather prevent vasospastic episodes.',
+    others: {
+      0: 'Cold water exposure triggers vasospasm and is harmful.',
+      2: 'Ice packs worsen vasoconstriction.',
+      3: 'Caffeine restriction is not the primary Raynaud management.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'Where do most pulmonary emboli originate?',
+    options: [
+      'In the upper extremity superficial venous system',
+      'In the right side of the heart muscle wall directly',
+      'In the abdominal aorta from atherosclerotic plaque',
+      'In the deep venous system of the legs as a DVT'
+    ],
+    answer: 3,
+    concept: 'PE Origin',
+    rationale: 'Most pulmonary emboli originate from a DVT in the deep venous system of the legs. The clot dislodges, travels through the right heart, and lodges in the pulmonary arteries.',
+    others: {
+      0: 'Upper extremity superficial veins rarely cause PE.',
+      1: 'PE comes from venous clots, not heart muscle.',
+      2: 'Abdominal aorta plaque causes peripheral arterial events, not PE.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A postoperative patient suddenly reports sharp chest pain, shortness of breath, and a feeling of impending doom. The nurse suspects a PE. What is the FIRST action?',
+    options: [
+      'Document the symptoms and reassess in 15 minutes',
+      'Administer aspirin 325 mg by mouth one time only',
+      'Encourage ambulation to improve venous return at once',
+      'Notify the provider immediately and stay with the patient'
+    ],
+    answer: 3,
+    concept: 'PE Emergency Action',
+    rationale: 'PE is a medical emergency. The nurse must notify the provider immediately and stay with the patient. The patient should NOT be ambulated, and the head of the bed is elevated to at least 45 degrees.',
+    others: {
+      0: 'Documenting and waiting in a suspected PE is dangerous.',
+      1: 'Aspirin is not the first-line PE treatment and requires an order.',
+      2: 'Ambulation can worsen PE by dislodging more clot fragments.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'When PE is suspected, how should the nurse position the patient?',
+    options: [
+      'Flat with legs elevated above the heart for venous return',
+      'Head of bed elevated to at least 45 degrees',
+      'Trendelenburg with the head lower than the feet',
+      'Side-lying with knees flexed up to the chest'
+    ],
+    answer: 1,
+    concept: 'PE Positioning',
+    rationale: 'In suspected PE, the head of the bed should be elevated to at least 45 degrees to ease the work of breathing. The patient should also stay in bed and not be ambulated.',
+    others: {
+      0: 'Flat with legs elevated worsens dyspnea.',
+      2: 'Trendelenburg position worsens breathing.',
+      3: 'Knees-to-chest is not appropriate for PE.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A nurse is assessing a patient with suspected PE. Which finding may also be present?',
+    options: [
+      'Bilateral lower extremity warmth without pain or swelling',
+      'A bright red rash spread over both forearms',
+      'Petechiae on the chest and the abdomen',
+      'A faint murmur on the right side of the chest'
+    ],
+    answer: 2,
+    concept: 'PE Petechiae',
+    rationale: 'Petechiae on the chest and abdomen can occur in PE due to capillary disruption from the embolic event. This is a less common but textbook finding to know.',
+    others: {
+      0: 'Bilateral warmth without pain or swelling is not specific to PE.',
+      1: 'A bright red rash on the forearms is not a PE finding.',
+      3: 'A right-sided murmur is not a PE-specific finding.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'Which finding is most consistent with a deep vein thrombosis in a leg?',
+    options: [
+      'Bilateral cool feet with bounding pedal pulses',
+      'Unilateral leg warmth, swelling, and pain or heaviness',
+      'Brittle nails and reduced hair growth on the toes',
+      'Yellow ulcers on the toes with thick black eschar'
+    ],
+    answer: 1,
+    concept: 'DVT Assessment',
+    rationale: 'DVT classically presents with unilateral leg pain or heaviness, swelling, warmth in the calf or ankle, and possible functional impairment. Comparing leg circumference side-to-side is part of assessment.',
+    others: {
+      0: 'Cool feet with bounding pulses is not a DVT pattern.',
+      2: 'Brittle nails and reduced toe hair suggest arterial insufficiency.',
+      3: 'Black eschar on toes suggests arterial ulcers, not DVT.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'How is a DVT physical assessment typically refined to detect early swelling?',
+    options: [
+      'Auscultate the calf for bruits with a Doppler probe',
+      'Measure leg circumference and compare to the other side',
+      'Palpate for crepitus along the entire posterior calf area',
+      'Inspect for splinter hemorrhages in the toenail beds'
+    ],
+    answer: 1,
+    concept: 'DVT Measurement',
+    rationale: 'Measuring leg circumference and comparing it side-to-side helps detect subtle unilateral edema, a key DVT finding. This is an important part of assessment.',
+    others: {
+      0: 'Bruits are not the standard DVT assessment.',
+      2: 'Crepitus is not part of DVT assessment.',
+      3: 'Splinter hemorrhages are an endocarditis finding.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'Which intervention is MOST effective in preventing DVT in a postoperative patient?',
+    options: [
+      'Strict bed rest for 5 days following all surgeries',
+      'Massaging the legs vigorously every 2 hours daily',
+      'Early ambulation along with leg exercises in bed',
+      'Restricting fluid intake to less than 500 mL each day'
+    ],
+    answer: 2,
+    concept: 'DVT Prevention',
+    rationale: 'Early ambulation and leg exercises are the most effective DVT prevention. Movement keeps blood flowing through the deep veins and prevents stasis, the main DVT risk factor.',
+    others: {
+      0: 'Strict bed rest worsens stasis and increases DVT risk.',
+      1: 'Massaging legs is contraindicated and can dislodge a clot.',
+      3: 'Fluid restriction increases viscosity and DVT risk.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'Which device prevents DVT by intermittently compressing the legs?',
+    options: [
+      'Sequential compression devices (SCDs)',
+      'Continuous positive airway pressure (CPAP)',
+      'Patient-controlled analgesia (PCA) pump',
+      'Bilevel positive airway pressure (BiPAP)'
+    ],
+    answer: 0,
+    concept: 'SCDs',
+    rationale: 'Sequential compression devices intermittently compress the legs to promote venous return and prevent stasis. They are commonly used post-op alongside compression stockings and anticoagulants.',
+    others: {
+      1: 'CPAP is for sleep apnea, not DVT prevention.',
+      2: 'PCA pumps deliver pain medication.',
+      3: 'BiPAP is for ventilatory support.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'Which medication is commonly given subcutaneously to prevent DVT in a postoperative patient?',
+    options: [
+      'Acetaminophen for inflammation control',
+      'Furosemide for fluid balance management',
+      'Atorvastatin for cholesterol management',
+      'Heparin for anticoagulation prophylaxis'
+    ],
+    answer: 3,
+    concept: 'DVT Prophylaxis Med',
+    rationale: 'Subcutaneous heparin is commonly used as DVT prophylaxis post-op. It reduces clot formation in patients with limited mobility.',
+    others: {
+      0: 'Acetaminophen is for pain or fever, not DVT prevention.',
+      1: 'Furosemide is a diuretic.',
+      2: 'Atorvastatin is for cholesterol.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A patient with a known DVT is being managed on the medical floor. The nurse is reviewing the priorities of care. Which goal is the highest priority?',
+    options: [
+      'Prevent the clot from growing or fragmenting and causing a PE',
+      'Maximize the patient nutritional intake during the hospital stay',
+      'Schedule physical therapy sessions twice each day for the patient',
+      'Ensure the patient catches up on missed sleep from previous nights'
+    ],
+    answer: 0,
+    concept: 'DVT Priority',
+    rationale: 'The top priority in DVT management is preventing clot growth or fragmentation that could cause PE. Anticoagulants and limb monitoring serve this goal.',
+    others: {
+      1: 'Nutrition matters but is not the priority for clot management.',
+      2: 'Physical therapy is part of recovery but not the top priority.',
+      3: 'Sleep is supportive but not the immediate priority.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'Which lifestyle modification reduces DVT risk?',
+    options: [
+      'Increasing daily caffeine intake to over 5 cups of coffee',
+      'Wearing tight-fitting clothing around the waist all the time',
+      'Weight loss, smoking cessation, and regular exercise',
+      'Sleeping with both legs flat on the bed without movement'
+    ],
+    answer: 2,
+    concept: 'DVT Lifestyle',
+    rationale: 'Weight loss, smoking cessation, and regular exercise all reduce DVT risk. Smoking damages endothelium, obesity increases venous pressure, and exercise improves venous return.',
+    others: {
+      0: 'Caffeine does not reduce DVT risk.',
+      1: 'Tight clothing at the waist increases venous stasis.',
+      3: 'Sleeping motionless does not reduce DVT risk.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'How should the nurse describe the pathophysiology difference between arterial and venous disorders?',
+    options: [
+      'Arterial disorders involve clots returning to the heart, venous disorders involve narrowed arteries',
+      'Both involve the same problem of blood pooling in capillaries throughout the body and limbs',
+      'Arterial disorders only affect the heart and venous disorders only affect the brain stem',
+      'Arterial disorders involve narrowed arteries blocking oxygen flow, venous disorders involve blood not returning to the heart'
+    ],
+    answer: 3,
+    concept: 'Arterial vs Venous',
+    rationale: 'Arterial disorders involve narrowed arteries that prevent oxygen-rich blood from reaching tissues. Venous disorders involve blood not returning back to the heart properly.',
+    others: {
+      0: 'The descriptions are reversed in this option.',
+      1: 'They are different problems with different presentations.',
+      2: 'Both can affect peripheral circulation broadly.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'Which positioning is recommended for arterial insufficiency in the lower extremities?',
+    options: [
+      'Elevate the legs above the level of the heart',
+      'Lower the legs below the level of the heart',
+      'Keep the legs flat at the level of the heart',
+      'Crossed at the ankles to reduce edema buildup'
+    ],
+    answer: 1,
+    concept: 'Arterial Positioning',
+    rationale: 'For arterial insufficiency, lower the extremities to use gravity to assist arterial blood flow into the limb. Elevating arterial-impaired legs worsens ischemia.',
+    others: {
+      0: 'Elevation worsens arterial insufficiency.',
+      2: 'Flat is not the recommended position.',
+      3: 'Crossed ankles compress vessels and worsen circulation.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'Which positioning is recommended for venous insufficiency in the lower extremities?',
+    options: [
+      'Elevate the legs above the level of the heart',
+      'Lower the legs below the level of the heart',
+      'Keep the legs in a dependent position constantly',
+      'Apply heat to the calves with a heating pad on high'
+    ],
+    answer: 0,
+    concept: 'Venous Positioning',
+    rationale: 'For venous insufficiency, elevate the extremities above the heart to help blood return back to the heart. This reduces venous pooling and edema.',
+    others: {
+      1: 'Lowering the legs is for arterial issues, not venous.',
+      2: 'Keeping legs dependent worsens venous pooling.',
+      3: 'Heat is not the standard position-based intervention.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'Which finding is more consistent with arterial ulcers than venous ulcers?',
+    options: [
+      'Located on the medial ankle with irregular shape and yellow slough',
+      'Located on the toes or feet with round smooth borders and black eschar',
+      'Located on the inner thigh with bright pink granulation tissue',
+      'Located on the buttocks with deep tunneling and copious drainage'
+    ],
+    answer: 1,
+    concept: 'Arterial Ulcers',
+    rationale: 'Arterial ulcers are typically located on the toes or feet, with round smooth borders, minimal drainage, and may have black eschar. They are caused by inadequate arterial blood flow.',
+    others: {
+      0: 'Medial ankle, irregular borders with yellow slough is venous.',
+      2: 'Inner thigh ulcers are not the typical arterial pattern.',
+      3: 'Buttock ulcers with deep tunneling are pressure injuries.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'Which finding is more consistent with venous ulcers than arterial ulcers?',
+    options: [
+      'Located at the ankle with dull, achy pain and lower leg edema',
+      'Located on the toes with sharp pain that worsens at night',
+      'Located on the soles of the feet with deep punched-out borders',
+      'Located on the dorsum of the foot with cool, hairless skin'
+    ],
+    answer: 0,
+    concept: 'Venous Ulcers',
+    rationale: 'Venous ulcers are typically at the ankle with dull, achy pain, lower leg edema, irregular borders, and yellow slough or ruddy skin. They occur from chronic venous insufficiency.',
+    others: {
+      1: 'Toes with sharp night pain is arterial.',
+      2: 'Sole ulcers with punched-out borders are arterial or neuropathic.',
+      3: 'Cool hairless skin on dorsum points to arterial.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A patient with arterial insufficiency reports leg pain that occurs with walking and resolves with rest. What is this called?',
+    options: [
+      'Intermittent claudication',
+      'Pleuritic chest pain syndrome',
+      'Restless legs syndrome at night',
+      'Compartment syndrome of the calf'
+    ],
+    answer: 0,
+    concept: 'Intermittent Claudication',
+    rationale: 'Intermittent claudication is leg pain triggered by walking and relieved by rest. It is caused by inadequate arterial blood flow during exertion and is a hallmark of peripheral arterial disease.',
+    others: {
+      1: 'Pleuritic chest pain is breathing-related and unrelated to legs.',
+      2: 'Restless legs syndrome is a movement disorder, not exertional pain.',
+      3: 'Compartment syndrome is a surgical emergency with severe pain.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'What kind of stocking is recommended to prevent DVT in postoperative patients?',
+    options: [
+      'Knee-high cotton athletic socks for warmth',
+      'Loose-fitting cotton socks for comfort',
+      'Tight rubber bands wrapped around the calves',
+      'Graduated compression stockings'
+    ],
+    answer: 3,
+    concept: 'Compression Stockings',
+    rationale: 'Graduated compression stockings provide pressure that decreases as it moves up the leg, helping push blood toward the heart and preventing venous stasis. They are part of standard DVT prevention.',
+    others: {
+      0: 'Athletic socks do not provide therapeutic compression.',
+      1: 'Loose-fitting socks do not prevent stasis.',
+      2: 'Rubber bands are dangerous and cause tourniquet effect.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A patient is admitted with a confirmed DVT. Which assessment finding requires the most urgent intervention?',
+    options: [
+      'Mild calf tenderness on the affected leg',
+      'Visible swelling of the affected calf and ankle',
+      'Sudden shortness of breath and chest pain',
+      'Skin warmth on the affected calf area'
+    ],
+    answer: 2,
+    concept: 'DVT to PE',
+    rationale: 'Sudden shortness of breath and chest pain in a DVT patient suggest that the clot has fragmented and embolized to the lungs (PE). This is a medical emergency requiring immediate intervention.',
+    others: {
+      0: 'Mild calf tenderness is expected with DVT.',
+      1: 'Calf swelling is expected with DVT.',
+      3: 'Skin warmth is a typical DVT finding.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A patient with a DVT in the right leg asks if they can massage the area to relieve discomfort. What is the BEST response?',
+    options: [
+      '"Massaging is fine and may help reduce the pain you are feeling."',
+      '"Massaging the area can dislodge the clot and cause a PE — please do not."',
+      '"Massaging is helpful only if you use a heating pad afterward each time."',
+      '"Massaging is safe but only if you use cold packs at the same time."'
+    ],
+    answer: 1,
+    concept: 'DVT Massage Warning',
+    rationale: 'Massaging a DVT can dislodge the clot, causing it to travel to the lungs and result in a PE. This is a critical safety teaching point.',
+    others: {
+      0: 'Massage is contraindicated with DVT.',
+      2: 'Heating pad does not make massage safe with a DVT.',
+      3: 'Cold packs do not make massage safe with a DVT.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A patient with Raynaud also has a history of smoking. What is the most important counseling priority?',
+    options: [
+      'Smoking cessation since nicotine causes vasoconstriction and worsens episodes',
+      'Switching to filtered cigarettes to reduce the impact of nicotine on the body',
+      'Switching to chewing tobacco as a safer alternative for the patient long-term',
+      'Continuing the smoking habit but limiting it to outdoor environments only'
+    ],
+    answer: 0,
+    concept: 'Raynaud Smoking',
+    rationale: 'Smoking cessation is the most important counseling priority because nicotine causes vasoconstriction and directly worsens Raynaud episodes. ALL forms of nicotine must be avoided.',
+    others: {
+      1: 'Filtered cigarettes still contain nicotine.',
+      2: 'Chewing tobacco still delivers nicotine.',
+      3: 'Continuing to smoke does not address the underlying problem.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A patient is being discharged after treatment for a DVT. Which patient statement indicates the BEST understanding of self-care?',
+    options: [
+      '"I will take long flights without breaks since the clot is being treated."',
+      '"I will limit my fluid intake to keep the swelling in my leg down."',
+      '"I will sit with my legs crossed when I am working at my desk."',
+      '"I will stay active, take my anticoagulant as prescribed, and avoid leg massages."'
+    ],
+    answer: 3,
+    concept: 'DVT Discharge Teaching',
+    rationale: 'Staying active to promote venous return, taking anticoagulants exactly as prescribed, and avoiding leg massages (to prevent clot dislodgement) are all key DVT self-care teachings.',
+    others: {
+      0: 'Long flights without breaks worsen DVT risk.',
+      1: 'Fluid restriction increases blood viscosity and clot risk.',
+      2: 'Crossing legs compresses vessels and worsens stasis.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let score = 0;
+let totalPoints = 0;
+let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_vascular_knowledge';
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  document.getElementById('q-stem').textContent = q.stem;
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong recall on vascular disorders. Move on to the Deep Drill for application scenarios.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed concepts below before moving to the Deep Drill.';
+  else if (pct >= 60) msg = 'Below pass threshold. Re-read Ch 26, retry, then move to the Deep Drill.';
+  else msg = 'Lots of room to grow. Re-study Ch 26 carefully — Raynaud, PE, DVT, venous vs arterial — and run this again.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>

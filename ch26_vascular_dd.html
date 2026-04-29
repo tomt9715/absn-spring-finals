@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 26 Vascular Disorders — Deep Drill</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-soft: #14b8a6;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-soft: #8b5cf6;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+      --partial: #d97706;
+      --partial-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--purple); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .start-stat { text-align: center; padding: 18px 12px; background: var(--purple-pale); border-radius: 8px; border: 1px solid var(--line); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--purple); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer; background: var(--purple); color: white; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--purple); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--purple-soft); background: var(--purple-pale); }
+    .option.selected { border-color: var(--purple); background: var(--purple-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--purple); color: white; border-color: var(--purple); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--purple-pale); border-left: 3px solid var(--purple); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--purple); color: white; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--purple); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Deep Drill · Chapter 26</div>
+  <h1>Vascular Disorders</h1>
+  <p class="tagline">NCLEX-style application: PE recognition and emergency response, DVT priorities, anticoagulant monitoring, and arterial vs venous reasoning.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">25</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">MC</span><span class="start-stat-label">Format</span></div>
+      <div class="start-stat"><span class="start-stat-num">Yes</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">These are scenario-based application questions. Read carefully, watch for distractors, and reason through priority before selecting.</p>
+    <button class="btn" onclick="begin()">Begin</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 25</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Deep Drill</div>
+    <h1>Vascular Disorders</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 25 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Quiz</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A patient who is 2 days post-op for a total hip replacement reports a sudden onset of sharp chest pain and shortness of breath. The nurse notes RR 32, SpO2 88% on room air, HR 122. Which action is the priority?',
+    options: [
+      'Stay with the patient, elevate the head of the bed to 45 degrees, and call the rapid response team',
+      'Encourage the patient to ambulate slowly down the hallway to improve their oxygen saturation',
+      'Administer the next scheduled dose of oral acetaminophen for the new chest pain',
+      'Document the findings and reassess in 30 minutes per routine post-op protocols'
+    ],
+    answer: 0,
+    concept: 'PE Emergency Priority',
+    rationale: 'Sudden chest pain and SOB in a post-op patient is PE until proven otherwise. The priority is staying with the patient, elevating HOB to 45 degrees, and activating rapid response. Do NOT ambulate.',
+    others: {
+      1: 'Ambulation can dislodge more clot and worsen PE.',
+      2: 'Acetaminophen does not address an acute PE.',
+      3: 'Waiting 30 minutes during suspected PE risks death.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A patient with a confirmed DVT in the right calf says, "I am feeling much better — can I get up and walk to the bathroom on my own?" What is the BEST nursing response?',
+    options: [
+      '"Yes, walking will improve your circulation and help break up the clot."',
+      '"You may need to remain in bed and use the bedpan until the provider clears you."',
+      '"Sure, but only if you keep your legs elevated above your head while walking."',
+      '"Walking is fine but only if you skip your next anticoagulant dose first."'
+    ],
+    answer: 1,
+    concept: 'DVT Activity Restriction',
+    rationale: 'Patients with acute DVT typically have activity restrictions to prevent clot dislodgement and PE. The nurse should not allow ambulation without provider clearance. Bed rest with bedpan use is appropriate.',
+    others: {
+      0: 'Walking does not break up clots — it can dislodge them.',
+      2: 'Walking with legs elevated above the head is not realistic or safe.',
+      3: 'Skipping anticoagulant doses worsens clot risk.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A nurse is caring for a patient receiving IV heparin for DVT. The latest aPTT result is 95 seconds (normal 25-35; therapeutic for heparin is typically 1.5-2.5x normal). What is the priority action?',
+    options: [
+      'Continue the infusion at the current rate as ordered without changes',
+      'Increase the heparin infusion rate to ensure adequate anticoagulation',
+      'Stop the infusion, notify the provider, and prepare protamine sulfate',
+      'Switch to subcutaneous heparin injections to maintain a steady level'
+    ],
+    answer: 2,
+    concept: 'Heparin aPTT Toxicity',
+    rationale: 'aPTT of 95 is supratherapeutic and indicates significant bleeding risk. The nurse should stop the infusion, notify the provider, and prepare protamine sulfate (the heparin antidote) for possible reversal.',
+    others: {
+      0: 'Continuing at the current rate with bleeding risk is unsafe.',
+      1: 'Increasing the rate worsens bleeding risk.',
+      3: 'Switching routes does not address the supratherapeutic level.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A patient is taking warfarin for chronic DVT prevention. The current INR is 1.2 (target 2.0-3.0). What does the nurse anticipate?',
+    options: [
+      'Holding the next dose for at least 48 hours',
+      'Administering vitamin K immediately to reverse the level',
+      'Discontinuing warfarin and switching to aspirin only',
+      'A dose increase to bring the INR into therapeutic range'
+    ],
+    answer: 3,
+    concept: 'Warfarin Subtherapeutic',
+    rationale: 'INR of 1.2 is subtherapeutic — the patient is not adequately anticoagulated and is at risk for clot recurrence. The provider will likely increase the warfarin dose to reach the 2.0-3.0 target.',
+    others: {
+      0: 'Holding the dose worsens subtherapeutic anticoagulation.',
+      1: 'Vitamin K reverses warfarin — opposite of what is needed.',
+      2: 'Discontinuing warfarin removes needed anticoagulation.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A patient on warfarin asks about diet at home. Which patient statement requires further teaching?',
+    options: [
+      '"I should keep my green leafy vegetable intake about the same each week."',
+      '"I will avoid grapefruit juice because it can affect how my body uses warfarin."',
+      '"I can drink alcohol freely as long as I take my pill at the same time each day."',
+      '"I will tell every provider I see, including my dentist, that I take warfarin."'
+    ],
+    answer: 2,
+    concept: 'Warfarin Diet Teaching',
+    rationale: 'Alcohol affects warfarin metabolism and increases bleeding risk. Patients should not drink freely while on warfarin. The other statements all reflect correct teaching.',
+    others: {
+      0: 'Consistent vitamin K intake (leafy greens) is correct.',
+      1: 'Grapefruit juice affects warfarin metabolism.',
+      3: 'Telling all providers about warfarin is correct.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A patient is admitted with severe peripheral arterial disease and reports leg pain at rest that improves when dangling the legs over the side of the bed. Which nursing action is appropriate?',
+    options: [
+      'Elevate the patient legs above the level of the heart on pillows',
+      'Allow the patient to keep the legs in a dependent position',
+      'Apply ice packs to the calves to numb the painful sensations',
+      'Place sequential compression devices to improve venous return'
+    ],
+    answer: 1,
+    concept: 'Arterial Dependent Position',
+    rationale: 'Arterial insufficiency improves with dependent (lowered) leg position because gravity assists arterial flow. Elevation worsens arterial perfusion. The nurse should allow this position.',
+    others: {
+      0: 'Elevation worsens arterial insufficiency.',
+      2: 'Ice causes vasoconstriction and worsens arterial perfusion.',
+      3: 'SCDs are for venous prophylaxis and contraindicated in significant arterial disease.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'The nurse is admitting a patient with chronic venous insufficiency. Which finding does the nurse expect?',
+    options: [
+      'Cool, pale, hairless extremities with weak pedal pulses',
+      'Edema, brownish discoloration, and ulcers near the ankle',
+      'Sharp pain in the toes that worsens at night while sleeping',
+      'Black eschar on the toes with sharply punched-out ulcers'
+    ],
+    answer: 1,
+    concept: 'Chronic Venous Insufficiency',
+    rationale: 'Chronic venous insufficiency presents with edema, hemosiderin staining (brownish discoloration), and ulcers near the medial ankle. These reflect chronic venous hypertension.',
+    others: {
+      0: 'Cool, pale, hairless skin with weak pulses describes arterial insufficiency.',
+      2: 'Sharp toe pain worse at night is arterial.',
+      3: 'Black eschar with punched-out ulcers is arterial.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A patient with a DVT suddenly reports new chest pain and is gasping for air. Which assessment finding most strongly supports a developing PE?',
+    options: [
+      'BP 142/88, HR 78, RR 16, SpO2 98% on room air',
+      'BP 110/70, HR 80, RR 18, SpO2 95% on room air',
+      'BP 90/56, HR 130, RR 32, SpO2 84% on room air',
+      'BP 160/95, HR 65, RR 14, SpO2 99% on room air'
+    ],
+    answer: 2,
+    concept: 'PE Vital Signs',
+    rationale: 'Tachycardia, tachypnea, hypotension, and hypoxia are classic vital sign changes in PE. BP 90/56, HR 130, RR 32, SpO2 84 show the patient is decompensating — emergent intervention is needed.',
+    others: {
+      0: 'These vitals are normal and not concerning.',
+      1: 'These vitals are mildly elevated but not concerning for active PE.',
+      3: 'These show hypertension with normal SpO2 — not the PE picture.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A patient with Raynaud asks if there is a way to manage stress to reduce flare-ups. What is the BEST nursing teaching?',
+    options: [
+      'Stress is unrelated to Raynaud, so no special techniques are needed at all',
+      'Avoiding all social interaction is the only effective stress management',
+      'Caffeine consumption should be increased to manage daily stress better',
+      'Stress management techniques such as deep breathing can reduce flare-ups'
+    ],
+    answer: 3,
+    concept: 'Raynaud Stress Management',
+    rationale: 'Stress is a known trigger for Raynaud episodes. Stress management techniques like deep breathing, meditation, or yoga can help reduce flare-up frequency.',
+    others: {
+      0: 'Stress IS related to Raynaud and is a known trigger.',
+      1: 'Social isolation is not a healthy coping strategy.',
+      2: 'Caffeine causes vasoconstriction and worsens Raynaud.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A patient with a DVT is being started on enoxaparin (Lovenox). Which finding requires the nurse to hold the dose and notify the provider?',
+    options: [
+      'Patient reports mild calf tenderness on the affected leg',
+      'Daily weight has increased by 0.5 kg over the past 24 hours',
+      'Hemoglobin has dropped from 13 to 9 with new tarry stools',
+      'Patient reports a mild headache that is relieved with rest'
+    ],
+    answer: 2,
+    concept: 'LMWH Bleeding',
+    rationale: 'A drop in hemoglobin from 13 to 9 paired with melena (tarry stools) suggests active GI bleeding — a serious complication of LMWH. Hold the dose and notify the provider immediately.',
+    others: {
+      0: 'Mild calf tenderness is expected with DVT.',
+      1: 'Mild weight gain is not specific to bleeding.',
+      3: 'A mild headache relieved by rest is not specific to bleeding.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A nurse is caring for a patient with peripheral arterial disease who has an arterial ulcer on the great toe. Which intervention is appropriate?',
+    options: [
+      'Elevate the affected leg above heart level for 30 minutes every hour',
+      'Apply graduated compression stockings during the day to reduce edema',
+      'Massage the affected leg to improve overall circulation through the area',
+      'Encourage the patient to wear closed-toe protective footwear at all times'
+    ],
+    answer: 3,
+    concept: 'PAD Foot Protection',
+    rationale: 'Patients with PAD are at high risk for foot injury that may not heal due to poor arterial flow. Closed-toe protective footwear at all times is essential to prevent injury.',
+    others: {
+      0: 'Elevation worsens arterial perfusion in PAD.',
+      1: 'Compression stockings can worsen PAD by further restricting flow.',
+      2: 'Massage in PAD does not improve arterial flow and may cause harm.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A patient is being discharged on warfarin after a DVT. Which patient statement indicates the BEST understanding of medication safety?',
+    options: [
+      '"I will use a soft toothbrush and an electric razor and watch for any bleeding."',
+      '"I will take ibuprofen for any aches and pains that come up day to day."',
+      '"I will take a double dose if I forget my pill on a previous day."',
+      '"I will stop my warfarin if I get a small cut that is not too deep."'
+    ],
+    answer: 0,
+    concept: 'Warfarin Safety',
+    rationale: 'Warfarin increases bleeding risk. Soft toothbrush, electric razor, and monitoring for any bleeding (gums, nosebleeds, bruising, dark stools) are all critical safety teachings.',
+    others: {
+      1: 'Ibuprofen interacts with warfarin and increases bleeding risk.',
+      2: 'Doubling doses risks supratherapeutic INR and bleeding.',
+      3: 'Stopping warfarin without provider direction risks clot recurrence.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A nurse is reviewing risk factors for DVT with a patient. Which patient is at HIGHEST risk?',
+    options: [
+      'A 24-year-old marathon runner with a normal BMI and active lifestyle',
+      'A 70-year-old who recently had hip surgery and is on bed rest at home',
+      'A 35-year-old vegetarian who walks 5 miles daily and is non-smoker',
+      'A 50-year-old who exercises regularly and follows a Mediterranean diet'
+    ],
+    answer: 1,
+    concept: 'DVT Risk Assessment',
+    rationale: 'A 70-year-old post-hip surgery on bed rest has multiple DVT risk factors: advanced age, recent surgery (especially orthopedic), and immobility. This is the highest-risk profile.',
+    others: {
+      0: 'Active young people have low DVT risk.',
+      2: 'Active vegetarian walkers have low DVT risk.',
+      3: 'Active middle-aged people with healthy diets have low DVT risk.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A patient is diagnosed with a PE and started on IV heparin. Which lab is the priority for the nurse to monitor?',
+    options: [
+      'Hemoglobin A1c level for long-term glycemic control',
+      'aPTT to titrate the heparin infusion to therapeutic range',
+      'Total bilirubin to monitor liver function during treatment',
+      'BUN and creatinine to evaluate baseline kidney function'
+    ],
+    answer: 1,
+    concept: 'Heparin aPTT Monitoring',
+    rationale: 'aPTT is the lab used to monitor IV heparin therapy. The infusion is titrated to keep aPTT 1.5-2.5 times normal (typically 60-90 seconds). This is the priority lab.',
+    others: {
+      0: 'A1c reflects long-term glucose, not heparin therapy.',
+      2: 'Bilirubin assesses liver function but not heparin.',
+      3: 'BUN and creatinine assess kidney function, not heparin titration.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A patient with Raynaud is preparing for outdoor activities in winter. Which patient statement requires further teaching?',
+    options: [
+      '"I will wear thick gloves and warm layered clothing when going outside."',
+      '"I will limit the time I spend out in the cold during winter weather."',
+      '"I will smoke just one cigarette before heading out to help calm my nerves."',
+      '"I will keep hand warmers in my pockets for extra warmth in the cold."'
+    ],
+    answer: 2,
+    concept: 'Raynaud Smoking Teaching Error',
+    rationale: 'Smoking causes vasoconstriction and worsens Raynaud. Even one cigarette before going out triggers vasospasm. The patient needs more teaching about complete nicotine avoidance.',
+    others: {
+      0: 'Thick gloves and warm layered clothing is correct.',
+      1: 'Limiting cold exposure time is correct.',
+      3: 'Hand warmers in pockets is a good extra strategy.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A patient is recovering from PE and is being prepared for discharge. Which long-term medication does the nurse anticipate?',
+    options: [
+      'Daily aspirin 81 mg for indefinite cardiovascular prevention',
+      'A statin medication to lower the patient cholesterol over time',
+      'Oral anticoagulant therapy for at least several months',
+      'Daily acetaminophen for breakthrough chest pain at home'
+    ],
+    answer: 2,
+    concept: 'Post-PE Anticoagulation',
+    rationale: 'Patients recovering from PE typically continue oral anticoagulation (warfarin, rivaroxaban, apixaban) for at least 3 months and often longer to prevent recurrence.',
+    others: {
+      0: 'Aspirin is not the primary anticoagulant for post-PE prevention.',
+      1: 'Statins address cholesterol, not clotting.',
+      3: 'Acetaminophen does not prevent PE recurrence.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A nurse is auscultating a patient with arterial insufficiency. Which finding is most consistent with the diagnosis?',
+    options: [
+      'Bruits heard over the femoral or popliteal arteries',
+      'Bibasilar crackles heard on lung auscultation bilaterally',
+      'Pericardial friction rub heard at the left sternal border',
+      'Bowel sounds that are hyperactive in all four quadrants'
+    ],
+    answer: 0,
+    concept: 'Arterial Bruits',
+    rationale: 'Bruits are abnormal swooshing sounds heard over arteries with turbulent flow from atherosclerotic narrowing. They are a classic finding in peripheral arterial disease.',
+    others: {
+      1: 'Bibasilar crackles indicate pulmonary congestion.',
+      2: 'Pericardial friction rub is heard in pericarditis.',
+      3: 'Hyperactive bowel sounds are a GI finding.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A patient with a DVT is wearing graduated compression stockings. Which finding indicates a problem with the device?',
+    options: [
+      'The stocking is on smoothly with no wrinkles or bunching',
+      'The patient skin underneath is warm and well-perfused',
+      'The patient reports the stocking feels supportive on the leg',
+      'The toes are pale, cool, and the patient reports tingling'
+    ],
+    answer: 3,
+    concept: 'Compression Stocking Complication',
+    rationale: 'Pale, cool toes with tingling indicate compromised arterial flow — the stocking may be too tight or improperly fitted. The nurse should remove it and notify the provider.',
+    others: {
+      0: 'Smooth, wrinkle-free application is correct.',
+      1: 'Warm, well-perfused skin underneath is normal.',
+      2: 'A supportive feeling is the intended effect.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A patient is receiving heparin therapy. Suddenly the patient develops new petechiae and platelet count drops from 220,000 to 65,000 (normal 150,000-400,000). Which complication does the nurse suspect?',
+    options: [
+      'Thrombotic thrombocytopenic purpura (TTP) from infection',
+      'Heparin-induced thrombocytopenia (HIT) from heparin reaction',
+      'Disseminated intravascular coagulation (DIC) from sepsis',
+      'Idiopathic thrombocytopenic purpura (ITP) of new onset'
+    ],
+    answer: 1,
+    concept: 'HIT Recognition',
+    rationale: 'Heparin-induced thrombocytopenia (HIT) is a serious immune-mediated reaction to heparin. Platelet count drops sharply, paradoxically increasing clotting risk. Heparin must be stopped immediately and a non-heparin anticoagulant started.',
+    others: {
+      0: 'TTP has different presentation and triggers.',
+      2: 'DIC presents with both bleeding and clotting from another cause.',
+      3: 'ITP is autoimmune and not caused by heparin.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'The nurse is assessing a patient with both PAD and venous insufficiency in the same leg. Which intervention requires careful nursing judgment?',
+    options: [
+      'Encouraging hydration with at least 2 liters of fluid daily',
+      'Reminding the patient to perform daily skin inspection',
+      'Applying compression therapy to the affected lower extremity',
+      'Teaching the patient to wear well-fitted closed-toe shoes'
+    ],
+    answer: 2,
+    concept: 'Compression in Mixed Disease',
+    rationale: 'Compression therapy is standard for venous insufficiency but can be dangerous in PAD because it further restricts already-compromised arterial flow. This requires careful provider evaluation (often ABI testing) before applying.',
+    others: {
+      0: 'Hydration is generally safe and appropriate.',
+      1: 'Daily skin inspection is appropriate for both conditions.',
+      3: 'Closed-toe shoes protect feet in both conditions.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A patient with a known PE on continuous IV heparin develops sudden hemoptysis and a drop in BP. What is the priority nursing action?',
+    options: [
+      'Stop the heparin infusion and notify the provider immediately',
+      'Increase the heparin rate to ensure continued anticoagulation',
+      'Administer an antitussive medication to suppress the cough',
+      'Document the findings and continue routine care as ordered'
+    ],
+    answer: 0,
+    concept: 'Heparin Bleeding Emergency',
+    rationale: 'Hemoptysis with hypotension during heparin therapy indicates active bleeding — likely pulmonary hemorrhage. Stop the infusion immediately and notify the provider. Protamine sulfate may be needed.',
+    others: {
+      1: 'Increasing the rate worsens bleeding.',
+      2: 'Antitussives do not address the underlying bleeding.',
+      3: 'Routine care during active bleeding is unsafe.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A patient asks how to differentiate Raynaud from a circulation problem requiring more concern. The nurse explains that Raynaud is typically:',
+    options: [
+      'Episodic, triggered by cold or stress, with color changes that resolve when warm',
+      'Persistent, with continuous numbness in the fingers all day every day',
+      'Associated with progressive black eschar on the fingertips and toes',
+      'Always accompanied by severe constant pain that does not respond to anything'
+    ],
+    answer: 0,
+    concept: 'Raynaud vs Other Disorders',
+    rationale: 'Raynaud is episodic — fingers and toes turn pale or blue with cold or stress, then resolve when warm. Persistent symptoms or tissue death suggest a different, more concerning vascular disorder.',
+    others: {
+      1: 'Persistent all-day numbness is not typical Raynaud.',
+      2: 'Black eschar suggests severe ischemic disease beyond Raynaud.',
+      3: 'Constant severe pain is not typical Raynaud.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A nurse is preparing to administer enoxaparin (Lovenox) subcutaneously to a postoperative patient. Which technique is correct?',
+    options: [
+      'Aspirate before injection and rub the site briskly afterward',
+      'Inject into the deltoid muscle at a 90-degree angle',
+      'Inject IV slowly over 5 minutes for steady absorption',
+      'Inject into the abdominal fat 2 inches from umbilicus, do not rub'
+    ],
+    answer: 3,
+    concept: 'Enoxaparin Administration',
+    rationale: 'Enoxaparin is given subcutaneously into the abdominal "love handle" area at least 2 inches away from the umbilicus. Do NOT aspirate and do NOT rub the site after — both increase bruising and bleeding.',
+    others: {
+      0: 'Do NOT aspirate or rub for SQ enoxaparin.',
+      1: 'Enoxaparin is SQ, not IM.',
+      2: 'Enoxaparin is not given IV.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A patient with severe PAD is scheduled for an elective surgery. Which preoperative assessment is the priority?',
+    options: [
+      'Reviewing the patient dietary intake from the previous 24 hours',
+      'Assessing baseline distal pulses, capillary refill, and skin color',
+      'Confirming the patient understanding of the surgical consent form',
+      'Documenting the patient last bowel movement before surgery'
+    ],
+    answer: 1,
+    concept: 'PAD Preop Baseline',
+    rationale: 'Baseline distal pulse, capillary refill, and skin color assessment is critical in PAD patients to allow comparison post-op for new ischemic changes. This is the priority preop assessment.',
+    others: {
+      0: 'Dietary review is part of the workup but not the priority.',
+      2: 'Consent confirmation is important but not the PAD-specific priority.',
+      3: 'Bowel movement documentation is routine but not priority.'
+    }
+  },
+  {
+    topic: 'Vascular',
+    type: 'standard',
+    stem: 'A patient with intermittent claudication is being counseled on lifestyle changes. Which intervention has the GREATEST impact on improving symptoms?',
+    options: [
+      'Increasing daily caffeine intake to over 4 cups of coffee or tea',
+      'Smoking cessation paired with a structured walking program',
+      'Limiting all forms of physical activity to avoid leg discomfort',
+      'Eating more salty processed foods to retain blood volume daily'
+    ],
+    answer: 1,
+    concept: 'PAD Lifestyle Impact',
+    rationale: 'Smoking cessation paired with a structured walking program provides the greatest improvement in claudication symptoms. Smoking damages arteries and walking promotes collateral circulation development.',
+    others: {
+      0: 'Caffeine does not improve claudication.',
+      2: 'Avoiding all activity worsens claudication.',
+      3: 'Salty foods worsen vascular disease overall.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let score = 0;
+let totalPoints = 0;
+let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_vascular_deepdrill';
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  document.getElementById('q-stem').textContent = q.stem;
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong application reasoning across PE, DVT, anticoagulation, and arterial vs venous. Move on to the next chapter.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed scenarios — application is where the final exam will challenge you.';
+  else if (pct >= 60) msg = 'Below pass threshold. Review missed concepts carefully and rerun this drill — vascular is 5 questions on the final.';
+  else msg = 'Significant gaps in application. Re-study Ch 26 review materials and the rationales below, then rerun this drill until you hit 77%+.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>
