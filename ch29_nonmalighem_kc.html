@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 29 Nonmalignant Hematologic — Knowledge Check</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0a2540; --navy-soft: #1a3a5c;
+  --teal: #0d9488; --teal-pale: #f0fdfa;
+  --purple: #7c3aed; --purple-pale: #f5f3ff;
+  --gold: #f59e0b; --ink: #1a1a1a; --ink-soft: #3a3a3a; --muted: #6b7280;
+  --bg: #fafaf7; --card: #ffffff; --line: #e5e0d5;
+  --correct: #059669; --correct-bg: #ecfdf5;
+  --wrong: #dc2626; --wrong-bg: #fef2f2;
+  --partial: #d97706; --partial-bg: #fffbeb;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; padding: 32px 16px 80px; min-height: 100vh; }
+.container { max-width: 760px; margin: 0 auto; }
+.eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1.5px; color: var(--teal); text-transform: uppercase; margin-bottom: 12px; }
+h1 { font-family: 'DM Serif Display', serif; font-size: 36px; color: var(--navy); margin-bottom: 8px; line-height: 1.15; }
+.tagline { color: var(--muted); margin-bottom: 32px; font-size: 16px; }
+.start-card, .question-card, .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 32px; margin-bottom: 24px; }
+.start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0; }
+.start-stat { border: 1px solid var(--line); border-radius: 4px; padding: 16px; text-align: center; }
+.start-stat-num { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--teal); display: block; }
+.start-stat-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px; color: var(--muted); text-transform: uppercase; margin-top: 4px; }
+.btn { background: var(--teal); color: white; border: none; padding: 14px 32px; font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 600; border-radius: 4px; cursor: pointer; transition: background 0.15s; }
+.btn:hover { background: #0b7a70; }
+.btn:disabled { background: var(--muted); cursor: not-allowed; }
+.btn-secondary { background: var(--navy); }
+.btn-secondary:hover { background: var(--navy-soft); }
+.progress-bar { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; margin-bottom: 24px; }
+.progress-fill { height: 100%; background: var(--teal); transition: width 0.3s; }
+.q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
+.q-stem { font-size: 18px; color: var(--ink); margin-bottom: 24px; line-height: 1.5; }
+.options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+.option { border: 1.5px solid var(--line); border-radius: 6px; padding: 14px 18px; cursor: pointer; transition: all 0.15s; background: var(--card); font-size: 15px; display: flex; align-items: flex-start; gap: 12px; }
+.option:hover:not(.locked) { border-color: var(--teal); background: var(--teal-pale); }
+.option.selected { border-color: var(--teal); background: var(--teal-pale); }
+.option.correct { border-color: var(--correct); background: var(--correct-bg); }
+.option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+.option-letter { font-family: 'DM Mono', monospace; font-weight: 500; color: var(--muted); min-width: 18px; }
+.option.correct .option-letter { color: var(--correct); }
+.option.wrong .option-letter { color: var(--wrong); }
+.rationale { background: var(--teal-pale); border-left: 3px solid var(--teal); padding: 16px 20px; border-radius: 0 6px 6px 0; margin-bottom: 20px; font-size: 14px; line-height: 1.6; }
+.rationale strong { color: var(--navy); }
+.concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.5px; background: var(--teal); color: white; padding: 3px 10px; border-radius: 100px; margin-bottom: 10px; text-transform: uppercase; }
+.others-list { margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); font-size: 13px; color: var(--ink-soft); }
+.others-list div { margin-bottom: 6px; }
+.btn-row { display: flex; gap: 12px; justify-content: flex-end; }
+.results-score { font-family: 'DM Serif Display', serif; font-size: 56px; text-align: center; margin: 12px 0; }
+.results-score.pass { color: var(--correct); }
+.results-score.borderline { color: var(--partial); }
+.results-score.fail { color: var(--wrong); }
+.results-pts { font-family: 'DM Mono', monospace; text-align: center; color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+.perf-msg { text-align: center; margin: 16px 0 32px; font-size: 16px; color: var(--ink-soft); font-style: italic; }
+.missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+.missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+.missed-item .stem { font-weight: 500; margin-bottom: 8px; }
+.missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+.missed-item .rat { color: var(--ink-soft); font-size: 13px; }
+.back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+.hidden { display: none; }
+</style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Knowledge Check · Chapter 29</div>
+  <h1>Nonmalignant Hematologic Disorders</h1>
+  <p class="tagline">Direct recall: thrombocytopenia, leukopenia, anemias (iron, B12, aplastic, thalassemia), and sickle cell.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">25</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">MC</span><span class="start-stat-label">Format</span></div>
+      <div class="start-stat"><span class="start-stat-num">Yes</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">Each question is direct recall from your review guides. Answer, get instant rationale, move on.</p>
+    <button class="btn" onclick="begin()">Begin</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 25</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Knowledge Check</div>
+    <h1>Nonmalignant Hematologic</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 25 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Quiz</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'What is the normal platelet count range?',
+    options: [
+      '50,000 - 100,000',
+      '150,000 - 400,000',
+      '4,000 - 11,000',
+      '500,000 - 1,000,000'
+    ],
+    answer: 1,
+    concept: 'Platelet Normal Range',
+    rationale: 'Normal platelet count is 150,000-400,000. Below this is thrombocytopenia (low platelets), increasing bleeding risk.',
+    others: {
+      0: '50,000-100,000 indicates moderate thrombocytopenia.',
+      2: '4,000-11,000 is the normal WBC range, not platelets.',
+      3: 'Far above normal — would indicate thrombocytosis.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A patient has a platelet count of 80,000 (normal 150,000-400,000). Which condition does the nurse identify?',
+    options: [
+      'Leukopenia (low WBC count)',
+      'Polycythemia (excess RBCs)',
+      'Thrombocytopenia',
+      'Anemia (low hemoglobin)'
+    ],
+    answer: 2,
+    concept: 'Thrombocytopenia',
+    rationale: 'Thrombocytopenia is low platelets (below 150,000). 80,000 is well below normal — this patient is at risk for bleeding.',
+    others: {
+      0: 'Leukopenia is low WBC, not platelets.',
+      1: 'Polycythemia is excess RBCs.',
+      3: 'Anemia is low RBC/Hgb, not platelets.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A nurse is monitoring a thrombocytopenic patient. Which assessment findings are MOST important to watch for?',
+    options: [
+      'Easy bruising and petechiae',
+      'High fever and sore throat',
+      'Fatigue and pallor',
+      'Joint pain and stiffness'
+    ],
+    answer: 0,
+    concept: 'Thrombocytopenia S/S',
+    rationale: 'Thrombocytopenia (low platelets) increases bleeding risk. Watch for easy bruising and petechiae (small red/purple spots from capillary bleeding).',
+    others: {
+      1: 'Fever and sore throat suggest infection (think leukopenia).',
+      2: 'Fatigue and pallor are classic anemia findings.',
+      3: 'Joint pain is more associated with sickle cell or rheumatic disorders.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A nurse is teaching a thrombocytopenic patient about home safety. Which education is MOST appropriate?',
+    options: [
+      'Use a hard-bristle toothbrush for thorough cleaning',
+      'Shave with a straight razor for the closest shave',
+      'Avoid all crowded public places at all times',
+      'Use a soft-bristle toothbrush and electric razor'
+    ],
+    answer: 3,
+    concept: 'Thrombocytopenia Education',
+    rationale: 'Soft-bristle toothbrush and electric razor minimize bleeding risk from gum trauma or shaving cuts. Thrombocytopenic patients bleed easily.',
+    others: {
+      0: 'Hard bristles cause gum bleeding.',
+      1: 'Straight razors cause cuts that bleed excessively.',
+      2: 'Crowd avoidance is for leukopenia (infection risk), not thrombocytopenia.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'What is the normal WBC count range?',
+    options: [
+      '4,000 - 11,000',
+      '150,000 - 400,000',
+      '12 - 18',
+      '40,000 - 60,000'
+    ],
+    answer: 0,
+    concept: 'WBC Normal Range',
+    rationale: 'Normal WBC count is 4,000-11,000. Below this is leukopenia, increasing infection risk.',
+    others: {
+      1: 'That is the normal platelet range.',
+      2: 'That is the normal Hgb range (g/dL).',
+      3: 'Far above normal — would indicate leukocytosis.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A patient has a WBC count of 2,500 (normal 4,000-11,000). What primary risk does this represent?',
+    options: [
+      'Bleeding from minor trauma',
+      'Sepsis and infection',
+      'Hypoxia from low oxygen',
+      'Thrombus formation'
+    ],
+    answer: 1,
+    concept: 'Leukopenia Risk',
+    rationale: 'Leukopenia (low WBC) increases the risk of sepsis and infection. The body cannot mount a strong immune response.',
+    others: {
+      0: 'Bleeding risk relates to thrombocytopenia, not leukopenia.',
+      2: 'Hypoxia relates to anemia.',
+      3: 'Thrombus formation is more associated with polycythemia.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'Which signs and symptoms are MOST important to watch for in a leukopenic patient?',
+    options: [
+      'Petechiae and easy bruising',
+      'Pallor and shortness of breath',
+      'High fever and sore throat',
+      'Joint pain and morning stiffness'
+    ],
+    answer: 2,
+    concept: 'Leukopenia S/S',
+    rationale: 'Watch for high fever and sore throat — early signs of infection in a leukopenic patient. Fever may be the only sign of serious infection.',
+    others: {
+      0: 'Petechiae and bruising signal thrombocytopenia.',
+      1: 'Pallor and SOB are anemia signs.',
+      3: 'Joint pain is unrelated to leukopenia.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'What patient education is appropriate for a leukopenic patient?',
+    options: [
+      'Use only a soft-bristle toothbrush during oral care',
+      'Avoid contact sports and trauma to prevent bleeding',
+      'Limit physical activity to bed rest until counts normalize',
+      'Strict handwashing, avoid crowds, no fresh flowers/plants'
+    ],
+    answer: 3,
+    concept: 'Leukopenia Education',
+    rationale: 'Leukopenic patients have increased infection risk. Strict handwashing, avoiding crowds, and avoiding fresh flowers/plants (which harbor bacteria/fungi) are essential.',
+    others: {
+      0: 'Soft toothbrush is for thrombocytopenia.',
+      1: 'Bleeding is not the primary concern in leukopenia.',
+      2: 'Bed rest is unnecessary and increases other risks.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'What is the MOST common symptom across all anemia types?',
+    options: [
+      'Fatigue',
+      'Sharp chest pain',
+      'High fever',
+      'Joint stiffness'
+    ],
+    answer: 0,
+    concept: 'Anemia Hallmark',
+    rationale: 'Fatigue is the MOST common symptom of anemia. Other signs include weakness, malaise, pallor or jaundice, nail changes, and pica.',
+    others: {
+      1: 'Chest pain is more associated with cardiac/pulmonary disease.',
+      2: 'Fever suggests infection, not anemia.',
+      3: 'Joint stiffness suggests rheumatic disorders.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'Which finding is associated with anemia?',
+    options: [
+      'Petechiae and ecchymosis',
+      'Pallor or jaundice',
+      'High fever and chills',
+      'Joint swelling'
+    ],
+    answer: 1,
+    concept: 'Anemia Findings',
+    rationale: 'Anemia presents with pallor (low Hgb) or jaundice (in hemolytic types). Other findings: fatigue, weakness, malaise, nail changes, pica.',
+    others: {
+      0: 'Petechiae signal thrombocytopenia.',
+      2: 'Fever signals infection (think leukopenia).',
+      3: 'Joint swelling suggests rheumatic disease.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A patient with iron deficiency anemia is being taught about diet. Which foods does the nurse recommend?',
+    options: [
+      'Dairy products and citrus fruits',
+      'Whole grain bread and butter',
+      'Meat, beans, and fortified cereals',
+      'Yogurt and leafy green salads'
+    ],
+    answer: 2,
+    concept: 'Iron-Rich Foods',
+    rationale: 'Iron-rich foods include meat, beans, and fortified cereals. These boost hemoglobin synthesis in iron deficiency anemia.',
+    others: {
+      0: 'Dairy actually inhibits iron absorption.',
+      1: 'Whole grains are low in iron.',
+      3: 'Leafy greens have some iron but meat/beans/fortified cereals are the priority recommendation.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A patient with B12 deficiency anemia asks about treatment. What is the appropriate response?',
+    options: [
+      'Treatment is with B12 supplementation',
+      'Iron-rich foods will resolve this',
+      'Bone marrow transplant is required',
+      'No treatment is needed; it self-resolves'
+    ],
+    answer: 0,
+    concept: 'B12 Deficiency Treatment',
+    rationale: 'B12 deficiency anemia is treated with B12 supplementation — orally or via injection (especially if pernicious anemia limits absorption).',
+    others: {
+      1: 'Iron treats iron deficiency anemia, not B12 deficiency.',
+      2: 'BMT is for aplastic anemia or leukemias, not B12 deficiency.',
+      3: 'Untreated B12 deficiency causes neurologic damage.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'What is the underlying pathophysiology of aplastic anemia?',
+    options: [
+      'Inherited disorder of abnormal hemoglobin',
+      'Body cannot absorb B12 from food',
+      'Insufficient iron intake or absorption',
+      'Bone marrow suppression of all stem cell production'
+    ],
+    answer: 3,
+    concept: 'Aplastic Anemia Patho',
+    rationale: 'Aplastic anemia is bone marrow suppression of all new stem cell production — affecting RBCs, WBCs, and platelets. Patients require protective isolation.',
+    others: {
+      0: 'Inherited abnormal hemoglobin describes thalassemia.',
+      1: 'B12 absorption issue describes pernicious anemia.',
+      2: 'Iron deficiency is a different anemia mechanism.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'Which intervention is essential for a patient with aplastic anemia?',
+    options: [
+      'Encourage gardening and fresh produce',
+      'Provide protective isolation',
+      'Restrict fluids to prevent overload',
+      'Encourage outdoor exercise daily'
+    ],
+    answer: 1,
+    concept: 'Aplastic Anemia Care',
+    rationale: 'Aplastic anemia suppresses all stem cell lines — including WBCs. Patients require protective isolation due to severe infection risk.',
+    others: {
+      0: 'Soil and fresh plants harbor pathogens — to be avoided.',
+      2: 'Fluid restriction is not standard for aplastic anemia.',
+      3: 'Outdoor exposure increases infection risk.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'What is thalassemia?',
+    options: [
+      'Autoimmune destruction of red blood cells',
+      'Inherited disorder of abnormal hemoglobin',
+      'Bone marrow failure of all cell lines',
+      'Acquired vitamin B12 deficiency'
+    ],
+    answer: 1,
+    concept: 'Thalassemia Definition',
+    rationale: 'Thalassemia is an inherited disorder of abnormal hemoglobin production. It causes lifelong anemia of varying severity.',
+    others: {
+      0: 'Autoimmune RBC destruction describes autoimmune hemolytic anemia.',
+      2: 'Bone marrow failure describes aplastic anemia.',
+      3: 'B12 deficiency is acquired, not inherited.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A patient with severe anemia is being treated. Which intervention is appropriate?',
+    options: [
+      'Transfusion of packed red blood cells',
+      'Daily therapeutic phlebotomy',
+      'Restriction of all dietary protein',
+      'Strict bed rest indefinitely'
+    ],
+    answer: 0,
+    concept: 'Severe Anemia Tx',
+    rationale: 'Severe anemia is treated with packed RBC transfusion to rapidly raise hemoglobin and oxygen-carrying capacity, while addressing the underlying cause.',
+    others: {
+      1: 'Phlebotomy treats polycythemia (excess RBCs), not anemia.',
+      2: 'Protein is needed to support RBC production.',
+      3: 'Bed rest is not the primary intervention.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'What are the expected outcomes of anemia treatment?',
+    options: [
+      'Increased fatigue and weight loss',
+      'Less fatigue and adequate nutrition',
+      'Constant pain and increased bleeding',
+      'Frequent infections and fevers'
+    ],
+    answer: 1,
+    concept: 'Anemia Expected Outcomes',
+    rationale: 'Successful anemia treatment results in less fatigue and adequate nutrition. The patient can resume normal activities.',
+    others: {
+      0: 'Worsening fatigue indicates failure of treatment.',
+      2: 'Pain and bleeding are not typical outcomes of anemia treatment.',
+      3: 'Infection risk relates to leukopenia, not treated anemia.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'What is the PRIORITY nursing intervention during sickle cell crisis?',
+    options: [
+      'Pain control and fluids',
+      'Cool compresses to extremities',
+      'Bed rest in a cold room',
+      'Restrict fluids to reduce blood volume'
+    ],
+    answer: 0,
+    concept: 'Sickle Cell Crisis Priority',
+    rationale: 'Pain control (PRIORITY) and fluids are first-line in sickle cell crisis. Hydration helps reduce blood viscosity and prevent further sickling.',
+    others: {
+      1: 'Cold causes vasoconstriction and worsens sickling — keep patients WARM.',
+      2: 'Cold environments worsen crises.',
+      3: 'Fluid restriction worsens sickling — patients need hydration.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'Which medication is the drug of choice for severe pain in sickle cell crisis?',
+    options: [
+      'Aspirin',
+      'Acetaminophen',
+      'Morphine',
+      'Ibuprofen'
+    ],
+    answer: 2,
+    concept: 'Sickle Cell Pain Med',
+    rationale: 'Pain management progression: NSAIDs → opioids. Morphine is the drug of choice for severe sickle cell pain.',
+    others: {
+      0: 'Aspirin is rarely used due to bleeding and Reye syndrome risk.',
+      1: 'Acetaminophen alone is insufficient for crisis-level pain.',
+      3: 'Ibuprofen (NSAID) is for milder pain; morphine is preferred for severe crisis.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'Which patient education BEST helps prevent sickle cell crisis?',
+    options: [
+      'Avoid cold exposure, maintain hydration, prevent infection',
+      'Take aspirin daily as a preventive measure',
+      'Avoid all fluids to reduce blood viscosity',
+      'Stay in air-conditioned environments year-round'
+    ],
+    answer: 0,
+    concept: 'Sickle Cell Prevention',
+    rationale: 'Avoiding cold (KEEP THEM WARM), maintaining hydration, and preventing infection are the core teaching points to prevent sickle cell crises.',
+    others: {
+      1: 'Daily aspirin is not standard preventive therapy.',
+      2: 'Fluid restriction WORSENS sickling — opposite of correct.',
+      3: 'Cold environments trigger crises; warmth is preferred.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'Why is infection prevention especially important in sickle cell disease?',
+    options: [
+      'Antibiotics worsen sickling effects',
+      'Infection can trigger or worsen a sickle cell crisis',
+      'Sickle cell patients cannot tolerate vaccines',
+      'Infection causes permanent kidney damage only'
+    ],
+    answer: 1,
+    concept: 'SCD Infection Trigger',
+    rationale: 'Infection can trigger or worsen sickle cell crisis. Patients should report fever immediately and stay current on vaccinations.',
+    others: {
+      0: 'Antibiotics treat infections; they do not worsen sickling.',
+      2: 'Vaccines are recommended in SCD to prevent infection.',
+      3: 'Effects are systemic, not isolated to the kidneys.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'What is the expected outcome for a sickle cell patient receiving appropriate treatment?',
+    options: [
+      'Cure of the underlying genetic defect',
+      'Controlled pain and no infection',
+      'Complete absence of all crises',
+      'Resolution of abnormal hemoglobin'
+    ],
+    answer: 1,
+    concept: 'SCD Expected Outcomes',
+    rationale: 'Expected outcomes for sickle cell management are controlled pain and no infection. The disease is genetic — not curable in routine care.',
+    others: {
+      0: 'SCD is genetic and not curable in standard nursing care.',
+      2: 'Crises may still occur but should be minimized and managed.',
+      3: 'Abnormal hemoglobin is the genetic defect — not resolved.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A nurse is reviewing a patient\'s lab values: WBC 3,200, RBC normal, platelets normal. What does the nurse identify?',
+    options: [
+      'Thrombocytopenia',
+      'Anemia',
+      'Leukopenia',
+      'Polycythemia'
+    ],
+    answer: 2,
+    concept: 'Lab Interpretation',
+    rationale: 'WBC of 3,200 is below the normal 4,000-11,000 range — this is leukopenia. Platelets and RBCs are normal.',
+    others: {
+      0: 'Platelets are normal — no thrombocytopenia.',
+      1: 'RBCs are normal — no anemia.',
+      3: 'Polycythemia is excess RBCs — not present here.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'Which nursing intervention helps manage fatigue in anemia patients?',
+    options: [
+      'Encourage strenuous daily exercise',
+      'Provide caffeinated beverages frequently',
+      'Schedule all activities back-to-back',
+      'Assist with activities of daily living (ADLs)'
+    ],
+    answer: 3,
+    concept: 'Fatigue Management',
+    rationale: 'Assisting with ADLs helps the patient conserve energy while managing anemia-related fatigue.',
+    others: {
+      0: 'Strenuous exercise worsens fatigue when oxygen-carrying capacity is low.',
+      1: 'Caffeine does not address the underlying anemia.',
+      2: 'Back-to-back activities exhaust anemic patients.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A nurse reviewing a CBC notes platelets 28,000 (normal 150,000-400,000). What is the priority nursing concern?',
+    options: [
+      'Risk for serious bleeding',
+      'Risk for sepsis from low immune function',
+      'Risk for hypoxia from low oxygen-carrying capacity',
+      'Risk for thrombus formation'
+    ],
+    answer: 0,
+    concept: 'Severe Thrombocytopenia',
+    rationale: 'Platelets at 28,000 represent severe thrombocytopenia. This places the patient at high risk for serious or spontaneous bleeding.',
+    others: {
+      1: 'Sepsis risk is for leukopenia (WBC issue).',
+      2: 'Hypoxia risk relates to anemia.',
+      3: 'Thrombus formation is opposite — would relate to elevated platelets.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let totalPts = 0;
+let answers = [];
+let selectedOption = null;
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  selectedOption = null;
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${questions.length}`;
+  document.getElementById('q-points').textContent = `${totalPts.toFixed(1)} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / questions.length) * 100}%`;
+  document.getElementById('q-stem').textContent = q.stem;
+  const optsHtml = q.options.map((opt, i) => `
+    <div class="option" data-idx="${i}" onclick="selectOption(${i})">
+      <span class="option-letter">${String.fromCharCode(65+i)}.</span>
+      <span>${opt}</span>
+    </div>
+  `).join('');
+  document.getElementById('q-options').innerHTML = optsHtml;
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').innerHTML = '';
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  selectedOption = idx;
+  document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
+  document.querySelector(`.option[data-idx="${idx}"]`).classList.add('selected');
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  const q = questions[currentQ];
+  const correct = q.answer;
+  const isCorrect = selectedOption === correct;
+  const pts = isCorrect ? 1 : 0;
+  totalPts += pts;
+  answers.push({ q, selected: selectedOption, correct, pts });
+
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.add('locked');
+    el.onclick = null;
+    if (i === correct) el.classList.add('correct');
+    else if (i === selectedOption) el.classList.add('wrong');
+  });
+
+  let othersHtml = '';
+  if (q.others) {
+    othersHtml = '<div class="others-list">';
+    Object.keys(q.others).forEach(k => {
+      othersHtml += `<div><strong>${String.fromCharCode(65+parseInt(k))}.</strong> ${q.others[k]}</div>`;
+    });
+    othersHtml += '</div>';
+  }
+
+  const ratHtml = `
+    <div class="rationale">
+      <span class="concept-pill">${q.concept}</span>
+      <div><strong>${isCorrect ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>
+      ${q.deepExplanation ? `<div style="margin-top:8px; color: var(--ink-soft);">${q.deepExplanation}</div>` : ''}
+      ${othersHtml}
+    </div>
+  `;
+  const rArea = document.getElementById('rationale-area');
+  rArea.innerHTML = ratHtml;
+  rArea.classList.remove('hidden');
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+  document.getElementById('q-points').textContent = `${totalPts.toFixed(1)} pts`;
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= questions.length) showResults();
+  else renderQuestion();
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+  const pct = (totalPts / questions.length) * 100;
+  const scoreEl = document.getElementById('r-score');
+  scoreEl.textContent = `${pct.toFixed(0)}%`;
+  if (pct >= 85) scoreEl.classList.add('pass');
+  else if (pct >= 70) scoreEl.classList.add('borderline');
+  else scoreEl.classList.add('fail');
+  document.getElementById('r-pts').textContent = `${totalPts.toFixed(1)} / ${questions.length} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Excellent recall — you know this chapter cold.';
+  else if (pct >= 77) msg = 'Passing — keep reviewing the missed concepts.';
+  else if (pct >= 60) msg = 'Below passing — focus on the missed concepts before the exam.';
+  else msg = 'This chapter needs more review. Re-read the source guide and retake.';
+  document.getElementById('r-msg').textContent = msg;
+
+  const missed = answers.filter(a => a.pts < 1);
+  if (missed.length > 0) {
+    let html = '<h3>Missed Concepts</h3>';
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${String.fromCharCode(65+m.correct)}. ${m.q.options[m.correct]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+
+  const result = {
+    pct: parseFloat(pct.toFixed(1)),
+    pts: parseFloat(totalPts.toFixed(1)),
+    total: questions.length,
+    date: new Date().toISOString().split('T')[0]
+  };
+  localStorage.setItem('score_nonmalighem_knowledge', JSON.stringify(result));
+}
+</script>
+</body>
+</html>
