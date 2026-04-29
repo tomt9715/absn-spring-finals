@@ -333,7 +333,7 @@ const medsurgTopics = [
   { ch: '27', name: 'Hypertension', desc: 'Long-term complications, DASH diet', weight: 3, key: 'hypertension', system: 'cardio', kcFile: 'ch27_hypertension_kc.html', ddFile: 'ch27_hypertension_dd.html', kcReady: false, ddReady: false },
   { ch: '18', name: 'Upper Respiratory', desc: 'Acute vs chronic bronchitis', weight: 2, key: 'upperresp', system: 'pulm', kcFile: 'ch18_upperresp_kc.html', ddFile: 'ch18_upperresp_dd.html', kcReady: true, ddReady: true },
   { ch: '20', name: 'Chronic Pulmonary', desc: 'Emphysema, asthma, sleep apnea, O₂ delivery', weight: 6, key: 'chronicpulm', system: 'pulm', kcFile: 'ch20_chronicpulm_kc.html', ddFile: 'ch20_chronicpulm_dd.html', kcReady: true, ddReady: true },
-  { ch: '29', name: 'Nonmalignant Hematologic', desc: 'Thrombocytopenia, leukopenia, anemias, sickle cell', weight: 5, key: 'nonmalighem', system: 'hem', kcFile: 'ch29_nonmalighem_kc.html', ddFile: 'ch29_nonmalighem_dd.html', kcReady: false, ddReady: false },
+  { ch: '29', name: 'Nonmalignant Hematologic', desc: 'Thrombocytopenia, leukopenia, anemias, sickle cell', weight: 5, key: 'nonmalighem', system: 'hem', kcFile: 'ch29_nonmalighem_kc.html', ddFile: 'ch29_nonmalighem_dd.html', kcReady: true, ddReady: false },
   { ch: '30', name: 'Hematologic Disorders', desc: 'Polycythemia vera, leukemias (AML/CML/ALL/CLL)', weight: 3, key: 'hematdisorders', system: 'hem', kcFile: 'ch30_hematdisorders_kc.html', ddFile: 'ch30_hematdisorders_dd.html', kcReady: false, ddReady: false },
   { ch: '12', name: 'Oncology', desc: 'Chemo, neutropenia, radiation, CBC monitoring', weight: 6, key: 'oncology', system: 'oncoimmune', kcFile: 'ch12_oncology_kc.html', ddFile: 'ch12_oncology_dd.html', kcReady: true, ddReady: true },
   { ch: '32', name: 'Immune Deficiency', desc: 'HIV/AIDS stages, opportunistic infections, HAART', weight: 4, key: 'immune', system: 'oncoimmune', kcFile: 'ch32_immune_kc.html', ddFile: 'ch32_immune_dd.html', kcReady: false, ddReady: false },
@@ -391,8 +391,8 @@ const matpedsTopics = [
 ];
 
 const matpedsSystems = [
-  { id: 'maternity', name: 'Maternity (35 Q)', shortLabel: 'MAT', color: '#be185d', bg: '#fdf2f8' },
-  { id: 'pediatrics', name: 'Pediatrics (35 Q)', shortLabel: 'PEDS', color: '#c2410c', bg: '#fff7ed' }
+  { id: 'maternity', name: 'Maternity', shortLabel: 'MAT', color: '#be185d', bg: '#fdf2f8', displayQ: 35 },
+  { id: 'pediatrics', name: 'Pediatrics', shortLabel: 'PEDS', color: '#c2410c', bg: '#fff7ed', displayQ: 35 }
 ];
 
 const classConfig = {
@@ -518,7 +518,8 @@ function renderSystemGroup(sys) {
   }, 0);
   const totalWeight = sysTopics.reduce((sum, t) => sum + t.weight, 0);
   const progressPct = totalQuizzes > 0 ? (attemptedCount / totalQuizzes) * 100 : 0;
-  const metaText = totalWeight > 0 ? `${sysTopics.length} ch · ${totalWeight} Q` : `${sysTopics.length} topic${sysTopics.length > 1 ? 's' : ''}`;
+  const displayWeight = sys.displayQ !== undefined ? sys.displayQ : totalWeight;
+  const metaText = displayWeight > 0 ? `${sysTopics.length} ch · ${displayWeight} Q` : `${sysTopics.length} topic${sysTopics.length > 1 ? 's' : ''}`;
 
   return `<div class="system-group" data-system="${sys.id}">
     <div class="system-header" onclick="toggleGroup('${sys.id}')">
