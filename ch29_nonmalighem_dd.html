@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ch 29 Nonmalignant Hematologic — Deep Drill</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0a2540; --navy-soft: #1a3a5c;
+  --teal: #0d9488; --teal-pale: #f0fdfa;
+  --purple: #7c3aed; --purple-pale: #f5f3ff;
+  --gold: #f59e0b; --ink: #1a1a1a; --ink-soft: #3a3a3a; --muted: #6b7280;
+  --bg: #fafaf7; --card: #ffffff; --line: #e5e0d5;
+  --correct: #059669; --correct-bg: #ecfdf5;
+  --wrong: #dc2626; --wrong-bg: #fef2f2;
+  --partial: #d97706; --partial-bg: #fffbeb;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; padding: 32px 16px 80px; min-height: 100vh; }
+.container { max-width: 760px; margin: 0 auto; }
+.eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1.5px; color: var(--purple); text-transform: uppercase; margin-bottom: 12px; }
+h1 { font-family: 'DM Serif Display', serif; font-size: 36px; color: var(--navy); margin-bottom: 8px; line-height: 1.15; }
+.tagline { color: var(--muted); margin-bottom: 32px; font-size: 16px; }
+.start-card, .question-card, .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 32px; margin-bottom: 24px; }
+.start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0; }
+.start-stat { border: 1px solid var(--line); border-radius: 4px; padding: 16px; text-align: center; }
+.start-stat-num { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--purple); display: block; }
+.start-stat-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px; color: var(--muted); text-transform: uppercase; margin-top: 4px; }
+.btn { background: var(--purple); color: white; border: none; padding: 14px 32px; font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 600; border-radius: 4px; cursor: pointer; transition: background 0.15s; }
+.btn:hover { background: #6d28d9; }
+.btn:disabled { background: var(--muted); cursor: not-allowed; }
+.btn-secondary { background: var(--navy); }
+.btn-secondary:hover { background: var(--navy-soft); }
+.progress-bar { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; margin-bottom: 24px; }
+.progress-fill { height: 100%; background: var(--purple); transition: width 0.3s; }
+.q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
+.q-stem { font-size: 18px; color: var(--ink); margin-bottom: 24px; line-height: 1.5; }
+.options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+.option { border: 1.5px solid var(--line); border-radius: 6px; padding: 14px 18px; cursor: pointer; transition: all 0.15s; background: var(--card); font-size: 15px; display: flex; align-items: flex-start; gap: 12px; }
+.option:hover:not(.locked) { border-color: var(--purple); background: var(--purple-pale); }
+.option.selected { border-color: var(--purple); background: var(--purple-pale); }
+.option.correct { border-color: var(--correct); background: var(--correct-bg); }
+.option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+.option-letter { font-family: 'DM Mono', monospace; font-weight: 500; color: var(--muted); min-width: 18px; }
+.option.correct .option-letter { color: var(--correct); }
+.option.wrong .option-letter { color: var(--wrong); }
+.rationale { background: var(--purple-pale); border-left: 3px solid var(--purple); padding: 16px 20px; border-radius: 0 6px 6px 0; margin-bottom: 20px; font-size: 14px; line-height: 1.6; }
+.rationale strong { color: var(--navy); }
+.concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.5px; background: var(--purple); color: white; padding: 3px 10px; border-radius: 100px; margin-bottom: 10px; text-transform: uppercase; }
+.others-list { margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); font-size: 13px; color: var(--ink-soft); }
+.others-list div { margin-bottom: 6px; }
+.btn-row { display: flex; gap: 12px; justify-content: flex-end; }
+.results-score { font-family: 'DM Serif Display', serif; font-size: 56px; text-align: center; margin: 12px 0; }
+.results-score.pass { color: var(--correct); }
+.results-score.borderline { color: var(--partial); }
+.results-score.fail { color: var(--wrong); }
+.results-pts { font-family: 'DM Mono', monospace; text-align: center; color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+.perf-msg { text-align: center; margin: 16px 0 32px; font-size: 16px; color: var(--ink-soft); font-style: italic; }
+.missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+.missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+.missed-item .stem { font-weight: 500; margin-bottom: 8px; }
+.missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+.missed-item .rat { color: var(--ink-soft); font-size: 13px; }
+.back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+.hidden { display: none; }
+</style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Deep Drill · Chapter 29</div>
+  <h1>Nonmalignant Hematologic Disorders</h1>
+  <p class="tagline">NCLEX-style application: priority decisions for thrombocytopenia, leukopenia, anemias, and sickle cell crises.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">25</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">MC</span><span class="start-stat-label">Format</span></div>
+      <div class="start-stat"><span class="start-stat-num">Yes</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">Higher-difficulty NCLEX-style scenarios. Apply your knowledge to clinical-judgment situations.</p>
+    <button class="btn" onclick="begin()">Begin</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 25</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Deep Drill</div>
+    <h1>Nonmalignant Hematologic</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 25 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Quiz</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A nurse reviewing CBC results sees platelets 18,000 (normal 150,000-400,000). The patient denies bleeding currently. What is the PRIORITY action?',
+    options: [
+      'Document and reassess in 4 hours',
+      'Initiate fall and bleeding precautions immediately',
+      'Encourage the patient to ambulate as tolerated',
+      'Apply heat to bruised areas'
+    ],
+    answer: 1,
+    concept: 'Critical Platelets',
+    rationale: 'Platelets at 18,000 are critically low. Spontaneous bleeding can occur below 20,000. Priority is bleeding/fall precautions immediately — not delayed assessment.',
+    others: {
+      0: 'Reassessment in 4 hours delays critical safety measures.',
+      2: 'Ambulation increases fall and bleeding risk; mobility should be cautious.',
+      3: 'Heat is contraindicated for bruises in thrombocytopenia (causes vasodilation and worsens bleeding).'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A patient is admitted with a WBC count of 1,800 (normal 4,000-11,000). The room assignment is being made. Which placement is MOST appropriate?',
+    options: [
+      'Semi-private room with a stable post-op patient',
+      'Semi-private room with a patient who has community-acquired pneumonia',
+      'Private room with strict protective isolation',
+      'Hallway bed near the nurses\' station for monitoring'
+    ],
+    answer: 2,
+    concept: 'Neutropenic Precautions',
+    rationale: 'Severe leukopenia (WBC 1,800) requires protective isolation in a private room. The patient cannot fight infection.',
+    others: {
+      0: 'Even a stable roommate poses some infection risk.',
+      1: 'A roommate with active pneumonia would be devastating to a leukopenic patient.',
+      3: 'Hallway placement exposes the patient to all unit traffic.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A nurse is caring for four patients on a hematology unit. Which patient should the nurse assess FIRST?',
+    options: [
+      'A leukopenic patient reporting a temperature of 101.5°F',
+      'A thrombocytopenic patient with stable bruising and platelets 80,000',
+      'A patient with iron deficiency anemia awaiting discharge teaching',
+      'A patient in stable sickle cell crisis with controlled pain'
+    ],
+    answer: 0,
+    concept: 'Leukopenia + Fever Priority',
+    rationale: 'Fever in a leukopenic patient is a MEDICAL EMERGENCY. The patient cannot mount a normal immune response, so even a low-grade fever may indicate life-threatening sepsis. Assess and treat immediately.',
+    others: {
+      1: 'Stable bruising and platelets at 80,000 — not urgent.',
+      2: 'Discharge teaching can wait.',
+      3: 'Controlled pain in stable crisis — not urgent.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A patient with sickle cell disease arrives in the ED in crisis with severe pain (9/10), reports cold exposure, and feels dehydrated. What is the FIRST priority?',
+    options: [
+      'Administer prescribed morphine and start IV fluids',
+      'Order a CBC and reticulocyte count',
+      'Apply a cold compress to relieve the pain',
+      'Withhold pain medication until cause is determined'
+    ],
+    answer: 0,
+    concept: 'Sickle Cell Crisis Priority',
+    rationale: 'Pain control (PRIORITY) and hydration are first-line for sickle cell crisis. Morphine is the drug of choice; IV fluids reduce blood viscosity and prevent further sickling.',
+    others: {
+      1: 'Lab work is important but pain and hydration cannot wait.',
+      2: 'Cold causes vasoconstriction and WORSENS sickling — keep patients WARM.',
+      3: 'Withholding pain medication is inappropriate; sickle cell pain is real and severe.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A patient with severe iron deficiency anemia is being discharged. Which patient statement indicates a need for FURTHER teaching?',
+    options: [
+      '"I will eat more red meat, beans, and fortified cereals."',
+      '"I will report any black, tarry stools to my provider."',
+      '"I will take my iron with vitamin C to help absorption."',
+      '"I will take my iron supplement with a glass of milk."'
+    ],
+    answer: 3,
+    concept: 'Iron + Calcium Interaction',
+    rationale: 'Milk (calcium) significantly impairs iron absorption. Iron should be taken with vitamin C/orange juice for best absorption.',
+    others: {
+      0: 'Correct — meat, beans, fortified cereals are iron-rich.',
+      1: 'Correct — iron causes black/tarry stools (expected) but black tarry stools could also indicate GI bleed.',
+      2: 'Correct — vitamin C enhances iron absorption.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A nurse delegates care for a thrombocytopenic patient to a UAP. Which task is APPROPRIATE to delegate?',
+    options: [
+      'Assessing the skin for new petechiae',
+      'Teaching the patient to use a soft toothbrush',
+      'Helping the patient ambulate to the bathroom safely',
+      'Adjusting platelet transfusion infusion rate'
+    ],
+    answer: 2,
+    concept: 'Appropriate Delegation',
+    rationale: 'Helping a patient ambulate safely is within UAP scope. Assessment, teaching, and titrating transfusions all require nursing judgment.',
+    others: {
+      0: 'Skin assessment requires RN judgment.',
+      1: 'Patient teaching is a nursing responsibility.',
+      3: 'Adjusting transfusion rates requires RN judgment.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A nurse is caring for a leukopenic patient. Which family member behavior requires intervention by the nurse?',
+    options: [
+      'Wearing a mask before entering the patient\'s room',
+      'Performing thorough handwashing on entry',
+      'Using hand sanitizer between visits',
+      'Bringing fresh-cut flowers to brighten the room'
+    ],
+    answer: 3,
+    concept: 'Family Education on Leukopenia',
+    rationale: 'Fresh flowers and plants harbor bacteria, fungi, and pseudomonas. They are CONTRAINDICATED in leukopenic precautions. Educate the family to remove flowers.',
+    others: {
+      0: 'Masks are appropriate.',
+      1: 'Handwashing is essential.',
+      2: 'Hand sanitizer use is appropriate.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A patient with sickle cell disease asks why they need to avoid altitude and dehydration. The BEST response addresses which mechanism?',
+    options: [
+      'Both increase the body\'s need for vitamin C',
+      'Both cause excessive WBC production',
+      'Both cause low oxygen and increase risk of sickling',
+      'Both lower blood pressure dangerously'
+    ],
+    answer: 2,
+    concept: 'SCD Trigger Mechanism',
+    rationale: 'High altitudes cause hypoxia. Dehydration increases blood viscosity. Both lead to RBC sickling and crisis.',
+    others: {
+      0: 'Vitamin C is unrelated to sickling triggers.',
+      1: 'Sickle cell does not cause WBC overproduction.',
+      3: 'BP changes are not the primary mechanism.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A patient with B12 deficiency anemia reports tingling in the feet and difficulty walking. What does this finding indicate?',
+    options: [
+      'A normal B12 deficiency presentation requiring no action',
+      'Neurologic damage from prolonged deficiency requiring intervention',
+      'Side effect of starting B12 supplementation',
+      'A separate diagnosis unrelated to anemia'
+    ],
+    answer: 1,
+    concept: 'B12 Neuro Complications',
+    rationale: 'Tingling and gait changes suggest neurologic damage from prolonged B12 deficiency. This is a serious complication requiring prompt B12 supplementation to prevent permanent damage.',
+    others: {
+      0: 'Neurologic findings ALWAYS require action.',
+      2: 'B12 supplementation does not cause neuropathy.',
+      3: 'These neurologic symptoms ARE caused by B12 deficiency.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A nurse is performing morning rounds on a patient with aplastic anemia. Which finding requires the most immediate intervention?',
+    options: [
+      'Patient reports feeling more fatigued than yesterday',
+      'Temperature of 100.6°F (37.8°C)',
+      'Bruising on bilateral lower extremities',
+      'Pallor of the conjunctiva'
+    ],
+    answer: 1,
+    concept: 'Aplastic Anemia Priority',
+    rationale: 'In aplastic anemia, ALL stem cell lines are suppressed — including WBCs. A "low-grade" fever may indicate life-threatening sepsis. This requires immediate cultures and broad-spectrum antibiotics.',
+    others: {
+      0: 'Increased fatigue is concerning but not as acute as fever in immunosuppression.',
+      2: 'Bruising is expected in thrombocytopenia.',
+      3: 'Pallor is expected with low RBC counts.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A leukopenic patient requires a venipuncture for blood draw. What is the BEST nursing action?',
+    options: [
+      'Use the largest possible needle to limit attempts',
+      'Skip the venipuncture and rely on physical assessment',
+      'Have multiple staff members attempt simultaneously',
+      'Use sterile technique and the smallest effective needle'
+    ],
+    answer: 3,
+    concept: 'Leukopenia Procedural Care',
+    rationale: 'Sterile technique is essential to prevent infection in leukopenic patients. Smallest effective needle minimizes tissue trauma and bleeding risk if patient is also thrombocytopenic.',
+    others: {
+      0: 'Larger needles cause more tissue trauma — not appropriate.',
+      1: 'Lab work is necessary; assessment alone cannot replace it.',
+      2: 'Multiple simultaneous attempts increase infection risk.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A patient receiving a packed RBC transfusion suddenly reports chills, lower back pain, and fever 15 minutes into the infusion. What is the FIRST nursing action?',
+    options: [
+      'Slow the infusion and monitor vital signs every 15 minutes',
+      'Stop the transfusion immediately and notify the provider',
+      'Administer prescribed acetaminophen for the fever',
+      'Document the symptoms and continue the transfusion'
+    ],
+    answer: 1,
+    concept: 'Transfusion Reaction',
+    rationale: 'Chills, fever, and back pain during a transfusion are classic signs of an acute hemolytic transfusion reaction — a life-threatening emergency. STOP the transfusion immediately, keep the line open with normal saline, and notify the provider.',
+    others: {
+      0: 'Slowing the infusion is insufficient — must stop completely.',
+      2: 'Treating the fever does not address the reaction.',
+      3: 'Continuing risks fatal hemolytic reaction.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A nurse is teaching a sickle cell patient about exercise. Which statement indicates correct understanding?',
+    options: [
+      '"I will avoid swimming in cold pools and stay hydrated during activity."',
+      '"Strenuous high-altitude hiking is encouraged for fitness."',
+      '"I should exercise vigorously even when feeling unwell."',
+      '"I should avoid all physical activity to prevent crisis."'
+    ],
+    answer: 0,
+    concept: 'SCD Exercise Education',
+    rationale: 'Cold environments (cold pools) trigger vasoconstriction and sickling. Hydration is essential during all activity. Moderate, well-hydrated, warm-environment exercise is safe.',
+    others: {
+      1: 'High altitude causes hypoxia and triggers sickling.',
+      2: 'Vigorous activity when unwell increases risk.',
+      3: 'Total inactivity is not necessary — moderate activity in safe conditions is fine.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A patient with thrombocytopenia (platelets 35,000) needs an injection. What nursing action is MOST important?',
+    options: [
+      'Apply firm pressure for at least 5 minutes after injection',
+      'Use a 22-gauge needle for faster injection',
+      'Skip the injection and document refusal',
+      'Use an IM route to avoid SubQ bleeding'
+    ],
+    answer: 0,
+    concept: 'Injection in Thrombocytopenia',
+    rationale: 'With thrombocytopenia, platelets cannot form an adequate clot. Apply firm pressure for at least 5 minutes after any injection to prevent hematoma.',
+    others: {
+      1: 'Larger gauge needle increases bleeding risk.',
+      2: 'Cannot skip a needed injection without provider order.',
+      3: 'IM route causes more bleeding than SubQ in thrombocytopenia — typically avoided.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A patient hospitalized with anemia reports increasing shortness of breath at rest. Vital signs: HR 120, BP 110/70, SpO₂ 88% on room air, Hgb 6.2 (normal 12-18). What is the priority intervention?',
+    options: [
+      'Administer prescribed packed RBCs and apply oxygen',
+      'Give the patient oral iron supplements with juice',
+      'Place the patient supine and elevate the legs',
+      'Encourage the patient to take deep breaths'
+    ],
+    answer: 0,
+    concept: 'Acute Severe Anemia',
+    rationale: 'Hgb of 6.2 with tachycardia, hypoxia, and dyspnea at rest is severe anemia requiring immediate transfusion of packed RBCs and supplemental oxygen.',
+    others: {
+      1: 'Oral iron works over weeks; severe anemia needs transfusion now.',
+      2: 'Supine position may worsen respiratory distress.',
+      3: 'Deep breathing alone cannot fix low Hgb.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A patient is starting iron supplementation. Which assessment finding would prompt the nurse to investigate further?',
+    options: [
+      'Black, tarry stools (expected iron side effect)',
+      'Mild nausea after taking the supplement with food',
+      'Constipation that started after starting the iron',
+      'Black tarry stools with abdominal pain and dizziness'
+    ],
+    answer: 3,
+    concept: 'Iron Side Effects vs GI Bleed',
+    rationale: 'Iron normally causes black/tarry stools (harmless). However, black/tarry stools WITH pain and dizziness suggests GI bleeding — not iron side effect. Investigate immediately.',
+    others: {
+      0: 'Black stools alone are an expected side effect of iron.',
+      1: 'Mild nausea is a common side effect.',
+      2: 'Constipation is a common iron side effect.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A nurse is caring for a child with sickle cell disease who has a fever. What is the priority nursing action?',
+    options: [
+      'Send the child home with acetaminophen and rest',
+      'Notify the provider immediately for evaluation',
+      'Give an antihistamine and observe',
+      'Withhold all pain medication'
+    ],
+    answer: 1,
+    concept: 'SCD Fever Priority',
+    rationale: 'Fever in a sickle cell patient may indicate serious infection (which can trigger crisis). Report fever immediately for prompt evaluation and treatment.',
+    others: {
+      0: 'Sending home is dangerous — fever requires evaluation.',
+      2: 'Antihistamines do not treat infection.',
+      3: 'Pain medication may still be needed if crisis develops.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A patient with chronic anemia reports new-onset confusion and unsteady gait. The Hgb is 7.5 and the B12 level is low. What is the BEST nursing interpretation?',
+    options: [
+      'B12 deficiency neuropathy needs urgent intervention',
+      'Routine fatigue from chronic anemia — no action needed',
+      'Likely psychiatric medication side effect',
+      'Normal aging changes that develop slowly over time'
+    ],
+    answer: 0,
+    concept: 'B12 Deficiency Neuropathy',
+    rationale: 'B12 deficiency causes neurologic damage that progresses if untreated. New confusion and gait changes are urgent red flags. Prompt B12 supplementation can halt — but not always reverse — these changes.',
+    others: {
+      1: 'New neurologic changes are NEVER routine.',
+      2: 'No psych medication mentioned.',
+      3: 'Sudden cognitive/motor changes are not normal aging.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A pregnant patient with sickle cell disease asks if she will pass the disease to her baby. The BEST nursing response addresses which concept?',
+    options: [
+      'Sickle cell is acquired, not inherited; the baby will not have it',
+      'Sickle cell is fully preventable with prenatal vitamins',
+      'Sickle cell only develops in adults, never in babies',
+      'Sickle cell is inherited; genetic counseling is recommended'
+    ],
+    answer: 3,
+    concept: 'SCD Inheritance',
+    rationale: 'Sickle cell is an inherited (autosomal recessive) genetic disorder. Both parents\' status determines risk to the baby. Genetic counseling is recommended.',
+    others: {
+      0: 'Sickle cell is genetic and inherited.',
+      1: 'No prenatal vitamin prevents an inherited disorder.',
+      2: 'Sickle cell can present in infancy/childhood.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A patient with leukopenia is approaching the end of broad-spectrum antibiotics with WBC trending up to 4,200 (normal 4,000-11,000). The patient asks if visitors are okay now. The BEST nursing response is:',
+    options: [
+      '"You should have unlimited visitors now to celebrate."',
+      '"Continue precautions — your immune recovery is just beginning."',
+      '"You can have visitors, but they should still be cautious."',
+      '"Visitors are still completely prohibited indefinitely."'
+    ],
+    answer: 2,
+    concept: 'Leukopenia Recovery',
+    rationale: 'WBC at 4,200 is just at the lower edge of normal. Visitors can be allowed cautiously — using infection prevention practices like handwashing — while awaiting full recovery.',
+    others: {
+      0: 'Unlimited visitation is premature.',
+      1: 'Visitors with proper precautions are okay at this point.',
+      3: 'Indefinite prohibition is not necessary at recovery WBC levels.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A nurse identifies a patient with iron deficiency anemia AND celiac disease. Which factor explains the iron deficiency?',
+    options: [
+      'Celiac disease causes iron destruction in the spleen',
+      'Celiac disease damages the intestine and impairs iron absorption',
+      'Celiac patients require triple the normal iron intake',
+      'Iron supplements are contraindicated in celiac disease'
+    ],
+    answer: 1,
+    concept: 'Celiac and Iron Deficiency',
+    rationale: 'Celiac disease damages intestinal villi, impairing absorption of nutrients including iron. Treating the celiac (gluten-free diet) is essential alongside iron repletion.',
+    others: {
+      0: 'Spleen destruction is not the celiac mechanism.',
+      2: 'Higher dose alone won\'t fix the underlying absorption issue.',
+      3: 'Iron supplementation may be needed; not contraindicated.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A nurse is admitting a patient with thalassemia receiving regular blood transfusions. What complication should the nurse monitor for over time?',
+    options: [
+      'Iron overload from chronic transfusions',
+      'Vitamin C toxicity from supplementation',
+      'Sodium depletion from transfusions',
+      'Hyperthyroidism from frequent labs'
+    ],
+    answer: 0,
+    concept: 'Iron Overload',
+    rationale: 'Patients receiving chronic transfusions (like thalassemia patients) accumulate iron from each transfusion. Iron overload damages the heart, liver, and endocrine organs. Iron chelation therapy is often required.',
+    others: {
+      1: 'Vitamin C toxicity is not a typical transfusion concern.',
+      2: 'Transfusions do not deplete sodium.',
+      3: 'Frequent labs do not cause hyperthyroidism.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A nurse is preparing to administer a platelet transfusion to a patient with platelets of 12,000 (normal 150,000-400,000). What action is essential before starting?',
+    options: [
+      'Verify the platelets with two RNs at the bedside',
+      'Pre-medicate with PRN morphine',
+      'Pre-warm the platelets in a microwave',
+      'Run the platelets at maximum speed'
+    ],
+    answer: 0,
+    concept: 'Blood Product Verification',
+    rationale: 'Two-RN bedside verification of blood/blood product (patient ID, product type, expiration, blood type) is essential to prevent transfusion errors — a Joint Commission patient safety standard.',
+    others: {
+      1: 'Morphine is not standard pre-medication for platelets.',
+      2: 'Microwaving destroys platelets — never warm blood products this way.',
+      3: 'Run at the prescribed rate, not always max speed.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A patient with sickle cell disease is in the hospital with crisis pain controlled on opioids. Which discharge teaching has the HIGHEST priority for crisis prevention?',
+    options: [
+      'Sleep at least 8 hours every night for full rest',
+      'Take a daily multivitamin with breakfast each day',
+      'Walk 30 minutes daily, no exceptions or weather days',
+      'Hydration, warmth, infection prevention, fever reporting'
+    ],
+    answer: 3,
+    concept: 'SCD Discharge Priority',
+    rationale: 'The core crisis prevention pillars are: maintain hydration, stay warm, prevent infection, and report fever immediately. These directly prevent or interrupt sickling.',
+    others: {
+      0: 'Sleep is helpful but not crisis-specific.',
+      1: 'Multivitamins are general health, not crisis prevention.',
+      2: 'Strict daily walking can trigger crisis if patient is unwell.'
+    }
+  },
+  {
+    topic: 'NonmaligHem',
+    type: 'standard',
+    stem: 'A nurse is reviewing CBC for four patients. Which patient should be assessed FIRST?',
+    options: [
+      'Patient with WBC 5,500, Hgb 13, platelets 200,000',
+      'Patient with WBC 4,200, Hgb 11, platelets 165,000',
+      'Patient with WBC 1,200, Hgb 8, platelets 22,000',
+      'Patient with WBC 9,000, Hgb 14, platelets 280,000'
+    ],
+    answer: 2,
+    concept: 'Pancytopenia Recognition',
+    rationale: 'Pancytopenia (WBC 1,200 + Hgb 8 + platelets 22,000) suggests bone marrow suppression — likely aplastic anemia or leukemia. This patient has triple risk: severe infection, severe anemia, AND severe bleeding. Highest priority.',
+    others: {
+      0: 'All values within normal range.',
+      1: 'Mild changes only — not urgent.',
+      3: 'All values within normal range.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let totalPts = 0;
+let answers = [];
+let selectedOption = null;
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  selectedOption = null;
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${questions.length}`;
+  document.getElementById('q-points').textContent = `${totalPts.toFixed(1)} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / questions.length) * 100}%`;
+  document.getElementById('q-stem').textContent = q.stem;
+  const optsHtml = q.options.map((opt, i) => `
+    <div class="option" data-idx="${i}" onclick="selectOption(${i})">
+      <span class="option-letter">${String.fromCharCode(65+i)}.</span>
+      <span>${opt}</span>
+    </div>
+  `).join('');
+  document.getElementById('q-options').innerHTML = optsHtml;
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').innerHTML = '';
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  selectedOption = idx;
+  document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
+  document.querySelector(`.option[data-idx="${idx}"]`).classList.add('selected');
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  const q = questions[currentQ];
+  const correct = q.answer;
+  const isCorrect = selectedOption === correct;
+  const pts = isCorrect ? 1 : 0;
+  totalPts += pts;
+  answers.push({ q, selected: selectedOption, correct, pts });
+
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.add('locked');
+    el.onclick = null;
+    if (i === correct) el.classList.add('correct');
+    else if (i === selectedOption) el.classList.add('wrong');
+  });
+
+  let othersHtml = '';
+  if (q.others) {
+    othersHtml = '<div class="others-list">';
+    Object.keys(q.others).forEach(k => {
+      othersHtml += `<div><strong>${String.fromCharCode(65+parseInt(k))}.</strong> ${q.others[k]}</div>`;
+    });
+    othersHtml += '</div>';
+  }
+
+  const ratHtml = `
+    <div class="rationale">
+      <span class="concept-pill">${q.concept}</span>
+      <div><strong>${isCorrect ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>
+      ${q.deepExplanation ? `<div style="margin-top:8px; color: var(--ink-soft);">${q.deepExplanation}</div>` : ''}
+      ${othersHtml}
+    </div>
+  `;
+  const rArea = document.getElementById('rationale-area');
+  rArea.innerHTML = ratHtml;
+  rArea.classList.remove('hidden');
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+  document.getElementById('q-points').textContent = `${totalPts.toFixed(1)} pts`;
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= questions.length) showResults();
+  else renderQuestion();
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+  const pct = (totalPts / questions.length) * 100;
+  const scoreEl = document.getElementById('r-score');
+  scoreEl.textContent = `${pct.toFixed(0)}%`;
+  if (pct >= 85) scoreEl.classList.add('pass');
+  else if (pct >= 70) scoreEl.classList.add('borderline');
+  else scoreEl.classList.add('fail');
+  document.getElementById('r-pts').textContent = `${totalPts.toFixed(1)} / ${questions.length} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Excellent — you handle priority decisions well.';
+  else if (pct >= 77) msg = 'Passing — review missed scenarios for the test.';
+  else if (pct >= 60) msg = 'Below passing — focus on priority and safety judgments.';
+  else msg = 'This chapter needs deeper review. Re-read scenarios and retake.';
+  document.getElementById('r-msg').textContent = msg;
+
+  const missed = answers.filter(a => a.pts < 1);
+  if (missed.length > 0) {
+    let html = '<h3>Missed Concepts</h3>';
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${String.fromCharCode(65+m.correct)}. ${m.q.options[m.correct]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+
+  const result = {
+    pct: parseFloat(pct.toFixed(1)),
+    pts: parseFloat(totalPts.toFixed(1)),
+    total: questions.length,
+    date: new Date().toISOString().split('T')[0]
+  };
+  localStorage.setItem('score_nonmalighem_deepdrill', JSON.stringify(result));
+}
+</script>
+</body>
+</html>
