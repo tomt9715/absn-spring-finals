@@ -21,7 +21,7 @@
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--ink); line-height: 1.5; padding: 32px 16px 80px; min-height: 100vh; }
-.container { max-width: 920px; margin: 0 auto; }
+.container { max-width: 980px; margin: 0 auto; }
 
 .hero { text-align: center; margin-bottom: 32px; }
 .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 2px; color: var(--teal); text-transform: uppercase; margin-bottom: 10px; }
@@ -118,7 +118,7 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
 .system-body { border-top: 1px solid var(--line-soft); }
 
 /* Topic rows */
-.topic-row { display: grid; grid-template-columns: 60px 1fr 64px 1fr 1fr; gap: 12px; align-items: center; padding: 12px 20px; border-bottom: 1px solid var(--line-soft); transition: background 0.1s; }
+.topic-row { display: grid; grid-template-columns: 50px 1fr 60px 1.2fr 1.2fr; gap: 12px; align-items: center; padding: 12px 20px; border-bottom: 1px solid var(--line-soft); transition: background 0.1s; }
 .topic-row:last-child { border-bottom: none; }
 .topic-row:hover { background: var(--bg); }
 .topic-ch { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.5px; }
@@ -138,7 +138,7 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
 .quiz-cell.no-score.dd { background: var(--purple-pale); }
 .quiz-cell.coming-soon { background: repeating-linear-gradient(45deg, transparent, transparent 6px, rgba(0,0,0,0.025) 6px, rgba(0,0,0,0.025) 12px), var(--bg); border: 1.5px dashed var(--line); cursor: not-allowed; opacity: 0.55; filter: grayscale(0.5); }
 .quiz-cell.coming-soon:hover { background: repeating-linear-gradient(45deg, transparent, transparent 6px, rgba(0,0,0,0.025) 6px, rgba(0,0,0,0.025) 12px), var(--bg); border-color: var(--line); transform: none; box-shadow: none; }
-.quiz-cell-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.5px; text-transform: uppercase; flex-shrink: 0; min-width: 22px; font-weight: 600; }
+.quiz-cell-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.5px; text-transform: uppercase; flex-shrink: 0; min-width: 95px; font-weight: 600; }
 .quiz-cell-label.kc { color: var(--teal); }
 .quiz-cell-label.dd { color: var(--purple); }
 .quiz-cell.coming-soon .quiz-cell-label { color: var(--muted-soft); font-weight: 400; }
@@ -155,9 +155,8 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
 .score-bar-fill.pass { background: var(--pass); }
 .score-bar-fill.partial { background: var(--partial); }
 .score-bar-fill.fail { background: var(--fail); }
-.score-bar-fill.start.kc { background: var(--teal); width: 0; opacity: 0.3; animation: pulse-bar 2s ease-in-out infinite; }
-.score-bar-fill.start.dd { background: var(--purple); width: 0; opacity: 0.3; animation: pulse-bar 2s ease-in-out infinite; }
-@keyframes pulse-bar { 0%, 100% { width: 8%; } 50% { width: 24%; } }
+.score-bar-fill.start.kc { background: var(--teal); width: 15%; opacity: 0.25; }
+.score-bar-fill.start.dd { background: var(--purple); width: 15%; opacity: 0.25; }
 .cta-arrow { color: var(--muted-soft); font-size: 14px; margin-left: auto; padding-left: 4px; transition: transform 0.15s; }
 .quiz-cell:hover .cta-arrow { transform: translateX(3px); }
 .quiz-cell.kc:hover .cta-arrow { color: var(--teal); }
@@ -188,7 +187,7 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
 <div class="container">
 
 <div class="hero">
-  <div class="eyebrow">Tom · Spring 2026 Final Exams</div>
+  <div class="eyebrow">Spring 2026 Final Exams</div>
   <h1>Nursing Finals Hub</h1>
   <p class="tagline">Knowledge Checks build foundational recall. Deep Drills sharpen NCLEX-style judgment.</p>
 </div>
@@ -298,12 +297,12 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
 <script>
 // ===== TOPIC CONFIG =====
 const pharmTopics = [
-  { ch: '', name: 'Hematologic & Oncology', desc: 'Hemonc pharm coverage', weight: 0, key: 'hemonc', system: 'pharm-hemonc', kcFile: 'quiz_hemonc_knowledge.html', ddFile: 'quiz_hemonc_deepdrill.html', kcReady: true, ddReady: true },
-  { ch: '', name: 'Pain Management', desc: 'Pain pharm coverage', weight: 0, key: 'pain', system: 'pharm-pain', kcFile: 'quiz_pain_knowledge.html', ddFile: 'quiz_pain_deepdrill.html', kcReady: true, ddReady: true },
-  { ch: '', name: 'Neurological', desc: 'Neuro pharm coverage', weight: 0, key: 'neuro', system: 'pharm-neuro', kcFile: 'quiz_neuro_knowledge.html', ddFile: 'quiz_neuro_deepdrill.html', kcReady: true, ddReady: true },
-  { ch: '', name: 'Urinary & Reproductive', desc: 'Urinary/repro pharm', weight: 0, key: 'urinaryrepro', system: 'pharm-urinary', kcFile: 'quiz_urinaryrepro_knowledge.html', ddFile: 'quiz_urinaryrepro_deepdrill.html', kcReady: true, ddReady: true },
-  { ch: '', name: 'Psychiatric', desc: 'Psych pharm coverage', weight: 0, key: 'psych', system: 'pharm-psych', kcFile: 'quiz_psych_knowledge.html', ddFile: 'quiz_psych_deepdrill.html', kcReady: true, ddReady: true },
-  { ch: '', name: 'Endocrine', desc: 'Endocrine pharm coverage', weight: 0, key: 'endocrine', system: 'pharm-endocrine', kcFile: 'quiz_endocrine_knowledge.html', ddFile: 'quiz_endocrine_deepdrill.html', kcReady: true, ddReady: true }
+  { ch: '', name: 'Hem / Onc', desc: 'Cancer biology, chemo, complications', weight: 15, qCount: 30, key: 'hemonc', system: 'pharm-priority', kcFile: 'quiz_hemonc_knowledge.html', ddFile: 'quiz_hemonc_deepdrill.html', kcReady: true, ddReady: true },
+  { ch: '', name: 'Pain', desc: 'Opioids, patches, pediatric care', weight: 13, qCount: 25, key: 'pain', system: 'pharm-priority', kcFile: 'quiz_pain_knowledge.html', ddFile: 'quiz_pain_deepdrill.html', kcReady: true, ddReady: true },
+  { ch: '', name: 'Urinary & Reproductive', desc: 'UTI meds, BPH, contraception, L&D drugs', weight: 11, qCount: 25, key: 'urinaryrepro', system: 'pharm-standard', kcFile: 'quiz_urinaryrepro_knowledge.html', ddFile: 'quiz_urinaryrepro_deepdrill.html', kcReady: true, ddReady: true },
+  { ch: '', name: 'Neuro Pharm', desc: "Alzheimer's, Parkinson's, MS, MG, seizures", weight: 10, qCount: 25, key: 'neuro', system: 'pharm-standard', kcFile: 'quiz_neuro_knowledge.html', ddFile: 'quiz_neuro_deepdrill.html', kcReady: true, ddReady: true },
+  { ch: '', name: 'Psych', desc: 'Antipsychotics, lithium, SSRIs, TCAs', weight: 9, qCount: 25, key: 'psych', system: 'pharm-standard', kcFile: 'quiz_psych_knowledge.html', ddFile: 'quiz_psych_deepdrill.html', kcReady: true, ddReady: true },
+  { ch: '', name: 'Endocrine', desc: 'Diabetes, thyroid, pituitary, adrenal', weight: 9, qCount: 25, key: 'endocrine', system: 'pharm-standard', kcFile: 'quiz_endocrine_knowledge.html', ddFile: 'quiz_endocrine_deepdrill.html', kcReady: true, ddReady: true }
 ];
 
 const medsurgTopics = [
@@ -331,12 +330,8 @@ const medsurgTopics = [
 ];
 
 const pharmSystems = [
-  { id: 'pharm-hemonc', name: 'Hematologic & Oncology', shortLabel: 'HEMONC', color: '#7c2d12', bg: '#fef3c7' },
-  { id: 'pharm-pain', name: 'Pain Management', shortLabel: 'PAIN', color: '#dc2626', bg: '#fef2f2' },
-  { id: 'pharm-neuro', name: 'Neurological', shortLabel: 'NEURO', color: '#7c3aed', bg: '#f5f3ff' },
-  { id: 'pharm-urinary', name: 'Urinary & Reproductive', shortLabel: 'GU', color: '#2563eb', bg: '#eff6ff' },
-  { id: 'pharm-psych', name: 'Psychiatric', shortLabel: 'PSYCH', color: '#0891b2', bg: '#ecfeff' },
-  { id: 'pharm-endocrine', name: 'Endocrine', shortLabel: 'ENDO', color: '#16a34a', bg: '#f0fdf4' }
+  { id: 'pharm-priority', name: 'High-Weight Topics', shortLabel: '★', color: '#92400e', bg: '#fef3c7' },
+  { id: 'pharm-standard', name: 'Standard-Weight Topics', shortLabel: 'STD', color: '#475569', bg: '#f1f5f9' }
 ];
 
 const medsurgSystems = [
@@ -357,7 +352,7 @@ const classConfig = {
     qPerQuiz: 25,
     simEyebrow: 'Pharmacology II Final · 75 Q · Pass at 77%',
     simTitle: 'Pharm Final Simulation',
-    simDesc: 'All systems weighted to blueprint. Fresh questions not in topic quizzes.',
+    simDesc: '15 Hem/Onc · 13 Pain · 10 Neuro · 11 Urin/Repro · 9 Psych · 9 Endo · 8 Mixed',
     simReady: true
   },
   medsurg: {
@@ -391,7 +386,7 @@ function scoreClass(pct) {
 }
 
 function topicQCount(t) {
-  // Pharm: 25, MedSurg: 25 normal / 15 for thin chapters (Ch 18)
+  if (t.qCount) return t.qCount;
   if (currentClass === 'pharm') return 25;
   return t.ch === '18' ? 15 : 25;
 }
@@ -401,7 +396,7 @@ function renderQuizCell(topic, type) {
   const isKC = type === 'kc';
   const ready = isKC ? topic.kcReady : topic.ddReady;
   const file = isKC ? topic.kcFile : topic.ddFile;
-  const labelText = isKC ? 'KC' : 'DD';
+  const labelText = isKC ? 'Knowledge Check' : 'Deep Drill';
   const labelClass = isKC ? 'kc' : 'dd';
   const scoreKey = isKC ? 'knowledge' : 'deepdrill';
 
@@ -433,7 +428,9 @@ function renderQuizCell(topic, type) {
 
 // ===== TOPIC ROW =====
 function renderTopicRow(topic) {
-  const weightClass = topic.weight >= 4 ? 'high' : '';
+  // Pharm threshold: ≥13 = high (Hem/Onc, Pain). MedSurg threshold: ≥4 = high.
+  const highThreshold = currentClass === 'pharm' ? 13 : 4;
+  const weightClass = topic.weight >= highThreshold ? 'high' : '';
   const chDisplay = topic.ch ? `Ch ${topic.ch}` : '';
   const weightDisplay = topic.weight > 0 ? `${topic.weight}/75` : '—';
   return `<div class="topic-row" data-topic-key="${topic.key}" data-weight="${topic.weight}">
@@ -513,7 +510,10 @@ function topicMatchesFilter(topic, filter) {
     const scores = [kcScore, ddScore].filter(s => s).map(s => s.pct);
     return scores.length > 0 && scores.every(s => s >= 85);
   }
-  if (filter === 'highweight') return topic.weight >= 4;
+  if (filter === 'highweight') {
+    const highThreshold = currentClass === 'pharm' ? 13 : 4;
+    return topic.weight >= highThreshold;
+  }
   return true;
 }
 
@@ -578,7 +578,7 @@ function buildContinueList() {
   document.getElementById('continue-section').style.display = '';
   document.getElementById('continue-list').innerHTML = top3.map(item => {
     const chDisplay = item.topic.ch ? `Ch ${item.topic.ch} · ` : '';
-    const weightDisplay = item.topic.weight > 0 ? `${item.topic.weight} Q` : 'PHARM';
+    const weightDisplay = item.topic.weight > 0 ? `${item.topic.weight} Q` : '—';
     return `<a href="${item.link}" class="continue-item">
       <div class="continue-item-name">${chDisplay}${item.topic.name}</div>
       <div class="continue-item-meta">
