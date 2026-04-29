@@ -3,508 +3,748 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pharm II Final — Study Hub</title>
+<title>Nursing Finals — Study Hub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --navy: #0a2540;
-  --navy-soft: #1a3a5c;
-  --teal: #0d9488;
-  --teal-soft: #14b8a6;
-  --teal-pale: #f0fdfa;
-  --purple: #7c3aed;
-  --purple-soft: #8b5cf6;
-  --purple-pale: #f5f3ff;
-  --gold: #f59e0b;
-  --gold-pale: #fef3c7;
-  --green: #059669;
-  --green-pale: #ecfdf5;
-  --yellow: #d97706;
-  --yellow-pale: #fffbeb;
-  --red: #dc2626;
-  --red-pale: #fef2f2;
-  --ink: #1a1a1a;
-  --ink-soft: #3a3a3a;
-  --muted: #6b7280;
-  --muted-light: #9ca3af;
-  --bg: #fafaf7;
-  --card: #ffffff;
-  --line: #e5e0d5;
-  --line-soft: #f0ece2;
+  --navy: #0a2540; --navy-soft: #1a3a5c;
+  --teal: #0d9488; --teal-pale: #f0fdfa;
+  --purple: #7c3aed; --purple-pale: #f5f3ff;
+  --gold: #f59e0b; --gold-pale: #fef3c7;
+  --ink: #1a1a1a; --ink-soft: #3a3a3a; --muted: #6b7280; --muted-soft: #9ca3af;
+  --bg: #fafaf7; --card: #ffffff; --line: #e5e0d5; --line-soft: #f0ebe0;
+  --pass: #059669; --pass-bg: #ecfdf5;
+  --partial: #d97706; --partial-bg: #fffbeb;
+  --fail: #dc2626; --fail-bg: #fef2f2;
 }
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--ink); line-height: 1.55; padding: 40px 20px 60px; }
-.container { max-width: 1100px; margin: 0 auto; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--ink); line-height: 1.5; padding: 32px 16px 80px; min-height: 100vh; }
+.container { max-width: 920px; margin: 0 auto; }
 
-/* === HERO === */
-.hero { margin-bottom: 28px; padding-bottom: 24px; border-bottom: 2px solid var(--line); }
-.hero-eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--teal); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; font-weight: 500; }
-.hero h1 { font-family: 'DM Serif Display', serif; font-size: 44px; color: var(--navy); margin-bottom: 8px; font-weight: 400; line-height: 1.1; letter-spacing: -0.5px; }
-.hero-tagline { color: var(--muted); font-size: 16px; max-width: 600px; }
+.hero { text-align: center; margin-bottom: 32px; }
+.eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 2px; color: var(--teal); text-transform: uppercase; margin-bottom: 10px; }
+h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy); margin-bottom: 8px; line-height: 1.1; }
+.tagline { color: var(--muted); font-size: 15px; max-width: 540px; margin: 0 auto; }
 
-/* === DASHBOARD STATS BAR === */
-.dashboard { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-bottom: 32px; }
-.stat { background: var(--card); padding: 18px 22px; }
-.stat-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
-.stat-value { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--navy); font-weight: 400; line-height: 1; }
-.stat-sub { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); margin-top: 4px; }
-.stat-value.pct { font-family: 'DM Mono', monospace; font-size: 24px; }
-.stat-value.pct.high { color: var(--green); }
-.stat-value.pct.mid { color: var(--yellow); }
-.stat-value.pct.low { color: var(--red); }
-.stat-value.pct.none { color: var(--muted-light); }
+/* Class router tabs */
+.class-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 32px; }
+.class-tab { background: var(--card); border: 1.5px solid var(--line); border-radius: 12px; padding: 20px 24px; cursor: pointer; transition: all 0.2s; text-align: left; position: relative; overflow: hidden; }
+.class-tab:hover { border-color: var(--ink-soft); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(10, 37, 64, 0.08); }
+.class-tab.active { border-color: var(--navy); background: var(--card); box-shadow: 0 4px 12px rgba(10, 37, 64, 0.1); }
+.class-tab::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--line); transition: background 0.2s; }
+.class-tab.pharm.active::before { background: linear-gradient(90deg, var(--purple), #a855f7); }
+.class-tab.medsurg.active::before { background: linear-gradient(90deg, var(--teal), #14b8a6); }
+.class-tab-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; color: var(--muted); }
+.class-tab.pharm.active .class-tab-eyebrow { color: var(--purple); }
+.class-tab.medsurg.active .class-tab-eyebrow { color: var(--teal); }
+.class-tab-name { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--navy); margin-bottom: 8px; line-height: 1.1; }
+.class-tab-meta { display: flex; gap: 14px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); }
+.class-tab-meta-item { display: flex; align-items: center; gap: 4px; }
+.class-tab-progress-bar { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; margin-top: 12px; }
+.class-tab-progress-fill { height: 100%; transition: width 0.4s; }
+.class-tab.pharm .class-tab-progress-fill { background: var(--purple); }
+.class-tab.medsurg .class-tab-progress-fill { background: var(--teal); }
 
-/* === EXAM SIMULATOR FEATURED CARD === */
-.sim-card { background: var(--navy); color: white; padding: 28px 32px; margin-bottom: 32px; position: relative; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }
-.sim-left { min-width: 0; }
-.sim-eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--gold); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
-.sim-card h2 { font-family: 'DM Serif Display', serif; font-size: 26px; margin-bottom: 6px; font-weight: 400; }
-.sim-card .sim-desc { color: rgba(255,255,255,0.7); font-size: 14px; margin-bottom: 14px; }
-.sim-meta { display: flex; gap: 16px; flex-wrap: wrap; font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.5); }
-.sim-meta span:not(.sim-divider) { color: rgba(255,255,255,0.7); }
-.sim-divider { color: rgba(255,255,255,0.25); }
-.sim-right { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
-.sim-score-box { font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.6); text-align: right; min-width: 140px; }
-.sim-score-pct { font-family: 'DM Serif Display', serif; font-size: 32px; font-weight: 400; line-height: 1; margin-bottom: 4px; }
-.sim-score-pct.high { color: #34d399; }
-.sim-score-pct.mid { color: #fbbf24; }
-.sim-score-pct.low { color: #f87171; }
-.sim-score-pct.none { color: rgba(255,255,255,0.3); }
-.sim-btn { background: var(--gold); color: var(--navy); border: none; padding: 12px 22px; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; transition: background 0.15s; letter-spacing: 0.3px; }
+/* Top dashboard with progress ring (per-class) */
+.top-dashboard { display: grid; grid-template-columns: auto 1fr; gap: 32px; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 24px 32px; margin-bottom: 32px; }
+.progress-ring-wrap { position: relative; width: 120px; height: 120px; }
+.progress-ring-svg { transform: rotate(-90deg); }
+.progress-ring-bg { fill: none; stroke: var(--line); stroke-width: 10; }
+.progress-ring-fill { fill: none; stroke: var(--teal); stroke-width: 10; stroke-linecap: round; transition: stroke-dashoffset 0.6s, stroke 0.3s; }
+.progress-ring-fill.pharm-ring { stroke: var(--purple); }
+.progress-ring-text { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.ring-pct { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--navy); line-height: 1; }
+.ring-label { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 1px; margin-top: 2px; text-transform: uppercase; }
+.dashboard-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.dash-stat { text-align: left; }
+.dash-num { font-family: 'DM Serif Display', serif; font-size: 26px; color: var(--navy); display: block; line-height: 1; margin-bottom: 4px; }
+.dash-num.pass { color: var(--pass); }
+.dash-num.partial { color: var(--partial); }
+.dash-num.fail { color: var(--fail); }
+.dash-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px; color: var(--muted); text-transform: uppercase; }
+
+/* Simulator */
+.simulator-card { background: var(--navy); border-radius: 10px; padding: 24px 32px; margin-bottom: 32px; color: white; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }
+.sim-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin-bottom: 8px; }
+.sim-title { font-family: 'DM Serif Display', serif; font-size: 24px; color: white; margin-bottom: 4px; }
+.sim-desc { color: rgba(255,255,255,0.7); font-size: 13px; }
+.sim-action { text-align: center; }
+.sim-score { font-family: 'DM Serif Display', serif; font-size: 44px; color: var(--gold); line-height: 1; margin-bottom: 4px; }
+.sim-score.no-attempt { color: rgba(255,255,255,0.4); font-size: 22px; font-style: italic; }
+.sim-status { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; min-height: 12px; }
+.sim-status.pass { color: var(--gold); }
+.sim-status.fail { color: #fca5a5; }
+.sim-btn { background: var(--gold); color: var(--navy); border: none; padding: 10px 24px; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 700; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; }
 .sim-btn:hover { background: #d97706; }
-.sim-btn.coming-soon { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.5); cursor: not-allowed; }
+.sim-btn.disabled { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.5); cursor: not-allowed; pointer-events: none; }
 
-/* === SECTION HEADER === */
-.section-title-row { display: flex; align-items: baseline; justify-content: space-between; margin: 0 0 16px 0; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
-.section-title { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--ink); letter-spacing: 1.5px; text-transform: uppercase; font-weight: 500; }
-.section-meta { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); }
+/* Continue studying */
+.continue-section { background: linear-gradient(135deg, #fff8e6 0%, #fef3c7 100%); border: 1px solid var(--gold); border-radius: 10px; padding: 20px 24px; margin-bottom: 32px; }
+.continue-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.continue-title { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #92400e; text-transform: uppercase; }
+.continue-meta { font-family: 'DM Mono', monospace; font-size: 10px; color: #92400e; opacity: 0.7; letter-spacing: 0.5px; }
+.continue-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.continue-item { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; text-decoration: none; color: var(--ink); transition: all 0.15s; }
+.continue-item:hover { border-color: var(--gold); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.continue-item-name { font-family: 'DM Serif Display', serif; font-size: 15px; color: var(--navy); margin-bottom: 4px; line-height: 1.2; }
+.continue-item-meta { display: flex; justify-content: space-between; align-items: center; font-family: 'DM Mono', monospace; font-size: 10px; }
+.continue-item-status { color: var(--muted); }
+.continue-item-weight { background: var(--bg); padding: 2px 6px; border-radius: 3px; color: var(--ink-soft); }
 
-/* === TOPIC GRID === */
-.topic-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 32px; }
+/* Filter bar */
+.filter-bar { display: flex; gap: 8px; align-items: center; margin-bottom: 20px; flex-wrap: wrap; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+.filter-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1px; color: var(--muted); text-transform: uppercase; margin-right: 4px; }
+.filter-chip { background: var(--card); border: 1px solid var(--line); padding: 6px 14px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); border-radius: 100px; cursor: pointer; transition: all 0.15s; letter-spacing: 0.5px; }
+.filter-chip:hover { border-color: var(--teal); color: var(--teal); }
+.filter-chip.active { background: var(--navy); color: white; border-color: var(--navy); }
+.filter-spacer { flex: 1; }
+.expand-toggle { background: none; border: 1px solid var(--line); padding: 6px 14px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); border-radius: 100px; cursor: pointer; letter-spacing: 0.5px; }
+.expand-toggle:hover { color: var(--ink); border-color: var(--ink-soft); }
 
-.topic-card { background: var(--card); border: 1px solid var(--line); padding: 0; overflow: hidden; transition: border-color 0.15s; }
-.topic-card:hover { border-color: var(--muted-light); }
+/* System group */
+.system-group { margin-bottom: 16px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.system-header { padding: 14px 20px; cursor: pointer; display: flex; align-items: center; gap: 12px; user-select: none; transition: background 0.1s; }
+.system-header:hover { background: var(--bg); }
+.system-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; flex-shrink: 0; }
+.system-name { font-family: 'DM Serif Display', serif; font-size: 19px; color: var(--navy); flex: 1; }
+.system-meta { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.5px; margin-right: 12px; }
+.system-progress-bar { width: 80px; height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; margin-right: 12px; }
+.system-progress-fill { height: 100%; background: var(--teal); transition: width 0.4s; }
+.chevron { color: var(--muted); transition: transform 0.2s; font-family: 'DM Mono', monospace; font-size: 14px; }
+.system-group.collapsed .chevron { transform: rotate(-90deg); }
+.system-group.collapsed .system-body { display: none; }
+.system-body { border-top: 1px solid var(--line-soft); }
 
-.topic-head { padding: 18px 22px 14px; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; border-bottom: 1px solid var(--line-soft); }
-.topic-head.priority { background: linear-gradient(90deg, var(--gold-pale) 0%, transparent 80%); }
-.topic-name { font-family: 'DM Serif Display', serif; font-size: 21px; color: var(--navy); font-weight: 400; line-height: 1.2; margin-bottom: 4px; }
-.topic-desc { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.3px; }
-.weight-tag { font-family: 'DM Mono', monospace; font-size: 10px; padding: 4px 8px; background: var(--bg); color: var(--ink-soft); letter-spacing: 0.5px; text-transform: uppercase; white-space: nowrap; flex-shrink: 0; }
-.weight-tag.priority { background: var(--gold); color: var(--navy); font-weight: 600; }
+/* Topic rows */
+.topic-row { display: grid; grid-template-columns: 60px 1fr 64px 1fr 1fr; gap: 12px; align-items: center; padding: 12px 20px; border-bottom: 1px solid var(--line-soft); transition: background 0.1s; }
+.topic-row:last-child { border-bottom: none; }
+.topic-row:hover { background: var(--bg); }
+.topic-ch { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.5px; }
+.topic-info { min-width: 0; }
+.topic-name { font-family: 'DM Serif Display', serif; font-size: 16px; color: var(--navy); margin-bottom: 2px; line-height: 1.2; }
+.topic-desc { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.topic-weight-badge { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--ink-soft); background: var(--bg); padding: 4px 8px; border-radius: 4px; text-align: center; letter-spacing: 0.3px; }
+.topic-weight-badge.high { background: var(--gold-pale); color: #92400e; }
 
-.quiz-row { display: grid; grid-template-columns: 1fr 1fr; }
-.quiz-link { padding: 16px 22px; text-decoration: none; color: var(--ink); transition: background 0.15s; border-right: 1px solid var(--line-soft); display: flex; flex-direction: column; gap: 8px; }
-.quiz-link:last-child { border-right: none; }
-.quiz-link:hover { background: var(--bg); }
-.quiz-type-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.quiz-type { font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 8px; letter-spacing: 0.5px; text-transform: uppercase; font-weight: 500; }
-.quiz-type.kc { background: var(--teal-pale); color: var(--teal); }
-.quiz-type.dd { background: var(--purple-pale); color: var(--purple); }
-.quiz-q-count { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted-light); letter-spacing: 0.3px; }
+/* Quiz cells with strong distinction */
+.quiz-cell { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 6px; text-decoration: none; color: var(--ink); border: 1.5px solid var(--line); transition: all 0.15s; min-width: 0; background: var(--card); position: relative; }
+.quiz-cell.kc { border-color: #99f6e4; }
+.quiz-cell.dd { border-color: #ddd6fe; }
+.quiz-cell.kc:hover { border-color: var(--teal); background: var(--teal-pale); transform: translateY(-1px); box-shadow: 0 2px 6px rgba(13, 148, 136, 0.15); }
+.quiz-cell.dd:hover { border-color: var(--purple); background: var(--purple-pale); transform: translateY(-1px); box-shadow: 0 2px 6px rgba(124, 58, 237, 0.15); }
+.quiz-cell.no-score.kc { background: var(--teal-pale); }
+.quiz-cell.no-score.dd { background: var(--purple-pale); }
+.quiz-cell.coming-soon { background: repeating-linear-gradient(45deg, transparent, transparent 6px, rgba(0,0,0,0.025) 6px, rgba(0,0,0,0.025) 12px), var(--bg); border: 1.5px dashed var(--line); cursor: not-allowed; opacity: 0.55; filter: grayscale(0.5); }
+.quiz-cell.coming-soon:hover { background: repeating-linear-gradient(45deg, transparent, transparent 6px, rgba(0,0,0,0.025) 6px, rgba(0,0,0,0.025) 12px), var(--bg); border-color: var(--line); transform: none; box-shadow: none; }
+.quiz-cell-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.5px; text-transform: uppercase; flex-shrink: 0; min-width: 22px; font-weight: 600; }
+.quiz-cell-label.kc { color: var(--teal); }
+.quiz-cell-label.dd { color: var(--purple); }
+.quiz-cell.coming-soon .quiz-cell-label { color: var(--muted-soft); font-weight: 400; }
+.quiz-cell-score { font-family: 'DM Serif Display', serif; font-size: 20px; line-height: 1; flex-shrink: 0; min-width: 36px; }
+.quiz-cell-score.pass { color: var(--pass); }
+.quiz-cell-score.partial { color: var(--partial); }
+.quiz-cell-score.fail { color: var(--fail); }
+.quiz-cell-score.start { color: var(--ink); font-size: 12px; font-family: 'DM Mono', monospace; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; min-width: auto; }
+.quiz-cell.kc .quiz-cell-score.start { color: var(--teal); }
+.quiz-cell.dd .quiz-cell-score.start { color: var(--purple); }
+.quiz-cell-score.soon { color: var(--muted-soft); font-size: 10px; font-family: 'DM Mono', monospace; letter-spacing: 0.5px; text-transform: uppercase; min-width: auto; }
+.score-bar { flex: 1; height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; min-width: 30px; }
+.score-bar-fill { height: 100%; transition: width 0.4s; }
+.score-bar-fill.pass { background: var(--pass); }
+.score-bar-fill.partial { background: var(--partial); }
+.score-bar-fill.fail { background: var(--fail); }
+.score-bar-fill.start.kc { background: var(--teal); width: 0; opacity: 0.3; animation: pulse-bar 2s ease-in-out infinite; }
+.score-bar-fill.start.dd { background: var(--purple); width: 0; opacity: 0.3; animation: pulse-bar 2s ease-in-out infinite; }
+@keyframes pulse-bar { 0%, 100% { width: 8%; } 50% { width: 24%; } }
+.cta-arrow { color: var(--muted-soft); font-size: 14px; margin-left: auto; padding-left: 4px; transition: transform 0.15s; }
+.quiz-cell:hover .cta-arrow { transform: translateX(3px); }
+.quiz-cell.kc:hover .cta-arrow { color: var(--teal); }
+.quiz-cell.dd:hover .cta-arrow { color: var(--purple); }
+.quiz-cell.coming-soon .cta-arrow { display: none; }
 
-/* Score row inside each quiz card */
-.quiz-score-row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-.quiz-score-pct { font-family: 'DM Serif Display', serif; font-size: 24px; font-weight: 400; line-height: 1; }
-.quiz-score-pct.high { color: var(--green); }
-.quiz-score-pct.mid { color: var(--yellow); }
-.quiz-score-pct.low { color: var(--red); }
-.quiz-score-pct.none { color: var(--muted-light); font-family: 'Outfit', sans-serif; font-size: 13px; font-style: italic; }
-.quiz-score-meta { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); text-align: right; line-height: 1.4; }
-.quiz-score-fraction { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); }
+.footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.5px; text-transform: uppercase; }
+.legend-swatch { width: 10px; height: 10px; border-radius: 2px; }
+.reset-btn { background: none; border: 1px solid var(--line); padding: 6px 12px; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); border-radius: 4px; cursor: pointer; letter-spacing: 0.5px; }
+.reset-btn:hover { color: var(--fail); border-color: var(--fail); }
 
-/* === FOOTER === */
-.footer { margin-top: 24px; padding: 18px 22px; background: var(--card); border: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
-.footer-legend { display: flex; gap: 16px; flex-wrap: wrap; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); }
-.legend-item { display: flex; align-items: center; gap: 6px; }
-.legend-swatch { width: 10px; height: 10px; border-radius: 50%; }
-.legend-swatch.high { background: var(--green); }
-.legend-swatch.mid { background: var(--yellow); }
-.legend-swatch.low { background: var(--red); }
-.legend-swatch.none { background: var(--muted-light); }
-.reset-link { background: none; border: none; color: var(--muted); font-family: 'DM Mono', monospace; font-size: 11px; cursor: pointer; text-decoration: underline; padding: 0; }
-.reset-link:hover { color: var(--red); }
-
-@media (max-width: 800px) {
-  .dashboard { grid-template-columns: repeat(2, 1fr); }
-  .topic-grid { grid-template-columns: 1fr; }
-  .sim-card { grid-template-columns: 1fr; }
-  .sim-right { align-items: flex-start; }
-  .hero h1 { font-size: 34px; }
-  .quiz-row { grid-template-columns: 1fr; }
-  .quiz-link { border-right: none; border-bottom: 1px solid var(--line-soft); }
-  .quiz-link:last-child { border-bottom: none; }
+@media (max-width: 720px) {
+  .top-dashboard { grid-template-columns: 1fr; gap: 20px; padding: 20px; text-align: center; }
+  .progress-ring-wrap { margin: 0 auto; }
+  .dashboard-stats { grid-template-columns: repeat(2, 1fr); }
+  .simulator-card { grid-template-columns: 1fr; text-align: center; }
+  .continue-list { grid-template-columns: 1fr; }
+  .topic-row { grid-template-columns: 1fr; gap: 8px; }
+  .topic-ch { display: none; }
+  h1 { font-size: 32px; }
+  .class-tabs { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
 <div class="container">
 
-<!-- HERO -->
 <div class="hero">
-  <div class="hero-eyebrow">Pharm II Final · Study Hub</div>
-  <h1>Pharmacology II Final Exam Prep</h1>
-  <p class="hero-tagline">12 topic quizzes plus a full 75-question simulator. All content traces directly to your professor's blueprint and review sheets.</p>
+  <div class="eyebrow">Tom · Spring 2026 Final Exams</div>
+  <h1>Nursing Finals Hub</h1>
+  <p class="tagline">Knowledge Checks build foundational recall. Deep Drills sharpen NCLEX-style judgment.</p>
 </div>
 
-<!-- DASHBOARD STATS -->
-<div class="dashboard">
-  <div class="stat">
-    <div class="stat-label">Final Exam</div>
-    <div class="stat-value">75</div>
-    <div class="stat-sub">questions</div>
-  </div>
-  <div class="stat">
-    <div class="stat-label">Pass Threshold</div>
-    <div class="stat-value">77<span style="font-size:18px;">%</span></div>
-    <div class="stat-sub">58 of 75 correct</div>
-  </div>
-  <div class="stat">
-    <div class="stat-label">Practice Bank</div>
-    <div class="stat-value">320</div>
-    <div class="stat-sub">unique questions</div>
-  </div>
-  <div class="stat">
-    <div class="stat-label">Your Avg Score</div>
-    <div class="stat-value pct" id="avg-score">—</div>
-    <div class="stat-sub" id="avg-score-sub">no attempts yet</div>
-  </div>
-</div>
-
-<!-- EXAM SIMULATOR -->
-<div class="sim-card">
-  <div class="sim-left">
-    <div class="sim-eyebrow">Full Exam Simulator</div>
-    <h2>75-Question Final Simulator</h2>
-    <div class="sim-desc">Fresh questions weighted to the blueprint distribution. None repeated from topic quizzes.</div>
-    <div class="sim-meta">
-      <span>15 Hem/Onc</span><span class="sim-divider">·</span>
-      <span>13 Pain</span><span class="sim-divider">·</span>
-      <span>10 Neuro</span><span class="sim-divider">·</span>
-      <span>11 Urin/Repro</span><span class="sim-divider">·</span>
-      <span>9 Psych</span><span class="sim-divider">·</span>
-      <span>9 Endo</span><span class="sim-divider">·</span>
-      <span>8 Mixed</span>
+<!-- Class router tabs -->
+<div class="class-tabs">
+  <div class="class-tab pharm" data-class="pharm" onclick="switchClass('pharm')">
+    <div class="class-tab-eyebrow">Pharm II</div>
+    <div class="class-tab-name">Pharmacology Final</div>
+    <div class="class-tab-meta">
+      <span class="class-tab-meta-item" id="pharm-tab-meta-quizzes">— quizzes</span>
+      <span class="class-tab-meta-item" id="pharm-tab-meta-avg">— avg</span>
     </div>
+    <div class="class-tab-progress-bar"><div class="class-tab-progress-fill" id="pharm-tab-progress" style="width: 0%;"></div></div>
   </div>
-  <div class="sim-right">
-    <div class="sim-score-box" id="sim-score-box">
-      <div class="sim-score-pct none">—</div>
-      <div>Not yet attempted</div>
+  <div class="class-tab medsurg" data-class="medsurg" onclick="switchClass('medsurg')">
+    <div class="class-tab-eyebrow">MedSurg I</div>
+    <div class="class-tab-name">Med-Surgical Final</div>
+    <div class="class-tab-meta">
+      <span class="class-tab-meta-item" id="medsurg-tab-meta-quizzes">— quizzes</span>
+      <span class="class-tab-meta-item" id="medsurg-tab-meta-avg">— avg</span>
     </div>
-    <a href="exam_simulator.html" class="sim-btn" id="sim-btn">Begin Simulation →</a>
+    <div class="class-tab-progress-bar"><div class="class-tab-progress-fill" id="medsurg-tab-progress" style="width: 0%;"></div></div>
   </div>
 </div>
 
-<!-- HIGH WEIGHT SECTION -->
-<div class="section-title-row">
-  <div class="section-title">High-Weight Topics</div>
-  <div class="section-meta">28 of 75 questions on final</div>
-</div>
-
-<div class="topic-grid">
-  <!-- Hem/Onc -->
-  <div class="topic-card">
-    <div class="topic-head priority">
-      <div>
-        <div class="topic-name">Hem / Onc</div>
-        <div class="topic-desc">Cancer biology, chemo, complications</div>
-      </div>
-      <div class="weight-tag priority">15 / 75</div>
-    </div>
-    <div class="quiz-row">
-      <a href="quiz_hemonc_knowledge.html" class="quiz-link">
-        <div class="quiz-type-row">
-          <span class="quiz-type kc">Knowledge Check</span>
-          <span class="quiz-q-count">30 Q</span>
-        </div>
-        <div class="quiz-score-row" id="row_hemonc_knowledge">
-          <span class="quiz-score-pct none">Not attempted</span>
-        </div>
-      </a>
-      <a href="quiz_hemonc_deepdrill.html" class="quiz-link">
-        <div class="quiz-type-row">
-          <span class="quiz-type dd">Deep Drill</span>
-          <span class="quiz-q-count">30 Q</span>
-        </div>
-        <div class="quiz-score-row" id="row_hemonc_deepdrill">
-          <span class="quiz-score-pct none">Not attempted</span>
-        </div>
-      </a>
+<!-- Top dashboard -->
+<div class="top-dashboard">
+  <div class="progress-ring-wrap">
+    <svg class="progress-ring-svg" width="120" height="120" viewBox="0 0 120 120">
+      <circle class="progress-ring-bg" cx="60" cy="60" r="50"></circle>
+      <circle class="progress-ring-fill" id="progress-ring" cx="60" cy="60" r="50" stroke-dasharray="314.16" stroke-dashoffset="314.16"></circle>
+    </svg>
+    <div class="progress-ring-text">
+      <div class="ring-pct" id="ring-pct">0%</div>
+      <div class="ring-label">Attempted</div>
     </div>
   </div>
-
-  <!-- Pain -->
-  <div class="topic-card">
-    <div class="topic-head priority">
-      <div>
-        <div class="topic-name">Pain</div>
-        <div class="topic-desc">Opioids, patches, pediatric care</div>
-      </div>
-      <div class="weight-tag priority">13 / 75</div>
+  <div class="dashboard-stats">
+    <div class="dash-stat">
+      <span class="dash-num" id="stat-attempted">0</span>
+      <span class="dash-label">Quizzes Taken</span>
     </div>
-    <div class="quiz-row">
-      <a href="quiz_pain_knowledge.html" class="quiz-link">
-        <div class="quiz-type-row">
-          <span class="quiz-type kc">Knowledge Check</span>
-          <span class="quiz-q-count">25 Q</span>
-        </div>
-        <div class="quiz-score-row" id="row_pain_knowledge">
-          <span class="quiz-score-pct none">Not attempted</span>
-        </div>
-      </a>
-      <a href="quiz_pain_deepdrill.html" class="quiz-link">
-        <div class="quiz-type-row">
-          <span class="quiz-type dd">Deep Drill</span>
-          <span class="quiz-q-count">25 Q</span>
-        </div>
-        <div class="quiz-score-row" id="row_pain_deepdrill">
-          <span class="quiz-score-pct none">Not attempted</span>
-        </div>
-      </a>
+    <div class="dash-stat">
+      <span class="dash-num pass" id="stat-passing">0</span>
+      <span class="dash-label">≥77% Passing</span>
+    </div>
+    <div class="dash-stat">
+      <span class="dash-num" id="stat-avg">—</span>
+      <span class="dash-label">Average Score</span>
+    </div>
+    <div class="dash-stat">
+      <span class="dash-num" id="stat-bank">0</span>
+      <span class="dash-label">Practice Bank</span>
     </div>
   </div>
 </div>
 
-<!-- STANDARD SECTION -->
-<div class="section-title-row">
-  <div class="section-title">Standard-Weight Topics</div>
-  <div class="section-meta">~39 of 75 questions on final</div>
-</div>
-
-<div class="topic-grid">
-  <!-- Neuro -->
-  <div class="topic-card">
-    <div class="topic-head">
-      <div>
-        <div class="topic-name">Neuro Pharm</div>
-        <div class="topic-desc">Alzheimer's, Parkinson's, MS, MG, seizures</div>
-      </div>
-      <div class="weight-tag">~10 / 75</div>
-    </div>
-    <div class="quiz-row">
-      <a href="quiz_neuro_knowledge.html" class="quiz-link">
-        <div class="quiz-type-row">
-          <span class="quiz-type kc">Knowledge Check</span>
-          <span class="quiz-q-count">25 Q</span>
-        </div>
-        <div class="quiz-score-row" id="row_neuro_knowledge">
-          <span class="quiz-score-pct none">Not attempted</span>
-        </div>
-      </a>
-      <a href="quiz_neuro_deepdrill.html" class="quiz-link">
-        <div class="quiz-type-row">
-          <span class="quiz-type dd">Deep Drill</span>
-          <span class="quiz-q-count">25 Q</span>
-        </div>
-        <div class="quiz-score-row" id="row_neuro_deepdrill">
-          <span class="quiz-score-pct none">Not attempted</span>
-        </div>
-      </a>
-    </div>
+<!-- Simulator (per-class) -->
+<div class="simulator-card">
+  <div>
+    <div class="sim-eyebrow" id="sim-eyebrow">Final Exam Simulator</div>
+    <div class="sim-title" id="sim-title">Full Final Simulation</div>
+    <div class="sim-desc" id="sim-desc">All sections weighted to blueprint. Fresh questions not in topic quizzes.</div>
   </div>
-
-  <!-- Urinary/Repro -->
-  <div class="topic-card">
-    <div class="topic-head">
-      <div>
-        <div class="topic-name">Urinary &amp; Reproductive</div>
-        <div class="topic-desc">UTI meds, BPH, contraception, L&amp;D drugs</div>
-      </div>
-      <div class="weight-tag">~11 / 75</div>
-    </div>
-    <div class="quiz-row">
-      <a href="quiz_urinaryrepro_knowledge.html" class="quiz-link">
-        <div class="quiz-type-row">
-          <span class="quiz-type kc">Knowledge Check</span>
-          <span class="quiz-q-count">25 Q</span>
-        </div>
-        <div class="quiz-score-row" id="row_urinaryrepro_knowledge">
-          <span class="quiz-score-pct none">Not attempted</span>
-        </div>
-      </a>
-      <a href="quiz_urinaryrepro_deepdrill.html" class="quiz-link">
-        <div class="quiz-type-row">
-          <span class="quiz-type dd">Deep Drill</span>
-          <span class="quiz-q-count">25 Q</span>
-        </div>
-        <div class="quiz-score-row" id="row_urinaryrepro_deepdrill">
-          <span class="quiz-score-pct none">Not attempted</span>
-        </div>
-      </a>
-    </div>
-  </div>
-
-  <!-- Psych -->
-  <div class="topic-card">
-    <div class="topic-head">
-      <div>
-        <div class="topic-name">Psych</div>
-        <div class="topic-desc">Antipsychotics, lithium, SSRIs, TCAs</div>
-      </div>
-      <div class="weight-tag">~9 / 75</div>
-    </div>
-    <div class="quiz-row">
-      <a href="quiz_psych_knowledge.html" class="quiz-link">
-        <div class="quiz-type-row">
-          <span class="quiz-type kc">Knowledge Check</span>
-          <span class="quiz-q-count">25 Q</span>
-        </div>
-        <div class="quiz-score-row" id="row_psych_knowledge">
-          <span class="quiz-score-pct none">Not attempted</span>
-        </div>
-      </a>
-      <a href="quiz_psych_deepdrill.html" class="quiz-link">
-        <div class="quiz-type-row">
-          <span class="quiz-type dd">Deep Drill</span>
-          <span class="quiz-q-count">25 Q</span>
-        </div>
-        <div class="quiz-score-row" id="row_psych_deepdrill">
-          <span class="quiz-score-pct none">Not attempted</span>
-        </div>
-      </a>
-    </div>
-  </div>
-
-  <!-- Endocrine -->
-  <div class="topic-card">
-    <div class="topic-head">
-      <div>
-        <div class="topic-name">Endocrine</div>
-        <div class="topic-desc">Diabetes, thyroid, pituitary, adrenal</div>
-      </div>
-      <div class="weight-tag">~9 / 75</div>
-    </div>
-    <div class="quiz-row">
-      <a href="quiz_endocrine_knowledge.html" class="quiz-link">
-        <div class="quiz-type-row">
-          <span class="quiz-type kc">Knowledge Check</span>
-          <span class="quiz-q-count">25 Q</span>
-        </div>
-        <div class="quiz-score-row" id="row_endocrine_knowledge">
-          <span class="quiz-score-pct none">Not attempted</span>
-        </div>
-      </a>
-      <a href="quiz_endocrine_deepdrill.html" class="quiz-link">
-        <div class="quiz-type-row">
-          <span class="quiz-type dd">Deep Drill</span>
-          <span class="quiz-q-count">25 Q</span>
-        </div>
-        <div class="quiz-score-row" id="row_endocrine_deepdrill">
-          <span class="quiz-score-pct none">Not attempted</span>
-        </div>
-      </a>
-    </div>
+  <div class="sim-action">
+    <div class="sim-score no-attempt" id="sim-score">Not attempted</div>
+    <div class="sim-status" id="sim-status">&nbsp;</div>
+    <a href="exam_simulator.html" class="sim-btn" id="sim-btn">Start Simulator</a>
   </div>
 </div>
 
-<!-- FOOTER -->
+<!-- Continue studying -->
+<div class="continue-section" id="continue-section" style="display: none;">
+  <div class="continue-header">
+    <div class="continue-title">⚡ Continue Studying</div>
+    <div class="continue-meta">Your weakest or untouched chapters</div>
+  </div>
+  <div class="continue-list" id="continue-list"></div>
+</div>
+
+<!-- Filter bar -->
+<div class="filter-bar">
+  <span class="filter-label">Filter</span>
+  <button class="filter-chip active" data-filter="all" onclick="applyFilter(this, 'all')">All</button>
+  <button class="filter-chip" data-filter="untouched" onclick="applyFilter(this, 'untouched')">Untouched</button>
+  <button class="filter-chip" data-filter="weak" onclick="applyFilter(this, 'weak')">Weak (&lt;77%)</button>
+  <button class="filter-chip" data-filter="strong" onclick="applyFilter(this, 'strong')">Strong (≥85%)</button>
+  <button class="filter-chip" data-filter="highweight" onclick="applyFilter(this, 'highweight')">High Weight (≥4)</button>
+  <span class="filter-spacer"></span>
+  <button class="expand-toggle" id="expand-toggle" onclick="toggleAllGroups()">Collapse all</button>
+</div>
+
+<div id="system-groups"></div>
+
 <div class="footer">
-  <div class="footer-legend">
-    <span class="legend-item"><span class="legend-swatch high"></span>≥85% strong</span>
-    <span class="legend-item"><span class="legend-swatch mid"></span>70–84% review</span>
-    <span class="legend-item"><span class="legend-swatch low"></span>&lt;70% restudy</span>
-    <span class="legend-item"><span class="legend-swatch none"></span>not attempted</span>
+  <div class="legend">
+    <div class="legend-item"><span class="legend-swatch" style="background: var(--pass);"></span>≥85% Pass</div>
+    <div class="legend-item"><span class="legend-swatch" style="background: var(--partial);"></span>70-84% Borderline</div>
+    <div class="legend-item"><span class="legend-swatch" style="background: var(--fail);"></span>&lt;70% Fail</div>
   </div>
-  <button class="reset-link" onclick="resetAllScores()">Reset all scores</button>
+  <button class="reset-btn" onclick="resetAllScores()">Reset all scores</button>
 </div>
 
 </div>
 
 <script>
-const QUIZ_KEYS = [
-  'hemonc_knowledge', 'hemonc_deepdrill',
-  'pain_knowledge', 'pain_deepdrill',
-  'neuro_knowledge', 'neuro_deepdrill',
-  'psych_knowledge', 'psych_deepdrill',
-  'endocrine_knowledge', 'endocrine_deepdrill',
-  'urinaryrepro_knowledge', 'urinaryrepro_deepdrill'
+// ===== TOPIC CONFIG =====
+const pharmTopics = [
+  { ch: '', name: 'Hematologic & Oncology', desc: 'Hemonc pharm coverage', weight: 0, key: 'hemonc', system: 'pharm-hemonc', kcFile: 'quiz_hemonc_knowledge.html', ddFile: 'quiz_hemonc_deepdrill.html', kcReady: true, ddReady: true },
+  { ch: '', name: 'Pain Management', desc: 'Pain pharm coverage', weight: 0, key: 'pain', system: 'pharm-pain', kcFile: 'quiz_pain_knowledge.html', ddFile: 'quiz_pain_deepdrill.html', kcReady: true, ddReady: true },
+  { ch: '', name: 'Neurological', desc: 'Neuro pharm coverage', weight: 0, key: 'neuro', system: 'pharm-neuro', kcFile: 'quiz_neuro_knowledge.html', ddFile: 'quiz_neuro_deepdrill.html', kcReady: true, ddReady: true },
+  { ch: '', name: 'Urinary & Reproductive', desc: 'Urinary/repro pharm', weight: 0, key: 'urinaryrepro', system: 'pharm-urinary', kcFile: 'quiz_urinaryrepro_knowledge.html', ddFile: 'quiz_urinaryrepro_deepdrill.html', kcReady: true, ddReady: true },
+  { ch: '', name: 'Psychiatric', desc: 'Psych pharm coverage', weight: 0, key: 'psych', system: 'pharm-psych', kcFile: 'quiz_psych_knowledge.html', ddFile: 'quiz_psych_deepdrill.html', kcReady: true, ddReady: true },
+  { ch: '', name: 'Endocrine', desc: 'Endocrine pharm coverage', weight: 0, key: 'endocrine', system: 'pharm-endocrine', kcFile: 'quiz_endocrine_knowledge.html', ddFile: 'quiz_endocrine_deepdrill.html', kcReady: true, ddReady: true }
 ];
 
-function getScoreClass(pct) {
-  if (pct >= 85) return 'high';
-  if (pct >= 70) return 'mid';
-  return 'low';
-}
+const medsurgTopics = [
+  { ch: '23', name: 'Coronary Vascular', desc: 'Angina, MI/ACS, nitroglycerin', weight: 5, key: 'coronary', system: 'cardio', kcFile: 'ch23_coronary_kc.html', ddFile: 'ch23_coronary_dd.html', kcReady: false, ddReady: false },
+  { ch: '24', name: 'Structural/Infectious Cardiac', desc: 'Endocarditis, rheumatic fever, aortic stenosis', weight: 3, key: 'structuralcardiac', system: 'cardio', kcFile: 'ch24_structuralcardiac_kc.html', ddFile: 'ch24_structuralcardiac_dd.html', kcReady: false, ddReady: false },
+  { ch: '25', name: 'Heart Failure', desc: 'L vs R sided, pulmonary edema, fluid excess', weight: 4, key: 'heartfailure', system: 'cardio', kcFile: 'ch25_heartfailure_kc.html', ddFile: 'ch25_heartfailure_dd.html', kcReady: false, ddReady: false },
+  { ch: '26', name: 'Vascular Disorders', desc: 'Raynaud, PE, DVT, venous vs arterial', weight: 5, key: 'vascular', system: 'cardio', kcFile: 'ch26_vascular_kc.html', ddFile: 'ch26_vascular_dd.html', kcReady: false, ddReady: false },
+  { ch: '27', name: 'Hypertension', desc: 'Long-term complications, DASH diet', weight: 3, key: 'hypertension', system: 'cardio', kcFile: 'ch27_hypertension_kc.html', ddFile: 'ch27_hypertension_dd.html', kcReady: false, ddReady: false },
+  { ch: '18', name: 'Upper Respiratory', desc: 'Acute vs chronic bronchitis', weight: 2, key: 'upperresp', system: 'pulm', kcFile: 'ch18_upperresp_kc.html', ddFile: 'ch18_upperresp_dd.html', kcReady: true, ddReady: true },
+  { ch: '20', name: 'Chronic Pulmonary', desc: 'Emphysema, asthma, sleep apnea, O₂ delivery', weight: 6, key: 'chronicpulm', system: 'pulm', kcFile: 'ch20_chronicpulm_kc.html', ddFile: 'ch20_chronicpulm_dd.html', kcReady: true, ddReady: false },
+  { ch: '29', name: 'Nonmalignant Hematologic', desc: 'Thrombocytopenia, leukopenia, anemias, sickle cell', weight: 5, key: 'nonmalighem', system: 'hem', kcFile: 'ch29_nonmalighem_kc.html', ddFile: 'ch29_nonmalighem_dd.html', kcReady: false, ddReady: false },
+  { ch: '30', name: 'Hematologic Disorders', desc: 'Polycythemia vera, leukemias (AML/CML/ALL/CLL)', weight: 3, key: 'hematdisorders', system: 'hem', kcFile: 'ch30_hematdisorders_kc.html', ddFile: 'ch30_hematdisorders_dd.html', kcReady: false, ddReady: false },
+  { ch: '12', name: 'Oncology', desc: 'Chemo, neutropenia, radiation, CBC monitoring', weight: 6, key: 'oncology', system: 'oncoimmune', kcFile: 'ch12_oncology_kc.html', ddFile: 'ch12_oncology_dd.html', kcReady: true, ddReady: true },
+  { ch: '32', name: 'Immune Deficiency', desc: 'HIV/AIDS stages, opportunistic infections, HAART', weight: 4, key: 'immune', system: 'oncoimmune', kcFile: 'ch32_immune_kc.html', ddFile: 'ch32_immune_dd.html', kcReady: false, ddReady: false },
+  { ch: '33', name: 'Allergic Disorders', desc: 'Atopic dermatitis, anaphylaxis, allergic rhinitis', weight: 3, key: 'allergic', system: 'oncoimmune', kcFile: 'ch33_allergic_kc.html', ddFile: 'ch33_allergic_dd.html', kcReady: false, ddReady: false },
+  { ch: '34', name: 'Rheumatic Disorders', desc: 'RA and SLE — patho, pharm, education', weight: 2, key: 'rheumatic', system: 'oncoimmune', kcFile: 'ch34_rheumatic_kc.html', ddFile: 'ch34_rheumatic_dd.html', kcReady: false, ddReady: false },
+  { ch: '15', name: 'Intraoperative', desc: 'OR roles, zones, infection, MH', weight: 1, key: 'intraoperative', system: 'periop', kcFile: 'ch15_intraoperative_kc.html', ddFile: 'ch15_intraoperative_dd.html', kcReady: true, ddReady: true },
+  { ch: '16', name: 'Postoperative', desc: 'System complications, wound care, evisceration', weight: 4, key: 'postoperative', system: 'periop', kcFile: 'ch16_postoperative_kc.html', ddFile: 'ch16_postoperative_dd.html', kcReady: true, ddReady: true },
+  { ch: '37', name: 'Musculoskeletal Trauma', desc: "Fractures, 6 P's, cast care, compartment syndrome", weight: 3, key: 'mskTrauma', system: 'msk', kcFile: 'ch37_msktrauma_kc.html', ddFile: 'ch37_msktrauma_dd.html', kcReady: false, ddReady: false },
+  { ch: '39', name: 'Oral & Esophageal', desc: 'GERD, parenteral nutrition / TPN', weight: 2, key: 'oralesoph', system: 'gi', kcFile: 'ch39_oralesoph_kc.html', ddFile: 'ch39_oralesoph_dd.html', kcReady: false, ddReady: false },
+  { ch: '40', name: 'Gastric & Duodenal', desc: 'Gastritis, peptic ulcer disease, perforation', weight: 2, key: 'gastric', system: 'gi', kcFile: 'ch40_gastric_kc.html', ddFile: 'ch40_gastric_dd.html', kcReady: false, ddReady: false },
+  { ch: '41', name: 'Intestinal & Rectal', desc: "Crohn's, ulcerative colitis, constipation", weight: 3, key: 'intestinal', system: 'gi', kcFile: 'ch41_intestinal_kc.html', ddFile: 'ch41_intestinal_dd.html', kcReady: false, ddReady: false },
+  { ch: '46u', name: 'Urinary Disorders', desc: 'UTI, cystitis, renal calculi, pyelonephritis', weight: 4, key: 'urinary', system: 'renalendo', kcFile: 'ch46u_urinary_kc.html', ddFile: 'ch46u_urinary_dd.html', kcReady: false, ddReady: false },
+  { ch: '46d', name: 'Diabetes', desc: 'DKA vs HHS, hypoglycemia, complications', weight: 5, key: 'diabetes', system: 'renalendo', kcFile: 'ch46d_diabetes_kc.html', ddFile: 'ch46d_diabetes_dd.html', kcReady: false, ddReady: false }
+];
 
-function renderQuizScore(key) {
-  const row = document.getElementById('row_' + key);
-  if (!row) return;
-  const raw = localStorage.getItem('score_' + key);
-  if (!raw) return;
+const pharmSystems = [
+  { id: 'pharm-hemonc', name: 'Hematologic & Oncology', shortLabel: 'HEMONC', color: '#7c2d12', bg: '#fef3c7' },
+  { id: 'pharm-pain', name: 'Pain Management', shortLabel: 'PAIN', color: '#dc2626', bg: '#fef2f2' },
+  { id: 'pharm-neuro', name: 'Neurological', shortLabel: 'NEURO', color: '#7c3aed', bg: '#f5f3ff' },
+  { id: 'pharm-urinary', name: 'Urinary & Reproductive', shortLabel: 'GU', color: '#2563eb', bg: '#eff6ff' },
+  { id: 'pharm-psych', name: 'Psychiatric', shortLabel: 'PSYCH', color: '#0891b2', bg: '#ecfeff' },
+  { id: 'pharm-endocrine', name: 'Endocrine', shortLabel: 'ENDO', color: '#16a34a', bg: '#f0fdf4' }
+];
+
+const medsurgSystems = [
+  { id: 'cardio', name: 'Cardiovascular', shortLabel: 'CV', color: '#dc2626', bg: '#fef2f2' },
+  { id: 'pulm', name: 'Pulmonary', shortLabel: 'PULM', color: '#0891b2', bg: '#ecfeff' },
+  { id: 'hem', name: 'Hematologic', shortLabel: 'HEM', color: '#7c2d12', bg: '#fef3c7' },
+  { id: 'oncoimmune', name: 'Oncology & Immune', shortLabel: 'ONCO', color: '#7c3aed', bg: '#f5f3ff' },
+  { id: 'periop', name: 'Perioperative', shortLabel: 'OR', color: '#0d9488', bg: '#f0fdfa' },
+  { id: 'msk', name: 'Musculoskeletal', shortLabel: 'MSK', color: '#ca8a04', bg: '#fefce8' },
+  { id: 'gi', name: 'Gastrointestinal', shortLabel: 'GI', color: '#16a34a', bg: '#f0fdf4' },
+  { id: 'renalendo', name: 'Renal & Endocrine', shortLabel: 'RE', color: '#2563eb', bg: '#eff6ff' }
+];
+
+const classConfig = {
+  pharm: {
+    topics: pharmTopics,
+    systems: pharmSystems,
+    qPerQuiz: 25,
+    simEyebrow: 'Pharmacology II Final · 75 Q · Pass at 77%',
+    simTitle: 'Pharm Final Simulation',
+    simDesc: 'All systems weighted to blueprint. Fresh questions not in topic quizzes.',
+    simReady: true
+  },
+  medsurg: {
+    topics: medsurgTopics,
+    systems: medsurgSystems,
+    qPerQuiz: 25,
+    simEyebrow: 'MedSurg I Final · 75 Q · Pass at 77%',
+    simTitle: 'MedSurg Final Simulation',
+    simDesc: 'All sections weighted to blueprint. Fresh questions not in topic quizzes.',
+    simReady: false
+  }
+};
+
+// Saved class preference
+let currentClass = localStorage.getItem('preferred_class') || 'medsurg';
+let currentFilter = 'all';
+let allCollapsed = false;
+
+// ===== HELPERS =====
+function getScore(key, type) {
   try {
-    const data = JSON.parse(raw);
-    const cls = getScoreClass(data.pct);
-    row.innerHTML =
-      '<div>' +
-        '<div class="quiz-score-pct ' + cls + '">' + data.pct + '%</div>' +
-      '</div>' +
-      '<div class="quiz-score-meta">' +
-        '<div class="quiz-score-fraction">' + data.pts + ' / ' + data.total + '</div>' +
-        '<div>' + data.date + '</div>' +
-      '</div>';
-  } catch (e) {}
+    const raw = localStorage.getItem(`score_${key}_${type}`);
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) { return null; }
 }
 
-function renderSimScore() {
-  const box = document.getElementById('sim-score-box');
-  const raw = localStorage.getItem('score_exam_simulator');
-  if (!raw) return;
-  try {
-    const data = JSON.parse(raw);
-    const cls = getScoreClass(data.pct);
-    let label;
-    if (data.pct >= 77) label = 'Above pass threshold';
-    else if (data.pct >= 70) label = 'Just below pass';
-    else label = 'Below pass — restudy';
-    box.innerHTML =
-      '<div class="sim-score-pct ' + cls + '">' + data.pct + '%</div>' +
-      '<div>' + data.pts + ' / ' + data.total + ' · ' + data.date + '</div>' +
-      '<div style="margin-top:2px;">' + label + '</div>';
-  } catch (e) {}
+function scoreClass(pct) {
+  if (pct >= 85) return 'pass';
+  if (pct >= 70) return 'partial';
+  return 'fail';
 }
 
-function renderAvgScore() {
-  const scores = [];
-  QUIZ_KEYS.forEach(key => {
-    const raw = localStorage.getItem('score_' + key);
-    if (raw) {
-      try {
-        const data = JSON.parse(raw);
-        scores.push(data.pct);
-      } catch (e) {}
+function topicQCount(t) {
+  // Pharm: 25, MedSurg: 25 normal / 15 for thin chapters (Ch 18)
+  if (currentClass === 'pharm') return 25;
+  return t.ch === '18' ? 15 : 25;
+}
+
+// ===== RENDER QUIZ CELL =====
+function renderQuizCell(topic, type) {
+  const isKC = type === 'kc';
+  const ready = isKC ? topic.kcReady : topic.ddReady;
+  const file = isKC ? topic.kcFile : topic.ddFile;
+  const labelText = isKC ? 'KC' : 'DD';
+  const labelClass = isKC ? 'kc' : 'dd';
+  const scoreKey = isKC ? 'knowledge' : 'deepdrill';
+
+  if (!ready) {
+    return `<div class="quiz-cell coming-soon">
+      <span class="quiz-cell-label ${labelClass}">${labelText}</span>
+      <span class="quiz-cell-score soon">Coming soon</span>
+    </div>`;
+  }
+
+  const score = getScore(topic.key, scoreKey);
+  if (!score) {
+    return `<a href="${file}" class="quiz-cell ${labelClass} no-score">
+      <span class="quiz-cell-label ${labelClass}">${labelText}</span>
+      <span class="quiz-cell-score start">Start</span>
+      <div class="score-bar"><div class="score-bar-fill start ${labelClass}"></div></div>
+      <span class="cta-arrow">→</span>
+    </a>`;
+  }
+
+  const cls = scoreClass(score.pct);
+  return `<a href="${file}" class="quiz-cell ${labelClass}">
+    <span class="quiz-cell-label ${labelClass}">${labelText}</span>
+    <span class="quiz-cell-score ${cls}">${score.pct.toFixed(0)}</span>
+    <div class="score-bar"><div class="score-bar-fill ${cls}" style="width: ${score.pct}%;"></div></div>
+    <span class="cta-arrow">→</span>
+  </a>`;
+}
+
+// ===== TOPIC ROW =====
+function renderTopicRow(topic) {
+  const weightClass = topic.weight >= 4 ? 'high' : '';
+  const chDisplay = topic.ch ? `Ch ${topic.ch}` : '';
+  const weightDisplay = topic.weight > 0 ? `${topic.weight}/75` : '—';
+  return `<div class="topic-row" data-topic-key="${topic.key}" data-weight="${topic.weight}">
+    <span class="topic-ch">${chDisplay}</span>
+    <div class="topic-info">
+      <div class="topic-name">${topic.name}</div>
+      <div class="topic-desc">${topic.desc}</div>
+    </div>
+    <span class="topic-weight-badge ${weightClass}">${weightDisplay}</span>
+    ${renderQuizCell(topic, 'kc')}
+    ${renderQuizCell(topic, 'dd')}
+  </div>`;
+}
+
+// ===== SYSTEM GROUP =====
+function renderSystemGroup(sys) {
+  const config = classConfig[currentClass];
+  const sysTopics = config.topics.filter(t => t.system === sys.id);
+  if (sysTopics.length === 0) return '';
+  const totalQuizzes = sysTopics.reduce((sum, t) => sum + (t.kcReady ? 1 : 0) + (t.ddReady ? 1 : 0), 0);
+  const attemptedCount = sysTopics.reduce((sum, t) => {
+    let c = 0;
+    if (t.kcReady && getScore(t.key, 'knowledge')) c++;
+    if (t.ddReady && getScore(t.key, 'deepdrill')) c++;
+    return sum + c;
+  }, 0);
+  const totalWeight = sysTopics.reduce((sum, t) => sum + t.weight, 0);
+  const progressPct = totalQuizzes > 0 ? (attemptedCount / totalQuizzes) * 100 : 0;
+  const metaText = totalWeight > 0 ? `${sysTopics.length} ch · ${totalWeight} Q` : `${sysTopics.length} topic${sysTopics.length > 1 ? 's' : ''}`;
+
+  return `<div class="system-group" data-system="${sys.id}">
+    <div class="system-header" onclick="toggleGroup('${sys.id}')">
+      <div class="system-icon" style="background: ${sys.bg}; color: ${sys.color};">${sys.shortLabel}</div>
+      <div class="system-name">${sys.name}</div>
+      <span class="system-meta">${metaText}</span>
+      <div class="system-progress-bar"><div class="system-progress-fill" style="width: ${progressPct}%;"></div></div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="system-body">
+      ${sysTopics.map(renderTopicRow).join('')}
+    </div>
+  </div>`;
+}
+
+function renderSystemGroups() {
+  const config = classConfig[currentClass];
+  document.getElementById('system-groups').innerHTML = config.systems.map(renderSystemGroup).join('');
+}
+
+function toggleGroup(sysId) {
+  const group = document.querySelector(`.system-group[data-system="${sysId}"]`);
+  group.classList.toggle('collapsed');
+}
+
+function toggleAllGroups() {
+  const groups = document.querySelectorAll('.system-group');
+  allCollapsed = !allCollapsed;
+  groups.forEach(g => g.classList.toggle('collapsed', allCollapsed));
+  document.getElementById('expand-toggle').textContent = allCollapsed ? 'Expand all' : 'Collapse all';
+}
+
+// ===== FILTERING =====
+function topicMatchesFilter(topic, filter) {
+  const kcScore = getScore(topic.key, 'knowledge');
+  const ddScore = getScore(topic.key, 'deepdrill');
+  if (filter === 'all') return true;
+  if (filter === 'untouched') {
+    const kcAttempted = topic.kcReady && kcScore;
+    const ddAttempted = topic.ddReady && ddScore;
+    return !(kcAttempted && ddAttempted);
+  }
+  if (filter === 'weak') {
+    const scores = [kcScore, ddScore].filter(s => s).map(s => s.pct);
+    return scores.some(s => s < 77);
+  }
+  if (filter === 'strong') {
+    const scores = [kcScore, ddScore].filter(s => s).map(s => s.pct);
+    return scores.length > 0 && scores.every(s => s >= 85);
+  }
+  if (filter === 'highweight') return topic.weight >= 4;
+  return true;
+}
+
+function applyFilter(btn, filter) {
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  currentFilter = filter;
+  const config = classConfig[currentClass];
+
+  document.querySelectorAll('.topic-row').forEach(row => {
+    const topic = config.topics.find(t => t.key === row.dataset.topicKey);
+    row.style.display = topicMatchesFilter(topic, filter) ? '' : 'none';
+  });
+
+  document.querySelectorAll('.system-group').forEach(group => {
+    const visibleRows = group.querySelectorAll('.topic-row:not([style*="display: none"])');
+    group.style.display = visibleRows.length === 0 ? 'none' : '';
+  });
+}
+
+// ===== CONTINUE STUDYING =====
+function buildContinueList() {
+  const config = classConfig[currentClass];
+  const scored = [];
+  config.topics.forEach(t => {
+    if (!t.kcReady && !t.ddReady) return;
+    const kc = getScore(t.key, 'knowledge');
+    const dd = getScore(t.key, 'deepdrill');
+    const kcAttempted = t.kcReady && kc;
+    const ddAttempted = t.ddReady && dd;
+    const allAttempted = (!t.kcReady || kcAttempted) && (!t.ddReady || ddAttempted);
+    let priority, status, link;
+
+    if (!allAttempted) {
+      priority = 1000 + (t.weight || 1);
+      if (!kcAttempted && t.kcReady) {
+        status = 'Not started';
+        link = t.kcFile;
+      } else if (!ddAttempted && t.ddReady) {
+        status = 'KC done — try DD';
+        link = t.ddFile;
+      }
+    } else {
+      const lowestPct = Math.min(kc ? kc.pct : 100, dd ? dd.pct : 100);
+      if (lowestPct >= 85) return;
+      priority = 100 - lowestPct + (t.weight || 1);
+      status = `Lowest: ${lowestPct.toFixed(0)}% — review`;
+      link = (kc && (!dd || kc.pct < dd.pct)) ? t.kcFile : t.ddFile;
+    }
+
+    scored.push({ topic: t, priority, status, link });
+  });
+
+  scored.sort((a, b) => b.priority - a.priority);
+  const top3 = scored.slice(0, 3);
+
+  if (top3.length === 0) {
+    document.getElementById('continue-section').style.display = 'none';
+    return;
+  }
+
+  document.getElementById('continue-section').style.display = '';
+  document.getElementById('continue-list').innerHTML = top3.map(item => {
+    const chDisplay = item.topic.ch ? `Ch ${item.topic.ch} · ` : '';
+    const weightDisplay = item.topic.weight > 0 ? `${item.topic.weight} Q` : 'PHARM';
+    return `<a href="${item.link}" class="continue-item">
+      <div class="continue-item-name">${chDisplay}${item.topic.name}</div>
+      <div class="continue-item-meta">
+        <span class="continue-item-status">${item.status}</span>
+        <span class="continue-item-weight">${weightDisplay}</span>
+      </div>
+    </a>`;
+  }).join('');
+}
+
+// ===== TOP DASHBOARD =====
+function updateDashboard() {
+  const config = classConfig[currentClass];
+  let totalAvailable = 0;
+  let attemptedCount = 0;
+  let passingCount = 0;
+  let scoreSum = 0;
+  let scoreCount = 0;
+  let bankSize = 0;
+
+  config.topics.forEach(t => {
+    if (t.kcReady) {
+      totalAvailable++;
+      bankSize += topicQCount(t);
+      const kc = getScore(t.key, 'knowledge');
+      if (kc) {
+        attemptedCount++;
+        scoreSum += kc.pct;
+        scoreCount++;
+        if (kc.pct >= 77) passingCount++;
+      }
+    }
+    if (t.ddReady) {
+      totalAvailable++;
+      bankSize += topicQCount(t);
+      const dd = getScore(t.key, 'deepdrill');
+      if (dd) {
+        attemptedCount++;
+        scoreSum += dd.pct;
+        scoreCount++;
+        if (dd.pct >= 77) passingCount++;
+      }
     }
   });
-  if (scores.length === 0) return;
-  const avg = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
-  const el = document.getElementById('avg-score');
-  const sub = document.getElementById('avg-score-sub');
-  el.textContent = avg + '%';
-  el.className = 'stat-value pct ' + getScoreClass(avg);
-  sub.textContent = scores.length + ' of 12 quizzes done';
+
+  const attemptedPct = totalAvailable > 0 ? (attemptedCount / totalAvailable) * 100 : 0;
+  const avgScore = scoreCount > 0 ? scoreSum / scoreCount : null;
+
+  const circumference = 2 * Math.PI * 50;
+  const offset = circumference - (attemptedPct / 100) * circumference;
+  const ringEl = document.getElementById('progress-ring');
+  ringEl.style.strokeDashoffset = offset;
+  ringEl.classList.toggle('pharm-ring', currentClass === 'pharm');
+  document.getElementById('ring-pct').textContent = `${attemptedPct.toFixed(0)}%`;
+
+  document.getElementById('stat-attempted').textContent = `${attemptedCount}/${totalAvailable}`;
+  document.getElementById('stat-passing').textContent = passingCount;
+  document.getElementById('stat-avg').textContent = avgScore !== null ? `${avgScore.toFixed(0)}%` : '—';
+  if (avgScore !== null) {
+    const avgEl = document.getElementById('stat-avg');
+    avgEl.classList.remove('pass', 'partial', 'fail');
+    avgEl.classList.add(scoreClass(avgScore));
+  }
+  document.getElementById('stat-bank').textContent = bankSize;
+
+  // Update tab metadata for both classes
+  ['pharm', 'medsurg'].forEach(cls => {
+    const cfg = classConfig[cls];
+    let tAtt = 0, tTot = 0, tSum = 0, tCnt = 0;
+    cfg.topics.forEach(t => {
+      if (t.kcReady) {
+        tTot++;
+        const k = getScore(t.key, 'knowledge');
+        if (k) { tAtt++; tSum += k.pct; tCnt++; }
+      }
+      if (t.ddReady) {
+        tTot++;
+        const d = getScore(t.key, 'deepdrill');
+        if (d) { tAtt++; tSum += d.pct; tCnt++; }
+      }
+    });
+    const pct = tTot > 0 ? (tAtt / tTot) * 100 : 0;
+    const avg = tCnt > 0 ? (tSum / tCnt).toFixed(0) : '—';
+    document.getElementById(`${cls}-tab-meta-quizzes`).textContent = `${tAtt}/${tTot} taken`;
+    document.getElementById(`${cls}-tab-meta-avg`).textContent = avg !== '—' ? `${avg}% avg` : 'No scores yet';
+    document.getElementById(`${cls}-tab-progress`).style.width = `${pct}%`;
+  });
+}
+
+// ===== SIMULATOR =====
+function renderSimulator() {
+  const config = classConfig[currentClass];
+  // Pharm uses existing 'score_exam_simulator' key; medsurg will use 'score_medsurg_simulator_attempt'
+  const sim = currentClass === 'pharm'
+    ? getScore('exam', 'simulator')
+    : getScore('medsurg_simulator', 'attempt');
+  const scoreEl = document.getElementById('sim-score');
+  const statusEl = document.getElementById('sim-status');
+  const btnEl = document.getElementById('sim-btn');
+
+  document.getElementById('sim-eyebrow').textContent = config.simEyebrow;
+  document.getElementById('sim-title').textContent = config.simTitle;
+  document.getElementById('sim-desc').textContent = config.simDesc;
+
+  // Reset state
+  scoreEl.classList.add('no-attempt');
+  scoreEl.classList.remove('pass', 'fail');
+  scoreEl.style.color = '';
+  statusEl.textContent = '\u00A0';
+  statusEl.classList.remove('pass', 'fail');
+  btnEl.classList.remove('disabled');
+
+  if (config.simReady) {
+    btnEl.textContent = sim ? 'Retake Simulator' : 'Start Simulator';
+    btnEl.href = currentClass === 'pharm' ? 'exam_simulator.html' : 'medsurg_exam_simulator.html';
+  } else {
+    btnEl.classList.add('disabled');
+    btnEl.textContent = 'Coming Soon';
+    btnEl.href = '#';
+  }
+
+  if (sim) {
+    scoreEl.textContent = sim.pct.toFixed(0) + '%';
+    scoreEl.classList.remove('no-attempt');
+    if (sim.pct >= 77) {
+      scoreEl.style.color = 'var(--gold)';
+      statusEl.textContent = '✓ Passing';
+      statusEl.classList.add('pass');
+    } else {
+      scoreEl.style.color = '#fca5a5';
+      statusEl.textContent = '✗ Below Pass';
+      statusEl.classList.add('fail');
+    }
+  } else {
+    scoreEl.textContent = 'Not attempted';
+  }
+}
+
+// ===== CLASS SWITCHING =====
+function switchClass(cls) {
+  currentClass = cls;
+  localStorage.setItem('preferred_class', cls);
+  document.querySelectorAll('.class-tab').forEach(t => t.classList.toggle('active', t.dataset.class === cls));
+
+  // Reset filter state
+  currentFilter = 'all';
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.toggle('active', c.dataset.filter === 'all'));
+
+  renderSystemGroups();
+  updateDashboard();
+  buildContinueList();
+  renderSimulator();
 }
 
 function resetAllScores() {
-  if (!confirm('Reset all quiz scores? This cannot be undone.')) return;
-  QUIZ_KEYS.forEach(key => localStorage.removeItem('score_' + key));
-  localStorage.removeItem('score_exam_simulator');
+  if (!confirm('Reset ALL scores across both classes? This cannot be undone.')) return;
+  Object.keys(localStorage).filter(k => k.startsWith('score_')).forEach(k => localStorage.removeItem(k));
   location.reload();
 }
 
-QUIZ_KEYS.forEach(renderQuizScore);
-renderSimScore();
-renderAvgScore();
-
-fetch('exam_simulator.html', { method: 'HEAD' }).then(r => {
-  if (!r.ok) {
-    const btn = document.getElementById('sim-btn');
-    btn.classList.add('coming-soon');
-    btn.textContent = 'Coming soon';
-    btn.removeAttribute('href');
-    btn.style.pointerEvents = 'none';
-  }
-}).catch(() => {});
+// ===== INIT =====
+document.querySelector(`.class-tab[data-class="${currentClass}"]`).classList.add('active');
+renderSystemGroups();
+updateDashboard();
+buildContinueList();
+renderSimulator();
 </script>
 </body>
 </html>
