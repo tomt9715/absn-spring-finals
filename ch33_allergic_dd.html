@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 33 Allergic Disorders — Deep Drill</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-soft: #14b8a6;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-soft: #8b5cf6;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+      --partial: #d97706;
+      --partial-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--purple); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .start-stat { text-align: center; padding: 18px 12px; background: var(--purple-pale); border-radius: 8px; border: 1px solid var(--line); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--purple); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer; background: var(--purple); color: white; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--purple); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--purple-soft); background: var(--purple-pale); }
+    .option.selected { border-color: var(--purple); background: var(--purple-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--purple); color: white; border-color: var(--purple); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--purple-pale); border-left: 3px solid var(--purple); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--purple); color: white; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--purple); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Deep Drill · Chapter 33</div>
+  <h1>Allergic Disorders</h1>
+  <p class="tagline">NCLEX-style application: anaphylaxis priority response, EpiPen technique, allergy teaching scenarios, and eczema management.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">15</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">MC</span><span class="start-stat-label">Format</span></div>
+      <div class="start-stat"><span class="start-stat-num">Yes</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">These are scenario-based application questions. Read carefully, watch for distractors, and reason through priority before selecting.</p>
+    <button class="btn" onclick="begin()">Begin</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 15</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Deep Drill</div>
+    <h1>Allergic Disorders</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 15 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Quiz</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: 'Allergic',
+    type: 'standard',
+    stem: 'A patient stung by a bee 5 minutes ago presents with hives, swollen lips, wheezing, and BP 84/52. Which action is the priority?',
+    options: [
+      'Document the symptoms and reassess in 15 minutes per protocol',
+      'Give oral diphenhydramine and observe for additional symptoms',
+      'Apply ice packs to the sting site to reduce localized swelling',
+      'Administer IM epinephrine immediately and call rapid response'
+    ],
+    answer: 3,
+    concept: 'Anaphylaxis Priority',
+    rationale: 'This patient is in anaphylaxis. IM epinephrine is the first-line treatment and must be given immediately. Calling rapid response activates additional support. Antihistamines and ice are NOT substitutes for epinephrine.',
+    others: {
+      0: 'Documentation and waiting risks death from airway closure.',
+      1: 'Antihistamines do not replace epinephrine in anaphylaxis.',
+      2: 'Ice packs do not address the systemic emergency.'
+    }
+  },
+  {
+    topic: 'Allergic',
+    type: 'standard',
+    stem: 'A nurse is teaching a patient with a peanut allergy how to use an EpiPen. Which statement indicates the patient understands?',
+    options: [
+      '"I will inject it into the upper outer thigh muscle and hold for 10 seconds."',
+      '"I will inject it directly into a vein in my arm during a reaction."',
+      '"I will only use it after my Benadryl has not improved my symptoms."',
+      '"I will inject it into my abdomen avoiding the area near the umbilicus."'
+    ],
+    answer: 0,
+    concept: 'EpiPen Technique',
+    rationale: 'EpiPens are injected IM into the upper outer thigh muscle (vastus lateralis) and held for ~10 seconds. The thigh allows fast absorption even through clothing. Patients should call 911 after every use.',
+    others: {
+      1: 'EpiPens are IM, not IV.',
+      2: 'EpiPen is FIRST-line — given before/instead of antihistamines.',
+      3: 'The thigh is the recommended site, not the abdomen.'
+    }
+  },
+  {
+    topic: 'Allergic',
+    type: 'standard',
+    stem: 'A patient who used their EpiPen 10 minutes ago feels much better. What teaching is most important?',
+    options: [
+      '"Continue normal activities at home and skip the ED visit if you feel fine now."',
+      '"Take a Benadryl with you and resume your normal day at home as planned."',
+      '"You still need to go to the ED — biphasic reactions can occur hours later."',
+      '"You are now immune to the allergen and may be able to consume it again."'
+    ],
+    answer: 2,
+    concept: 'Biphasic Reaction',
+    rationale: 'After an EpiPen is used, the patient must go to the ED for monitoring. Biphasic anaphylactic reactions can occur hours later, even after symptoms initially resolved. ED observation for 4-6 hours minimum is standard.',
+    others: {
+      0: 'Skipping the ED is dangerous due to biphasic reaction risk.',
+      1: 'Benadryl alone does not protect against biphasic reaction.',
+      3: 'Single epinephrine use does not create immunity to the allergen.'
+    }
+  },
+  {
+    topic: 'Allergic',
+    type: 'standard',
+    stem: 'A nurse is preparing to give IV penicillin to a patient. Before administration, what assessment is the PRIORITY?',
+    options: [
+      'Determine the patient last meal time before today',
+      'Verify the patient daily preference for hot or cold drinks',
+      'Confirm the patient sleeping schedule from the previous night',
+      'Assess for any history of allergies, especially to penicillin'
+    ],
+    answer: 3,
+    concept: 'Allergy Verification',
+    rationale: 'Penicillin is a major anaphylaxis trigger. Verifying allergy history before administration is the priority assessment to prevent a life-threatening reaction.',
+    others: {
+      0: 'Last meal time is not the priority for penicillin allergy risk.',
+      1: 'Drink preferences are unrelated to penicillin allergy.',
+      2: 'Sleep schedule is unrelated to penicillin allergy.'
+    }
+  },
+  {
+    topic: 'Allergic',
+    type: 'standard',
+    stem: 'A patient receiving IV antibiotics suddenly develops generalized hives, dyspnea, and stridor. What is the FIRST nursing action?',
+    options: [
+      'Stop the infusion immediately and call for help',
+      'Continue the infusion at a slower rate and document it',
+      'Administer the next ordered dose of acetaminophen orally',
+      'Document the symptoms and reassess in 30 minutes time'
+    ],
+    answer: 0,
+    concept: 'Stop Infusion First',
+    rationale: 'When a patient develops anaphylactic symptoms during IV infusion, the first action is to STOP the infusion to prevent more allergen from entering the body. Then call for help, give epinephrine, and manage ABCs.',
+    others: {
+      1: 'Slowing the rate does not stop allergen exposure.',
+      2: 'Acetaminophen does not treat anaphylaxis.',
+      3: 'Waiting 30 minutes risks death.'
+    }
+  },
+  {
+    topic: 'Allergic',
+    type: 'standard',
+    stem: 'A patient with a child who has a peanut allergy asks how to keep them safe at school. The BEST teaching includes:',
+    options: [
+      'Read all food labels, carry an EpiPen, and notify school staff and teachers',
+      'Avoid all foreign cuisines but trust home-prepared school cafeteria meals',
+      'Keep your child indoors during recess to avoid all outdoor exposures',
+      'Avoid telling other parents to prevent making the child feel singled out'
+    ],
+    answer: 0,
+    concept: 'Peanut Allergy Safety',
+    rationale: 'Reading food labels, carrying an EpiPen at all times, and notifying school staff and teachers are essential safety strategies. School should know how to identify reactions and use the EpiPen.',
+    others: {
+      1: 'Cafeteria meals can contain hidden allergens.',
+      2: 'Indoor confinement is not necessary or healthy.',
+      3: 'Disclosure to school and other caregivers is essential.'
+    }
+  },
+  {
+    topic: 'Allergic',
+    type: 'standard',
+    stem: 'A patient is admitted with severe atopic dermatitis flare. The skin is excoriated and weeping. Which assessment finding requires immediate provider notification?',
+    options: [
+      'Mild itching that improves slightly with antihistamines daily',
+      'Skin appears red and inflamed across both forearms',
+      'Yellow purulent drainage with fever and warmth at lesion sites',
+      'Patient reports occasional sleep disturbance from itching'
+    ],
+    answer: 2,
+    concept: 'Eczema Infection',
+    rationale: 'Yellow purulent drainage with fever and warmth indicates secondary bacterial infection (often Staph aureus) — a known complication of eczema due to broken skin barrier. Notify the provider for antibiotics.',
+    others: {
+      0: 'Mild itching improving with antihistamines is expected.',
+      1: 'Red inflamed skin is part of the eczema flare itself.',
+      3: 'Occasional sleep disturbance from itching is common in eczema.'
+    }
+  },
+  {
+    topic: 'Allergic',
+    type: 'standard',
+    stem: 'A nurse is providing teaching to a parent of a 5-year-old with eczema. Which patient action requires further teaching?',
+    options: [
+      'Apply moisturizer immediately after bathing while skin is damp',
+      'Use mild fragrance-free soaps and detergents during laundry',
+      'Take long, very hot baths daily to keep the skin softer overall',
+      'Trim fingernails short to prevent scratching damage to the skin'
+    ],
+    answer: 2,
+    concept: 'Eczema Bath Trap',
+    rationale: 'Long, hot baths actually dry out and irritate eczematous skin. Patients should take SHORT, lukewarm baths and apply moisturizer immediately afterward to lock in moisture. The other actions are correct teaching.',
+    others: {
+      0: 'Moisturizing right after bathing on damp skin is correct.',
+      1: 'Mild fragrance-free products are correct.',
+      3: 'Short fingernails to prevent scratching damage is correct.'
+    }
+  },
+  {
+    topic: 'Allergic',
+    type: 'standard',
+    stem: 'A patient with allergic rhinitis is being prescribed cetirizine. Which patient statement indicates correct understanding?',
+    options: [
+      '"I will take this only when my symptoms become absolutely intolerable."',
+      '"I will take it daily during allergy season for best symptom control."',
+      '"I will combine it with diphenhydramine for stronger overall coverage."',
+      '"I will stop it after 3 days because it is meant for short-term use."'
+    ],
+    answer: 1,
+    concept: 'Daily Antihistamine',
+    rationale: 'Cetirizine and other second-generation antihistamines are most effective when taken DAILY during allergy season for sustained symptom control. PRN use is less effective for ongoing exposure.',
+    others: {
+      0: 'PRN-only is less effective than daily use.',
+      2: 'Combining first and second gen antihistamines causes excess sedation.',
+      3: 'Daily use during allergy season is recommended.'
+    }
+  },
+  {
+    topic: 'Allergic',
+    type: 'standard',
+    stem: 'A patient has been on diphenhydramine (Benadryl) for allergic rhinitis. Which side effect is the nurse most concerned about in an older adult?',
+    options: [
+      'Mild dry mouth and a slight thirst sensation',
+      'Sedation, confusion, and increased fall risk',
+      'Slight reduction in nasal congestion symptoms',
+      'A mild reduction in itching of the eyes and nose'
+    ],
+    answer: 1,
+    concept: 'Benadryl in Elderly',
+    rationale: 'Diphenhydramine (a first-generation antihistamine) causes sedation, confusion, and falls in older adults. Second-generation antihistamines (cetirizine, loratadine) are preferred. This is a Beers Criteria concern.',
+    others: {
+      0: 'Dry mouth is mild and expected.',
+      2: 'Reduced congestion is the desired effect.',
+      3: 'Reduced itching is the desired effect.'
+    }
+  },
+  {
+    topic: 'Allergic',
+    type: 'standard',
+    stem: 'A patient with severe shellfish allergy is scheduled for a CT scan with iodine contrast. What is the priority nursing action?',
+    options: [
+      'Administer the contrast as ordered without any hesitation',
+      'Notify the provider — there may be a cross-reactivity concern',
+      'Document the allergy and proceed with the scan as scheduled',
+      'Give an oral antihistamine 5 minutes before the scan begins'
+    ],
+    answer: 1,
+    concept: 'Shellfish + Contrast',
+    rationale: 'Patients with severe shellfish allergy may have increased reactions to iodinated contrast. The nurse must notify the provider. The provider may premedicate with corticosteroids and antihistamines or use alternative imaging.',
+    others: {
+      0: 'Administering contrast without addressing the allergy risks anaphylaxis.',
+      2: 'Documentation alone is not enough — provider must be notified.',
+      3: 'Antihistamine 5 min before is too late and incomplete prophylaxis.'
+    }
+  },
+  {
+    topic: 'Allergic',
+    type: 'standard',
+    stem: 'A nurse is caring for a patient who developed a rash after taking penicillin yesterday. Today the patient has facial swelling, dyspnea, and BP 86/54. Which action is the priority?',
+    options: [
+      'Administer IM epinephrine and call rapid response immediately',
+      'Document the new symptoms and reassess in 1 hour from now',
+      'Switch to IV ciprofloxacin for ongoing infection treatment',
+      'Place a cool washcloth on the face to reduce swelling'
+    ],
+    answer: 0,
+    concept: 'Anaphylaxis from Recent Med',
+    rationale: 'The patient is now in anaphylaxis from delayed reaction to penicillin. IM epinephrine and rapid response activation are the priority actions. The patient needs ABC management and may need intubation.',
+    others: {
+      1: 'Documenting and waiting is dangerous in active anaphylaxis.',
+      2: 'Switching antibiotics does not treat the active reaction.',
+      3: 'A cool washcloth does not address systemic anaphylaxis.'
+    }
+  },
+  {
+    topic: 'Allergic',
+    type: 'standard',
+    stem: 'A patient with a latex allergy is being scheduled for surgery. Which preoperative action is most appropriate?',
+    options: [
+      'Schedule the surgery for the last case of the day in any OR room',
+      'Use latex-free supplies and schedule as the FIRST case of the day',
+      'Administer prophylactic antihistamines 2 hours before the surgery start',
+      'Have the patient sign a waiver acknowledging the latex risk'
+    ],
+    answer: 1,
+    concept: 'Latex Allergy Surgery',
+    rationale: 'Latex-free supplies are required for latex-allergic patients. Scheduling as the FIRST case of the day reduces airborne latex particles from previous cases. This is standard latex precaution protocol.',
+    others: {
+      0: 'Last case allows airborne latex to accumulate.',
+      2: 'Antihistamines do not replace latex avoidance.',
+      3: 'A waiver does not prevent the reaction.'
+    }
+  },
+  {
+    topic: 'Allergic',
+    type: 'standard',
+    stem: 'A patient with allergic rhinitis is being taught about avoidance therapy. Which patient action requires further teaching?',
+    options: [
+      'I will keep windows closed during high pollen times of the year',
+      'I will use a HEPA filter in my bedroom to trap small allergens',
+      'I will dust and vacuum often to reduce dust mite exposure indoors',
+      'I will keep the family dog in my bedroom to build tolerance daily'
+    ],
+    answer: 3,
+    concept: 'Avoidance Therapy Trap',
+    rationale: 'Increasing exposure to a known allergen (pet dander) does NOT build tolerance and worsens allergic rhinitis. Patients should keep pets out of bedrooms. The other strategies are correct avoidance techniques.',
+    others: {
+      0: 'Closing windows during high pollen is correct.',
+      1: 'HEPA filters trap allergens and is correct.',
+      2: 'Dusting and vacuuming reduces dust mites and is correct.'
+    }
+  },
+  {
+    topic: 'Allergic',
+    type: 'standard',
+    stem: 'A patient who received epinephrine for anaphylaxis 30 minutes ago is now stable. The nurse continues to monitor for which complication?',
+    options: [
+      'A mild headache that resolves with hydration',
+      'A small bruise at the IM injection site on the thigh',
+      'Recurrence of symptoms (biphasic reaction) hours later',
+      'Mild thirst that improves with oral fluid intake'
+    ],
+    answer: 2,
+    concept: 'Biphasic Monitoring',
+    rationale: 'Even after initial recovery from anaphylaxis, patients are at risk for biphasic reactions — recurrence of symptoms hours later (typically 4-12 hours). This is why ED monitoring for at least 4-6 hours is standard.',
+    others: {
+      0: 'Mild headache may occur but is not the priority concern.',
+      1: 'A small bruise at the injection site is expected.',
+      3: 'Mild thirst is not the priority complication.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let score = 0;
+let totalPoints = 0;
+let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_allergic_deepdrill';
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  document.getElementById('q-stem').textContent = q.stem;
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong application reasoning across anaphylaxis, eczema, and allergic rhinitis. Move on to the next chapter.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed scenarios — application is where the final exam will challenge you.';
+  else if (pct >= 60) msg = 'Below pass threshold. Review missed concepts carefully and rerun this drill before moving on.';
+  else msg = 'Significant gaps in application. Re-study Ch 33 review materials and the rationales below, then rerun this drill until you hit 77%+.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>
