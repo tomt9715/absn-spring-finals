@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 23 Coronary Vascular — Deep Drill</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-soft: #14b8a6;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-soft: #8b5cf6;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+      --partial: #d97706;
+      --partial-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--purple); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .start-stat { text-align: center; padding: 18px 12px; background: var(--purple-pale); border-radius: 8px; border: 1px solid var(--line); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--purple); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer; background: var(--purple); color: white; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--purple); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--purple-soft); background: var(--purple-pale); }
+    .option.selected { border-color: var(--purple); background: var(--purple-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--purple); color: white; border-color: var(--purple); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--purple-pale); border-left: 3px solid var(--purple); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--purple); color: white; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--purple); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Deep Drill · Chapter 23</div>
+  <h1>Coronary Vascular Disorders</h1>
+  <p class="tagline">NCLEX-style application: prioritization, recognition of subtle MI presentations, nitroglycerin failure scenarios, and post-event teaching.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">25</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">MC</span><span class="start-stat-label">Format</span></div>
+      <div class="start-stat"><span class="start-stat-num">Yes</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">These are scenario-based application questions. Read carefully, watch for distractors, and reason through priority before selecting.</p>
+    <button class="btn" onclick="begin()">Begin</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 25</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Deep Drill</div>
+    <h1>Coronary Vascular Disorders</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 25 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Quiz</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: 'Coronary',
+    type: 'standard',
+    stem: 'A 62-year-old patient on a med-surg unit reports new substernal chest pain radiating to the left jaw. Vital signs: BP 142/88, HR 104, RR 22, SpO2 95%. Which action should the nurse take FIRST?',
+    options: [
+      'Call the rapid response team immediately for emergency assistance',
+      'Place the patient in a semi-Fowler position and stop all activity',
+      'Administer 4 chewable aspirin tablets totaling 324 mg by mouth',
+      'Draw blood for a stat troponin level and basic metabolic panel'
+    ],
+    answer: 1,
+    concept: 'Chest Pain Priority',
+    rationale: 'For new chest pain, the very first nursing action is to position the patient in semi-Fowler and stop activity. This decreases cardiac workload and oxygen demand immediately. ECG, oxygen, meds, and provider notification follow.',
+    others: {
+      0: 'Rapid response is appropriate if the patient deteriorates, but immediate positioning happens first.',
+      2: 'Aspirin requires a provider order in this scenario and follows initial assessment.',
+      3: 'Labs are part of the workup but not the first nursing action at the bedside.'
+    }
+  },
+  {
+    topic: 'Coronary',
+    type: 'standard',
+    stem: 'A patient with stable angina takes one sublingual nitroglycerin tablet at the onset of chest pain. After 5 minutes, the pain is unchanged. The patient asks the nurse what to do next. What is the BEST response?',
+    options: [
+      '"Call 911 right away — chest pain that does not improve with the first nitroglycerin dose is a medical emergency."',
+      '"Take 2 more tablets back to back and lie down flat with your legs elevated up on a pillow."',
+      '"Wait another 30 minutes and reassess. If pain is still there, take a second tablet at that point."',
+      '"Drink a glass of cold water and walk slowly around the room. The pain often resolves with mild activity."'
+    ],
+    answer: 0,
+    concept: 'Nitro Failure 911',
+    rationale: 'Current teaching is to call 911 if the first sublingual nitroglycerin dose does not relieve chest pain. EMS activation should not wait. The patient can take subsequent doses while waiting for help to arrive.',
+    others: {
+      1: 'Two tablets at once worsens hypotension and lying flat does not help cardiac perfusion.',
+      2: '30 minutes of waiting risks active myocardial ischemia and progression to MI.',
+      3: 'Activity worsens cardiac demand and water does not address ischemia.'
+    }
+  },
+  {
+    topic: 'Coronary',
+    type: 'standard',
+    stem: 'A 68-year-old patient arrives in the ED reporting "pressure" in the chest for 2 hours. The 12-lead ECG shows ST elevation in leads II, III, and aVF. Troponin is pending. Which assessment finding is the nurse MOST concerned about?',
+    options: [
+      'Patient reports headache rated 4 out of 10 on the pain scale',
+      'Patient reports feeling anxious and asks for family to be called',
+      'Bowel sounds are hypoactive in all four abdominal quadrants on auscultation',
+      'Skin is cool and pale with clammy diaphoresis on the forehead'
+    ],
+    answer: 3,
+    concept: 'STEMI Recognition',
+    rationale: 'Cool, pale, clammy skin in a patient with ST elevation reflects sympathetic surge and decreased perfusion — a clear sign of acute MI in progress. This requires emergent reperfusion preparation.',
+    others: {
+      0: 'A mild headache is a common nitroglycerin side effect and not the priority.',
+      1: 'Anxiety is expected during acute MI but does not change the immediate plan.',
+      2: 'Hypoactive bowel sounds are not a primary MI concern.'
+    }
+  },
+  {
+    topic: 'Coronary',
+    type: 'standard',
+    stem: 'A patient with an active anginal episode is sitting at home. They take their nitroglycerin tablet and almost immediately report dizziness and lightheadedness. What is the priority intervention?',
+    options: [
+      'Have the patient lie back and stay seated to prevent falls from hypotension',
+      'Have the patient stand up to facilitate quicker absorption of the medication',
+      'Tell the patient to take a second tablet right away to push through symptoms',
+      'Have the patient drink 16 ounces of cold water to reverse the dizziness'
+    ],
+    answer: 0,
+    concept: 'Nitro Hypotension',
+    rationale: 'Nitroglycerin causes hypotension that can produce dizziness. The patient should remain sitting or recline back to prevent falls. The drug is still working — dizziness is an expected side effect, not a reason to stop or push past it.',
+    others: {
+      1: 'Standing increases fall risk during acute hypotension.',
+      2: 'Taking another tablet too quickly worsens hypotension.',
+      3: 'Water does not reverse nitroglycerin-induced hypotension.'
+    }
+  },
+  {
+    topic: 'Coronary',
+    type: 'standard',
+    stem: 'A nurse is reviewing the home medication list of a male patient newly prescribed sublingual nitroglycerin. Which medication on the list requires the nurse to immediately notify the prescriber?',
+    options: [
+      'Atorvastatin 40 mg PO daily for elevated cholesterol',
+      'Metformin 1000 mg PO twice daily for type 2 diabetes',
+      'Tadalafil 10 mg PO as needed for erectile dysfunction',
+      'Levothyroxine 75 mcg PO daily for hypothyroid disease'
+    ],
+    answer: 2,
+    concept: 'Nitrate -afil Interaction',
+    rationale: 'Tadalafil and other -afil ED drugs are contraindicated with nitrates because the combination causes dangerous, sometimes fatal, hypotension. The nurse must notify the prescriber before nitroglycerin is dispensed.',
+    others: {
+      0: 'Atorvastatin has no significant interaction with nitrates.',
+      1: 'Metformin does not interact dangerously with nitrates.',
+      3: 'Levothyroxine has no major nitrate interaction.'
+    }
+  },
+  {
+    topic: 'Coronary',
+    type: 'standard',
+    stem: 'A patient on the cardiac unit has been diagnosed with NSTEMI. The patient asks the nurse, "How is mine different from a STEMI?" Which response is BEST?',
+    options: [
+      '"NSTEMI is much less dangerous and usually resolves on its own without much treatment needed."',
+      '"NSTEMI shows clear ST elevation but no troponin elevation, so the heart muscle is not damaged."',
+      '"NSTEMI does not damage the heart — it just causes chest pain similar to severe heartburn pain."',
+      '"NSTEMI shows elevated troponin but does not have the clear ECG changes seen in a STEMI."'
+    ],
+    answer: 3,
+    concept: 'NSTEMI vs STEMI Teaching',
+    rationale: 'NSTEMI is defined by elevated cardiac biomarkers (troponin) without definitive ECG changes of acute MI. The myocardium IS damaged — it is a true MI — just without the ST elevation seen in STEMI.',
+    others: {
+      0: 'NSTEMI is still a true MI and requires aggressive treatment.',
+      1: 'ST elevation defines STEMI, not NSTEMI.',
+      2: 'NSTEMI does damage myocardium and is not similar to heartburn.'
+    }
+  },
+  {
+    topic: 'Coronary',
+    type: 'standard',
+    stem: 'A patient is being discharged after a STEMI. The nurse is reviewing post-MI medications. Which patient statement indicates the patient understands the role of aspirin?',
+    options: [
+      '"Aspirin will dissolve the blood clot that caused my heart attack and bring back blood flow."',
+      '"Aspirin keeps my platelets from sticking together so a new clot is less likely to form."',
+      '"Aspirin lowers my blood pressure and slows my heart rate to take pressure off the heart."',
+      '"Aspirin numbs the chest pain so I will not need to take other pain meds at home."'
+    ],
+    answer: 1,
+    concept: 'Aspirin Mechanism',
+    rationale: 'Aspirin is an antiplatelet that prevents platelet aggregation, reducing the chance of new clot formation in narrowed coronary arteries. It does not dissolve existing clots — that is the job of fibrinolytics.',
+    others: {
+      0: 'Aspirin does not dissolve existing clots — that is fibrinolytic therapy.',
+      2: 'Aspirin does not lower BP or HR. Beta-blockers do that.',
+      3: 'Aspirin is not a primary analgesic for cardiac chest pain.'
+    }
+  },
+  {
+    topic: 'Coronary',
+    type: 'standard',
+    stem: 'A patient is being treated for acute MI in the ED. Which order should the nurse question?',
+    options: [
+      'Administer oxygen at 2 L/min via nasal cannula',
+      'Give aspirin 324 mg chewable by mouth one time',
+      'Administer sildenafil 50 mg PO for current symptoms',
+      'Place patient on continuous cardiac monitoring with telemetry'
+    ],
+    answer: 2,
+    concept: 'Nitrate Contraindication Recognition',
+    rationale: 'Sildenafil is a phosphodiesterase-5 inhibitor (-afil drug) and is contraindicated in acute MI because nitroglycerin will be administered. The combination causes severe hypotension. The nurse should question this order.',
+    others: {
+      0: 'Oxygen is appropriate for suspected MI.',
+      1: 'Aspirin 324 mg chewable is standard initial MI treatment.',
+      3: 'Continuous cardiac monitoring is standard for MI patients.'
+    }
+  },
+  {
+    topic: 'Coronary',
+    type: 'standard',
+    stem: 'A nurse is teaching a patient how to identify chest pain that is "stable" angina. Which statement by the patient indicates correct understanding?',
+    options: [
+      '"My chest pain happens out of nowhere even when I am totally at rest in bed."',
+      '"My chest pain is unpredictable and gets worse with each episode I have."',
+      '"My chest pain happens when I climb stairs and goes away when I rest or take nitro."',
+      '"My chest pain stays the same severity even after I take 3 nitroglycerin tablets."'
+    ],
+    answer: 2,
+    concept: 'Stable Angina Pattern',
+    rationale: 'Stable angina has a predictable pattern: chest pain triggered by exertion or stress and relieved by rest or nitroglycerin. This is the classic stable presentation.',
+    others: {
+      0: 'Pain at rest is more consistent with unstable angina.',
+      1: 'Worsening, unpredictable pain is unstable angina.',
+      3: 'Pain unrelieved by nitroglycerin is unstable angina or MI, not stable angina.'
+    }
+  },
+  {
+    topic: 'Coronary',
+    type: 'standard',
+    stem: 'A patient with a history of CAD calls the clinic stating, "I have been having chest pain at night when I am sleeping for the past three nights." How should the nurse interpret this report?',
+    options: [
+      'This is a normal pattern of stable angina that requires no further follow-up',
+      'This is consistent with GERD and the patient should try an over-the-counter antacid',
+      'This suggests anxiety-related chest pain, no urgent intervention is needed',
+      'This represents a change in pattern that may indicate unstable angina or worsening'
+    ],
+    answer: 3,
+    concept: 'Unstable Angina Recognition',
+    rationale: 'Chest pain at rest, especially nocturnal pain, is a hallmark of unstable angina or worsening coronary disease. This is a change in pattern and the patient needs immediate evaluation.',
+    others: {
+      0: 'Stable angina has predictable triggers, not nocturnal rest pain.',
+      1: 'Assuming GERD is unsafe in a patient with known CAD.',
+      2: 'Dismissing chest pain as anxiety in a CAD patient is dangerous.'
+    }
+  },
+  {
+    topic: 'Coronary',
+    type: 'standard',
+    stem: 'A patient just received their first sublingual nitroglycerin dose for chest pain. Five minutes later, vital signs show: BP 88/52 (baseline 132/78), HR 110, RR 20, chest pain 5 out of 10 (was 8 out of 10). What is the priority nursing action?',
+    options: [
+      'Administer the second sublingual nitroglycerin tablet now per the standing protocol',
+      'Place the patient supine, elevate the legs, and notify the provider promptly',
+      'Increase the IV fluid rate to 250 mL per hour and continue routine monitoring',
+      'Reassess in 10 minutes and chart the response to the first medication dose'
+    ],
+    answer: 1,
+    concept: 'Post-Nitro Hypotension Management',
+    rationale: 'BP dropped from 132/78 to 88/52 — significant hypotension. The priority is to position the patient supine with legs elevated to support venous return and BP, then notify the provider before giving any additional nitroglycerin.',
+    others: {
+      0: 'Giving another dose with current hypotension would worsen BP further.',
+      2: 'Increasing fluids requires a provider order and does not address immediate position needs.',
+      3: 'Waiting 10 minutes with hypotension is unsafe.'
+    }
+  },
+  {
+    topic: 'Coronary',
+    type: 'standard',
+    stem: 'A 70-year-old female arrives in the ED with sudden-onset jaw pain and severe fatigue but no chest pain. ECG shows new ST depression in leads V4-V6 and troponin is elevated. Which condition is most likely?',
+    options: [
+      'GERD with esophageal spasm causing referred pain to the jaw region',
+      'Costochondritis with inflammation involving the costosternal junction',
+      'NSTEMI presenting atypically without classic chest pain symptoms',
+      'Generalized anxiety disorder triggered by underlying medical illness'
+    ],
+    answer: 2,
+    concept: 'Atypical MI Presentation',
+    rationale: 'Women, elderly, and diabetics often have atypical MI presentations including jaw pain, fatigue, nausea, or shortness of breath without chest pain. ST depression with elevated troponin confirms NSTEMI.',
+    others: {
+      0: 'GERD does not cause troponin elevation or ST changes.',
+      1: 'Costochondritis is musculoskeletal and does not affect troponin.',
+      3: 'Anxiety does not cause ST depression and troponin elevation.'
+    }
+  },
+  {
+    topic: 'Coronary',
+    type: 'standard',
+    stem: 'A patient is being discharged with a new prescription for sublingual nitroglycerin. Which patient statement requires further teaching?',
+    options: [
+      '"I will keep my pills in the original dark glass bottle and replace them every 6 months."',
+      '"If pain comes back, I should take one tablet, wait 5 minutes, and call 911 if no relief."',
+      '"I will throw away my Viagra prescription so I do not accidentally take the two together."',
+      '"I will take my tablet while standing so I do not feel faint and can get help quickly."'
+    ],
+    answer: 3,
+    concept: 'Nitro Teaching Errors',
+    rationale: 'The patient should sit down before taking nitroglycerin to prevent falls from orthostatic hypotension. Standing during administration is unsafe. The other statements all reflect correct teaching.',
+    others: {
+      0: 'Storage in original dark bottle and 6-month replacement is correct.',
+      1: 'Take 1 tablet, wait 5 min, call 911 if no relief is the current standard.',
+      2: 'Avoiding nitrate plus -afil drug combination is correct safety teaching.'
+    }
+  },
+  {
+    topic: 'Coronary',
+    type: 'standard',
+    stem: 'A patient with stable angina was just admitted for chest pain that did not respond to 3 doses of sublingual nitroglycerin at home. ECG shows no ST changes. Initial troponin is pending. Which order does the nurse anticipate?',
+    options: [
+      'Discharge the patient home with a follow-up cardiology visit in 2 weeks',
+      'Schedule an outpatient stress test for the following week and discharge home',
+      'Administer over-the-counter antacids and observe for 30 minutes before discharge',
+      'Admit for cardiac monitoring, serial troponins, and rule out unstable angina'
+    ],
+    answer: 3,
+    concept: 'Unstable Angina Workup',
+    rationale: 'Chest pain unrelieved by 3 nitroglycerin doses is unstable angina until proven otherwise. The patient needs admission for monitoring, serial troponins, and likely cardiac catheterization to evaluate for ACS.',
+    others: {
+      0: 'Discharging unstable angina is dangerous — it can progress to MI.',
+      1: 'Stress testing during active unstable angina is contraindicated.',
+      2: 'Antacids do not address ischemic chest pain.'
+    }
+  },
+  {
+    topic: 'Coronary',
+    type: 'standard',
+    stem: 'A patient who experienced a STEMI yesterday is receiving discharge teaching. Which medication regimen does the nurse anticipate the patient will be discharged on?',
+    options: [
+      'Acetaminophen, levothyroxine, ferrous sulfate, and a daily multivitamin',
+      'Furosemide, digoxin, potassium chloride, and a calcium supplement',
+      'Aspirin, a beta-blocker (-lol), a statin, and sublingual nitroglycerin',
+      'Insulin, metformin, glipizide, and a daily probiotic at bedtime'
+    ],
+    answer: 2,
+    concept: 'Post-MI Med Regimen',
+    rationale: 'Standard post-MI discharge regimen includes aspirin (antiplatelet), a beta-blocker (-lol drug to reduce workload), a statin (atherosclerosis), and sublingual nitroglycerin for breakthrough pain. This protects the heart and prevents recurrence.',
+    others: {
+      0: 'Acetaminophen and supplements are not core post-MI therapy.',
+      1: 'Furosemide and digoxin are HF meds, not standard post-MI starters.',
+      3: 'Diabetes meds are not the standard post-MI regimen.'
+    }
+  },
+  {
+    topic: 'Coronary',
+    type: 'standard',
+    stem: 'A patient on the telemetry unit has just received metoprolol after a recent NSTEMI. The nurse is reviewing the latest vital signs: BP 92/58, HR 48, RR 16, SpO2 96%. What is the priority action?',
+    options: [
+      'Hold the next scheduled dose of metoprolol and notify the prescriber promptly',
+      'Continue the current beta-blocker regimen as ordered without changes',
+      'Increase the metoprolol dose to better control the patient heart rate',
+      'Administer atropine 0.5 mg intravenously to raise the heart rate quickly'
+    ],
+    answer: 0,
+    concept: 'Beta-blocker Hold Parameters',
+    rationale: 'BP 92/58 and HR 48 are outside the typical safety parameters for beta-blocker administration (commonly hold for SBP <100 or HR <60). The nurse should hold the dose and notify the provider.',
+    others: {
+      1: 'Continuing without addressing low HR/BP is unsafe.',
+      2: 'Increasing the dose worsens bradycardia and hypotension.',
+      3: 'Atropine is for symptomatic bradycardia, not asymptomatic medication-induced.'
+    }
+  },
+  {
+    topic: 'Coronary',
+    type: 'standard',
+    stem: 'A patient who just had a PCI for STEMI returns to the floor. Which assessment is the priority during the first hour post-procedure?',
+    options: [
+      'Bowel sounds in all four abdominal quadrants for normal motility',
+      'Pedal pulses, color, and temperature distal to the femoral access site',
+      'Reflexes in the lower extremities to identify any new neurologic changes',
+      'Skin turgor on the forearm to check the patient hydration status'
+    ],
+    answer: 1,
+    concept: 'Post-PCI Priority Assessment',
+    rationale: 'After PCI via femoral access, distal perfusion is the priority. The nurse must check pedal pulses, color, and temperature to detect arterial occlusion or hematoma. Bleeding at the site is also assessed frequently.',
+    others: {
+      0: 'Bowel sounds are not the priority post-PCI.',
+      2: 'Lower extremity reflexes are not relevant to the immediate post-PCI risks.',
+      3: 'Skin turgor is not the priority during the first hour.'
+    }
+  },
+  {
+    topic: 'Coronary',
+    type: 'standard',
+    stem: 'The nurse is admitting a patient with chest pain. Which finding most strongly supports a diagnosis of MI rather than stable angina?',
+    options: [
+      'Chest pain that resolves with sublingual nitroglycerin within 5 minutes',
+      'Predictable chest pressure that occurs with climbing 2 flights of stairs',
+      'Cool, clammy skin with troponin elevation and persistent chest pain',
+      'Chest discomfort that decreases with rest and quiet positioning at home'
+    ],
+    answer: 2,
+    concept: 'MI Recognition',
+    rationale: 'Cool, clammy skin paired with troponin elevation and persistent pain confirms MI. The biomarker rise is the lab confirmation; the clinical picture supports it.',
+    others: {
+      0: 'Pain relieved by nitro is consistent with stable angina.',
+      1: 'Predictable, exertional pain that is not progressive is stable angina.',
+      3: 'Pain relieved by rest is stable angina.'
+    }
+  },
+  {
+    topic: 'Coronary',
+    type: 'standard',
+    stem: 'A patient comes to the clinic with intermittent chest pain. The nurse suspects angina pectoris. Which question is MOST important to ask first?',
+    options: [
+      '"What were you doing right before each episode of chest pain started?"',
+      '"Have you ever had any food allergies or medication reactions before?"',
+      '"What type of insurance do you have and is your policy still active?"',
+      '"How many pillows do you typically sleep with each night at home?"'
+    ],
+    answer: 0,
+    concept: 'Angina History Taking',
+    rationale: 'Identifying triggers (exertion, stress, cold, eating) helps differentiate stable angina (predictable triggers) from unstable angina (rest pain or no trigger). This is the highest-yield question for initial assessment.',
+    others: {
+      1: 'Allergies matter but do not differentiate angina type.',
+      2: 'Insurance is administrative and not relevant to clinical assessment.',
+      3: 'Pillow questions assess HF, not the angina trigger pattern.'
+    }
+  },
+  {
+    topic: 'Coronary',
+    type: 'standard',
+    stem: 'A patient on the cardiac floor has an order for nitroglycerin 0.4 mg SL prn for chest pain. The patient reports chest pain rated 6 out of 10. Vital signs: BP 116/72, HR 88, RR 18, SpO2 97%. What action should the nurse take?',
+    options: [
+      'Hold the medication and notify the provider for further orders before giving',
+      'Administer the dose, position semi-Fowler, and reassess in 5 minutes',
+      'Administer 2 tablets at the same time to provide more rapid pain relief',
+      'Wait 30 minutes to see if the pain resolves on its own without medication'
+    ],
+    answer: 1,
+    concept: 'Nitro Administration',
+    rationale: 'Vital signs are within safe parameters for nitroglycerin (BP >90 systolic). The nurse should give the dose, position semi-Fowler to decrease cardiac workload, and reassess pain and BP in 5 minutes per protocol.',
+    others: {
+      0: 'No need to hold — VS are within safe range.',
+      2: 'Two tablets at once is not the protocol and worsens hypotension risk.',
+      3: 'Waiting 30 minutes during active chest pain is unsafe.'
+    }
+  },
+  {
+    topic: 'Coronary',
+    type: 'standard',
+    stem: 'A nurse is reinforcing teaching for a patient newly diagnosed with stable angina. Which lifestyle modification is MOST important to emphasize?',
+    options: [
+      'Increase intake of red meat to maintain adequate iron stores in the body',
+      'Stop smoking and avoid all forms of nicotine and tobacco product exposure',
+      'Drink at least 4 caffeinated beverages each morning to boost daily energy',
+      'Sleep at least 12 hours each night to give the heart muscle plenty of rest'
+    ],
+    answer: 1,
+    concept: 'CAD Lifestyle Modification',
+    rationale: 'Smoking cessation is one of the most important modifiable risk factors in CAD. Nicotine causes vasoconstriction and accelerates atherosclerosis. All forms of nicotine should be avoided.',
+    others: {
+      0: 'Increased red meat raises saturated fat intake and worsens atherosclerosis.',
+      2: 'Caffeine can trigger angina episodes through HR and BP effects.',
+      3: '12 hours of sleep is not a CAD recommendation — moderate exercise is.'
+    }
+  },
+  {
+    topic: 'Coronary',
+    type: 'standard',
+    stem: 'A patient experiencing acute MI is being prepared for emergent PCI. The patient says, "I am scared. Can you tell me what is happening to my heart?" Which response by the nurse is BEST?',
+    options: [
+      '"You are very sick and we cannot really stop to talk with you about it right now."',
+      '"Please try not to worry about what is happening — focus only on staying calm now."',
+      '"A blocked artery is keeping blood from reaching part of your heart, and we will open it up."',
+      '"There is no time to discuss any of this right now, just be quiet and let us work on you."'
+    ],
+    answer: 2,
+    concept: 'Patient Communication MI',
+    rationale: 'Brief, honest, calm explanation reduces anxiety, supports informed cooperation, and respects the patient as a person even during emergent care. Information delivered simply is therapeutic.',
+    others: {
+      0: 'Dismissing the patient violates therapeutic communication and dignity.',
+      1: 'Telling someone in fear not to worry is invalidating and unhelpful.',
+      3: 'Silencing a frightened patient is unethical and unhelpful.'
+    }
+  },
+  {
+    topic: 'Coronary',
+    type: 'standard',
+    stem: 'A patient is being treated for NSTEMI. Which laboratory result is MOST important for the nurse to monitor as a marker of myocardial damage over time?',
+    options: [
+      'Hemoglobin A1c level to monitor long-term glycemic control trends',
+      'BUN and creatinine levels for ongoing kidney function tracking',
+      'Total bilirubin and liver enzymes to identify hepatic complications',
+      'Serial troponin levels drawn at scheduled timed intervals after admission'
+    ],
+    answer: 3,
+    concept: 'Serial Troponin',
+    rationale: 'Serial troponin levels are drawn at scheduled intervals (typically on admission and every 3-6 hours) to track myocardial injury and confirm or rule out MI. The trend matters more than a single value.',
+    others: {
+      0: 'A1c reflects long-term glucose, not acute myocardial damage.',
+      1: 'BUN and creatinine assess kidney function, not myocardial injury.',
+      2: 'Liver enzymes are not the primary marker for MI.'
+    }
+  },
+  {
+    topic: 'Coronary',
+    type: 'standard',
+    stem: 'A nurse is caring for a patient 24 hours after an inferior STEMI. The patient reports new shortness of breath and chest tightness. Which action is the priority?',
+    options: [
+      'Reassure the patient that this is expected after a heart attack like theirs',
+      'Document the symptoms and reassess the patient again in 2 hours from now',
+      'Obtain vital signs and a 12-lead ECG, then notify the provider promptly',
+      'Encourage the patient to ambulate to prevent post-MI deconditioning'
+    ],
+    answer: 2,
+    concept: 'Post-MI Reinfarction',
+    rationale: 'New chest pain or SOB after MI may indicate reinfarction, extension, or a new complication. The nurse should obtain VS and a 12-lead ECG immediately and notify the provider.',
+    others: {
+      0: 'New symptoms post-MI are not expected — they require workup.',
+      1: 'Documenting and waiting 2 hours risks missing reinfarction.',
+      3: 'Ambulation during new chest pain or SOB is unsafe.'
+    }
+  },
+  {
+    topic: 'Coronary',
+    type: 'standard',
+    stem: 'The nurse is teaching a community health class about recognizing warning signs of a heart attack. Which statement by an audience member indicates correct understanding?',
+    options: [
+      '"Heart attacks always cause crushing chest pain, so I know I am safe if there is no pain."',
+      '"I should always drive myself to the hospital first because ambulances take far too long."',
+      '"Only men over the age of 50 truly need to worry about having a heart attack at any point."',
+      '"If I feel pressure that travels to my jaw or arm, I should chew an aspirin and call 911."'
+    ],
+    answer: 3,
+    concept: 'Public MI Recognition',
+    rationale: 'Pressure radiating to jaw, arm, neck, or back is a classic MI warning sign. Chewing an aspirin and calling 911 is the recommended action — chewable aspirin starts antiplatelet effect immediately.',
+    others: {
+      0: 'MI can present without classic crushing pain, especially in women, elderly, and diabetics.',
+      1: 'Driving during MI risks crashes and delays definitive care — call EMS.',
+      2: 'Women, younger people, and patients of all ages can have MIs.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let score = 0;
+let totalPoints = 0;
+let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_coronary_deepdrill';
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  document.getElementById('q-stem').textContent = q.stem;
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Exam-ready on cardio. Strong clinical reasoning across MI prioritization, nitro pitfalls, and atypical presentations.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed scenarios — application questions are where the final exam will challenge you most.';
+  else if (pct >= 60) msg = 'Below pass threshold. Review the missed concepts carefully and rerun this drill — the cardio chapter is 5 questions on the final.';
+  else msg = 'Significant gaps in application. Re-study Ch 23 review materials and the rationales below, then rerun this drill until you hit 77%+.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>
