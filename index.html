@@ -29,23 +29,26 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
 .tagline { color: var(--muted); font-size: 15px; max-width: 540px; margin: 0 auto; }
 
 /* Class router tabs */
-.class-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 32px; }
+.class-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 32px; }
 .class-tab { background: var(--card); border: 1.5px solid var(--line); border-radius: 12px; padding: 20px 24px; cursor: pointer; transition: all 0.2s; text-align: left; position: relative; overflow: hidden; }
 .class-tab:hover { border-color: var(--ink-soft); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(10, 37, 64, 0.08); }
 .class-tab.active { border-color: var(--navy); background: var(--card); box-shadow: 0 4px 12px rgba(10, 37, 64, 0.1); }
 .class-tab::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--line); transition: background 0.2s; }
 .class-tab.pharm.active::before { background: linear-gradient(90deg, var(--purple), #a855f7); }
 .class-tab.medsurg.active::before { background: linear-gradient(90deg, var(--teal), #14b8a6); }
+.class-tab.matpeds.active::before { background: linear-gradient(90deg, #be185d, #f97316); }
 .class-tab-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; color: var(--muted); }
 .class-tab.pharm.active .class-tab-eyebrow { color: var(--purple); }
 .class-tab.medsurg.active .class-tab-eyebrow { color: var(--teal); }
-.class-tab-name { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--navy); margin-bottom: 8px; line-height: 1.1; }
-.class-tab-meta { display: flex; gap: 14px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); }
+.class-tab.matpeds.active .class-tab-eyebrow { color: #be185d; }
+.class-tab-name { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--navy); margin-bottom: 8px; line-height: 1.1; }
+.class-tab-meta { display: flex; gap: 14px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); flex-wrap: wrap; }
 .class-tab-meta-item { display: flex; align-items: center; gap: 4px; }
 .class-tab-progress-bar { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; margin-top: 12px; }
 .class-tab-progress-fill { height: 100%; transition: width 0.4s; }
 .class-tab.pharm .class-tab-progress-fill { background: var(--purple); }
 .class-tab.medsurg .class-tab-progress-fill { background: var(--teal); }
+.class-tab.matpeds .class-tab-progress-fill { background: linear-gradient(90deg, #be185d, #f97316); }
 
 /* Top dashboard with progress ring (per-class) */
 .top-dashboard { display: grid; grid-template-columns: auto 1fr; gap: 32px; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 24px 32px; margin-bottom: 32px; }
@@ -54,6 +57,7 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
 .progress-ring-bg { fill: none; stroke: var(--line); stroke-width: 10; }
 .progress-ring-fill { fill: none; stroke: var(--teal); stroke-width: 10; stroke-linecap: round; transition: stroke-dashoffset 0.6s, stroke 0.3s; }
 .progress-ring-fill.pharm-ring { stroke: var(--purple); }
+.progress-ring-fill.matpeds-ring { stroke: #be185d; }
 .progress-ring-text { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .ring-pct { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--navy); line-height: 1; }
 .ring-label { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 1px; margin-top: 2px; text-transform: uppercase; }
@@ -170,6 +174,13 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
 .reset-btn { background: none; border: 1px solid var(--line); padding: 6px 12px; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); border-radius: 4px; cursor: pointer; letter-spacing: 0.5px; }
 .reset-btn:hover { color: var(--fail); border-color: var(--fail); }
 
+@media (max-width: 900px) {
+  .class-tabs { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .class-tab { padding: 14px 16px; }
+  .class-tab-name { font-size: 17px; }
+  .class-tab-meta { font-size: 10px; gap: 8px; }
+}
+
 @media (max-width: 720px) {
   .top-dashboard { grid-template-columns: 1fr; gap: 20px; padding: 20px; text-align: center; }
   .progress-ring-wrap { margin: 0 auto; }
@@ -211,6 +222,15 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
       <span class="class-tab-meta-item" id="medsurg-tab-meta-avg">— avg</span>
     </div>
     <div class="class-tab-progress-bar"><div class="class-tab-progress-fill" id="medsurg-tab-progress" style="width: 0%;"></div></div>
+  </div>
+  <div class="class-tab matpeds" data-class="matpeds" onclick="switchClass('matpeds')">
+    <div class="class-tab-eyebrow">Maternity / Peds</div>
+    <div class="class-tab-name">Mat & Peds Final</div>
+    <div class="class-tab-meta">
+      <span class="class-tab-meta-item" id="matpeds-tab-meta-quizzes">— quizzes</span>
+      <span class="class-tab-meta-item" id="matpeds-tab-meta-avg">— avg</span>
+    </div>
+    <div class="class-tab-progress-bar"><div class="class-tab-progress-fill" id="matpeds-tab-progress" style="width: 0%;"></div></div>
   </div>
 </div>
 
@@ -345,6 +365,36 @@ const medsurgSystems = [
   { id: 'renalendo', name: 'Renal & Endocrine', shortLabel: 'RE', color: '#2563eb', bg: '#eff6ff' }
 ];
 
+// MATERNITY / PEDIATRICS — 70 Q total (35 Mat + 35 Peds)
+const matpedsTopics = [
+  // MATERNITY (35 Q)
+  { ch: '8', name: 'Reproductive Cancers', desc: 'Endometrial cancer S/S, cryotherapy, cone biopsy, colposcopy', weight: 2, qCount: 25, key: 'mat_ch8', system: 'maternity', kcFile: 'mat_ch8_repro_cancers_kc.html', ddFile: 'mat_ch8_repro_cancers_dd.html', kcReady: false, ddReady: false },
+  { ch: '9', name: 'Cycle of Violence', desc: 'Phases of the cycle of violence', weight: 1, qCount: 15, key: 'mat_ch9', system: 'maternity', kcFile: 'mat_ch9_violence_kc.html', ddFile: 'mat_ch9_violence_dd.html', kcReady: false, ddReady: false },
+  { ch: '12', name: 'Antepartum Assessment', desc: 'GTPAL, NST parameters, Rhogam criteria', weight: 3, qCount: 25, key: 'mat_ch12', system: 'maternity', kcFile: 'mat_ch12_antepartum_kc.html', ddFile: 'mat_ch12_antepartum_dd.html', kcReady: false, ddReady: false },
+  { ch: '13', name: 'Premonitory Signs of Labor', desc: 'Braxton Hicks, lightening, nesting, fetal positions', weight: 3, qCount: 25, key: 'mat_ch13', system: 'maternity', kcFile: 'mat_ch13_premonitory_kc.html', ddFile: 'mat_ch13_premonitory_dd.html', kcReady: false, ddReady: false },
+  { ch: '15', name: 'Postpartum Care', desc: 'Postpartum complications, fundal height', weight: 2, qCount: 25, key: 'mat_ch15', system: 'maternity', kcFile: 'mat_ch15_postpartum_kc.html', ddFile: 'mat_ch15_postpartum_dd.html', kcReady: false, ddReady: false },
+  { ch: '17', name: 'Newborn Adaptation', desc: 'Heat exchange, newborn VS, extrauterine changes', weight: 3, qCount: 25, key: 'mat_ch17', system: 'maternity', kcFile: 'mat_ch17_newborn_adapt_kc.html', ddFile: 'mat_ch17_newborn_adapt_dd.html', kcReady: false, ddReady: false },
+  { ch: '18', name: 'Newborn Reflexes', desc: 'Importance of newborn reflexes', weight: 1, qCount: 15, key: 'mat_ch18', system: 'maternity', kcFile: 'mat_ch18_reflexes_kc.html', ddFile: 'mat_ch18_reflexes_dd.html', kcReady: false, ddReady: false },
+  { ch: '19', name: 'Amniotic Fluid Imbalances', desc: 'Polyhydramnios, oligohydramnios', weight: 1, qCount: 15, key: 'mat_ch19', system: 'maternity', kcFile: 'mat_ch19_amniotic_kc.html', ddFile: 'mat_ch19_amniotic_dd.html', kcReady: false, ddReady: false },
+  { ch: '20', name: 'High-Risk Pregnancy', desc: 'GDM, CMV/GBS, abnormal bleeding, preeclampsia', weight: 4, qCount: 25, key: 'mat_ch20', system: 'maternity', kcFile: 'mat_ch20_highrisk_kc.html', ddFile: 'mat_ch20_highrisk_dd.html', kcReady: false, ddReady: false },
+  { ch: '21', name: 'Labor Complications', desc: 'Dystocia, forceps/vacuum, shoulder dystocia maneuvers', weight: 3, qCount: 25, key: 'mat_ch21', system: 'maternity', kcFile: 'mat_ch21_labor_complications_kc.html', ddFile: 'mat_ch21_labor_complications_dd.html', kcReady: false, ddReady: false },
+  { ch: '22', name: 'Postpartum Hemorrhage', desc: 'Late postpartum hemorrhage', weight: 1, qCount: 15, key: 'mat_ch22', system: 'maternity', kcFile: 'mat_ch22_pph_kc.html', ddFile: 'mat_ch22_pph_dd.html', kcReady: false, ddReady: false },
+  { ch: '23', name: 'High-Risk Newborn', desc: 'LGA/SGA, preterm/post-term newborn', weight: 5, qCount: 25, key: 'mat_ch23', system: 'maternity', kcFile: 'mat_ch23_highrisk_newborn_kc.html', ddFile: 'mat_ch23_highrisk_newborn_dd.html', kcReady: false, ddReady: false },
+  { ch: '24', name: 'Acquired Newborn Disorders', desc: 'Esophageal atresia, sepsis, RDS, MAS, NEC, birth injuries', weight: 5, qCount: 25, key: 'mat_ch24', system: 'maternity', kcFile: 'mat_ch24_acquired_disorders_kc.html', ddFile: 'mat_ch24_acquired_disorders_dd.html', kcReady: false, ddReady: false },
+
+  // PEDIATRICS (35 Q across Ch 47-51)
+  { ch: '47', name: 'Immune & Rheumatic', desc: 'SCID, JIA, HIV, anaphylaxis, IVIG, SLE, primary immunodeficiency', weight: 7, qCount: 25, key: 'peds_ch47', system: 'pediatrics', kcFile: 'peds_ch47_immune_kc.html', ddFile: 'peds_ch47_immune_dd.html', kcReady: false, ddReady: false },
+  { ch: '48', name: 'Endocrine', desc: 'Precocious puberty, DI, SIADH, hypothyroid, Graves, DM, GH deficiency', weight: 7, qCount: 25, key: 'peds_ch48', system: 'pediatrics', kcFile: 'peds_ch48_endocrine_kc.html', ddFile: 'peds_ch48_endocrine_dd.html', kcReady: false, ddReady: false },
+  { ch: '49', name: 'Genetic Disorders', desc: 'PKU, neurofibromatosis, Klinefelter, Turner, parental education', weight: 6, qCount: 25, key: 'peds_ch49', system: 'pediatrics', kcFile: 'peds_ch49_genetic_kc.html', ddFile: 'peds_ch49_genetic_dd.html', kcReady: false, ddReady: false },
+  { ch: '50', name: 'Behavioral & Cognitive', desc: 'Autism, anorexia, bulimia, ADHD, suicide risk, learning disabilities', weight: 6, qCount: 25, key: 'peds_ch50', system: 'pediatrics', kcFile: 'peds_ch50_behavioral_kc.html', ddFile: 'peds_ch50_behavioral_dd.html', kcReady: false, ddReady: false },
+  { ch: '51', name: 'Pediatric Emergencies', desc: 'LEAN, DOPE, shock types, ingestions, infant airway, CPR', weight: 9, qCount: 30, key: 'peds_ch51', system: 'pediatrics', kcFile: 'peds_ch51_emergencies_kc.html', ddFile: 'peds_ch51_emergencies_dd.html', kcReady: false, ddReady: false }
+];
+
+const matpedsSystems = [
+  { id: 'maternity', name: 'Maternity (35 Q)', shortLabel: 'MAT', color: '#be185d', bg: '#fdf2f8' },
+  { id: 'pediatrics', name: 'Pediatrics (35 Q)', shortLabel: 'PEDS', color: '#c2410c', bg: '#fff7ed' }
+];
+
 const classConfig = {
   pharm: {
     topics: pharmTopics,
@@ -362,6 +412,15 @@ const classConfig = {
     simEyebrow: 'MedSurg I Final · 75 Q · Pass at 77%',
     simTitle: 'MedSurg Final Simulation',
     simDesc: 'All sections weighted to blueprint. Fresh questions not in topic quizzes.',
+    simReady: false
+  },
+  matpeds: {
+    topics: matpedsTopics,
+    systems: matpedsSystems,
+    qPerQuiz: 25,
+    simEyebrow: 'Maternity / Peds Final · 70 Q · 105 minutes',
+    simTitle: 'Maternity / Peds Simulation',
+    simDesc: '35 Maternity (Ch 8-24) · 35 Pediatrics (Ch 47-51)',
     simReady: false
   }
 };
@@ -632,6 +691,7 @@ function updateDashboard() {
   const ringEl = document.getElementById('progress-ring');
   ringEl.style.strokeDashoffset = offset;
   ringEl.classList.toggle('pharm-ring', currentClass === 'pharm');
+  ringEl.classList.toggle('matpeds-ring', currentClass === 'matpeds');
   document.getElementById('ring-pct').textContent = `${attemptedPct.toFixed(0)}%`;
 
   document.getElementById('stat-attempted').textContent = `${attemptedCount}/${totalAvailable}`;
@@ -644,8 +704,8 @@ function updateDashboard() {
   }
   document.getElementById('stat-bank').textContent = bankSize;
 
-  // Update tab metadata for both classes
-  ['pharm', 'medsurg'].forEach(cls => {
+  // Update tab metadata for all classes
+  ['pharm', 'medsurg', 'matpeds'].forEach(cls => {
     const cfg = classConfig[cls];
     let tAtt = 0, tTot = 0, tSum = 0, tCnt = 0;
     cfg.topics.forEach(t => {
@@ -671,10 +731,12 @@ function updateDashboard() {
 // ===== SIMULATOR =====
 function renderSimulator() {
   const config = classConfig[currentClass];
-  // Pharm uses existing 'score_exam_simulator' key; medsurg will use 'score_medsurg_simulator_attempt'
-  const sim = currentClass === 'pharm'
-    ? getScore('exam', 'simulator')
-    : getScore('medsurg_simulator', 'attempt');
+  // Pharm uses existing 'score_exam_simulator' key; medsurg uses 'score_medsurg_simulator_attempt'; matpeds uses 'score_matpeds_simulator_attempt'
+  let sim = null;
+  if (currentClass === 'pharm') sim = getScore('exam', 'simulator');
+  else if (currentClass === 'medsurg') sim = getScore('medsurg_simulator', 'attempt');
+  else if (currentClass === 'matpeds') sim = getScore('matpeds_simulator', 'attempt');
+
   const scoreEl = document.getElementById('sim-score');
   const statusEl = document.getElementById('sim-status');
   const btnEl = document.getElementById('sim-btn');
@@ -693,7 +755,9 @@ function renderSimulator() {
 
   if (config.simReady) {
     btnEl.textContent = sim ? 'Retake Simulator' : 'Start Simulator';
-    btnEl.href = currentClass === 'pharm' ? 'exam_simulator.html' : 'medsurg_exam_simulator.html';
+    if (currentClass === 'pharm') btnEl.href = 'exam_simulator.html';
+    else if (currentClass === 'medsurg') btnEl.href = 'medsurg_exam_simulator.html';
+    else if (currentClass === 'matpeds') btnEl.href = 'matpeds_exam_simulator.html';
   } else {
     btnEl.classList.add('disabled');
     btnEl.textContent = 'Coming Soon';
