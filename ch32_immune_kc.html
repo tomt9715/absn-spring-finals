@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 32 Immune Deficiency — Knowledge Check</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-soft: #14b8a6;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+      --partial: #d97706;
+      --partial-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .start-stat { text-align: center; padding: 18px 12px; background: var(--teal-pale); border-radius: 8px; border: 1px solid var(--line); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--teal); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer; background: var(--teal); color: white; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--teal); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--teal-soft); background: var(--teal-pale); }
+    .option.selected { border-color: var(--teal); background: var(--teal-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--teal); color: white; border-color: var(--teal); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--teal-pale); border-left: 3px solid var(--teal); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--teal); color: white; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--teal); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Knowledge Check · Chapter 32</div>
+  <h1>Immune Deficiency Disorders</h1>
+  <p class="tagline">Direct recall: HIV stages by CD4+ count, opportunistic infections, HAART/ART therapy, viral load goals, and adherence.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">20</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">MC</span><span class="start-stat-label">Format</span></div>
+      <div class="start-stat"><span class="start-stat-num">Yes</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">Each question is direct recall from your review guides. Answer, get instant rationale, move on.</p>
+    <button class="btn" onclick="begin()">Begin</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 20</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Knowledge Check</div>
+    <h1>Immune Deficiency Disorders</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 20 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Quiz</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'Which CD4+ T-cell count defines Stage 1 of HIV infection?',
+    options: [
+      'CD4+ count less than 100',
+      'CD4+ count between 200 and 499',
+      'CD4+ count less than 200',
+      'CD4+ count greater than 500'
+    ],
+    answer: 3,
+    concept: 'Stage 1 HIV',
+    rationale: 'Stage 1 (acute stage) of HIV is defined by CD4+ count greater than 500. The immune system is healthy in this stage but the virus is transmissible.',
+    others: {
+      0: 'CD4+ <100 is severe AIDS-stage immunosuppression.',
+      1: 'CD4+ 200-499 is Stage 2 (latency).',
+      2: 'CD4+ <200 is Stage 3 (AIDS).'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'A patient with HIV in Stage 2 (latency) typically has which CD4+ count?',
+    options: [
+      'CD4+ count 200 to 499',
+      'CD4+ count greater than 500',
+      'CD4+ count less than 100',
+      'CD4+ count greater than 1500'
+    ],
+    answer: 0,
+    concept: 'Stage 2 HIV',
+    rationale: 'Stage 2 (latency) of HIV is defined by CD4+ count between 200 and 499. This stage can last 8 years or longer and includes lymphadenopathy.',
+    others: {
+      1: 'CD4+ >500 is Stage 1 (acute).',
+      2: 'CD4+ <100 is severe AIDS.',
+      3: 'CD4+ >1500 is well above HIV staging ranges.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'A patient is diagnosed with AIDS. Which CD4+ count threshold defines this?',
+    options: [
+      'CD4+ count less than 200',
+      'CD4+ count less than 500',
+      'CD4+ count greater than 200',
+      'CD4+ count greater than 1000'
+    ],
+    answer: 0,
+    concept: 'AIDS Diagnosis',
+    rationale: 'AIDS (Stage 3) is diagnosed when CD4+ count is less than 200. At this stage, the patient is at severe risk for opportunistic infections.',
+    others: {
+      1: 'CD4+ <500 is too high to define AIDS.',
+      2: 'CD4+ >200 does not meet AIDS threshold.',
+      3: 'CD4+ >1000 is above HIV staging ranges entirely.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'Which finding is characteristic of Stage 2 (latency) of HIV?',
+    options: [
+      'Fever and acute flu-like symptoms only',
+      'Active opportunistic infections like Pneumocystis',
+      'Severe wasting syndrome from prolonged weight loss',
+      'Lymphadenopathy with positive HIV antibodies'
+    ],
+    answer: 3,
+    concept: 'Stage 2 Findings',
+    rationale: 'Stage 2 (latency) presents with lymphadenopathy (swollen lymph nodes) and positive HIV antibodies. This stage can last 8+ years before progression.',
+    others: {
+      0: 'Acute flu-like symptoms occur in Stage 1.',
+      1: 'Opportunistic infections occur in Stage 3 (AIDS).',
+      2: 'Wasting syndrome is a Stage 3 finding.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'Which is an opportunistic infection commonly seen in patients with AIDS?',
+    options: [
+      'Common cold caused by rhinovirus',
+      'Pneumocystis pneumonia (PCP)',
+      'Mild seasonal allergy with sneezing',
+      'Routine UTI from typical bacteria'
+    ],
+    answer: 1,
+    concept: 'Opportunistic Infections',
+    rationale: 'Pneumocystis pneumonia (PCP) is a classic opportunistic infection in AIDS. Other examples include tuberculosis, oral candidiasis (thrush), Kaposi sarcoma, and severe wasting syndrome.',
+    others: {
+      0: 'Common cold can affect anyone and is not an AIDS-defining infection.',
+      2: 'Allergies are not opportunistic infections.',
+      3: 'Routine UTIs are not AIDS-defining infections.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'A patient with AIDS develops white plaques on the tongue and inside the mouth. The nurse identifies this as:',
+    options: [
+      'Kaposi sarcoma lesions in the oral cavity',
+      'Oral candidiasis (thrush) infection',
+      'Active tuberculosis with oral spread',
+      'Common dental plaque buildup over time'
+    ],
+    answer: 1,
+    concept: 'Oral Candidiasis',
+    rationale: 'White plaques on the tongue and oral mucosa are characteristic of oral candidiasis (thrush). It is a common opportunistic fungal infection in AIDS patients due to immune suppression.',
+    others: {
+      0: 'Kaposi sarcoma presents as purplish skin lesions, not white oral plaques.',
+      2: 'TB primarily affects the lungs, not oral plaques.',
+      3: 'Dental plaque is yellow-white tartar, not the same as candida plaques.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'Which lab finding is the goal for a patient on HIV treatment?',
+    options: [
+      'Low CD4+ count and high viral load',
+      'High CD4+ count and low viral load',
+      'Low CD4+ count and low viral load',
+      'High CD4+ count and high viral load'
+    ],
+    answer: 1,
+    concept: 'HIV Lab Goals',
+    rationale: 'The goal for HIV treatment is HIGH CD4+ cell count and LOW viral load. High CD4+ means stronger immunity; low viral load means medications are suppressing the virus effectively.',
+    others: {
+      0: 'Low CD4 + high viral load is the worst outcome.',
+      2: 'Low CD4 + low viral load is mixed and not the goal.',
+      3: 'High CD4 + high viral load is mixed and not the goal.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'A patient is starting HAART therapy. Which teaching is the MOST critical?',
+    options: [
+      'You can stop the medication once you feel completely well',
+      'You can take it once every other day to reduce side effects',
+      'You can adjust the dose based on how strong you feel each day',
+      'Doses must NEVER be missed because missing leads to drug resistance'
+    ],
+    answer: 3,
+    concept: 'HAART Adherence',
+    rationale: 'Adherence to HAART is CRITICAL — missing doses leads to drug resistance, treatment failure, and disease progression. Doses must NOT be missed once therapy is started.',
+    others: {
+      0: 'Stopping HAART when feeling well is dangerous.',
+      1: 'Skipping doses every other day leads to resistance.',
+      2: 'Self-adjusting doses is unsafe.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'A patient with HIV asks if HAART/ART therapy will cure their disease. Which response by the nurse is BEST?',
+    options: [
+      '"Yes, completing the full course will fully eliminate HIV from your body."',
+      '"ART saves lives but does not cure HIV — it controls the virus."',
+      '"HIV will resolve on its own within 5 years of taking the medication."',
+      '"This medication is only used as a temporary bridge for a few months."'
+    ],
+    answer: 1,
+    concept: 'ART Cure Education',
+    rationale: 'ART saves lives but DOES NOT CURE HIV. It suppresses the virus, raises CD4+, and prevents progression to AIDS, but the virus remains in the body. Lifelong therapy is required.',
+    others: {
+      0: 'HIV cannot currently be cured.',
+      2: 'HIV does not resolve on its own.',
+      3: 'ART is lifelong, not a temporary bridge.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'Which finding indicates that an HIV patient is in Stage 1?',
+    options: [
+      'Severe weight loss (wasting syndrome) with multiple opportunistic infections',
+      'Asymptomatic or with acute fever and flu-like symptoms; CD4+ greater than 500',
+      'Persistent oral thrush, tuberculosis, and Kaposi sarcoma',
+      'Pneumocystis pneumonia with CD4+ count of 100'
+    ],
+    answer: 1,
+    concept: 'Stage 1 Presentation',
+    rationale: 'Stage 1 (acute) is characterized by either asymptomatic infection or acute fever and flu-like symptoms with CD4+ >500. The immune system is still healthy at this stage.',
+    others: {
+      0: 'Wasting syndrome with opportunistic infections is Stage 3 (AIDS).',
+      2: 'Multiple opportunistic infections is Stage 3 (AIDS).',
+      3: 'PCP with CD4+ 100 is Stage 3 (AIDS).'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'A patient with HIV in Stage 1 wants to know if they can transmit the virus. Which response is MOST accurate?',
+    options: [
+      'The virus is not transmissible until the AIDS stage develops',
+      'The virus is only transmissible during the latency stage',
+      'The virus is no longer transmissible once HAART is started',
+      'The virus is transmissible to others starting in Stage 1'
+    ],
+    answer: 3,
+    concept: 'HIV Transmission',
+    rationale: 'HIV is transmissible to others starting in Stage 1 (acute stage), even when the patient is asymptomatic. Transmission occurs through blood, sexual contact, sharing needles, and perinatally.',
+    others: {
+      0: 'HIV is transmissible from Stage 1 onward.',
+      1: 'Transmission is possible across all stages.',
+      2: 'HAART reduces but does not always eliminate transmissibility (until viral load is undetectable).'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'How long can the latency stage of HIV (Stage 2) last?',
+    options: [
+      'A few days to several weeks at most',
+      'About 6 months on average for most adults',
+      '8 years or longer in many patients',
+      'Less than 1 year before AIDS develops'
+    ],
+    answer: 2,
+    concept: 'Latency Duration',
+    rationale: 'The latency stage (Stage 2) can last 8 years or longer. The patient may be relatively asymptomatic with lymphadenopathy during this prolonged period.',
+    others: {
+      0: 'A few days to weeks is far too short.',
+      1: '6 months is too short for the latency stage.',
+      3: 'Less than 1 year is too short.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'Which is an AIDS-defining opportunistic infection caused by a fungus?',
+    options: [
+      'Pneumocystis pneumonia (PCP)',
+      'Tuberculosis caused by Mycobacterium',
+      'Bacterial pneumonia from common pathogens',
+      'Common cold from a rhinovirus'
+    ],
+    answer: 0,
+    concept: 'PCP Fungal',
+    rationale: 'Pneumocystis pneumonia (PCP) is caused by the fungus Pneumocystis jirovecii. It is a classic AIDS-defining infection in patients with CD4+ <200.',
+    others: {
+      1: 'Tuberculosis is bacterial, not fungal.',
+      2: 'Bacterial pneumonia is bacterial, not fungal.',
+      3: 'Common cold is viral, not fungal.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'Which AIDS-defining opportunistic illness presents as purplish skin lesions?',
+    options: [
+      'Kaposi sarcoma',
+      'Oral candidiasis',
+      'Pneumocystis pneumonia',
+      'Tuberculosis'
+    ],
+    answer: 0,
+    concept: 'Kaposi Sarcoma',
+    rationale: 'Kaposi sarcoma is a vascular cancer that presents as purplish or dark red lesions on the skin or mucous membranes. It is a common AIDS-defining illness.',
+    others: {
+      1: 'Oral candidiasis presents as white plaques, not purplish lesions.',
+      2: 'PCP is a lung infection, not skin lesions.',
+      3: 'TB primarily affects the lungs, not skin.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'Which finding is associated with severe wasting syndrome in AIDS?',
+    options: [
+      'Mild weight gain over several months',
+      'Stable body weight with normal appetite',
+      'Increased muscle mass from physical therapy',
+      'Severe involuntary weight loss'
+    ],
+    answer: 3,
+    concept: 'Wasting Syndrome',
+    rationale: 'Wasting syndrome in AIDS is characterized by severe involuntary weight loss (typically >10% of baseline body weight) often paired with chronic diarrhea, fever, and weakness. It is an AIDS-defining condition.',
+    others: {
+      0: 'Weight gain is opposite of wasting.',
+      1: 'Stable weight is not wasting.',
+      2: 'Increased muscle mass is opposite of wasting.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'A patient newly diagnosed with HIV in Stage 1 is being educated by the nurse. The PRIMARY goal in this stage is:',
+    options: [
+      'Begin hospice planning right away for end-of-life care',
+      'Identify quickly, start meds, and keep CD4+ greater than 500',
+      'Stop all socialization to prevent transmission to others',
+      'Avoid any kind of treatment until the latency stage starts'
+    ],
+    answer: 1,
+    concept: 'Stage 1 Goal',
+    rationale: 'In Stage 1, the goal is to identify the infection quickly, ensure the patient is taking medications, and manage symptoms — keeping the CD4+ count greater than 500. Early treatment improves long-term outcomes significantly.',
+    others: {
+      0: 'Hospice is not appropriate in early HIV.',
+      2: 'Stopping socialization is not necessary; safer practices are taught instead.',
+      3: 'Delaying treatment causes disease progression.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'Which patient is at GREATEST risk for opportunistic infections?',
+    options: [
+      'Patient with HIV and CD4+ count of 700',
+      'Patient with HIV and CD4+ count of 400',
+      'Patient with HIV and CD4+ count of 80',
+      'Patient with HIV and CD4+ count of 1000'
+    ],
+    answer: 2,
+    concept: 'Opportunistic Infection Risk',
+    rationale: 'CD4+ count of 80 indicates severe immune deficiency (Stage 3 / AIDS). At this level, the patient is at severe risk for opportunistic infections like PCP, TB, candidiasis, and Kaposi sarcoma.',
+    others: {
+      0: 'CD4+ 700 is Stage 1 with healthy immunity.',
+      1: 'CD4+ 400 is Stage 2 with intermediate risk.',
+      3: 'CD4+ 1000 is normal range, not at risk.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'Which disease is a common opportunistic infection in patients with AIDS?',
+    options: [
+      'Strep throat caused by group A streptococcus',
+      'Tuberculosis',
+      'Acute appendicitis',
+      'Allergic rhinitis (hay fever)'
+    ],
+    answer: 1,
+    concept: 'TB Opportunistic',
+    rationale: 'Tuberculosis is a common opportunistic infection in AIDS. The compromised immune system cannot effectively contain Mycobacterium tuberculosis, leading to active disease.',
+    others: {
+      0: 'Strep throat is not an AIDS-defining illness.',
+      2: 'Appendicitis is not an opportunistic infection.',
+      3: 'Allergic rhinitis is not opportunistic.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'A patient with HIV reports inconsistent adherence to HAART. The nurse explains that missing doses can lead to:',
+    options: [
+      'Spontaneous cure of HIV without further treatment',
+      'Faster recovery without ongoing risk of resistance',
+      'Drug resistance, treatment failure, and progression',
+      'Improved immune function with fewer side effects'
+    ],
+    answer: 2,
+    concept: 'Drug Resistance',
+    rationale: 'Missing HAART doses leads to drug resistance — the virus mutates to resist the medication, causing treatment failure and disease progression. Adherence is critical for sustained viral suppression.',
+    others: {
+      0: 'HIV does not spontaneously resolve.',
+      1: 'Skipping doses causes harm, not faster recovery.',
+      2: 'This is correct — drug resistance and progression result from missed doses.',
+      3: 'Skipping doses worsens immune function.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'Which patient finding most directly indicates progression from HIV to AIDS?',
+    options: [
+      'Persistent flu-like symptoms in the first month after exposure',
+      'CD4+ count of 850 with no opportunistic infections',
+      'CD4+ count below 200 or development of an AIDS-defining illness',
+      'Mild fatigue with normal CD4+ counts and no infections'
+    ],
+    answer: 2,
+    concept: 'AIDS Progression',
+    rationale: 'AIDS is diagnosed when CD4+ count drops below 200 OR when an AIDS-defining illness (PCP, TB, Kaposi sarcoma, oral candidiasis, wasting) develops, regardless of CD4+ count.',
+    others: {
+      0: 'Flu-like symptoms are Stage 1.',
+      1: 'CD4+ 850 is healthy Stage 1, not AIDS.',
+      3: 'Mild fatigue with normal CD4+ is not AIDS.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let score = 0;
+let totalPoints = 0;
+let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_immune_knowledge';
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  document.getElementById('q-stem').textContent = q.stem;
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong recall on HIV/AIDS staging and management. Move on to the Deep Drill for application scenarios.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed concepts below before moving to the Deep Drill.';
+  else if (pct >= 60) msg = 'Below pass threshold. Re-read Ch 32, retry, then move to the Deep Drill.';
+  else msg = 'Lots of room to grow. Re-study Ch 32 carefully — HIV stages, opportunistic infections, HAART — and run this again.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>

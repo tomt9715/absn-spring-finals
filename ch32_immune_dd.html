@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 32 Immune Deficiency — Deep Drill</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-soft: #14b8a6;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-soft: #8b5cf6;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+      --partial: #d97706;
+      --partial-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--purple); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .start-stat { text-align: center; padding: 18px 12px; background: var(--purple-pale); border-radius: 8px; border: 1px solid var(--line); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--purple); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer; background: var(--purple); color: white; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--purple); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--purple-soft); background: var(--purple-pale); }
+    .option.selected { border-color: var(--purple); background: var(--purple-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--purple); color: white; border-color: var(--purple); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--purple-pale); border-left: 3px solid var(--purple); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--purple); color: white; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--purple); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Deep Drill · Chapter 32</div>
+  <h1>Immune Deficiency Disorders</h1>
+  <p class="tagline">NCLEX-style application: HIV staging interpretation, opportunistic infection recognition, HAART adherence priorities, and infection prevention scenarios.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">20</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">MC</span><span class="start-stat-label">Format</span></div>
+      <div class="start-stat"><span class="start-stat-num">Yes</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">These are scenario-based application questions. Read carefully, watch for distractors, and reason through priority before selecting.</p>
+    <button class="btn" onclick="begin()">Begin</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 20</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Deep Drill</div>
+    <h1>Immune Deficiency Disorders</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 20 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Quiz</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'A patient with HIV has a CD4+ count of 145 and is admitted with productive cough, fever, and dyspnea. Chest X-ray shows bilateral infiltrates. Which infection does the nurse most likely suspect?',
+    options: [
+      'Allergic rhinitis from seasonal pollens',
+      'Pneumocystis pneumonia (PCP)',
+      'Common cold caused by rhinovirus',
+      'Acute bronchitis from a routine virus'
+    ],
+    answer: 1,
+    concept: 'PCP Recognition',
+    rationale: 'CD4+ <200 + productive cough + bilateral infiltrates classically suggests Pneumocystis pneumonia (PCP). It is one of the most common opportunistic infections in AIDS.',
+    others: {
+      0: 'Allergic rhinitis does not present this way.',
+      2: 'Common cold does not produce bilateral infiltrates.',
+      3: 'Acute bronchitis is not classically associated with AIDS.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'A nurse is teaching a patient newly diagnosed with HIV about HAART. Which patient statement requires further teaching?',
+    options: [
+      '"I will take all of my medications exactly as prescribed every day."',
+      '"I understand that missing doses can lead to drug resistance."',
+      '"I will continue ART for the rest of my life unless told otherwise."',
+      '"I will stop my meds once my viral load becomes undetectable."'
+    ],
+    answer: 3,
+    concept: 'Lifelong ART',
+    rationale: 'ART is lifelong. Even when viral load is undetectable, the virus remains in the body. Stopping treatment causes the virus to rebound, leading to disease progression and resistance.',
+    others: {
+      0: 'Taking meds exactly as prescribed is correct.',
+      1: 'Understanding that missing doses leads to resistance is correct.',
+      2: 'Lifelong ART is correct teaching.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'A nurse is caring for a patient with AIDS and a CD4+ count of 75. Which precautions are most appropriate?',
+    options: [
+      'Standard precautions only with no isolation needed',
+      'Contact precautions to prevent skin transmission',
+      'Neutropenic precautions to protect the patient from infection',
+      'Airborne precautions to protect staff from the virus'
+    ],
+    answer: 2,
+    concept: 'Neutropenic Precautions',
+    rationale: 'A patient with severe immune deficiency (CD4+ <100) needs neutropenic precautions to protect THEM from infection — no fresh flowers, no fresh fruits/raw vegetables, no sick visitors, strict hand hygiene.',
+    others: {
+      0: 'Standard precautions alone are not enough for severe immunocompromise.',
+      1: 'Contact precautions are for infection containment, not for protecting the patient.',
+      3: 'Airborne precautions are for active TB or similar, not routine HIV care.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'A patient with HIV reports white plaques on the tongue that scrape off easily, leaving a red base. The nurse anticipates which order?',
+    options: [
+      'IV vancomycin for bacterial infection treatment',
+      'IV acyclovir for viral infection treatment',
+      'Antihistamine such as diphenhydramine for allergy',
+      'Antifungal medication such as nystatin oral suspension'
+    ],
+    answer: 3,
+    concept: 'Thrush Treatment',
+    rationale: 'White plaques on the tongue that scrape off (oral candidiasis / thrush) are caused by Candida fungus. Treatment is antifungal — nystatin oral suspension is commonly prescribed. Patients swish and swallow.',
+    others: {
+      0: 'Vancomycin is for bacterial infection, not fungal.',
+      1: 'Acyclovir is for herpes viruses, not candida.',
+      2: 'Antihistamines are for allergies, not fungal infections.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'A pregnant patient is HIV-positive with an undetectable viral load on ART. Which counseling statement is the BEST?',
+    options: [
+      '"Continuing ART through pregnancy can dramatically reduce transmission to your baby."',
+      '"You should stop ART immediately to protect your baby from the medications."',
+      '"There is nothing you can do to reduce the risk of giving HIV to your baby."',
+      '"Breastfeeding is the safest way to protect your newborn from infection."'
+    ],
+    answer: 0,
+    concept: 'Perinatal HIV Prevention',
+    rationale: 'Continuing ART during pregnancy with undetectable viral load dramatically reduces perinatal HIV transmission. ART is continued throughout pregnancy and the newborn typically receives prophylactic ART.',
+    others: {
+      1: 'Stopping ART risks viral rebound and increases transmission risk.',
+      2: 'There IS something to do — continue ART to suppress the virus.',
+      3: 'Breastfeeding is generally NOT recommended in HIV+ mothers in countries with safe formula access.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'A nurse is providing infection prevention education to a patient with AIDS and CD4+ 80. Which teaching is appropriate?',
+    options: [
+      'Avoid fresh flowers, raw fruits, and undercooked meats at home',
+      'Eat ample raw vegetables and unpasteurized dairy products daily',
+      'Spend time in crowded indoor venues to build up immunity slowly',
+      'Stop washing hands so frequently to support normal skin flora'
+    ],
+    answer: 0,
+    concept: 'AIDS Infection Prevention',
+    rationale: 'Patients with severe immune deficiency must avoid fresh flowers (fungal spores), raw fruits/vegetables (bacterial contamination), and undercooked meats (foodborne pathogens). Strict hand hygiene and avoiding crowds are essential.',
+    others: {
+      1: 'Raw vegetables and unpasteurized dairy are unsafe.',
+      2: 'Crowded venues increase exposure risk.',
+      3: 'Frequent handwashing is essential, not optional.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'A patient with HIV asks why CD4+ count and viral load are checked regularly. Which response is BEST?',
+    options: [
+      '"They tell us if you are eating enough nutritious food at every meal."',
+      '"They show how strong your immune system is and how well your meds are working."',
+      '"They are required hospital procedures with no clinical purpose at all."',
+      '"They only matter if you start having symptoms of any new illnesses."'
+    ],
+    answer: 1,
+    concept: 'CD4 Viral Load Monitoring',
+    rationale: 'CD4+ count reflects immune system strength; viral load reflects how well ART is suppressing the virus. Both are monitored together to track disease progression and treatment effectiveness.',
+    others: {
+      0: 'These labs are not nutrition tracking.',
+      2: 'They have specific clinical purpose.',
+      3: 'They matter even when asymptomatic.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'A nurse is reviewing labs on a patient with HIV. The CD4+ count has improved from 180 to 410 and viral load decreased from 50,000 to <50 (undetectable). The nurse interprets these results as:',
+    options: [
+      'Treatment failure requiring an immediate medication change',
+      'Effective treatment response — continue current ART',
+      'Worsening disease progression toward Stage 3 AIDS',
+      'A laboratory error that should be drawn again right away'
+    ],
+    answer: 1,
+    concept: 'Effective ART',
+    rationale: 'CD4+ rising and viral load becoming undetectable indicate effective ART. The patient should continue the current regimen. This is the goal of HIV treatment.',
+    others: {
+      0: 'These results show treatment success, not failure.',
+      2: 'CD4+ rising indicates improvement, not progression.',
+      3: 'These trends are consistent and not lab errors.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'A 19-year-old patient is being tested for HIV after potential exposure. They are anxious and ask, "How accurate is this test?" Which response is BEST?',
+    options: [
+      '"You should not worry about the result and just go home for now."',
+      '"Modern HIV testing is very accurate, and we will discuss your result with you."',
+      '"The test is right about 50 percent of the time at most centers."',
+      '"You will need to test 50 times before getting a reliable result."'
+    ],
+    answer: 1,
+    concept: 'Therapeutic Communication',
+    rationale: 'Modern HIV testing (4th gen antigen/antibody combo, RNA testing) is very accurate. The nurse should reassure the patient about test accuracy and offer to discuss results compassionately when available.',
+    others: {
+      0: 'Dismissing concerns is not therapeutic.',
+      2: '50% accuracy is incorrect.',
+      3: '50 tests is not realistic.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'Which patient with HIV is at HIGHEST risk for opportunistic infections?',
+    options: [
+      'A patient with CD4+ 650, undetectable viral load, on ART',
+      'A patient with CD4+ 480, viral load 5,000, taking ART daily',
+      'A patient with CD4+ 60, viral load 250,000, not taking ART',
+      'A patient with CD4+ 720, undetectable viral load, on ART'
+    ],
+    answer: 2,
+    concept: 'Highest Risk Patient',
+    rationale: 'CD4+ 60 with high viral load and no ART is the highest risk profile. This patient is in advanced AIDS and severely immunocompromised, making them vulnerable to many opportunistic infections.',
+    others: {
+      0: 'CD4+ 650 with undetectable viral load is well-controlled.',
+      1: 'CD4+ 480 is Stage 2 with intermediate risk.',
+      3: 'CD4+ 720 with undetectable viral load is well-controlled.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'A patient with AIDS develops a new dry cough, fever, and shortness of breath. Their CD4+ is 110. The nurse suspects PCP. Which medication does the nurse anticipate the provider to order?',
+    options: [
+      'Trimethoprim-sulfamethoxazole (Bactrim)',
+      'Ciprofloxacin for routine respiratory infection',
+      'Amoxicillin for suspected bacterial pneumonia',
+      'Acyclovir for suspected viral pneumonia'
+    ],
+    answer: 0,
+    concept: 'PCP Treatment',
+    rationale: 'Trimethoprim-sulfamethoxazole (Bactrim, TMP-SMX) is first-line treatment for PCP. It is also used for prophylaxis in HIV patients with CD4+ <200.',
+    others: {
+      1: 'Cipro is for bacterial respiratory infections, not PCP.',
+      2: 'Amoxicillin is for typical bacterial infections.',
+      3: 'Acyclovir is for herpesviruses, not PCP.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'A patient with HIV reports significant nausea and fatigue with their ART regimen. They state, "I just want to skip a few doses to feel better." What is the BEST nursing response?',
+    options: [
+      '"Skipping doses is fine if it helps you feel better in the short term."',
+      '"You should call your provider — there may be ways to manage side effects without skipping."',
+      '"You can stop the meds completely if the side effects are bothersome."',
+      '"Take double doses on alternate days to keep the medication effective."'
+    ],
+    answer: 1,
+    concept: 'Side Effect Management',
+    rationale: 'Side effects are common with ART but skipping doses leads to drug resistance. The provider can adjust the regimen, add anti-nausea meds, or suggest other strategies. The patient should never skip doses without provider guidance.',
+    others: {
+      0: 'Skipping is never safe.',
+      2: 'Stopping completely is dangerous.',
+      3: 'Doubling doses on alternate days is unsafe.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'A nurse is caring for an HIV-positive patient who has a needlestick injury. Which protocol does the nurse follow for the injured employee?',
+    options: [
+      'Wash the area, report the injury, begin post-exposure prophylaxis',
+      'Wash the area only, no further action is needed at this time',
+      'Wait for symptoms before reporting the needlestick injury',
+      'Treat with antibiotics if any signs of infection develop later'
+    ],
+    answer: 0,
+    concept: 'PEP Protocol',
+    rationale: 'After a needlestick from an HIV+ source, the employee must wash the area thoroughly, immediately report the exposure, and begin post-exposure prophylaxis (PEP) within hours. PEP is most effective when started quickly.',
+    others: {
+      1: 'Wash alone is insufficient.',
+      2: 'Waiting for symptoms is too late.',
+      3: 'Antibiotics do not treat HIV exposure.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'A patient with HIV is concerned about disclosing their status. Which response by the nurse is BEST?',
+    options: [
+      '"You must tell everyone in your life to ensure they stay safe from infection."',
+      '"You should tell only your healthcare providers and any sexual partners."',
+      '"Disclosure is your choice, though sexual partners and providers should know."',
+      '"You should never disclose because it could harm your social relationships."'
+    ],
+    answer: 2,
+    concept: 'HIV Disclosure',
+    rationale: 'Disclosure is largely the patient choice, though sexual partners and healthcare providers must know to make informed decisions. Many states have legal requirements about disclosing to sexual partners, and confidentiality laws protect the patient otherwise.',
+    others: {
+      0: 'Telling everyone is not required.',
+      1: 'Disclosure framing is more nuanced than "only" providers and partners.',
+      3: 'Never disclosing is not appropriate either.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'A patient with AIDS develops painless purplish lesions on their face and chest. The nurse identifies these as:',
+    options: [
+      'Petechiae from active platelet destruction',
+      'Splinter hemorrhages from endocarditis',
+      'Tinea versicolor fungal skin patches',
+      'Kaposi sarcoma lesions on the skin'
+    ],
+    answer: 3,
+    concept: 'Kaposi Sarcoma',
+    rationale: 'Painless purplish lesions on the face, chest, or other areas are classic Kaposi sarcoma — a vascular cancer that is an AIDS-defining illness. It is associated with HHV-8 infection in immunocompromised hosts.',
+    others: {
+      0: 'Petechiae are tiny red dots, not purplish lesions.',
+      1: 'Splinter hemorrhages appear under nails.',
+      2: 'Tinea versicolor presents as discolored patches, not painless purplish lesions.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'A patient with HIV is being prescribed prophylactic medication for opportunistic infections. The nurse anticipates an order at which CD4+ threshold?',
+    options: [
+      'CD4+ count above 700',
+      'CD4+ count between 500 and 700',
+      'CD4+ count below 200',
+      'CD4+ count above 1500'
+    ],
+    answer: 2,
+    concept: 'OI Prophylaxis Threshold',
+    rationale: 'When CD4+ drops below 200, the patient is at high risk for opportunistic infections like PCP. TMP-SMX (Bactrim) prophylaxis is typically started at this threshold.',
+    others: {
+      0: 'CD4+ >700 is healthy and does not warrant OI prophylaxis.',
+      1: 'CD4+ 500-700 is too high for OI prophylaxis.',
+      3: 'CD4+ >1500 is well above the threshold.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'A patient who recently tested positive for HIV asks why they need to start ART even though they feel fine. Which response is BEST?',
+    options: [
+      '"ART started early prevents disease progression and protects your CD4+ count."',
+      '"You should wait until you start having symptoms before beginning treatment."',
+      '"ART is only useful once your CD4+ count drops below 200 mg/dL."',
+      '"You can choose to skip treatment and start later if you change your mind."'
+    ],
+    answer: 0,
+    concept: 'Early ART Initiation',
+    rationale: 'Current guidelines recommend starting ART as soon as HIV is diagnosed, regardless of CD4+ count. Early treatment prevents CD4+ decline, suppresses viral load, and reduces transmission risk.',
+    others: {
+      1: 'Waiting for symptoms allows disease progression.',
+      2: 'ART starts at diagnosis, not at CD4+ <200.',
+      3: 'Delaying treatment is not recommended.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'A nurse is caring for a patient with AIDS who is severely immunocompromised. Which task is appropriate to delegate to the unlicensed assistive personnel (UAP)?',
+    options: [
+      'Initial admission assessment of the patient and family',
+      'Patient teaching about ART medications and side effects',
+      'Vital signs and bathing using protective equipment',
+      'IV medication administration and dose adjustment'
+    ],
+    answer: 2,
+    concept: 'AIDS Delegation',
+    rationale: 'Vital signs, bathing, and routine ADL care with appropriate protective equipment are within UAP scope. Initial assessment, teaching, and medication administration are RN-only tasks.',
+    others: {
+      0: 'Initial assessment is RN responsibility.',
+      1: 'Patient teaching is RN responsibility.',
+      3: 'IV med administration is RN responsibility.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'A patient with HIV in Stage 1 is asymptomatic. They tell the nurse, "I do not need to take medication because I feel fine." What is the BEST nursing response?',
+    options: [
+      '"That is reasonable since the virus is not affecting your body yet."',
+      '"You can wait until you start feeling sick to begin medication therapy."',
+      '"Most patients delay treatment for years without negative consequences."',
+      '"Even though you feel fine, treatment is essential to keep CD4+ above 500."'
+    ],
+    answer: 3,
+    concept: 'Asymptomatic Treatment',
+    rationale: 'Even in asymptomatic Stage 1, ART is essential. The goal is to keep CD4+ count above 500 and viral load undetectable, preventing progression and reducing transmission to others.',
+    others: {
+      0: 'The virus IS affecting the body even when asymptomatic.',
+      1: 'Waiting for symptoms allows damage to occur.',
+      2: 'Delaying treatment has consequences.'
+    }
+  },
+  {
+    topic: 'Immune',
+    type: 'standard',
+    stem: 'A patient with HIV asks the nurse about safer practices to prevent transmission. Which teaching is the MOST appropriate?',
+    options: [
+      'Use barrier protection during all sexual activity and avoid sharing needles',
+      'Avoid all close contact with friends and family at home',
+      'Wear gloves whenever shaking hands or hugging anyone',
+      'Use disposable utensils and dishes for every meal at home'
+    ],
+    answer: 0,
+    concept: 'HIV Transmission Prevention',
+    rationale: 'HIV is transmitted through blood, sexual contact, sharing needles, and perinatally. Barrier protection during sex and avoiding shared needles are the most important transmission prevention strategies.',
+    others: {
+      1: 'HIV is not spread through casual contact.',
+      2: 'Gloves for handshaking are unnecessary — HIV is not casually transmitted.',
+      3: 'Disposable utensils are unnecessary — HIV is not foodborne.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let score = 0;
+let totalPoints = 0;
+let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_immune_deepdrill';
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  document.getElementById('q-stem').textContent = q.stem;
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong application reasoning across HIV staging, opportunistic infections, and ART. Move on to the next chapter.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed scenarios — application is where the final exam will challenge you.';
+  else if (pct >= 60) msg = 'Below pass threshold. Review missed concepts carefully and rerun this drill before moving on.';
+  else msg = 'Significant gaps in application. Re-study Ch 32 review materials and the rationales below, then rerun this drill until you hit 77%+.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>
