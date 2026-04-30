@@ -143,639 +143,633 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--navy)
 <script>
 const questions = [
   {
-    topic: 'HemOnc',
+    topic: "HemOnc",
     confirmed: false,
-    type: 'standard',
-    stem: 'A nurse is caring for four chemotherapy patients. Which patient should the nurse assess first?',
+    type: "standard",
+    stem: "A nurse is caring for four chemotherapy patients. Which patient should the nurse assess first?",
     options: [
-      'A patient with thrombocytopenia and platelets of 80,000',
-      'A patient with mild stomatitis reporting pain on eating',
-      'A patient with an ANC of 380 and a temperature of 100.8°F',
-      'A patient with hair loss starting at day 8 of treatment'
+      "A patient with thrombocytopenia and platelets of 80,000",
+      "A patient with mild stomatitis reporting pain on eating",
+      "A patient with an ANC of 380 and a temperature of 100.8°F",
+      "A patient with hair loss starting at day 8 of treatment"
     ],
     answer: 2,
-    concept: 'Febrile neutropenia priority',
-    rationale: 'Fever in a patient with ANC under 500 is a medical emergency — febrile neutropenia. Sepsis can develop rapidly because the patient cannot mount a normal inflammatory response.',
-    deepExplanation: 'This patient needs immediate cultures, empiric IV broad-spectrum antibiotics (ceftazidime, imipenem, or vancomycin), and possibly colony-stimulating factors. The other patients have findings that warrant follow-up but are not immediate emergencies.',
+    concept: "Febrile neutropenia priority",
+    rationale: "Fever in a patient with ANC under 500 is a medical emergency — febrile neutropenia. Sepsis can develop rapidly because the patient cannot mount a normal inflammatory response.",
+    deepExplanation: "This patient needs immediate cultures, empiric IV broad-spectrum antibiotics (ceftazidime, imipenem, or vancomycin), and possibly colony-stimulating factors. The other patients have findings that warrant follow-up but are not immediate emergencies.",
     others: {
-      0: 'Platelets of 80,000 are low but stable; bleeding precautions, not urgent.',
-      1: 'Mild stomatitis is uncomfortable but not emergent.',
-      3: 'Hair loss at day 8 is expected and reversible.'
+      "0": "Platelets of 80,000 are low but stable; bleeding precautions, not urgent.",
+      "1": "Mild stomatitis is uncomfortable but not emergent.",
+      "3": "Hair loss at day 8 is expected and reversible."
     }
   },
   {
-    topic: 'HemOnc',
+    topic: "HemOnc",
     confirmed: false,
-    type: 'standard',
-    stem: 'A nurse is reviewing the lab results of four chemo patients. Chemotherapy must be HELD for which patient?',
+    type: "standard",
+    stem: "A nurse is reviewing the lab results of four chemo patients. Chemotherapy must be HELD for which patient?",
     options: [
-      'Patient A with ANC of 1,800 and platelets of 110,000',
-      'Patient B with ANC of 380 and a fever of 99.4°F',
-      'Patient C with hemoglobin of 10.2 g/dL and stable vitals',
-      'Patient D with platelets of 95,000 and no bleeding'
-    ],
-    answer: 1,
-    concept: 'ANC<500 chemo hold',
-    rationale: 'Chemotherapy must be held when ANC drops below 500/mm³ — this patient meets that threshold and needs the chemo held with immediate workup.',
-    deepExplanation: 'At ANC under 500, the patient is severely neutropenic. With fever, this is febrile neutropenia — needs cultures, empiric IV antibiotics, and CSFs (filgrastim, pegfilgrastim, sargramostim). The other patients have lab abnormalities that warrant monitoring but don\'t meet hold criteria.',
-    others: {
-      0: 'ANC of 1,800 is mildly low but above the 500 threshold.',
-      2: 'Hemoglobin of 10.2 indicates anemia but is not the chemo hold criterion.',
-      3: 'Platelets of 95,000 are low but above critical bleeding thresholds.'
-    }
-  },
-  {
-    topic: 'HemOnc',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A nursing student asks the preceptor why chemo causes such severe hair loss, GI symptoms, and bone marrow suppression. What is the best response?',
-    options: [
-      '"Chemo specifically targets cells with high growth fraction."',
-      '"These tissues have unique chemo receptors."',
-      '"Chemo accumulates in these specific tissues."',
-      '"These are immune-mediated reactions to chemo."'
+      "Patient B with ANC of 380 and a fever of 99.4°F",
+      "Patient A with ANC of 1,800 and platelets of 110,000",
+      "Patient C with hemoglobin of 10.2 g/dL and stable vitals",
+      "Patient D with platelets of 95,000 and no bleeding"
     ],
     answer: 0,
-    concept: 'High growth fraction targeting',
-    rationale: 'Chemo targets cells with high growth fraction — actively dividing cells. Hair follicles, GI epithelium, and bone marrow all have high growth fractions, so they\'re damaged along with cancer cells.',
-    deepExplanation: 'Chemo lacks selective toxicity — it cannot distinguish cancer cells from normal high-growth-fraction cells. This is why side effects are predictable based on which normal tissues divide rapidly. The damage is reversible after treatment ends.',
+    concept: "ANC<500 chemo hold",
+    rationale: "Chemotherapy must be held when ANC drops below 500/mm³ — this patient meets that threshold and needs the chemo held with immediate workup.",
+    deepExplanation: "At ANC under 500, the patient is severely neutropenic. With fever, this is febrile neutropenia — needs cultures, empiric IV antibiotics, and CSFs (filgrastim, pegfilgrastim, sargramostim). The other patients have lab abnormalities that warrant monitoring but don't meet hold criteria.",
     others: {
-      1: 'There are no unique "chemo receptors" in these tissues.',
-      2: 'Chemo doesn\'t selectively accumulate in these tissues.',
-      3: 'These are direct cytotoxic effects, not immune reactions.'
+      "1": "ANC of 1,800 is mildly low but above the 500 threshold.",
+      "2": "Hemoglobin of 10.2 indicates anemia but is not the chemo hold criterion.",
+      "3": "Platelets of 95,000 are low but above critical bleeding thresholds."
     }
   },
   {
-    topic: 'HemOnc',
+    topic: "Hemonc",
     confirmed: false,
-    type: 'standard',
-    stem: 'A 65-year-old patient with lung cancer has the following findings: chronic cough for 3 weeks, weight loss, and a non-healing oral sore. Which CAUTION sign is the patient reporting?',
+    type: "standard",
+    stem: "A patient is 24 hours into induction chemotherapy for newly diagnosed acute leukemia (high tumor burden). Labs show: K 6.4 mEq/L, phosphate 7.8 mg/dL, calcium 7.2 mg/dL, uric acid 14.2 mg/dL, creatinine 2.1 (baseline 0.9). The nurse anticipates which intervention?",
     options: [
-      'Change in bowel or bladder habits',
-      'Indigestion or difficulty swallowing',
-      'Obvious change in a wart or mole',
-      'Multiple CAUTION signs combined'
+      "Increase the chemo rate to clear malignant cells faster",
+      "Aggressive IV hydration, allopurinol/rasburicase, monitor for arrhythmia",
+      "Hold all IV fluids to prevent fluid overload from chemo",
+      "Administer IV calcium gluconate to correct the hypocalcemia first"
+    ],
+    answer: 1,
+    concept: "Tumor lysis syndrome management",
+    rationale: "Tumor lysis syndrome (TLS): hyperkalemia + hyperphosphatemia + hypocalcemia + hyperuricemia + AKI from rapid tumor cell breakdown. Treatment: aggressive hydration, allopurinol or rasburicase for uric acid, monitor for arrhythmia from hyperkalemia.",
+    deepExplanation: "TLS is highest risk in leukemias, lymphomas, and high tumor burden cancers within 12-72 hours of starting chemo. The \"Cairo-Bishop criteria\" define TLS by these labs. Calcium correction is delayed unless the patient is symptomatic — giving Ca with high phosphate causes calcium-phosphate precipitation and worsens AKI. Rasburicase rapidly degrades uric acid; allopurinol prevents new uric acid formation but works slower.",
+    others: {
+      "0": "Increasing chemo rate worsens TLS by accelerating cell breakdown.",
+      "2": "Withholding fluids worsens AKI — hydration is the cornerstone of TLS prevention/treatment.",
+      "3": "Calcium repletion in setting of hyperphosphatemia causes precipitation and worsens AKI."
+    }
+  },
+  {
+    topic: "HemOnc",
+    confirmed: false,
+    type: "standard",
+    stem: "A 65-year-old patient with lung cancer has the following findings: chronic cough for 3 weeks, weight loss, and a non-healing oral sore. Which CAUTION sign is the patient reporting?",
+    options: [
+      "Change in bowel or bladder habits",
+      "Indigestion or difficulty swallowing",
+      "Obvious change in a wart or mole",
+      "Multiple CAUTION signs combined"
     ],
     answer: 3,
-    concept: 'CAUTION sign recognition',
-    rationale: 'The patient is reporting multiple CAUTION signs: A sore that doesn\'t heal AND Nagging cough or hoarseness. Multiple combined CAUTION signs warrant urgent evaluation.',
-    deepExplanation: 'C.A.U.T.I.O.N. = Change in bowel/bladder habits, A sore that doesn\'t heal, Unusual bleeding/discharge, Thickening/lump, Indigestion or difficulty swallowing, Obvious change in wart/mole, Nagging cough/hoarseness. Patients reporting multiple signs should be evaluated quickly.',
+    concept: "CAUTION sign recognition",
+    rationale: "The patient is reporting multiple CAUTION signs: A sore that doesn't heal AND Nagging cough or hoarseness. Multiple combined CAUTION signs warrant urgent evaluation.",
+    deepExplanation: "C.A.U.T.I.O.N. = Change in bowel/bladder habits, A sore that doesn't heal, Unusual bleeding/discharge, Thickening/lump, Indigestion or difficulty swallowing, Obvious change in wart/mole, Nagging cough/hoarseness. Patients reporting multiple signs should be evaluated quickly.",
     others: {
-      0: 'Bowel or bladder changes are not what was reported.',
-      1: 'Difficulty swallowing was not mentioned.',
-      2: 'No mole or wart change was reported.'
+      "0": "Bowel or bladder changes are not what was reported.",
+      "1": "Difficulty swallowing was not mentioned.",
+      "2": "No mole or wart change was reported."
     }
   },
   {
-    topic: 'HemOnc',
+    topic: "Hemonc",
     confirmed: false,
-    type: 'standard',
-    stem: 'A patient on chemo asks why she will need multiple cycles instead of just one large dose. What is the nurse\'s best explanation?',
+    type: "standard",
+    stem: "A nurse infusing IV doxorubicin (a vesicant) through a peripheral IV notes the patient is now reporting burning at the IV site. The site shows mild swelling and redness. Place the nursing actions in the correct priority order: (1) Notify the provider and oncology team, (2) Stop the infusion immediately, (3) Aspirate residual drug through the existing IV catheter, (4) Apply cold compress (specific to anthracyclines), (5) Mark the affected area and document with photo.",
     options: [
-      'Chemo kills a constant percentage of cells per dose, not all cells',
-      'Single doses cause more severe side effects',
-      'Insurance requires multiple cycles for coverage',
-      'A single dose would be too expensive for hospitals'
+      "1, 2, 3, 4, 5",
+      "2, 3, 1, 4, 5",
+      "5, 2, 1, 3, 4",
+      "3, 2, 4, 1, 5"
     ],
-    answer: 0,
-    concept: 'First-order kinetics rationale',
-    rationale: 'Chemo operates on first-order kinetics — each dose kills a constant percentage of cancer cells (e.g., 99%), not all cells. Multiple cycles are needed to bring cancer below detectable levels.',
-    deepExplanation: 'After 1 cycle, 99% of cells may be killed; after 2 cycles, 99% of the remaining 1% are killed; and so on. This is why treatment timing matters — cells must not be allowed to regrow significantly between cycles. The body\'s normal cells also need time to recover.',
+    answer: 1,
+    concept: "Vesicant extravasation order of operations",
+    rationale: "STOP infusion FIRST (prevent further drug entering tissue), aspirate residual drug through the existing IV catheter, then notify provider, then apply cold compress (anthracyclines = cold; vinca alkaloids = warm), then mark and document.",
+    deepExplanation: "Doxorubicin causes severe tissue necrosis if extravasated — sometimes requiring skin grafts or amputation. The order matters because the IV catheter is the route for both stopping more drug from entering and removing the pooled drug already in tissue. Cold compress for anthracyclines causes vasoconstriction limiting drug spread; warm compress for vinca alkaloids promotes drug absorption away from the site. Dexrazoxane is the antidote for anthracycline extravasation.",
     others: {
-      1: 'Single doses don\'t inherently cause more severe effects.',
-      2: 'This is a clinical reason, not insurance.',
-      3: 'Cost is not the medical rationale.'
+      "0": "Notifying first delays the critical stop-the-infusion step.",
+      "2": "Documentation comes after acute interventions — the drug is still flowing in option C.",
+      "3": "Aspirating without first stopping infusion does not prevent more drug entering tissue."
     }
   },
   {
-    topic: 'HemOnc',
+    topic: "HemOnc",
     confirmed: false,
-    type: 'standard',
-    stem: 'A patient with chemo-induced thrombocytopenia (platelets 18,000) develops a headache. Which medication should the nurse give from the PRN orders?',
+    type: "standard",
+    stem: "A patient with chemo-induced thrombocytopenia (platelets 18,000) develops a headache. Which medication should the nurse give from the PRN orders?",
     options: [
-      'Aspirin 325 mg PO',
-      'Ibuprofen 600 mg PO',
-      'Naproxen 500 mg PO',
-      'Acetaminophen 650 mg PO'
+      "Aspirin 325 mg PO",
+      "Ibuprofen 600 mg PO",
+      "Naproxen 500 mg PO",
+      "Acetaminophen 650 mg PO"
     ],
     answer: 3,
-    concept: 'Thrombocytopenia analgesic choice',
-    rationale: 'Acetaminophen is the analgesic of choice for chemo patients with thrombocytopenia — it does NOT inhibit platelet function like NSAIDs and aspirin do.',
-    deepExplanation: 'Aspirin and NSAIDs (ibuprofen, naproxen) inhibit platelet function and dramatically increase bleeding risk on top of existing thrombocytopenia. Patients with platelets under 20,000 are at high risk for spontaneous bleeding — adding antiplatelet effects is dangerous.',
+    concept: "Thrombocytopenia analgesic choice",
+    rationale: "Acetaminophen is the analgesic of choice for chemo patients with thrombocytopenia — it does NOT inhibit platelet function like NSAIDs and aspirin do.",
+    deepExplanation: "Aspirin and NSAIDs (ibuprofen, naproxen) inhibit platelet function and dramatically increase bleeding risk on top of existing thrombocytopenia. Patients with platelets under 20,000 are at high risk for spontaneous bleeding — adding antiplatelet effects is dangerous.",
     others: {
-      0: 'Aspirin inhibits platelet function — dangerous with thrombocytopenia.',
-      1: 'NSAIDs inhibit platelet function — avoid in thrombocytopenia.',
-      2: 'NSAIDs inhibit platelet function — avoid in thrombocytopenia.'
+      "0": "Aspirin inhibits platelet function — dangerous with thrombocytopenia.",
+      "1": "NSAIDs inhibit platelet function — avoid in thrombocytopenia.",
+      "2": "NSAIDs inhibit platelet function — avoid in thrombocytopenia."
     }
   },
   {
-    topic: 'HemOnc',
+    topic: "HemOnc",
     confirmed: false,
-    type: 'standard',
-    stem: 'A patient with chemo-induced mild stomatitis is in pain. Which intervention is most appropriate?',
+    type: "standard",
+    stem: "A patient with chemo-induced mild stomatitis is in pain. Which intervention is most appropriate?",
     options: [
-      'Order morphine 4 mg IV q4 hours PRN',
-      'Magic mouthwash with lidocaine and diphenhydramine',
-      'Hydrocodone-acetaminophen tablets PRN',
-      'Strict NPO until healing occurs'
-    ],
-    answer: 1,
-    concept: 'Mild stomatitis tx',
-    rationale: 'Mild stomatitis is treated with magic mouthwash containing an anesthetic (lidocaine) and an antihistamine (diphenhydramine). Opioids are reserved for SEVERE stomatitis only.',
-    deepExplanation: 'Patients with mild stomatitis also need teaching on good oral hygiene, soft-bristle toothbrush, and bland diet. Severity of stomatitis dictates treatment intensity — opioids should not be given for mild cases. NPO is excessive and worsens nutrition.',
-    others: {
-      0: 'Morphine is reserved for severe stomatitis, not mild.',
-      2: 'Hydrocodone is reserved for severe pain.',
-      3: 'Strict NPO worsens nutritional status unnecessarily.'
-    }
-  },
-  {
-    topic: 'HemOnc',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A patient newly diagnosed with cancer asks her nurse, "Am I going to die from this?" The nurse knows the goals of treatment. What is the most therapeutic response?',
-    options: [
-      '"Don\'t worry, the medication will cure your cancer for sure."',
-      '"Cancer outcomes depend on many factors. Let\'s talk about your treatment goals."',
-      '"You only have a 50% chance based on standard statistics."',
-      '"Most patients with cancer pass away within 5 years anyway."'
-    ],
-    answer: 1,
-    concept: 'Therapeutic communication',
-    rationale: 'Acknowledging uncertainty while opening a discussion about treatment goals is the therapeutic response — prognosis depends on many factors including type, stage, metastasis, and individual response.',
-    deepExplanation: 'The three goals of treatment (cure, prolongation, palliation) should be discussed with the patient and provider. False reassurance ("you will be cured"), arbitrary statistics, or hopeless framing are all non-therapeutic. The nurse\'s role is to facilitate informed dialogue.',
-    others: {
-      0: 'False reassurance is non-therapeutic.',
-      2: 'Arbitrary statistics are not appropriate.',
-      3: 'This is hopeless framing — non-therapeutic.'
-    }
-  },
-  {
-    topic: 'HemOnc',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A patient on chemotherapy reports that hair loss began on day 9. The patient is distressed. What is the most accurate teaching the nurse can provide?',
-    options: [
-      '"Hair loss begins 7-10 days after treatment and is reversible."',
-      '"Hair loss from chemo is permanent — you should plan for that."',
-      '"This is unusual — you should call the provider immediately."',
-      '"You can prevent further hair loss by stopping the chemo now."'
+      "Magic mouthwash with lidocaine and diphenhydramine",
+      "Order morphine 4 mg IV q4 hours PRN",
+      "Hydrocodone-acetaminophen tablets PRN",
+      "Strict NPO until healing occurs"
     ],
     answer: 0,
-    concept: 'Alopecia teaching',
-    rationale: 'Chemo-induced alopecia begins 7-10 days after treatment — this patient is right on schedule. The hair loss is reversible after therapy ends.',
-    deepExplanation: 'Hair often regrows with different texture or color after chemo completion. Patients benefit from anticipatory teaching about this timeline before treatment starts. Cooling caps may help reduce hair loss in some cancers but are not always available.',
+    concept: "Mild stomatitis tx",
+    rationale: "Mild stomatitis is treated with magic mouthwash containing an anesthetic (lidocaine) and an antihistamine (diphenhydramine). Opioids are reserved for SEVERE stomatitis only.",
+    deepExplanation: "Patients with mild stomatitis also need teaching on good oral hygiene, soft-bristle toothbrush, and bland diet. Severity of stomatitis dictates treatment intensity — opioids should not be given for mild cases. NPO is excessive and worsens nutrition.",
     others: {
-      1: 'Hair loss from chemo is REVERSIBLE, not permanent.',
-      2: 'This is an expected, not unusual, finding.',
-      3: 'Stopping chemo to prevent hair loss compromises treatment goals.'
+      "1": "Morphine is reserved for severe stomatitis, not mild.",
+      "2": "Hydrocodone is reserved for severe pain.",
+      "3": "Strict NPO worsens nutritional status unnecessarily."
     }
   },
   {
-    topic: 'HemOnc',
+    topic: "HemOnc",
     confirmed: false,
-    type: 'standard',
-    stem: 'A chemo patient with thrombocytopenia is being discharged. Which patient statement requires further teaching?',
+    type: "standard",
+    stem: "A patient newly diagnosed with cancer asks her nurse, \"Am I going to die from this?\" The nurse knows the goals of treatment. What is the most therapeutic response?",
     options: [
-      '"I will use a soft-bristle toothbrush for oral care."',
-      '"I will avoid contact sports while on therapy."',
-      '"I will take ibuprofen for headaches that come up."',
-      '"I will use an electric razor instead of a blade."'
+      "\"Don't worry, the medication will cure your cancer for sure.\"",
+      "\"Cancer outcomes depend on many factors. Let's talk about your treatment goals.\"",
+      "\"You only have a 50% chance based on standard statistics.\"",
+      "\"Most patients with cancer pass away within 5 years anyway.\""
+    ],
+    answer: 1,
+    concept: "Therapeutic communication",
+    rationale: "Acknowledging uncertainty while opening a discussion about treatment goals is the therapeutic response — prognosis depends on many factors including type, stage, metastasis, and individual response.",
+    deepExplanation: "The three goals of treatment (cure, prolongation, palliation) should be discussed with the patient and provider. False reassurance (\"you will be cured\"), arbitrary statistics, or hopeless framing are all non-therapeutic. The nurse's role is to facilitate informed dialogue.",
+    others: {
+      "0": "False reassurance is non-therapeutic.",
+      "2": "Arbitrary statistics are not appropriate.",
+      "3": "This is hopeless framing — non-therapeutic."
+    }
+  },
+  {
+    topic: "Hemonc",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient receiving paclitaxel for ovarian cancer (first dose, 8 minutes into infusion) suddenly develops dyspnea, flushing, BP 86/48, and back pain. The nurse's PRIORITY action is:",
+    options: [
+      "Slow the infusion rate by 50% and reassess in 15 minutes",
+      "Stop the infusion, give IV diphenhydramine and corticosteroid, prepare for epinephrine",
+      "Continue the infusion as ordered — these are expected side effects",
+      "Switch to oral premedication and resume at the same rate"
+    ],
+    answer: 1,
+    concept: "Paclitaxel acute hypersensitivity",
+    rationale: "Paclitaxel hypersensitivity reactions occur in ~10% of patients, typically within minutes of starting. STOP infusion, give IV diphenhydramine + dexamethasone + H2 blocker, prepare for epinephrine if anaphylaxis develops.",
+    deepExplanation: "The Cremophor EL solvent in paclitaxel is the primary trigger for hypersensitivity. Standard premedication (dexamethasone 12-24 hr before, plus diphenhydramine and H2 blocker pre-infusion) reduces but does NOT eliminate risk. Patients are monitored closely for the first 15 minutes of every infusion. After resolution, infusion may resume at slower rate with extended monitoring. Reactions are most common with the first or second dose.",
+    others: {
+      "0": "Slowing the infusion does not address active anaphylaxis.",
+      "2": "Hypotension and dyspnea are not expected — they signal hypersensitivity.",
+      "3": "Switching premedication does not address the active reaction."
+    }
+  },
+  {
+    topic: "HemOnc",
+    confirmed: false,
+    type: "standard",
+    stem: "A chemo patient with thrombocytopenia is being discharged. Which patient statement requires further teaching?",
+    options: [
+      "\"I will use a soft-bristle toothbrush for oral care.\"",
+      "\"I will avoid contact sports while on therapy.\"",
+      "\"I will take ibuprofen for headaches that come up.\"",
+      "\"I will use an electric razor instead of a blade.\""
     ],
     answer: 2,
-    concept: 'Thrombocytopenia wrong teaching',
-    rationale: 'Patients with thrombocytopenia should AVOID ibuprofen and other NSAIDs because they promote bleeding — acetaminophen is the analgesic of choice.',
-    deepExplanation: 'The other statements show correct understanding: soft-bristle toothbrush prevents gum bleeding, avoiding contact sports prevents trauma, and electric razors prevent shaving cuts. NSAIDs add antiplatelet effects to existing thrombocytopenia, dramatically increasing bleeding risk.',
+    concept: "Thrombocytopenia wrong teaching",
+    rationale: "Patients with thrombocytopenia should AVOID ibuprofen and other NSAIDs because they promote bleeding — acetaminophen is the analgesic of choice.",
+    deepExplanation: "The other statements show correct understanding: soft-bristle toothbrush prevents gum bleeding, avoiding contact sports prevents trauma, and electric razors prevent shaving cuts. NSAIDs add antiplatelet effects to existing thrombocytopenia, dramatically increasing bleeding risk.",
     others: {
-      0: 'Soft-bristle toothbrush is correct teaching.',
-      1: 'Avoiding contact sports is correct teaching.',
-      3: 'Electric razor is correct teaching.'
+      "0": "Soft-bristle toothbrush is correct teaching.",
+      "1": "Avoiding contact sports is correct teaching.",
+      "3": "Electric razor is correct teaching."
     }
   },
   {
-    topic: 'HemOnc',
+    topic: "HemOnc",
     confirmed: false,
-    type: 'standard',
-    stem: 'A patient receiving chemo asks why they need to drink more fluids than usual. What is the most accurate response?',
+    type: "standard",
+    stem: "A patient receiving chemo asks why they need to drink more fluids than usual. What is the most accurate response?",
     options: [
-      '"To prevent dehydration from a normal stress response."',
-      '"To make the chemotherapy work more effectively."',
-      '"To boost your immune system and fight off cancer."',
-      '"To help flush uric acid from rapid cell breakdown."'
+      "\"To prevent dehydration from a normal stress response.\"",
+      "\"To make the chemotherapy work more effectively.\"",
+      "\"To boost your immune system and fight off cancer.\"",
+      "\"To help flush uric acid from rapid cell breakdown.\""
     ],
     answer: 3,
-    concept: 'Hyperuricemia hydration',
-    rationale: 'Increased fluid intake helps flush uric acid from rapid tumor cell breakdown — preventing kidney injury (tumor lysis nephropathy) from urate crystal deposition.',
-    deepExplanation: 'Hyperuricemia is a known chemo adverse effect. Allopurinol may be prescribed prophylactically. Adequate hydration is also essential for general fluid balance during chemo, since N/V can cause volume losses.',
+    concept: "Hyperuricemia hydration",
+    rationale: "Increased fluid intake helps flush uric acid from rapid tumor cell breakdown — preventing kidney injury (tumor lysis nephropathy) from urate crystal deposition.",
+    deepExplanation: "Hyperuricemia is a known chemo adverse effect. Allopurinol may be prescribed prophylactically. Adequate hydration is also essential for general fluid balance during chemo, since N/V can cause volume losses.",
     others: {
-      0: 'Hydration is for a specific reason, not general stress.',
-      1: 'Hydration doesn\'t make chemo more effective.',
-      2: 'Hydration doesn\'t directly boost immunity.'
+      "0": "Hydration is for a specific reason, not general stress.",
+      "1": "Hydration doesn't make chemo more effective.",
+      "2": "Hydration doesn't directly boost immunity."
     }
   },
   {
-    topic: 'HemOnc',
+    topic: "HemOnc",
     confirmed: false,
-    type: 'standard',
-    stem: 'A patient about to start chemo is meeting with the nurse. The patient mentions she is hoping to have children "in a few years." What is the nurse\'s priority response?',
+    type: "standard",
+    stem: "A patient about to start chemo is meeting with the nurse. The patient mentions she is hoping to have children \"in a few years.\" What is the nurse's priority response?",
     options: [
-      '"Don\'t worry, you can have children right after chemo ends."',
-      '"Cancer treatment will not affect your fertility at all."',
-      '"Discuss fertility preservation with your provider before starting treatment."',
-      '"Just wait until after treatment — fertility usually returns within weeks."'
+      "\"Don't worry, you can have children right after chemo ends.\"",
+      "\"Cancer treatment will not affect your fertility at all.\"",
+      "\"Discuss fertility preservation with your provider before starting treatment.\"",
+      "\"Just wait until after treatment — fertility usually returns within weeks.\""
     ],
     answer: 2,
-    concept: 'Fertility preservation timing',
-    rationale: 'Fertility preservation (sperm banking, egg/embryo cryopreservation) must be discussed BEFORE chemo because reproductive toxicity from chemo can be IRREVERSIBLE.',
-    deepExplanation: 'Chemo causes fetal malformation and irreversible sterility. The window to preserve fertility closes once treatment begins. Patients should also use effective contraception during and after chemo. This is a critical pre-treatment teaching point that cannot wait.',
+    concept: "Fertility preservation timing",
+    rationale: "Fertility preservation (sperm banking, egg/embryo cryopreservation) must be discussed BEFORE chemo because reproductive toxicity from chemo can be IRREVERSIBLE.",
+    deepExplanation: "Chemo causes fetal malformation and irreversible sterility. The window to preserve fertility closes once treatment begins. Patients should also use effective contraception during and after chemo. This is a critical pre-treatment teaching point that cannot wait.",
     others: {
-      0: 'Sterility from chemo can be permanent — false reassurance.',
-      1: 'Chemo DOES affect fertility — this is misinformation.',
-      3: 'Sterility is often irreversible, not a few weeks.'
+      "0": "Sterility from chemo can be permanent — false reassurance.",
+      "1": "Chemo DOES affect fertility — this is misinformation.",
+      "3": "Sterility is often irreversible, not a few weeks."
     }
   },
   {
-    topic: 'HemOnc',
+    topic: "HemOnc",
     confirmed: false,
-    type: 'sata',
-    stem: 'A patient with chemo-induced neutropenia is being educated about home precautions. Which teaching points are correct? Select all that apply.',
+    type: "sata",
+    stem: "A patient with chemo-induced neutropenia is being educated about home precautions. Which teaching points are correct? Select all that apply.",
     options: [
-      'Avoid large crowds and people with active infections',
-      'Report any fever (even low-grade) immediately',
-      'Continue eating raw fruits and vegetables freely',
-      'Wash hands frequently with soap and water',
-      'Avoid fresh flowers and standing water in vases',
-      'Floss vigorously each day for oral care'
+      "Avoid large crowds and people with active infections",
+      "Report any fever (even low-grade) immediately",
+      "Continue eating raw fruits and vegetables freely",
+      "Wash hands frequently with soap and water",
+      "Avoid fresh flowers and standing water in vases",
+      "Floss vigorously each day for oral care"
     ],
-    answerArr: [0, 1, 3, 4],
-    concept: 'Neutropenic precautions teaching',
-    rationale: 'Correct teaching: avoid crowds and sick people, report fever ASAP, hand washing, avoid fresh flowers and standing water (microbial reservoirs). Avoid raw produce (microbial risk) and vigorous flossing (gum bleeding from thrombocytopenia).',
-    perOptionExplanations: {
-      0: '<strong>Avoid crowds and sick people</strong> — minimizes infection exposure.',
-      1: '<strong>Report fever ASAP</strong> — fever in neutropenia is a medical emergency.',
-      3: '<strong>Hand washing</strong> — primary infection prevention.',
-      4: '<strong>Avoid fresh flowers and standing water</strong> — microbial reservoirs.'
-    },
+    answerArr: [0,1,3,4],
+    concept: "Neutropenic precautions teaching",
+    rationale: "Correct teaching: avoid crowds and sick people, report fever ASAP, hand washing, avoid fresh flowers and standing water (microbial reservoirs). Avoid raw produce (microbial risk) and vigorous flossing (gum bleeding from thrombocytopenia).",
     others: {
-      2: 'Raw produce can carry microbes — wash thoroughly or avoid.',
-      5: 'Vigorous flossing causes gum bleeding from associated thrombocytopenia.'
+      "2": "Raw produce can carry microbes — wash thoroughly or avoid.",
+      "5": "Vigorous flossing causes gum bleeding from associated thrombocytopenia."
     }
   },
   {
-    topic: 'HemOnc',
+    topic: "HemOnc",
     confirmed: false,
-    type: 'standard',
-    stem: 'A nurse is preparing to administer chemotherapy. Lab results show ANC of 480, platelets of 85,000, and hemoglobin of 9.8. What is the nurse\'s priority action?',
+    type: "standard",
+    stem: "A nurse is preparing to administer chemotherapy. Lab results show ANC of 480, platelets of 85,000, and hemoglobin of 9.8. What is the nurse's priority action?",
     options: [
-      'Administer the chemotherapy as scheduled',
-      'Reduce the chemo dose by 50% and proceed',
-      'Give a transfusion before administering chemo',
-      'Hold the chemotherapy and notify the provider'
+      "Administer the chemotherapy as scheduled",
+      "Reduce the chemo dose by 50% and proceed",
+      "Give a transfusion before administering chemo",
+      "Hold the chemotherapy and notify the provider"
     ],
     answer: 3,
-    concept: 'Chemo hold for ANC',
-    rationale: 'ANC of 480 is below 500 — chemotherapy must be HELD and the provider notified. This is a clear hold criterion.',
-    deepExplanation: 'The provider may delay the cycle, reduce the dose, or order CSFs (filgrastim, pegfilgrastim, sargramostim) before resuming. The platelet count and hemoglobin are also concerning but the ANC is the absolute hold trigger. The nurse cannot independently reduce dose or proceed.',
+    concept: "Chemo hold for ANC",
+    rationale: "ANC of 480 is below 500 — chemotherapy must be HELD and the provider notified. This is a clear hold criterion.",
+    deepExplanation: "The provider may delay the cycle, reduce the dose, or order CSFs (filgrastim, pegfilgrastim, sargramostim) before resuming. The platelet count and hemoglobin are also concerning but the ANC is the absolute hold trigger. The nurse cannot independently reduce dose or proceed.",
     others: {
-      0: 'ANC under 500 is a hold criterion.',
-      1: 'Dose reduction is a provider decision.',
-      2: 'Transfusion alone doesn\'t address neutropenia.'
+      "0": "ANC under 500 is a hold criterion.",
+      "1": "Dose reduction is a provider decision.",
+      "2": "Transfusion alone doesn't address neutropenia."
     }
   },
   {
-    topic: 'HemOnc',
+    topic: "HemOnc",
     confirmed: false,
-    type: 'standard',
-    stem: 'A patient on chemotherapy with thrombocytopenia has a platelet count of 18,000. Which finding would be most concerning?',
+    type: "standard",
+    stem: "A patient on chemotherapy with thrombocytopenia has a platelet count of 18,000. Which finding would be most concerning?",
     options: [
-      'New onset severe headache and confusion',
-      'Mild bruising on the upper arms',
-      'Slight gum bleeding when brushing teeth',
-      'A small petechial rash on the lower legs'
+      "New onset severe headache and confusion",
+      "Mild bruising on the upper arms",
+      "Slight gum bleeding when brushing teeth",
+      "A small petechial rash on the lower legs"
     ],
     answer: 0,
-    concept: 'Intracranial bleeding recognition',
-    rationale: 'New onset severe headache and confusion with a platelet count of 18,000 raises concern for intracranial bleeding — a life-threatening emergency.',
-    deepExplanation: 'Below 20,000 platelets, spontaneous bleeding can occur including life-threatening hemorrhage. Headache plus altered mental status in a thrombocytopenic patient is a red flag requiring immediate imaging. The other findings are concerning but indicate manageable mucosal/skin bleeding.',
+    concept: "Intracranial bleeding recognition",
+    rationale: "New onset severe headache and confusion with a platelet count of 18,000 raises concern for intracranial bleeding — a life-threatening emergency.",
+    deepExplanation: "Below 20,000 platelets, spontaneous bleeding can occur including life-threatening hemorrhage. Headache plus altered mental status in a thrombocytopenic patient is a red flag requiring immediate imaging. The other findings are concerning but indicate manageable mucosal/skin bleeding.",
     others: {
-      1: 'Mild bruising is expected with thrombocytopenia.',
-      2: 'Slight gum bleeding indicates need for soft-bristle care, not emergency.',
-      3: 'Petechial rash is expected with low platelets.'
+      "1": "Mild bruising is expected with thrombocytopenia.",
+      "2": "Slight gum bleeding indicates need for soft-bristle care, not emergency.",
+      "3": "Petechial rash is expected with low platelets."
     }
   },
   {
-    topic: 'HemOnc',
+    topic: "Hemonc",
     confirmed: false,
-    type: 'standard',
-    stem: 'A nurse is teaching a patient about cancer remission. Which patient statement indicates correct understanding?',
+    type: "standard",
+    stem: "A patient with newly diagnosed lung cancer presents with face and neck swelling, distended neck and chest veins, dyspnea worsening when supine, and a \"feeling of fullness\" in the head. The nurse anticipates which intervention?",
     options: [
-      '"Remission means the cancer is gone forever and won\'t return."',
-      '"Remission means the cancer responds to treatment but may recur."',
-      '"Remission means I should restart aggressive treatment immediately."',
-      '"Remission means I can stop all follow-up appointments now."'
-    ],
-    answer: 1,
-    concept: 'Remission patient understanding',
-    rationale: 'Remission means cancer responds to treatment and is under control — but does NOT mean cured. Surveillance is required because recurrence is possible.',
-    deepExplanation: 'During remission, the patient does not exhibit clinical manifestations of disease. However, cancer cells may still be present at undetectable levels. Continued follow-up surveillance allows early detection if recurrence occurs.',
-    others: {
-      0: 'Remission ≠ permanent cure.',
-      2: 'Remission may not require active treatment.',
-      3: 'Surveillance follow-up is essential.'
-    }
-  },
-  {
-    topic: 'HemOnc',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A patient with metastatic cancer asks what TNM staging tells about her cancer. The patient\'s report shows T3 N2 M1. Which finding is most concerning?',
-    options: [
-      'T3 — large primary tumor size',
-      'N2 — multiple lymph nodes involved',
-      'M1 — metastasis to distant sites',
-      'All three findings are equally concerning'
+      "Routine outpatient follow-up with oncologist in 2 weeks",
+      "Schedule outpatient CT scan for next available appointment",
+      "Elevate HOB, oxygen, urgent radiation therapy or stenting consult",
+      "Discharge home with diuretic therapy for the swelling"
     ],
     answer: 2,
-    concept: 'TNM M1 prognosis',
-    rationale: 'M1 (metastasis present) is the most concerning finding because metastasis dramatically worsens prognosis — the cancer has spread beyond the primary site.',
-    deepExplanation: 'Metastasis through blood and lymph means cancer cells have established distant sites. Treatment goals often shift from cure to prolongation or palliation when M1 is present. Prognosis depends heavily on the cancer\'s ability to metastasize.',
+    concept: "SVC syndrome — oncologic emergency",
+    rationale: "SVC syndrome: tumor compression of the superior vena cava blocks venous return from the upper body. Findings: facial/neck/upper extremity edema, distended veins, dyspnea worse supine, head fullness. Treatment: HOB elevated, oxygen, urgent radiation or endovascular stenting.",
+    deepExplanation: "Most common in lung cancer (especially small cell) and lymphoma. Without treatment, can progress to airway obstruction, cerebral edema, and stroke. CT chest with contrast confirms the diagnosis. Definitive treatment depends on cause: chemo for chemo-sensitive tumors (small cell, lymphoma), radiation for non-small cell lung, stenting for refractory cases. Steroids are sometimes used to reduce edema.",
     others: {
-      0: 'T3 indicates a larger tumor but is less prognostically devastating than M1.',
-      1: 'N2 indicates regional lymph spread but is less critical than distant metastasis.',
-      3: 'These findings are NOT equally concerning — M1 is the worst.'
+      "0": "Outpatient follow-up risks airway obstruction and stroke.",
+      "1": "Outpatient CT delays urgent treatment.",
+      "3": "Diuretics do not relieve venous obstruction from external compression."
     }
   },
   {
-    topic: 'HemOnc',
+    topic: "Hemonc",
     confirmed: false,
-    type: 'standard',
-    stem: 'A patient with cancer reports persistent fatigue, pallor, and shortness of breath when walking up stairs. The CBC shows hemoglobin of 8.2 g/dL. The nurse recognizes this as which complication?',
+    type: "standard",
+    stem: "A patient with metastatic breast cancer reports new mid-back pain (worse when lying flat) for 4 days, weakness in both legs, and a \"tingling\" sensation around the umbilicus. Bowel and bladder function are intact for now. The nurse's PRIORITY action is:",
     options: [
-      'Severe acute hyperuricemia',
-      'Chemo-induced anemia',
-      'Beginning of thrombocytopenia',
-      'Active febrile neutropenia'
-    ],
-    answer: 1,
-    concept: 'Anemia clinical picture',
-    rationale: 'Hemoglobin of 8.2 with fatigue, pallor, and exertional dyspnea is chemo-induced anemia — the bone marrow is suppressed and RBC production is decreased.',
-    deepExplanation: 'Anemia from myelosuppression is one of three blood abnormalities (along with thrombocytopenia and neutropenia). Off-label testosterone has been used for chemo-induced anemia due to erythropoietic effects. Severe anemia may require transfusion.',
-    others: {
-      0: 'Hyperuricemia presents with kidney concerns, not these symptoms.',
-      2: 'Thrombocytopenia presents with bleeding, not these symptoms.',
-      3: 'Neutropenia presents with infection, not these symptoms.'
-    }
-  },
-  {
-    topic: 'HemOnc',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A nurse is reviewing the medication list of a chemo patient who is being discharged. Which over-the-counter medication should the nurse advise the patient to AVOID?',
-    options: [
-      'Ibuprofen for occasional headache management',
-      'Acetaminophen for muscle aches and pain',
-      'Calcium supplements for daily bone health',
-      'Vitamin D3 supplements daily for bone health'
-    ],
-    answer: 0,
-    concept: 'NSAIDs in chemo',
-    rationale: 'Chemo patients with myelosuppression should AVOID ibuprofen and other NSAIDs because they promote bleeding — particularly dangerous with thrombocytopenia.',
-    deepExplanation: 'NSAIDs inhibit platelet function on top of existing thrombocytopenia. Acetaminophen is the OTC analgesic of choice for chemo patients. Calcium and vitamin D supplements are generally safe unless specific contraindications exist.',
-    others: {
-      1: 'Acetaminophen IS the recommended analgesic.',
-      2: 'Calcium supplements are not problematic.',
-      3: 'Vitamin D3 is not problematic.'
-    }
-  },
-  {
-    topic: 'HemOnc',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A patient with cancer being told her prognosis asks the nurse what factor matters most for survival. Based on the review sheet, what is the most accurate response?',
-    options: [
-      'Age at diagnosis is the most important factor',
-      'Metastasis through blood and lymph determines prognosis',
-      'Patient\'s diet during treatment matters most',
-      'Social support determines patient outcomes'
-    ],
-    answer: 1,
-    concept: 'Metastasis prognosis driver',
-    rationale: 'Prognosis depends heavily on the tumor\'s ability to metastasize and extensive circulatory/lymphatic involvement.',
-    deepExplanation: 'Once cancer metastasizes through blood and lymph to distant sites, surgical cure becomes nearly impossible because cancer cells are present in multiple locations. This is why TNM staging emphasizes M (metastasis) — it has the greatest impact on prognosis.',
-    others: {
-      0: 'Age matters but is not the primary factor.',
-      2: 'Diet matters but is not the primary factor.',
-      3: 'Social support affects quality of life but not survival.'
-    }
-  },
-  {
-    topic: 'HemOnc',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A nursing student asks the preceptor to explain "first-order kinetics" of chemotherapy. What is the best response?',
-    options: [
-      'Each dose kills a constant percentage of cells, regardless of count',
-      'The first dose kills more cells than later doses do',
-      'Cancer cells must be killed in a specific order',
-      'Chemo only works on the first day of each cycle'
-    ],
-    answer: 0,
-    concept: 'First-order kinetics explanation',
-    rationale: 'First-order kinetics means chemo kills a constant percentage of malignant cells at any given dose, regardless of the number of cells present.',
-    deepExplanation: 'For example, if chemo kills 99% of cells per dose: dose 1 reduces from 1 billion to 10 million, dose 2 reduces from 10 million to 100,000, and so on. This is why multiple cycles are needed — to bring the cell count low enough for the immune system to handle.',
-    others: {
-      1: 'First-order means CONSTANT percentage, not declining effectiveness.',
-      2: 'There\'s no specific order requirement.',
-      3: 'Chemo works through cycles, not just first-day effect.'
-    }
-  },
-  {
-    topic: 'HemOnc',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A patient asks the nurse why chemo can\'t target only cancer cells without affecting normal cells. What is the most accurate response?',
-    options: [
-      'Modern chemo IS completely selective for cancer cells',
-      'Side effects are unrelated to the chemo mechanism',
-      'Chemo cannot distinguish between cancer and high-growth normal cells',
-      'The patient has a unique reaction to standard medications'
+      "Schedule outpatient physical therapy for the back pain",
+      "Encourage bed rest and oral analgesics for 48 hours",
+      "Notify provider STAT — possible spinal cord compression",
+      "Apply heat to the back and reassess in 24 hours"
     ],
     answer: 2,
-    concept: 'Chemo lack of selectivity',
-    rationale: 'Chemo lacks selective toxicity — it cannot distinguish between cancer cells and normal cells with high growth fractions (hair follicles, GI epithelium, bone marrow).',
-    deepExplanation: 'This is why the predictable side effects occur: alopecia, GI symptoms, myelosuppression. Newer targeted therapies (monoclonal antibodies, kinase inhibitors) are more selective, but standard chemotherapy is fundamentally non-selective at the cellular level.',
+    concept: "Malignant spinal cord compression",
+    rationale: "Malignant spinal cord compression (MSCC) is a true oncologic emergency. Red flags: progressive back pain (worse lying flat), motor weakness, sensory level (umbilicus = T10), eventual bowel/bladder loss. Window to preserve function is hours-days.",
+    deepExplanation: "Most common in breast, lung, and prostate metastases. Anticipate STAT MRI of the entire spine (multiple levels possible), high-dose IV dexamethasone (10 mg load, then 4 mg q6h), urgent radiation therapy or surgical decompression. Once paraplegia develops, function rarely returns even with treatment. Bowel/bladder loss = late finding indicating worse prognosis. Pain at rest or worse lying flat is more concerning than mechanical pain.",
     others: {
-      0: 'Standard chemo is NOT completely selective.',
-      1: 'Side effects ARE directly related to mechanism.',
-      3: 'These reactions are NOT unique — they\'re predictable.'
+      "0": "PT cannot address tumor compression and delays diagnosis.",
+      "1": "Bed rest does not address the underlying compression and risks irreversible paraplegia.",
+      "3": "Heat does not treat spinal cord compression and delays critical workup."
     }
   },
   {
-    topic: 'HemOnc',
+    topic: "HemOnc",
     confirmed: false,
-    type: 'standard',
-    stem: 'A 45-year-old woman reports a lump in her right breast for the past 3 weeks. She has had no other symptoms. What is the most appropriate nursing action?',
+    type: "standard",
+    stem: "A patient with cancer reports persistent fatigue, pallor, and shortness of breath when walking up stairs. The CBC shows hemoglobin of 8.2 g/dL. The nurse recognizes this as which complication?",
     options: [
-      'Tell her to wait and reassess in 6 months',
-      'Tell her this is just a normal hormonal change',
-      'Schedule a routine wellness exam in 1 year',
-      'Recommend an urgent provider follow-up for evaluation'
+      "Severe acute hyperuricemia",
+      "Active febrile neutropenia",
+      "Beginning of thrombocytopenia",
+      "Chemo-induced anemia"
     ],
     answer: 3,
-    concept: 'CAUTION lump action',
-    rationale: 'A new breast lump is a CAUTION sign (T = Thickening or lump in the breast) and requires urgent provider evaluation — not waiting or reassurance.',
-    deepExplanation: 'CAUTION signs warrant prompt evaluation, not delays. Early detection is key for cancer outcomes. The other CAUTION signs include change in bowel/bladder habits, sores that don\'t heal, unusual bleeding, indigestion/swallowing trouble, mole/wart changes, and nagging cough/hoarseness.',
+    concept: "Anemia clinical picture",
+    rationale: "Hemoglobin of 8.2 with fatigue, pallor, and exertional dyspnea is chemo-induced anemia — the bone marrow is suppressed and RBC production is decreased.",
+    deepExplanation: "Anemia from myelosuppression is one of three blood abnormalities (along with thrombocytopenia and neutropenia). Off-label testosterone has been used for chemo-induced anemia due to erythropoietic effects. Severe anemia may require transfusion.",
     others: {
-      0: 'Six months is far too long to wait for a new lump.',
-      1: 'False reassurance can delay diagnosis.',
-      2: 'A year wait is dangerous for a CAUTION sign.'
+      "0": "Hyperuricemia presents with kidney concerns, not these symptoms.",
+      "1": "Neutropenia presents with infection, not these symptoms.",
+      "2": "Thrombocytopenia presents with bleeding, not these symptoms."
     }
   },
   {
-    topic: 'HemOnc',
+    topic: "HemOnc",
     confirmed: false,
-    type: 'standard',
-    stem: 'A patient on chemo with neutropenia has a temperature of 100.6°F orally. The nurse\'s priority action is which of the following?',
+    type: "standard",
+    stem: "A nurse is reviewing the medication list of a chemo patient who is being discharged. Which over-the-counter medication should the nurse advise the patient to AVOID?",
     options: [
-      'Administer acetaminophen and recheck in 4 hours',
-      'Encourage oral fluids and rest in bed',
-      'Notify the provider immediately for evaluation',
-      'Apply cool compresses to lower the temperature'
-    ],
-    answer: 2,
-    concept: 'Neutropenic fever priority',
-    rationale: 'Even a low-grade fever in a neutropenic patient is a medical emergency — sepsis can develop rapidly. The provider must be notified immediately for cultures and empiric IV antibiotics.',
-    deepExplanation: 'Neutropenic patients cannot mount a normal inflammatory response, so even minor fevers can indicate serious infection. The threshold for action is low — 100.4°F or higher in some protocols. Empiric antibiotics (ceftazidime, imipenem, vancomycin) are started while cultures are pending.',
-    others: {
-      0: 'Acetaminophen masks fever without addressing infection.',
-      1: 'Fluids and rest don\'t treat infection.',
-      3: 'Cool compresses don\'t address the underlying problem.'
-    }
-  },
-  {
-    topic: 'HemOnc',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A patient with a benign tumor asks why surgery is curative for her condition but not for her sister\'s malignant tumor. What is the most accurate explanation?',
-    options: [
-      'Benign tumors are encapsulated and don\'t spread',
-      'Benign tumors are smaller and easier to remove',
-      'Benign tumors respond better to chemotherapy',
-      'Benign tumors only occur in younger patients'
+      "Ibuprofen for occasional headache management",
+      "Acetaminophen for muscle aches and pain",
+      "Calcium supplements for daily bone health",
+      "Vitamin D3 supplements daily for bone health"
     ],
     answer: 0,
-    concept: 'Benign vs malignant surgical cure',
-    rationale: 'Benign tumors are encapsulated and don\'t spread (no metastasis), so surgical removal is curative. Malignant tumors are not encapsulated, infiltrate tissue, and metastasize — making surgery alone often insufficient.',
-    deepExplanation: 'Benign features: slow growth, encapsulated, well-differentiated, local pressure only, rare recurrence. "Benign = contained and controlled." Malignant tumors require systemic treatment (chemo, radiation, immunotherapy) in addition to surgery because cells may have already spread.',
+    concept: "NSAIDs in chemo",
+    rationale: "Chemo patients with myelosuppression should AVOID ibuprofen and other NSAIDs because they promote bleeding — particularly dangerous with thrombocytopenia.",
+    deepExplanation: "NSAIDs inhibit platelet function on top of existing thrombocytopenia. Acetaminophen is the OTC analgesic of choice for chemo patients. Calcium and vitamin D supplements are generally safe unless specific contraindications exist.",
     others: {
-      1: 'Size alone doesn\'t determine curability.',
-      2: 'Benign tumors don\'t typically need chemo at all.',
-      3: 'Age is not the determining factor.'
+      "1": "Acetaminophen IS the recommended analgesic.",
+      "2": "Calcium supplements are not problematic.",
+      "3": "Vitamin D3 is not problematic."
     }
   },
   {
-    topic: 'HemOnc',
+    topic: "HemOnc",
     confirmed: false,
-    type: 'standard',
-    stem: 'A nurse is reviewing tumor markers for several patients. A patient asks if a high tumor marker means cancer is back. What is the most accurate response?',
+    type: "standard",
+    stem: "A patient with cancer being told her prognosis asks the nurse what factor matters most for survival. Based on the review sheet, what is the most accurate response?",
     options: [
-      'Yes — high markers always mean cancer recurrence',
-      'No — markers are unreliable and shouldn\'t be checked',
-      'Markers track cancer status but require interpretation in context',
-      'Markers only matter at the time of initial diagnosis'
-    ],
-    answer: 2,
-    concept: 'Tumor marker interpretation',
-    rationale: 'Tumor markers track cancer status (detection, progression, treatment response, remission) but require interpretation in clinical context — they can be elevated in non-cancer conditions too.',
-    deepExplanation: 'Examples: PSA can be elevated in BPH; CEA in smoking; CA-125 in endometriosis. Trend over time matters more than a single value. The provider correlates markers with imaging and clinical findings to determine if recurrence is occurring.',
-    others: {
-      0: 'High markers don\'t ALWAYS mean recurrence.',
-      1: 'Markers are useful tools, not unreliable.',
-      3: 'Markers track cancer throughout treatment, not just at diagnosis.'
-    }
-  },
-  {
-    topic: 'HemOnc',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A patient with a Grade 4 tumor on biopsy asks what this means. What is the nurse\'s best explanation?',
-    options: [
-      '"Grade 4 means the tumor is small and easy to remove."',
-      '"Grade 4 means the cells look very abnormal — more serious."',
-      '"Grade 4 means the cancer has not spread to lymph nodes."',
-      '"Grade 4 means the cancer responds well to chemotherapy."'
+      "Age at diagnosis is the most important factor",
+      "Metastasis through blood and lymph determines prognosis",
+      "Patient's diet during treatment matters most",
+      "Social support determines patient outcomes"
     ],
     answer: 1,
-    concept: 'Grade 4 meaning',
-    rationale: 'Grade 4 = cells look very abnormal (undifferentiated/anaplastic) — the most serious grade. Higher grade = worse prognosis.',
-    deepExplanation: 'Grading uses a 1-4 scale: 1 = looks like normal cells (less serious, well-differentiated), 4 = very abnormal (most serious, undifferentiated). Memory aid: "Grade = appearance, Stage = spread." Grade reflects how aggressive the cells appear under the microscope.',
+    concept: "Metastasis prognosis driver",
+    rationale: "Prognosis depends heavily on the tumor's ability to metastasize and extensive circulatory/lymphatic involvement.",
+    deepExplanation: "Once cancer metastasizes through blood and lymph to distant sites, surgical cure becomes nearly impossible because cancer cells are present in multiple locations. This is why TNM staging emphasizes M (metastasis) — it has the greatest impact on prognosis.",
     others: {
-      0: 'Size is not what grade measures.',
-      2: 'Lymph node spread is part of staging (N), not grading.',
-      3: 'Grade doesn\'t directly predict chemo response.'
+      "0": "Age matters but is not the primary factor.",
+      "2": "Diet matters but is not the primary factor.",
+      "3": "Social support affects quality of life but not survival."
     }
   },
   {
-    topic: 'HemOnc',
+    topic: "Hemonc",
     confirmed: false,
-    type: 'standard',
-    stem: 'A chemo patient develops severe stomatitis with extensive oral ulcerations and inability to eat. The nurse anticipates which intervention?',
+    type: "standard",
+    stem: "A patient with chemo-induced anemia is receiving the first unit of PRBCs. 15 minutes into the transfusion, the patient develops chills, T 102.4°F (was 98.6°F), back pain, dark amber urine, and BP drops from 132/80 to 92/54. What is the nurse's priority action?",
     options: [
-      'Magic mouthwash with lidocaine and diphenhydramine',
-      'Strict NPO with IV nutrition only',
-      'Opioid pain medication for severe pain control',
-      'Discontinue chemo permanently for the patient'
-    ],
-    answer: 2,
-    concept: 'Severe stomatitis tx',
-    rationale: 'Severe stomatitis is treated with opioids — magic mouthwash is for MILD cases only.',
-    deepExplanation: 'Severity guides treatment: mild stomatitis → magic mouthwash (lidocaine + diphenhydramine), severe stomatitis → opioids. Patients with severe oral ulcerations may also need IV hydration, pain control, and oral care to prevent infection. Chemo isn\'t typically discontinued — dose may be adjusted.',
-    others: {
-      0: 'Magic mouthwash is for MILD stomatitis only.',
-      1: 'NPO with TPN is excessive — soft/liquid diet usually possible.',
-      3: 'Chemo is rarely permanently stopped for stomatitis.'
-    }
-  },
-  {
-    topic: 'HemOnc',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A patient on chemo with neutropenia is being treated with filgrastim. The patient asks what this medication does. What is the best response?',
-    options: [
-      '"It is an antibiotic to prevent infections during chemo."',
-      '"It treats the underlying cancer along with chemo."',
-      '"It stimulates your bone marrow to produce more neutrophils."',
-      '"It blocks chemotherapy from causing bone marrow damage."'
-    ],
-    answer: 2,
-    concept: 'Filgrastim function',
-    rationale: 'Filgrastim is a colony-stimulating factor (CSF) that stimulates the bone marrow to produce more neutrophils — helping recover from chemo-induced neutropenia.',
-    deepExplanation: 'Other CSFs include pegfilgrastim and sargramostim. They are used after chemo cycles when neutrophils drop, helping the bone marrow recover faster and reducing infection risk. They do NOT prevent chemo damage — they help recovery.',
-    others: {
-      0: 'It is NOT an antibiotic.',
-      1: 'It does NOT treat cancer.',
-      3: 'It does NOT block chemo damage — it helps recovery.'
-    }
-  },
-  {
-    topic: 'HemOnc',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A patient on chemo asks why she needs to maintain good oral hygiene with frequent mouth checks. What is the most accurate explanation?',
-    options: [
-      'It just helps prevent bad breath during treatment',
-      'It allows early detection of stomatitis and infection',
-      'It is purely a comfort measure for the patient',
-      'It speeds up the metabolism of chemotherapy drugs'
+      "Slow the transfusion rate and continue with antipyretic premedication",
+      "Stop the transfusion, maintain IV with NS, notify provider STAT, send blood/urine samples",
+      "Continue transfusion — fever within 1°C is an expected mild reaction",
+      "Discontinue all IV access and monitor vital signs every 15 minutes"
     ],
     answer: 1,
-    concept: 'Oral care rationale',
-    rationale: 'Good oral hygiene allows early detection of stomatitis and infection — both common in chemo patients with myelosuppression and damaged GI epithelium.',
-    deepExplanation: 'The mouth is a portal for infection in neutropenic patients. Early stomatitis can be treated with magic mouthwash before progressing to severe ulcerations needing opioids. Soft-bristle toothbrush, bland diet, and frequent assessments are key.',
+    concept: "Acute hemolytic transfusion reaction",
+    rationale: "Acute hemolytic transfusion reaction (typically ABO incompatibility): chills + fever + back/flank pain + hemoglobinuria + hypotension within minutes. STOP transfusion, maintain IV with NS through a NEW line, notify provider STAT, return unit + samples to blood bank.",
+    deepExplanation: "Distinguish from febrile non-hemolytic reaction (fever ≥1°C rise, no hemolysis signs — slow but can continue with antipyretic) and allergic reactions (urticaria, can continue with antihistamine). Hemolytic reaction monitoring: watch for DIC (bleeding, low platelets, prolonged PT/PTT, low fibrinogen) and AKI. Send patient blood + urine + transfused unit to blood bank for analysis. Most cases are due to clerical errors — patient identification is the prevention.",
     others: {
-      0: 'Bad breath is not the main reason.',
-      2: 'It\'s a clinical priority, not just comfort.',
-      3: 'Oral care doesn\'t affect chemo metabolism.'
+      "0": "Slowing the rate does not address hemolysis — the reaction continues.",
+      "2": "Fever + back pain + dark urine + hypotension is NOT a febrile non-hemolytic reaction.",
+      "3": "Discontinuing IV access loses the route for emergency fluids/medications."
+    }
+  },
+  {
+    topic: "Hemonc",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient with breast cancer has received doxorubicin cumulative dose of 540 mg/m² (the lifetime limit is generally 450-550 mg/m²). The patient now reports dyspnea on exertion, ankle swelling, and orthopnea. Echocardiogram shows EF 38% (baseline 60%). The nurse anticipates:",
+    options: [
+      "Continue current chemotherapy as ordered with very close cardiac monitoring",
+      "Increase doxorubicin dose to overcome the apparent treatment resistance",
+      "Discontinue doxorubicin, anticipate switch to non-anthracycline, manage HF",
+      "Order daily ECGs but continue current treatment unchanged"
+    ],
+    answer: 2,
+    concept: "Doxorubicin cardiotoxicity (lifetime dose)",
+    rationale: "Doxorubicin (and all anthracyclines) cause dose-dependent cardiotoxicity that is often irreversible. Lifetime dose limit is ~450-550 mg/m². Past this, risk of cardiomyopathy/HF rises sharply. HF + decreased EF mandates stopping doxorubicin and switching regimens.",
+    deepExplanation: "Cardiotoxicity is from oxidative stress in cardiomyocytes (which lack the catalase enzyme to neutralize free radicals). Manage HF per usual: ACE inhibitor, beta-blocker, diuretic. Dexrazoxane is cardioprotective and may be added in patients approaching lifetime dose. Baseline echo is standard before starting, with serial monitoring during treatment. Newer agents (trastuzumab, etc.) have separate but additive cardiotoxicity risks. Liposomal doxorubicin reduces cardiotoxicity.",
+    others: {
+      "0": "Continuing past lifetime dose with active HF is dangerous.",
+      "1": "Increasing dose worsens cardiotoxicity, not overcomes it.",
+      "3": "ECGs miss systolic dysfunction — echo is the right monitoring tool, but treatment changes are still needed."
+    }
+  },
+  {
+    topic: "HemOnc",
+    confirmed: false,
+    type: "standard",
+    stem: "A 45-year-old woman reports a lump in her right breast for the past 3 weeks. She has had no other symptoms. What is the most appropriate nursing action?",
+    options: [
+      "Tell her to wait and reassess in 6 months",
+      "Tell her this is just a normal hormonal change",
+      "Schedule a routine wellness exam in 1 year",
+      "Recommend an urgent provider follow-up for evaluation"
+    ],
+    answer: 3,
+    concept: "CAUTION lump action",
+    rationale: "A new breast lump is a CAUTION sign (T = Thickening or lump in the breast) and requires urgent provider evaluation — not waiting or reassurance.",
+    deepExplanation: "CAUTION signs warrant prompt evaluation, not delays. Early detection is key for cancer outcomes. The other CAUTION signs include change in bowel/bladder habits, sores that don't heal, unusual bleeding, indigestion/swallowing trouble, mole/wart changes, and nagging cough/hoarseness.",
+    others: {
+      "0": "Six months is far too long to wait for a new lump.",
+      "1": "False reassurance can delay diagnosis.",
+      "2": "A year wait is dangerous for a CAUTION sign."
+    }
+  },
+  {
+    topic: "HemOnc",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient on chemo with neutropenia has a temperature of 100.6°F orally. The nurse's priority action is which of the following?",
+    options: [
+      "Notify the provider immediately for evaluation",
+      "Encourage oral fluids and rest in bed",
+      "Administer acetaminophen and recheck in 4 hours",
+      "Apply cool compresses to lower the temperature"
+    ],
+    answer: 0,
+    concept: "Neutropenic fever priority",
+    rationale: "Even a low-grade fever in a neutropenic patient is a medical emergency — sepsis can develop rapidly. The provider must be notified immediately for cultures and empiric IV antibiotics.",
+    deepExplanation: "Neutropenic patients cannot mount a normal inflammatory response, so even minor fevers can indicate serious infection. The threshold for action is low — 100.4°F or higher in some protocols. Empiric antibiotics (ceftazidime, imipenem, vancomycin) are started while cultures are pending.",
+    others: {
+      "1": "Fluids and rest don't treat infection.",
+      "2": "Acetaminophen masks fever without addressing infection.",
+      "3": "Cool compresses don't address the underlying problem."
+    }
+  },
+  {
+    topic: "Hemonc",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient is receiving high-dose IV methotrexate as part of chemotherapy. The nurse reviews the orders and notes that leucovorin (folinic acid) is scheduled to start 24 hours after the methotrexate infusion ends. A new nurse asks why leucovorin is needed. What is the most accurate response?",
+    options: [
+      "Leucovorin enhances methotrexate's anticancer activity in the tumor cells",
+      "Leucovorin rescues normal cells from methotrexate's folate antagonism",
+      "Leucovorin is a stronger chemotherapy that replaces methotrexate",
+      "Leucovorin treats the nausea caused by high-dose methotrexate"
+    ],
+    answer: 1,
+    concept: "Leucovorin rescue mechanism",
+    rationale: "Methotrexate inhibits dihydrofolate reductase (folate antagonist), affecting all rapidly dividing cells. Leucovorin (folinic acid) bypasses the blockade and rescues normal cells from severe toxicity (mucositis, myelosuppression, nephrotoxicity). Timing is critical.",
+    deepExplanation: "Leucovorin is given 24 hours after MTX to allow tumor cell kill while sparing normal cells. Starting too early reduces antitumor effect; too late = severe toxicity. Methotrexate level monitoring guides leucovorin duration (continued until MTX level <0.05 µmol/L). Folic acid (DIFFERENT molecule) does NOT work as rescue — only leucovorin does. High-dose MTX requires aggressive hydration, urinary alkalinization (urine pH >7), and serial MTX levels.",
+    others: {
+      "0": "Leucovorin is a rescue agent, not an enhancer of antitumor effect.",
+      "2": "Leucovorin does not treat cancer — it rescues normal cells.",
+      "3": "Leucovorin is not an antiemetic."
+    }
+  },
+  {
+    topic: "HemOnc",
+    confirmed: false,
+    type: "standard",
+    stem: "A nurse is reviewing tumor markers for several patients. A patient asks if a high tumor marker means cancer is back. What is the most accurate response?",
+    options: [
+      "Yes — high markers always mean cancer recurrence",
+      "No — markers are unreliable and shouldn't be checked",
+      "Markers only matter at the time of initial diagnosis",
+      "Markers track cancer status but require interpretation in context"
+    ],
+    answer: 3,
+    concept: "Tumor marker interpretation",
+    rationale: "Tumor markers track cancer status (detection, progression, treatment response, remission) but require interpretation in clinical context — they can be elevated in non-cancer conditions too.",
+    deepExplanation: "Examples: PSA can be elevated in BPH; CEA in smoking; CA-125 in endometriosis. Trend over time matters more than a single value. The provider correlates markers with imaging and clinical findings to determine if recurrence is occurring.",
+    others: {
+      "0": "High markers don't ALWAYS mean recurrence.",
+      "1": "Markers are useful tools, not unreliable.",
+      "2": "Markers track cancer throughout treatment, not just at diagnosis."
+    }
+  },
+  {
+    topic: "Hemonc",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient on capecitabine for metastatic colon cancer reports painful redness, swelling, and peeling on her palms and soles. She also has tingling in her fingers and difficulty holding objects. The nurse anticipates which provider action?",
+    options: [
+      "Increase the capecitabine dose to overcome the side effect",
+      "Continue current dose and apply topical antibiotic cream",
+      "Diagnose this as cellulitis and start IV antibiotics",
+      "Hold or dose-reduce capecitabine; manage with emollients, cool compress, analgesics"
+    ],
+    answer: 3,
+    concept: "Hand-foot syndrome (PPE)",
+    rationale: "Hand-foot syndrome (palmar-plantar erythrodysesthesia) is common with capecitabine, 5-FU, sorafenib, sunitinib, doxorubicin liposomal. Treatment: dose reduction or hold drug, emollients, cool compresses, analgesics, avoid hot water/friction.",
+    deepExplanation: "Grading: Grade 1 = minimal redness/numbness, no functional impairment; Grade 2 = painful redness with swelling but functional; Grade 3 = ulceration, blistering, severe pain, unable to use hands/feet. Severe cases require dose discontinuation. NOT cellulitis (no fever, bilateral symmetric distribution, no progression up extremity, no warmth/cellulitic margins). Pyridoxine (B6) and urea-based emollients may have prophylactic benefit. Pre-treatment teaching includes avoiding tight-fitting shoes, hot water, prolonged friction.",
+    others: {
+      "0": "Increasing dose worsens the toxicity.",
+      "1": "Topical antibiotics do not treat HFS — and there is no infection.",
+      "2": "Cellulitis is unilateral, not symmetric on palms AND soles, and would have systemic signs."
+    }
+  },
+  {
+    topic: "HemOnc",
+    confirmed: false,
+    type: "standard",
+    stem: "A chemo patient develops severe stomatitis with extensive oral ulcerations and inability to eat. The nurse anticipates which intervention?",
+    options: [
+      "Magic mouthwash with lidocaine and diphenhydramine",
+      "Strict NPO with IV nutrition only",
+      "Opioid pain medication for severe pain control",
+      "Discontinue chemo permanently for the patient"
+    ],
+    answer: 2,
+    concept: "Severe stomatitis tx",
+    rationale: "Severe stomatitis is treated with opioids — magic mouthwash is for MILD cases only.",
+    deepExplanation: "Severity guides treatment: mild stomatitis → magic mouthwash (lidocaine + diphenhydramine), severe stomatitis → opioids. Patients with severe oral ulcerations may also need IV hydration, pain control, and oral care to prevent infection. Chemo isn't typically discontinued — dose may be adjusted.",
+    others: {
+      "0": "Magic mouthwash is for MILD stomatitis only.",
+      "1": "NPO with TPN is excessive — soft/liquid diet usually possible.",
+      "3": "Chemo is rarely permanently stopped for stomatitis."
+    }
+  },
+  {
+    topic: "HemOnc",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient on chemo with neutropenia is being treated with filgrastim. The patient asks what this medication does. What is the best response?",
+    options: [
+      "\"It is an antibiotic to prevent infections during chemo.\"",
+      "\"It treats the underlying cancer along with chemo.\"",
+      "\"It stimulates your bone marrow to produce more neutrophils.\"",
+      "\"It blocks chemotherapy from causing bone marrow damage.\""
+    ],
+    answer: 2,
+    concept: "Filgrastim function",
+    rationale: "Filgrastim is a colony-stimulating factor (CSF) that stimulates the bone marrow to produce more neutrophils — helping recover from chemo-induced neutropenia.",
+    deepExplanation: "Other CSFs include pegfilgrastim and sargramostim. They are used after chemo cycles when neutrophils drop, helping the bone marrow recover faster and reducing infection risk. They do NOT prevent chemo damage — they help recovery.",
+    others: {
+      "0": "It is NOT an antibiotic.",
+      "1": "It does NOT treat cancer.",
+      "3": "It does NOT block chemo damage — it helps recovery."
+    }
+  },
+  {
+    topic: "HemOnc",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient on chemo asks why she needs to maintain good oral hygiene with frequent mouth checks. What is the most accurate explanation?",
+    options: [
+      "It allows early detection of stomatitis and infection",
+      "It just helps prevent bad breath during treatment",
+      "It is purely a comfort measure for the patient",
+      "It speeds up the metabolism of chemotherapy drugs"
+    ],
+    answer: 0,
+    concept: "Oral care rationale",
+    rationale: "Good oral hygiene allows early detection of stomatitis and infection — both common in chemo patients with myelosuppression and damaged GI epithelium.",
+    deepExplanation: "The mouth is a portal for infection in neutropenic patients. Early stomatitis can be treated with magic mouthwash before progressing to severe ulcerations needing opioids. Soft-bristle toothbrush, bland diet, and frequent assessments are key.",
+    others: {
+      "1": "Bad breath is not the main reason.",
+      "2": "It's a clinical priority, not just comfort.",
+      "3": "Oral care doesn't affect chemo metabolism."
     }
   }
 ];

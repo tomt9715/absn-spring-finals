@@ -83,22 +83,21 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
 .sim-btn:hover { background: #d97706; }
 .sim-btn.disabled { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.5); cursor: not-allowed; pointer-events: none; }
 
-/* High-Yield Recall Card (Pharm only — exam intel from peer) */
-.recall-card { background: linear-gradient(135deg, var(--navy) 0%, #102f4d 100%); border-radius: 10px; padding: 22px 32px; margin-bottom: 16px; color: white; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; border: 1px solid rgba(245, 158, 11, 0.35); position: relative; overflow: hidden; }
-.recall-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--gold), var(--gold-soft), var(--gold)); }
-.recall-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
-.recall-eyebrow::before { content: '★'; color: var(--gold); font-size: 12px; }
+/* High-Yield Recall Card (Pharm only — discreet styling) */
+.recall-card { background: #0d2540; border-radius: 10px; padding: 22px 32px; margin-bottom: 16px; color: white; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; border: 1px solid rgba(245, 158, 11, 0.15); position: relative; overflow: hidden; }
+.recall-card::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 3px; background: var(--gold); opacity: 0.6; }
+.recall-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; color: rgba(245, 158, 11, 0.85); text-transform: uppercase; margin-bottom: 6px; }
 .recall-title { font-family: 'DM Serif Display', serif; font-size: 22px; color: white; margin-bottom: 4px; }
-.recall-desc { color: rgba(255,255,255,0.75); font-size: 13px; line-height: 1.5; }
+.recall-desc { color: rgba(255,255,255,0.65); font-size: 13px; line-height: 1.5; }
 .recall-action { text-align: center; }
 .recall-score { font-family: 'DM Serif Display', serif; font-size: 36px; color: var(--gold); line-height: 1; margin-bottom: 4px; }
-.recall-score.no-attempt { color: rgba(255,255,255,0.4); font-size: 18px; font-style: italic; }
+.recall-score.no-attempt { color: rgba(255,255,255,0.35); font-size: 16px; font-style: italic; }
 .recall-status { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; min-height: 12px; }
 .recall-status.pass { color: var(--gold); }
 .recall-status.fail { color: #fca5a5; }
-.recall-btn { background: var(--gold); color: var(--navy); border: none; padding: 9px 20px; font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 700; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; letter-spacing: 0.3px; }
-.recall-btn:hover { background: #d97706; }
-.recall-btn.empty { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.6); cursor: default; pointer-events: none; }
+.recall-btn { background: rgba(245, 158, 11, 0.9); color: var(--navy); border: none; padding: 9px 22px; font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 600; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; letter-spacing: 0.4px; transition: background 0.15s; }
+.recall-btn:hover { background: var(--gold); }
+.recall-btn.empty { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.5); cursor: default; pointer-events: none; }
 
 /* Continue studying */
 .continue-section { background: linear-gradient(135deg, #fff8e6 0%, #fef3c7 100%); border: 1px solid var(--gold); border-radius: 10px; padding: 20px 24px; margin-bottom: 32px; }
@@ -285,9 +284,9 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
 <!-- High-Yield Recall (Pharm only) -->
 <div class="recall-card" id="recall-card" style="display: none;">
   <div>
-    <div class="recall-eyebrow">High-Yield Recall · Peer-Sourced Exam Intel</div>
-    <div class="recall-title">Pharm Final · Exam Recall Drill</div>
-    <div class="recall-desc">Concepts a classmate confirmed appeared on the actual final. The single highest-yield drill before exam day.</div>
+    <div class="recall-eyebrow">Priority Review · Confidential</div>
+    <div class="recall-title">Pharm Final · Recall Drill</div>
+    <div class="recall-desc">Targeted review of confirmed high-yield concepts. Highest-priority drill before exam day.</div>
   </div>
   <div class="recall-action">
     <div class="recall-score no-attempt" id="recall-score">Not attempted</div>
