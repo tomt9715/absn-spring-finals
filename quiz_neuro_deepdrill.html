@@ -141,534 +141,529 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--navy)
 <script>
 const questions = [
   {
-    topic: 'Neuro',
+    topic: "Neuro",
     confirmed: false,
-    type: 'standard',
-    stem: 'A nurse caring for four patients on carbamazepine reviews their CBCs. Which patient should the nurse notify the provider about first?',
+    type: "standard",
+    stem: "A nurse caring for four patients on carbamazepine reviews their CBCs. Which patient should the nurse notify the provider about first?",
     options: [
-      'A patient with a WBC of 2800 and complaints of sore throat',
-      'A patient whose hemoglobin dropped from 13.5 to 13.1 today',
-      'A patient whose platelets are stable at 220,000 currently',
-      'A patient with a normal absolute neutrophil count today'
+      "A patient with a WBC of 2800 and complaints of sore throat",
+      "A patient whose hemoglobin dropped from 13.5 to 13.1 today",
+      "A patient whose platelets are stable at 220,000 currently",
+      "A patient with a normal absolute neutrophil count today"
     ],
     answer: 0,
-    concept: 'Carbamazepine WBC threshold',
-    rationale: 'Carbamazepine should be discontinued if WBC drops below 3000 — a WBC of 2800 with infection signs (sore throat) is an emergency.',
-    deepExplanation: 'This combination indicates evolving agranulocytosis with active infection risk. The drug must be held immediately and the patient evaluated. The other findings are stable or non-concerning.',
+    concept: "Carbamazepine WBC threshold",
+    rationale: "Carbamazepine should be discontinued if WBC drops below 3000 — a WBC of 2800 with infection signs (sore throat) is an emergency.",
+    deepExplanation: "This combination indicates evolving agranulocytosis with active infection risk. The drug must be held immediately and the patient evaluated. The other findings are stable or non-concerning.",
     others: {
-      1: 'A 0.4 g/dL drop in hemoglobin is not urgent.',
-      2: 'Stable platelets are fine.',
-      3: 'A normal ANC is reassuring, not concerning.'
+      "1": "A 0.4 g/dL drop in hemoglobin is not urgent.",
+      "2": "Stable platelets are fine.",
+      "3": "A normal ANC is reassuring, not concerning."
     }
   },
   {
-    topic: 'Neuro',
+    topic: "Neuro",
     confirmed: false,
-    type: 'standard',
-    stem: 'A patient on carbamazepine asks why they are getting routine CBCs every few months. What is the nurse\'s best response?',
+    type: "standard",
+    stem: "A patient is brought to the ED actively seizing for the past 8 minutes. The seizure has not stopped despite supportive care. Which intervention does the nurse anticipate as FIRST-line pharmacologic therapy?",
     options: [
-      '"To check your kidney function while on this medication."',
-      '"To ensure you have enough vitamin D in your bloodstream."',
-      '"To check that your thyroid hormone levels stay normal."',
-      '"To monitor for fatal aplastic anemia and other blood problems."'
+      "IV phenytoin 20 mg/kg loading dose given over 30 minutes",
+      "IV lorazepam 0.1 mg/kg or diazepam 0.15 mg/kg push",
+      "IV phenobarbital 20 mg/kg as induction therapy",
+      "Oral levetiracetam 1500 mg via nasogastric tube"
     ],
-    answer: 3,
-    concept: 'Carbamazepine CBC rationale',
-    rationale: 'Periodic CBCs monitor for fatal aplastic anemia and other myelosuppression — a known carbamazepine risk.',
-    deepExplanation: 'Carbamazepine causes leukopenia, anemia, and thrombocytopenia, with rare but fatal aplastic anemia. The drug should be discontinued if WBC drops below 3000. Patients should also report fever, sore throat, infection, pallor, weakness, bruising, or petechiae.',
+    answer: 1,
+    concept: "Status epilepticus first-line therapy",
+    rationale: "Status epilepticus = seizure >5 minutes OR ≥2 seizures without recovery between. First-line: IV benzodiazepine (lorazepam preferred, or diazepam, or IM/IN midazolam). Phenytoin/fosphenytoin or levetiracetam IV is SECOND-line if benzo fails.",
+    deepExplanation: "The longer status epilepticus continues, the harder it is to stop and the more neurons die. Treatment ladder: (1) IV benzodiazepine (lorazepam 0.1 mg/kg max 4 mg/dose, may repeat once); (2) IV antiseizure med (fosphenytoin 20 mg PE/kg, levetiracetam 60 mg/kg, or valproic acid 40 mg/kg); (3) anesthetic agents (propofol, midazolam infusion, pentobarbital) for refractory status. Always check glucose, give thiamine, address airway/oxygenation simultaneously.",
     others: {
-      0: 'CBCs do not assess kidney function.',
-      1: 'Vitamin D levels are not checked by CBC.',
-      2: 'Thyroid function is checked by TSH/T4, not CBC.'
+      "0": "Phenytoin is second-line — given AFTER benzodiazepines fail.",
+      "2": "Phenobarbital is third-line for refractory status.",
+      "3": "Oral/NG meds are inappropriate during active seizure (aspiration risk, slow absorption)."
     }
   },
   {
-    topic: 'Neuro',
+    topic: "Neuro",
     confirmed: false,
-    type: 'standard',
-    stem: 'A patient on donepezil reports a fall last night when getting up to use the bathroom. Which assessment finding most likely explains this?',
+    type: "standard",
+    stem: "A patient on donepezil reports a fall last night when getting up to use the bathroom. Which assessment finding most likely explains this?",
     options: [
-      'Severe orthostatic hypertension after dosing',
-      'Acute hyperglycemia from the medication',
-      'Bradycardia syncope from the cholinergic effect',
-      'Tachycardia from sympathetic stimulation'
+      "Severe orthostatic hypertension after dosing",
+      "Acute hyperglycemia from the medication",
+      "Bradycardia syncope from the cholinergic effect",
+      "Tachycardia from sympathetic stimulation"
     ],
     answer: 2,
-    concept: 'Donepezil bradycardia syncope',
-    rationale: 'Donepezil can cause bradycardia syncope — a known fall risk that is why bedtime dosing is preferred.',
-    deepExplanation: 'Cholinesterase inhibition increases acetylcholine, which stimulates muscarinic receptors in the heart and slows it. With bedtime dosing, the patient is already supine if syncope occurs. Patients getting up to use the bathroom in the middle of the night are particularly at risk.',
+    concept: "Donepezil bradycardia syncope",
+    rationale: "Donepezil can cause bradycardia syncope — a known fall risk that is why bedtime dosing is preferred.",
+    deepExplanation: "Cholinesterase inhibition increases acetylcholine, which stimulates muscarinic receptors in the heart and slows it. With bedtime dosing, the patient is already supine if syncope occurs. Patients getting up to use the bathroom in the middle of the night are particularly at risk.",
     others: {
-      0: 'Donepezil tends to LOWER BP, not raise it.',
-      1: 'Donepezil does not cause hyperglycemia.',
-      3: 'Donepezil causes BRADY-cardia, not tachycardia.'
+      "0": "Donepezil tends to LOWER BP, not raise it.",
+      "1": "Donepezil does not cause hyperglycemia.",
+      "3": "Donepezil causes BRADY-cardia, not tachycardia."
     }
   },
   {
-    topic: 'Neuro',
+    topic: "Neuro",
     confirmed: false,
-    type: 'standard',
-    stem: 'A nursing student asks the preceptor why donepezil is started at 5 mg and held there for 1-3 months before increasing. What is the best response?',
+    type: "standard",
+    stem: "A nursing student asks the preceptor why donepezil is started at 5 mg and held there for 1-3 months before increasing. What is the best response?",
     options: [
-      '"To allow the patient time to adjust to taking medications."',
-      '"To minimize the cholinergic SLUDGE adverse effects."',
-      '"Insurance requires this slow titration for coverage."',
-      '"This is just a habit and there is no real reason."'
+      "\"To allow the patient time to adjust to taking medications.\"",
+      "\"This is just a habit and there is no real reason.\"",
+      "\"Insurance requires this slow titration for coverage.\"",
+      "\"To minimize the cholinergic SLUDGE adverse effects.\""
+    ],
+    answer: 3,
+    concept: "Donepezil titration rationale",
+    rationale: "The slow titration minimizes cholinergic SLUDGE adverse effects — patients tolerate the lower dose first before increasing.",
+    deepExplanation: "Starting at 5 mg for 1-3 months allows the body to adjust before titrating to 10 mg for another 1-3 months. Rapid titration causes intolerable nausea, vomiting, diarrhea, and other cholinergic effects, leading to discontinuation. Mnemonic: \"DONepezil → DOING the most: SLUD.\"",
+    others: {
+      "0": "This is not the primary clinical rationale.",
+      "1": "There is a clear pharmacologic rationale.",
+      "2": "Insurance is not the medical reason."
+    }
+  },
+  {
+    topic: "Neuro",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient with Parkinson's on levodopa/carbidopa for 4 years reports that 30 minutes before each scheduled dose, her tremors and rigidity return — but she feels better 30 minutes after taking the dose. Which phenomenon is the nurse describing?",
+    options: [
+      "\"On-off\" phenomenon — sudden unpredictable shifts in symptoms",
+      "\"Wearing-off\" effect — predictable symptom return as dose effect ends",
+      "Acute drug allergy requiring discontinuation of levodopa",
+      "Dyskinesia — involuntary movements at peak dose effect"
     ],
     answer: 1,
-    concept: 'Donepezil titration rationale',
-    rationale: 'The slow titration minimizes cholinergic SLUDGE adverse effects — patients tolerate the lower dose first before increasing.',
-    deepExplanation: 'Starting at 5 mg for 1-3 months allows the body to adjust before titrating to 10 mg for another 1-3 months. Rapid titration causes intolerable nausea, vomiting, diarrhea, and other cholinergic effects, leading to discontinuation. Mnemonic: "DONepezil → DOING the most: SLUD."',
+    concept: "Levodopa wearing-off vs on-off phenomenon",
+    rationale: "\"Wearing-off\" = predictable return of symptoms as dose effect ends (typically before next dose). \"On-off\" = sudden, unpredictable shifts between mobile/immobile states unrelated to dose timing. The PREDICTABLE pattern tied to dose schedule = wearing-off.",
+    deepExplanation: "Both phenomena are long-term motor fluctuations from levodopa. Wearing-off appears earlier (3-5 years of therapy) and is managed by: (1) more frequent smaller doses, (2) adding COMT inhibitor (entacapone) or MAO-B inhibitor (selegiline, rasagiline), (3) extended-release formulations. On-off is less predictable, often later in disease, and may require apomorphine rescue or deep brain stimulation. Dyskinesias (involuntary writhing/twisting) are SEPARATE — they occur at PEAK dose, not trough.",
     others: {
-      0: 'This is not the primary clinical rationale.',
-      2: 'Insurance is not the medical reason.',
-      3: 'There is a clear pharmacologic rationale.'
+      "0": "On-off is unpredictable — this patient's pattern is dose-related and predictable.",
+      "2": "Drug allergy presents with rash, anaphylaxis, not return of disease symptoms.",
+      "3": "Dyskinesia occurs at peak dose effect, not before next dose."
     }
   },
   {
-    topic: 'Neuro',
+    topic: "Neuro",
     confirmed: false,
-    type: 'standard',
-    stem: 'A family member of a patient with newly diagnosed mild Alzheimer\'s asks why the provider prescribed donepezil instead of memantine. What is the best response?',
+    type: "standard",
+    stem: "A nurse is preparing to administer a cholinesterase inhibitor to a patient with a history of severe asthma. What is the priority action?",
     options: [
-      '"Donepezil is approved for all stages, but memantine is reserved for moderate to severe disease."',
-      '"Memantine is more expensive than donepezil for most insurance plans."',
-      '"Donepezil completely reverses early Alzheimer\'s symptoms in most patients."',
-      '"Memantine is only used after donepezil therapy has clearly failed."'
-    ],
-    answer: 0,
-    concept: 'Donepezil vs memantine staging',
-    rationale: 'Donepezil is approved for all stages of AD, while memantine is reserved for moderate to severe AD.',
-    deepExplanation: 'In advanced disease, the two drugs are often combined for additive benefit on different pathways (cholinergic + glutamatergic). Neither drug reverses Alzheimer\'s — both only modestly slow progression.',
-    others: {
-      1: 'Cost is not the primary clinical reason for the choice.',
-      2: 'Donepezil does not reverse symptoms.',
-      3: 'Memantine staging is based on disease severity, not donepezil failure.'
-    }
-  },
-  {
-    topic: 'Neuro',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A nurse is preparing to administer a cholinesterase inhibitor to a patient with a history of severe asthma. What is the priority action?',
-    options: [
-      'Give the medication after a peak flow assessment',
-      'Increase the patient\'s rescue inhaler dose',
-      'Notify the provider of the asthma history before administering',
-      'Place the patient on continuous pulse oximetry'
+      "Give the medication after a peak flow assessment",
+      "Increase the patient's rescue inhaler dose",
+      "Notify the provider of the asthma history before administering",
+      "Place the patient on continuous pulse oximetry"
     ],
     answer: 2,
-    concept: 'Cholinesterase + severe asthma',
-    rationale: 'Cholinesterase inhibitors cause bronchoconstriction (one of the "Killer B\'s") — severe asthma is a major caution that requires provider notification before administering.',
-    deepExplanation: 'Increased acetylcholine stimulates muscarinic receptors in airways, causing bronchospasm. Other Killer B\'s include bradycardia and bronchorrhea. The provider may want to choose an alternative agent or proceed with extra precautions.',
+    concept: "Cholinesterase + severe asthma",
+    rationale: "Cholinesterase inhibitors cause bronchoconstriction (one of the \"Killer B's\") — severe asthma is a major caution that requires provider notification before administering.",
+    deepExplanation: "Increased acetylcholine stimulates muscarinic receptors in airways, causing bronchospasm. Other Killer B's include bradycardia and bronchorrhea. The provider may want to choose an alternative agent or proceed with extra precautions.",
     others: {
-      0: 'Peak flow alone does not address the underlying CI risk.',
-      1: 'The nurse cannot independently change the patient\'s inhaler dosing.',
-      3: 'Pulse ox alone does not address the asthma exacerbation risk.'
+      "0": "Peak flow alone does not address the underlying CI risk.",
+      "1": "The nurse cannot independently change the patient's inhaler dosing.",
+      "3": "Pulse ox alone does not address the asthma exacerbation risk."
     }
   },
   {
-    topic: 'Neuro',
+    topic: "Neuro",
     confirmed: false,
-    type: 'standard',
-    stem: 'A patient with newly diagnosed moderate Alzheimer\'s disease is being started on memantine. The patient\'s daughter asks how it works. What is the best explanation?',
+    type: "standard",
+    stem: "A patient with newly diagnosed moderate Alzheimer's disease is being started on memantine. The patient's daughter asks how it works. What is the best explanation?",
     options: [
-      '"It boosts acetylcholine to improve memory and recall."',
-      '"It blocks excess calcium from damaging brain cells."',
-      '"It replaces dopamine that is missing in the brain."',
-      '"It directly reverses brain plaques in Alzheimer\'s."'
+      "\"It boosts acetylcholine to improve memory and recall.\"",
+      "\"It blocks excess calcium from damaging brain cells.\"",
+      "\"It replaces dopamine that is missing in the brain.\"",
+      "\"It directly reverses brain plaques in Alzheimer's.\""
     ],
     answer: 1,
-    concept: 'Memantine MOA explanation',
-    rationale: 'Memantine blocks NMDA receptors, preventing excess calcium from entering brain cells — this provides neuroprotection.',
-    deepExplanation: 'In Alzheimer\'s, too much glutamate opens NMDA receptors, allowing excess calcium influx that damages and kills brain cells. Memantine blocks calcium when glutamate is low while permitting normal signaling when glutamate is high. It does NOT reverse plaques or restore lost function — it slows ongoing damage.',
+    concept: "Memantine MOA explanation",
+    rationale: "Memantine blocks NMDA receptors, preventing excess calcium from entering brain cells — this provides neuroprotection.",
+    deepExplanation: "In Alzheimer's, too much glutamate opens NMDA receptors, allowing excess calcium influx that damages and kills brain cells. Memantine blocks calcium when glutamate is low while permitting normal signaling when glutamate is high. It does NOT reverse plaques or restore lost function — it slows ongoing damage.",
     others: {
-      0: 'That describes cholinesterase inhibitors like donepezil, not memantine.',
-      2: 'That describes levodopa for Parkinson\'s.',
-      3: 'No current AD drug reverses plaques.'
+      "0": "That describes cholinesterase inhibitors like donepezil, not memantine.",
+      "2": "That describes levodopa for Parkinson's.",
+      "3": "No current AD drug reverses plaques."
     }
   },
   {
-    topic: 'Neuro',
+    topic: "Neuro",
     confirmed: false,
-    type: 'standard',
-    stem: 'A patient with Parkinson\'s on levodopa/carbidopa returns to clinic complaining the medication has stopped working as well as it did 6 years ago. What is the most likely explanation?',
+    type: "standard",
+    stem: "A patient with Parkinson's on levodopa/carbidopa returns to clinic complaining the medication has stopped working as well as it did 6 years ago. What is the most likely explanation?",
     options: [
-      'The patient has developed an acute drug allergy',
-      'Levodopa has a maximum 5-year benefit window',
-      'A higher protein diet would restore effectiveness',
-      'The patient is taking the medication too frequently'
+      "The patient has developed an acute drug allergy",
+      "Levodopa has a maximum 5-year benefit window",
+      "A higher protein diet would restore effectiveness",
+      "The patient is taking the medication too frequently"
     ],
     answer: 1,
-    concept: 'Levodopa 5-year benefit',
-    rationale: 'Levodopa has a maximum 5-year benefit — after that, effectiveness wanes despite higher doses.',
-    deepExplanation: 'This phenomenon (sometimes called "wearing off") is why providers often delay levodopa initiation and use other Parkinson\'s drugs first when possible. Once that 5-year window closes, alternative strategies (DBS, dopamine agonists, MAO-B inhibitors) become more important.',
+    concept: "Levodopa 5-year benefit",
+    rationale: "Levodopa has a maximum 5-year benefit — after that, effectiveness wanes despite higher doses.",
+    deepExplanation: "This phenomenon (sometimes called \"wearing off\") is why providers often delay levodopa initiation and use other Parkinson's drugs first when possible. Once that 5-year window closes, alternative strategies (DBS, dopamine agonists, MAO-B inhibitors) become more important.",
     others: {
-      0: 'Drug allergy doesn\'t typically present as decreased efficacy over years.',
-      2: 'High protein REDUCES levodopa absorption — wouldn\'t restore effectiveness.',
-      3: 'Frequency is set by the prescription, not the patient.'
+      "0": "Drug allergy doesn't typically present as decreased efficacy over years.",
+      "2": "High protein REDUCES levodopa absorption — wouldn't restore effectiveness.",
+      "3": "Frequency is set by the prescription, not the patient."
     }
   },
   {
-    topic: 'Neuro',
+    topic: "Neuro",
     confirmed: false,
-    type: 'standard',
-    stem: 'A patient on long-term levodopa develops new involuntary jerking movements of the arms and face. What is the nurse\'s priority action?',
+    type: "standard",
+    stem: "A patient on long-term levodopa develops new involuntary jerking movements of the arms and face. What is the nurse's priority action?",
     options: [
-      'Tell the patient this means the disease has progressed beyond treatment',
-      'Encourage the patient to push through the movements with exercise',
-      'Increase the dose to overcome the involuntary movements',
-      'Report the dyskinesias to the provider for possible dose reduction'
+      "Tell the patient this means the disease has progressed beyond treatment",
+      "Encourage the patient to push through the movements with exercise",
+      "Increase the dose to overcome the involuntary movements",
+      "Report the dyskinesias to the provider for possible dose reduction"
     ],
     answer: 3,
-    concept: 'Levodopa paradox dyskinesias',
-    rationale: 'Levodopa can cause paradox dyskinesias — extra involuntary movement that requires a dose REDUCTION, not an increase. Long-term occurrence should be reported.',
-    deepExplanation: 'Dyskinesias often emerge after years of levodopa therapy and represent excess dopamine activity. Counterintuitively, the response is to lower the dose, not raise it. The nurse should report this finding so the provider can adjust dosing.',
+    concept: "Levodopa paradox dyskinesias",
+    rationale: "Levodopa can cause paradox dyskinesias — extra involuntary movement that requires a dose REDUCTION, not an increase. Long-term occurrence should be reported.",
+    deepExplanation: "Dyskinesias often emerge after years of levodopa therapy and represent excess dopamine activity. Counterintuitively, the response is to lower the dose, not raise it. The nurse should report this finding so the provider can adjust dosing.",
     others: {
-      0: 'Dyskinesias don\'t mean the disease is untreatable.',
-      1: 'Pushing through doesn\'t resolve drug-induced dyskinesias.',
-      2: 'Increasing the dose worsens dyskinesias.'
+      "0": "Dyskinesias don't mean the disease is untreatable.",
+      "1": "Pushing through doesn't resolve drug-induced dyskinesias.",
+      "2": "Increasing the dose worsens dyskinesias."
     }
   },
   {
-    topic: 'Neuro',
+    topic: "Neuro",
     confirmed: false,
-    type: 'standard',
-    stem: 'A patient on levodopa/carbidopa is being discharged. The nurse provides dietary teaching. Which patient statement requires further teaching?',
+    type: "standard",
+    stem: "A patient on levodopa/carbidopa is being discharged. The nurse provides dietary teaching. Which patient statement requires further teaching?",
     options: [
-      '"I will spread my protein intake throughout the day."',
-      '"I will avoid grilled steaks and large portions of meat."',
-      '"I will eat a high-protein meal right before each dose."',
-      '"I will tell my MAOI provider that I take levodopa."'
+      "\"I will spread my protein intake throughout the day.\"",
+      "\"I will avoid grilled steaks and large portions of meat.\"",
+      "\"I will eat a high-protein meal right before each dose.\"",
+      "\"I will tell my MAOI provider that I take levodopa.\""
     ],
     answer: 2,
-    concept: 'Levodopa wrong teaching',
-    rationale: 'Eating high-protein meals around levodopa dosing reduces drug absorption — this teaching needs correction.',
-    deepExplanation: 'Mnemonic: "LEVO → LEAVE the chicken alone." Dietary amino acids compete with levodopa for transport across the gut and BBB. The other statements show correct understanding of dietary precautions and the MAOI interaction.',
+    concept: "Levodopa wrong teaching",
+    rationale: "Eating high-protein meals around levodopa dosing reduces drug absorption — this teaching needs correction.",
+    deepExplanation: "Mnemonic: \"LEVO → LEAVE the chicken alone.\" Dietary amino acids compete with levodopa for transport across the gut and BBB. The other statements show correct understanding of dietary precautions and the MAOI interaction.",
     others: {
-      0: 'Spreading protein throughout the day is correct teaching.',
-      1: 'Avoiding large meat portions is correct teaching.',
-      3: 'Disclosing levodopa use is correct — MAOIs require 14-day washout.'
+      "0": "Spreading protein throughout the day is correct teaching.",
+      "1": "Avoiding large meat portions is correct teaching.",
+      "3": "Disclosing levodopa use is correct — MAOIs require 14-day washout."
     }
   },
   {
-    topic: 'Neuro',
+    topic: "Neuro",
     confirmed: false,
-    type: 'standard',
-    stem: 'A patient on levodopa/carbidopa was just started on an MAOI for depression. The nurse notes a BP of 220/130. What is the most likely explanation?',
+    type: "standard",
+    stem: "A patient on levodopa/carbidopa was just started on an MAOI for depression. The nurse notes a BP of 220/130. What is the most likely explanation?",
     options: [
-      'Hypertensive crisis from MAOI + levodopa interaction',
-      'Acute kidney injury from medication interaction',
-      'Worsening of underlying Parkinson\'s symptoms',
-      'A normal stress response to hospitalization'
+      "Hypertensive crisis from MAOI + levodopa interaction",
+      "Acute kidney injury from medication interaction",
+      "Worsening of underlying Parkinson's symptoms",
+      "A normal stress response to hospitalization"
     ],
     answer: 0,
-    concept: 'Levodopa + MAOI crisis',
-    rationale: 'Combining MAOI with levodopa causes hypertensive crisis — this is why a 14-day washout is required between the two drugs.',
-    deepExplanation: 'MAOIs prevent breakdown of dopamine and other catecholamines. When combined with levodopa (which increases brain dopamine), the result is dangerous catecholamine accumulation and hypertensive crisis. Mnemonic: "LEVO → LEAVE the MAO."',
+    concept: "Levodopa + MAOI crisis",
+    rationale: "Combining MAOI with levodopa causes hypertensive crisis — this is why a 14-day washout is required between the two drugs.",
+    deepExplanation: "MAOIs prevent breakdown of dopamine and other catecholamines. When combined with levodopa (which increases brain dopamine), the result is dangerous catecholamine accumulation and hypertensive crisis. Mnemonic: \"LEVO → LEAVE the MAO.\"",
     others: {
-      1: 'AKI doesn\'t typically cause this acute BP elevation.',
-      2: 'Parkinson\'s itself doesn\'t cause hypertensive crisis.',
-      3: 'A BP of 220/130 is not a normal stress response.'
+      "1": "AKI doesn't typically cause this acute BP elevation.",
+      "2": "Parkinson's itself doesn't cause hypertensive crisis.",
+      "3": "A BP of 220/130 is not a normal stress response."
     }
   },
   {
-    topic: 'Neuro',
+    topic: "Neuro",
     confirmed: false,
-    type: 'standard',
-    stem: 'A nursing student asks why levodopa is always combined with carbidopa. What is the preceptor\'s best response?',
+    type: "standard",
+    stem: "A patient with myasthenia gravis is in the ICU with worsening weakness. The provider plans an edrophonium (Tensilon) test to differentiate myasthenic crisis from cholinergic crisis. The nurse should have which medication immediately available at the bedside?",
     options: [
-      '"Carbidopa enhances dopamine receptor binding directly in the brain."',
-      '"Carbidopa is a placebo — it has no real effect on Parkinson\'s."',
-      '"Carbidopa reduces nausea by acting as a central antiemetic."',
-      '"Carbidopa prevents levodopa breakdown peripherally so more reaches the brain."'
-    ],
-    answer: 3,
-    concept: 'Carbidopa peripheral protection',
-    rationale: 'Carbidopa prevents levodopa from breaking down in the periphery so more can reach the brain — acting as levodopa\'s "guardian."',
-    deepExplanation: 'Carbidopa does NOT cross the blood-brain barrier. It works peripherally by inhibiting decarboxylase, which would otherwise convert levodopa to dopamine before it reaches the brain. This combination allows lower levodopa doses and reduces peripheral side effects (nausea, hypotension).',
-    others: {
-      0: 'Carbidopa does not enhance receptor binding — it protects levodopa.',
-      1: 'Carbidopa is essential, not a placebo.',
-      2: 'Carbidopa has indirect antiemetic effect by reducing peripheral dopamine, but the primary purpose is to spare levodopa for the brain.'
-    }
-  },
-  {
-    topic: 'Neuro',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A nurse is preparing oral neostigmine for a patient with myasthenia gravis. What is the priority action before administration?',
-    options: [
-      'Assess the patient\'s ability to swallow safely',
-      'Check the patient\'s blood pressure in both arms',
-      'Verify the patient\'s most recent stool record',
-      'Confirm the patient\'s current weight in kilograms'
-    ],
-    answer: 0,
-    concept: 'Neostigmine swallow safety',
-    rationale: 'Patients with MG must have their ability to swallow assessed before PO neostigmine due to dysphagia risk and aspiration.',
-    deepExplanation: 'Dysphagia is a hallmark MG symptom and a sign of under-treatment. If the patient cannot safely swallow, administering oral medication risks aspiration. The provider may need to use IV/IM neostigmine instead.',
-    others: {
-      1: 'BP is reasonable but not the priority for PO neostigmine.',
-      2: 'Stool record is not relevant to PO administration.',
-      3: 'Weight does not need verification each dose.'
-    }
-  },
-  {
-    topic: 'Neuro',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A patient with MG on neostigmine reports excessive drooling, abdominal cramping, and increased sweating. What is the nurse\'s priority action?',
-    options: [
-      'Increase the next neostigmine dose for better control',
-      'Encourage the patient to drink more water and rest',
-      'Apply an antiperspirant and continue current dosing',
-      'Hold the next dose and notify the provider for possible dose reduction'
-    ],
-    answer: 3,
-    concept: 'Neostigmine over-treatment',
-    rationale: 'These are SLUD/cholinergic crisis findings indicating over-treatment — the dose should be REDUCED, not increased. Atropine is the antidote for severe overdose.',
-    deepExplanation: 'Differentiation is critical because the response is opposite: under-treatment (ptosis, dysphagia, weakness) needs MORE drug. Over-treatment (excessive salivation, cramping, sweating, SLUDGE effects) needs LESS drug. Mistaking one for the other can be fatal.',
-    others: {
-      0: 'Increasing the dose with cholinergic crisis would make it worse.',
-      1: 'Reassurance doesn\'t address an evolving cholinergic crisis.',
-      2: 'Antiperspirant doesn\'t address the underlying overdose.'
-    }
-  },
-  {
-    topic: 'Neuro',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A patient with MG comes to the ED with severe muscle weakness. The provider asks the nurse to differentiate between under-treatment and over-treatment. Which finding most strongly suggests UNDER-treatment?',
-    options: [
-      'Excessive drooling and continuous abdominal cramping',
-      'Drooping eyelids (ptosis) and difficulty swallowing',
-      'Severe diarrhea and frequent urination',
-      'Profuse sweating and increased lacrimation'
+      "Naloxone — for opioid reversal if needed",
+      "Atropine — to reverse cholinergic effects if symptoms worsen",
+      "Epinephrine — for emergency hypertensive crisis",
+      "Flumazenil — to reverse benzodiazepine sedation"
     ],
     answer: 1,
-    concept: 'MG under-treatment recognition',
-    rationale: 'Ptosis and dysphagia are classic signs of UNDER-treatment with neostigmine — MG symptoms are returning because there is not enough drug.',
-    deepExplanation: 'The patient needs a dose INCREASE. Ptosis (drooping eyelids) and dysphagia (difficulty swallowing) are hallmark MG symptoms that emerge when ACh is insufficient. The other findings describe OVER-treatment (cholinergic crisis from too much drug).',
+    concept: "Edrophonium (Tensilon) test antidote",
+    rationale: "Edrophonium is a short-acting cholinesterase inhibitor that boosts ACh transiently. If the patient has myasthenic crisis (under-treatment) → strength IMPROVES briefly. If cholinergic crisis (over-treatment) → symptoms WORSEN. ATROPINE must be at bedside to reverse acute cholinergic effects (bradycardia, bronchospasm).",
+    deepExplanation: "The Tensilon test is largely historical — most centers now use clinical exam + serology. But on NCLEX, the principle stands: cholinergic crisis worsens with edrophonium, myasthenic crisis improves. Atropine 0.5-1 mg IV is the antidote because edrophonium can cause severe bradycardia, bronchospasm, and increased secretions. The \"SLUDGE\" mnemonic (Salivation, Lacrimation, Urination, Defecation, GI cramping, Emesis) describes cholinergic excess. Edrophonium has a short duration (~5-10 min), so worsening is brief but can cause severe airway/cardiac compromise.",
     others: {
-      0: 'Drooling and cramping = OVER-treatment.',
-      2: 'Diarrhea and urinary symptoms = OVER-treatment SLUD effects.',
-      3: 'Sweating and lacrimation = OVER-treatment cholinergic effects.'
+      "0": "Naloxone reverses opioids — not relevant to cholinergic crisis.",
+      "2": "Epinephrine treats anaphylaxis or asystole, not cholinergic effects.",
+      "3": "Flumazenil reverses benzodiazepines — not relevant here."
     }
   },
   {
-    topic: 'Neuro',
+    topic: "Neuro",
     confirmed: false,
-    type: 'standard',
-    stem: 'A nurse is preparing to administer sumatriptan to a patient with a migraine. Which finding in the patient\'s history would be a contraindication?',
+    type: "standard",
+    stem: "A nurse is preparing oral neostigmine for a patient with myasthenia gravis. What is the priority action before administration?",
     options: [
-      'Family history of seasonal allergies and rhinitis',
-      'Current oral contraceptive use for past 3 years',
-      'History of CAD with stent placement 2 years ago',
-      'Past viral infection with full recovery 6 months ago'
+      "Assess the patient's ability to swallow safely",
+      "Check the patient's blood pressure in both arms",
+      "Verify the patient's most recent stool record",
+      "Confirm the patient's current weight in kilograms"
+    ],
+    answer: 0,
+    concept: "Neostigmine swallow safety",
+    rationale: "Patients with MG must have their ability to swallow assessed before PO neostigmine due to dysphagia risk and aspiration.",
+    deepExplanation: "Dysphagia is a hallmark MG symptom and a sign of under-treatment. If the patient cannot safely swallow, administering oral medication risks aspiration. The provider may need to use IV/IM neostigmine instead.",
+    others: {
+      "1": "BP is reasonable but not the priority for PO neostigmine.",
+      "2": "Stool record is not relevant to PO administration.",
+      "3": "Weight does not need verification each dose."
+    }
+  },
+  {
+    topic: "Neuro",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient with MG on neostigmine reports excessive drooling, abdominal cramping, and increased sweating. What is the nurse's priority action?",
+    options: [
+      "Increase the next neostigmine dose for better control",
+      "Encourage the patient to drink more water and rest",
+      "Apply an antiperspirant and continue current dosing",
+      "Hold the next dose and notify the provider for possible dose reduction"
+    ],
+    answer: 3,
+    concept: "Neostigmine over-treatment",
+    rationale: "These are SLUD/cholinergic crisis findings indicating over-treatment — the dose should be REDUCED, not increased. Atropine is the antidote for severe overdose.",
+    deepExplanation: "Differentiation is critical because the response is opposite: under-treatment (ptosis, dysphagia, weakness) needs MORE drug. Over-treatment (excessive salivation, cramping, sweating, SLUDGE effects) needs LESS drug. Mistaking one for the other can be fatal.",
+    others: {
+      "0": "Increasing the dose with cholinergic crisis would make it worse.",
+      "1": "Reassurance doesn't address an evolving cholinergic crisis.",
+      "2": "Antiperspirant doesn't address the underlying overdose."
+    }
+  },
+  {
+    topic: "Neuro",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient with MG comes to the ED with severe muscle weakness. The provider asks the nurse to differentiate between under-treatment and over-treatment. Which finding most strongly suggests UNDER-treatment?",
+    options: [
+      "Excessive drooling and continuous abdominal cramping",
+      "Severe diarrhea and frequent urination",
+      "Drooping eyelids (ptosis) and difficulty swallowing",
+      "Profuse sweating and increased lacrimation"
     ],
     answer: 2,
-    concept: 'Sumatriptan + CAD',
-    rationale: 'Sumatriptan is contraindicated in CAD due to coronary vasospasm risk — the drug causes vasoconstriction that can precipitate ischemia in already-narrowed arteries.',
-    deepExplanation: 'Other contraindications include ischemic heart disease, prior MI, and uncontrolled HTN. The drug is also contraindicated with ergotamine, other triptans, SSRIs, and SNRIs (serotonin syndrome risk).',
+    concept: "MG under-treatment recognition",
+    rationale: "Ptosis and dysphagia are classic signs of UNDER-treatment with neostigmine — MG symptoms are returning because there is not enough drug.",
+    deepExplanation: "The patient needs a dose INCREASE. Ptosis (drooping eyelids) and dysphagia (difficulty swallowing) are hallmark MG symptoms that emerge when ACh is insufficient. The other findings describe OVER-treatment (cholinergic crisis from too much drug).",
     others: {
-      0: 'Allergies are not a sumatriptan contraindication.',
-      1: 'OCs are not a contraindication.',
-      3: 'Past viral infection with recovery is not a contraindication.'
+      "0": "Drooling and cramping = OVER-treatment.",
+      "1": "Diarrhea and urinary symptoms = OVER-treatment SLUD effects.",
+      "3": "Sweating and lacrimation = OVER-treatment cholinergic effects."
     }
   },
   {
-    topic: 'Neuro',
+    topic: "Neuro",
     confirmed: false,
-    type: 'standard',
-    stem: 'A patient on sumatriptan also takes fluoxetine for depression. What is the nurse\'s priority concern?',
+    type: "standard",
+    stem: "A nurse is preparing to administer sumatriptan to a patient with a migraine. Which finding in the patient's history would be a contraindication?",
     options: [
-      'Risk of hypoglycemia from drug interaction',
-      'Increased migraine frequency from the combination',
-      'Reduced sumatriptan effectiveness over time',
-      'Risk of serotonin syndrome from the combination'
-    ],
-    answer: 3,
-    concept: 'Sumatriptan + SSRI',
-    rationale: 'Combining sumatriptan with an SSRI like fluoxetine creates serotonin syndrome risk — this combination should be avoided.',
-    deepExplanation: 'Serotonin syndrome presents with agitation, confusion, hyperthermia, hyperreflexia, clonus, autonomic instability. Both drugs increase serotonergic activity. Sumatriptan must never be combined with ergotamine, other triptans, SSRIs, or SNRIs.',
-    others: {
-      0: 'No hypoglycemia risk from this combination.',
-      1: 'The interaction does not increase migraine frequency.',
-      2: 'The risk is not reduced effectiveness — it\'s acute toxicity.'
-    }
-  },
-  {
-    topic: 'Neuro',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A patient is brought to the ED with suspected benzodiazepine overdose. The provider orders flumazenil. Which finding would be most concerning during administration?',
-    options: [
-      'Sudden onset of seizure activity',
-      'Mild improvement in level of consciousness',
-      'Slight increase in respiratory rate',
-      'Return of normal pupillary response'
-    ],
-    answer: 0,
-    concept: 'Flumazenil seizure',
-    rationale: 'Flumazenil can cause seizures — especially in patients with chronic benzo use or mixed overdoses. This is the most concerning adverse effect.',
-    deepExplanation: 'In benzo-tolerant patients, abrupt reversal removes the GABA-mediated seizure suppression and can precipitate seizures. Flumazenil is also of limited help in directly reversing respiratory depression — airway support remains critical regardless.',
-    others: {
-      1: 'Improving LOC is the desired effect, not a concern.',
-      2: 'Increased respiratory rate is also a desired effect.',
-      3: 'Normal pupil response is reassuring.'
-    }
-  },
-  {
-    topic: 'Neuro',
-    confirmed: false,
-    type: 'sata',
-    stem: 'The nurse is reviewing patient teaching for carbamazepine. Which statements indicate correct understanding? Select all that apply.',
-    options: [
-      '"I will avoid grapefruit juice while taking this medication."',
-      '"I will report any fever, sore throat, or unusual bruising."',
-      '"I can have my regular morning coffee with this drug."',
-      '"I should expect periodic CBC blood work to be drawn."',
-      '"I should drink alcohol moderately to help with my anxiety."',
-      '"I should stop the drug if my next refill is delayed."'
-    ],
-    answerArr: [0, 1, 3],
-    concept: 'Carbamazepine teaching SATA',
-    rationale: 'Correct teaching: avoid grapefruit, report myelosuppression signs, expect periodic CBCs. Incorrect: alcohol with AEDs is unsafe, abrupt discontinuation risks seizures.',
-    perOptionExplanations: {
-      0: '<strong>Avoid grapefruit</strong> — inhibits CYP3A4, raises drug levels.',
-      1: '<strong>Report fever, sore throat, bruising</strong> — myelosuppression signs.',
-      3: '<strong>Periodic CBCs</strong> — monitor for fatal aplastic anemia.'
-    },
-    others: {
-      2: 'Coffee is not a primary concern, but the framing as a "regular" routine is fine — however, this isn\'t one of the key teaching points.',
-      4: 'Alcohol with AEDs is not safe and worsens CNS depression.',
-      5: 'Patients should never abruptly stop AEDs — risk of breakthrough seizures.'
-    }
-  },
-  {
-    topic: 'Neuro',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A 75-year-old patient with severe Alzheimer\'s on combined donepezil and memantine therapy is admitted for new-onset bradycardia of 38. Which medication is most likely contributing?',
-    options: [
-      'Donepezil — cholinergic effect causing bradycardia',
-      'Memantine — direct cardiac effect causing bradycardia',
-      'Both equally — they share the same mechanism',
-      'Neither — bradycardia is not a known effect of either drug'
-    ],
-    answer: 0,
-    concept: 'Donepezil bradycardia',
-    rationale: 'Donepezil causes bradycardia from increased acetylcholine — one of the "Killer B\'s" of cholinergic toxicity.',
-    deepExplanation: 'Donepezil and other cholinesterase inhibitors increase ACh, which slows heart rate. Memantine works on NMDA receptors and does not have this cardiac effect. The provider may need to hold donepezil or reduce the dose.',
-    others: {
-      1: 'Memantine is an NMDA antagonist with no direct cardiac slowing.',
-      2: 'They have different mechanisms.',
-      3: 'Bradycardia is a known and serious effect of donepezil.'
-    }
-  },
-  {
-    topic: 'Neuro',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A patient with Parkinson\'s on levodopa/carbidopa reports new visual hallucinations of small animals in the room. What is the nurse\'s priority action?',
-    options: [
-      'Tell the patient to ignore them — they are harmless',
-      'Hold the medication and notify the provider',
-      'Encourage the patient to interact with the hallucinations',
-      'Increase the levodopa dose to overcome the symptom'
-    ],
-    answer: 1,
-    concept: 'Levodopa hallucinations priority',
-    rationale: 'Hallucinations are a serious adverse effect of levodopa — the nurse should hold the next dose and notify the provider for evaluation.',
-    deepExplanation: 'Levodopa increases brain dopamine, which can produce psychiatric effects including hallucinations and psychosis. The provider may reduce the dose, switch agents, or add an antipsychotic. Levodopa should not be stopped abruptly because that can trigger neuroleptic malignant syndrome — the provider determines the safe taper.',
-    others: {
-      0: 'Hallucinations need provider evaluation, not dismissal.',
-      2: 'Encouraging interaction reinforces the experience.',
-      3: 'Increasing the dose worsens hallucinations.'
-    }
-  },
-  {
-    topic: 'Neuro',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A patient with MG is in the ICU with worsening weakness. The nurse must determine if this is myasthenic crisis (under-treatment) or cholinergic crisis (over-treatment). Which assessment finding most reliably differentiates the two?',
-    options: [
-      'The patient\'s blood pressure trend over the past hour',
-      'The size of the patient\'s pupils on examination',
-      'The presence or absence of excessive salivation',
-      'The level of pain reported by the patient'
+      "Family history of seasonal allergies and rhinitis",
+      "Current oral contraceptive use for past 3 years",
+      "History of CAD with stent placement 2 years ago",
+      "Past viral infection with full recovery 6 months ago"
     ],
     answer: 2,
-    concept: 'MG crisis differentiation',
-    rationale: 'Excessive salivation indicates cholinergic crisis (over-treatment, SLUDGE effects). Its absence with weakness suggests myasthenic crisis (under-treatment).',
-    deepExplanation: 'Both crises present with weakness, but the SLUDGE/cholinergic findings only occur in over-treatment. Other distinguishing features: under-treatment shows ptosis and dysphagia; over-treatment shows salivation, lacrimation, urination, diarrhea, bradycardia, bronchospasm. Atropine is used for cholinergic crisis.',
+    concept: "Sumatriptan + CAD",
+    rationale: "Sumatriptan is contraindicated in CAD due to coronary vasospasm risk — the drug causes vasoconstriction that can precipitate ischemia in already-narrowed arteries.",
+    deepExplanation: "Other contraindications include ischemic heart disease, prior MI, and uncontrolled HTN. The drug is also contraindicated with ergotamine, other triptans, SSRIs, and SNRIs (serotonin syndrome risk).",
     others: {
-      0: 'BP trend can change in either crisis.',
-      1: 'Pupil size alone is not the most reliable differentiator.',
-      3: 'Pain is not the differentiating feature.'
+      "0": "Allergies are not a sumatriptan contraindication.",
+      "1": "OCs are not a contraindication.",
+      "3": "Past viral infection with recovery is not a contraindication."
     }
   },
   {
-    topic: 'Neuro',
+    topic: "Neuro",
     confirmed: false,
-    type: 'standard',
-    stem: 'A patient on sumatriptan asks about long-term use. Which response by the nurse is most accurate?',
+    type: "standard",
+    stem: "A patient on sumatriptan also takes fluoxetine for depression. What is the nurse's priority concern?",
     options: [
-      'Sumatriptan is taken to abort an active migraine, not for prevention',
-      'Sumatriptan should be taken daily for migraine prevention',
-      'Sumatriptan can be taken hourly until pain is fully gone',
-      'Sumatriptan has no specific time limit between doses'
-    ],
-    answer: 0,
-    concept: 'Sumatriptan abortive use',
-    rationale: 'Sumatriptan is used for abortive therapy — stopping an ongoing migraine attack. It is not for prevention.',
-    deepExplanation: 'Triptans cause vasoconstriction of intracranial blood vessels and suppress release of inflammatory neuropeptides. "Triptans shrink vessels and stop pain chemicals." For migraine PREVENTION, other agents (beta-blockers, anticonvulsants, CGRP inhibitors) are used.',
-    others: {
-      1: 'Sumatriptan is NOT a daily preventive drug.',
-      2: 'Hourly dosing is not safe.',
-      3: 'There are dose limits to prevent toxicity.'
-    }
-  },
-  {
-    topic: 'Neuro',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A patient on flumazenil for benzo overdose remains hypoxic with shallow respirations despite improved level of consciousness. What is the nurse\'s priority understanding?',
-    options: [
-      'Give a second dose of flumazenil to fix breathing',
-      'Flumazenil reverses sedation but is of limited help with respiratory depression',
-      'The patient must be having a stroke — call rapid response',
-      'Hypoxia is expected and self-resolves with flumazenil'
-    ],
-    answer: 1,
-    concept: 'Flumazenil respiratory limitation',
-    rationale: 'Flumazenil reverses sedation but is of limited help in directly reversing respiratory depression — airway support and oxygenation remain critical.',
-    deepExplanation: 'Even with improved consciousness, the patient may still need ventilatory support, supplemental O2, or intubation. Repeat flumazenil doses don\'t fix breathing. The drug also carries seizure risk, especially in chronic benzo users or mixed overdoses.',
-    others: {
-      0: 'A second dose doesn\'t reverse respiratory depression.',
-      2: 'Hypoxia from benzo OD is the expected pattern, not stroke.',
-      3: 'Hypoxia does NOT self-resolve — it requires active management.'
-    }
-  },
-  {
-    topic: 'Neuro',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A patient newly started on carbamazepine reports an unusual rash spreading on his trunk. The patient is of Asian descent. What is the priority action?',
-    options: [
-      'Apply a moisturizing lotion and reassess in 24 hours',
-      'Continue the medication — rash is a known mild side effect',
-      'Recommend an OTC antihistamine for the itching',
-      'Hold the dose and notify the provider immediately'
+      "Risk of hypoglycemia from drug interaction",
+      "Increased migraine frequency from the combination",
+      "Reduced sumatriptan effectiveness over time",
+      "Risk of serotonin syndrome from the combination"
     ],
     answer: 3,
-    concept: 'Carbamazepine SJS/TEN risk',
-    rationale: 'Patients of Asian descent are at increased risk for Stevens-Johnson Syndrome (SJS) and toxic epidermal necrolysis (TEN) on carbamazepine — any rash must be reported immediately.',
-    deepExplanation: 'SJS and TEN are life-threatening hypersensitivity reactions presenting with rash that can progress to widespread skin sloughing. Asian patients have a higher rate of HLA-B*1502 allele, which is strongly associated with this reaction. Patients of Asian descent may be screened genetically before starting carbamazepine.',
+    concept: "Sumatriptan + SSRI",
+    rationale: "Combining sumatriptan with an SSRI like fluoxetine creates serotonin syndrome risk — this combination should be avoided.",
+    deepExplanation: "Serotonin syndrome presents with agitation, confusion, hyperthermia, hyperreflexia, clonus, autonomic instability. Both drugs increase serotonergic activity. Sumatriptan must never be combined with ergotamine, other triptans, SSRIs, or SNRIs.",
     others: {
-      0: 'Watching and reassessing 24 hours later could be fatal.',
-      1: 'A spreading rash is NOT a benign side effect of carbamazepine.',
-      2: 'Antihistamines mask a potentially life-threatening reaction.'
+      "0": "No hypoglycemia risk from this combination.",
+      "1": "The interaction does not increase migraine frequency.",
+      "2": "The risk is not reduced effectiveness — it's acute toxicity."
+    }
+  },
+  {
+    topic: "Neuro",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient is brought to the ED with suspected benzodiazepine overdose. The provider orders flumazenil. Which finding would be most concerning during administration?",
+    options: [
+      "Sudden onset of seizure activity",
+      "Mild improvement in level of consciousness",
+      "Slight increase in respiratory rate",
+      "Return of normal pupillary response"
+    ],
+    answer: 0,
+    concept: "Flumazenil seizure",
+    rationale: "Flumazenil can cause seizures — especially in patients with chronic benzo use or mixed overdoses. This is the most concerning adverse effect.",
+    deepExplanation: "In benzo-tolerant patients, abrupt reversal removes the GABA-mediated seizure suppression and can precipitate seizures. Flumazenil is also of limited help in directly reversing respiratory depression — airway support remains critical regardless.",
+    others: {
+      "1": "Improving LOC is the desired effect, not a concern.",
+      "2": "Increased respiratory rate is also a desired effect.",
+      "3": "Normal pupil response is reassuring."
+    }
+  },
+  {
+    topic: "Neuro",
+    confirmed: false,
+    type: "sata",
+    stem: "The nurse is reviewing patient teaching for carbamazepine. Which statements indicate correct understanding? Select all that apply.",
+    options: [
+      "\"I will avoid grapefruit juice while taking this medication.\"",
+      "\"I will report any fever, sore throat, or unusual bruising.\"",
+      "\"I can have my regular morning coffee with this drug.\"",
+      "\"I should expect periodic CBC blood work to be drawn.\"",
+      "\"I should drink alcohol moderately to help with my anxiety.\"",
+      "\"I should stop the drug if my next refill is delayed.\""
+    ],
+    answerArr: [0,1,3],
+    concept: "Carbamazepine teaching SATA",
+    rationale: "Correct teaching: avoid grapefruit, report myelosuppression signs, expect periodic CBCs. Incorrect: alcohol with AEDs is unsafe, abrupt discontinuation risks seizures.",
+    others: {
+      "2": "Coffee is not a primary concern, but the framing as a \"regular\" routine is fine — however, this isn't one of the key teaching points.",
+      "4": "Alcohol with AEDs is not safe and worsens CNS depression.",
+      "5": "Patients should never abruptly stop AEDs — risk of breakthrough seizures."
+    }
+  },
+  {
+    topic: "Neuro",
+    confirmed: false,
+    type: "standard",
+    stem: "A 75-year-old patient with severe Alzheimer's on combined donepezil and memantine therapy is admitted for new-onset bradycardia of 38. Which medication is most likely contributing?",
+    options: [
+      "Donepezil — cholinergic effect causing bradycardia",
+      "Memantine — direct cardiac effect causing bradycardia",
+      "Both equally — they share the same mechanism",
+      "Neither — bradycardia is not a known effect of either drug"
+    ],
+    answer: 0,
+    concept: "Donepezil bradycardia",
+    rationale: "Donepezil causes bradycardia from increased acetylcholine — one of the \"Killer B's\" of cholinergic toxicity.",
+    deepExplanation: "Donepezil and other cholinesterase inhibitors increase ACh, which slows heart rate. Memantine works on NMDA receptors and does not have this cardiac effect. The provider may need to hold donepezil or reduce the dose.",
+    others: {
+      "1": "Memantine is an NMDA antagonist with no direct cardiac slowing.",
+      "2": "They have different mechanisms.",
+      "3": "Bradycardia is a known and serious effect of donepezil."
+    }
+  },
+  {
+    topic: "Neuro",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient with Parkinson's on levodopa/carbidopa reports new visual hallucinations of small animals in the room. What is the nurse's priority action?",
+    options: [
+      "Tell the patient to ignore them — they are harmless",
+      "Increase the levodopa dose to overcome the symptom",
+      "Encourage the patient to interact with the hallucinations",
+      "Hold the medication and notify the provider"
+    ],
+    answer: 3,
+    concept: "Levodopa hallucinations priority",
+    rationale: "Hallucinations are a serious adverse effect of levodopa — the nurse should hold the next dose and notify the provider for evaluation.",
+    deepExplanation: "Levodopa increases brain dopamine, which can produce psychiatric effects including hallucinations and psychosis. The provider may reduce the dose, switch agents, or add an antipsychotic. Levodopa should not be stopped abruptly because that can trigger neuroleptic malignant syndrome — the provider determines the safe taper.",
+    others: {
+      "0": "Hallucinations need provider evaluation, not dismissal.",
+      "1": "Increasing the dose worsens hallucinations.",
+      "2": "Encouraging interaction reinforces the experience."
+    }
+  },
+  {
+    topic: "Neuro",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient with MG is in the ICU with worsening weakness. The nurse must determine if this is myasthenic crisis (under-treatment) or cholinergic crisis (over-treatment). Which assessment finding most reliably differentiates the two?",
+    options: [
+      "The patient's blood pressure trend over the past hour",
+      "The size of the patient's pupils on examination",
+      "The presence or absence of excessive salivation",
+      "The level of pain reported by the patient"
+    ],
+    answer: 2,
+    concept: "MG crisis differentiation",
+    rationale: "Excessive salivation indicates cholinergic crisis (over-treatment, SLUDGE effects). Its absence with weakness suggests myasthenic crisis (under-treatment).",
+    deepExplanation: "Both crises present with weakness, but the SLUDGE/cholinergic findings only occur in over-treatment. Other distinguishing features: under-treatment shows ptosis and dysphagia; over-treatment shows salivation, lacrimation, urination, diarrhea, bradycardia, bronchospasm. Atropine is used for cholinergic crisis.",
+    others: {
+      "0": "BP trend can change in either crisis.",
+      "1": "Pupil size alone is not the most reliable differentiator.",
+      "3": "Pain is not the differentiating feature."
+    }
+  },
+  {
+    topic: "Neuro",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient prescribed sumatriptan for acute migraines also has a prescription for ergotamine in their medication list. The patient says, \"I usually take ergotamine first, then if it doesn't work, I take sumatriptan within an hour.\" What is the nurse's priority concern?",
+    options: [
+      "The combination causes severe nausea and vomiting",
+      "Combined coronary vasoconstriction — risk of MI, stroke, peripheral ischemia",
+      "The two drugs cancel each other out and provide no relief",
+      "The combination causes mild dizziness — no clinical concern"
+    ],
+    answer: 1,
+    concept: "Triptan + ergot combination danger",
+    rationale: "Both triptans (sumatriptan) and ergots (ergotamine, dihydroergotamine) are potent vasoconstrictors. Combined use causes excessive vasoconstriction → MI, stroke, peripheral ischemia, and severe HTN. They must be separated by at least 24 hours.",
+    deepExplanation: "Triptans = 5-HT1B/1D agonists; ergots = nonselective serotonin receptor agonists. Both cause coronary, cerebral, and peripheral vasoconstriction. Combined contraindications: triptan within 24 hours of ergot (or vice versa), CAD, uncontrolled HTN, prior stroke, hemiplegic/basilar migraine, pregnancy. SSRIs/SNRIs + triptan = serotonin syndrome risk (separate concern). Always reconcile a migraine patient's med list — this combination is more common than expected because patients often don't mention all their PRN meds.",
+    others: {
+      "0": "Nausea is a common SE of both individually but not the priority concern.",
+      "2": "They both work — but stacking causes vascular complications.",
+      "3": "This combination is potentially fatal, not benign."
+    }
+  },
+  {
+    topic: "Neuro",
+    confirmed: false,
+    type: "standard",
+    stem: "A 22-year-old woman with epilepsy on carbamazepine for 6 months reports she took emergency contraception last week after a missed pill. She then learned at her clinic visit today that she is pregnant. The nurse explains which mechanism is most likely?",
+    options: [
+      "Carbamazepine accelerated metabolism of her oral contraceptive, reducing efficacy",
+      "Carbamazepine permanently sterilizes patients within 6 months of use",
+      "Emergency contraception cannot be used by patients on any seizure medications",
+      "The pregnancy is unrelated to her seizure medication regimen overall"
+    ],
+    answer: 0,
+    concept: "Enzyme-inducing AEDs reduce contraceptive efficacy",
+    rationale: "Carbamazepine is a strong CYP3A4 inducer that ACCELERATES the metabolism of estrogen-containing contraceptives, lowering hormone levels and reducing efficacy. Patients on enzyme-inducing AEDs need higher-dose contraceptives, IUDs, or alternative methods.",
+    deepExplanation: "Enzyme-inducing AEDs reducing contraceptive efficacy: carbamazepine, phenytoin, phenobarbital, primidone, topiramate (>200 mg), oxcarbazepine. Non-inducing AEDs (safer with OCPs): valproate, levetiracetam, lamotrigine, gabapentin. Counseling for women of childbearing age on AEDs is critical. Once pregnant on carbamazepine: increased risk of neural tube defects, craniofacial defects — needs prenatal counseling, high-dose folate, and possible AED switch (but never abruptly without provider). Lamotrigine and levetiracetam are preferred AEDs in pregnancy when possible.",
+    others: {
+      "1": "Carbamazepine does not cause sterility.",
+      "2": "Emergency contraception can be used; the issue is reduced regular OCP efficacy.",
+      "3": "This pregnancy is directly related to carbamazepine's OCP interaction."
+    }
+  },
+  {
+    topic: "Neuro",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient newly started on carbamazepine reports an unusual rash spreading on his trunk. The patient is of Asian descent. What is the priority action?",
+    options: [
+      "Apply a moisturizing lotion and reassess in 24 hours",
+      "Continue the medication — rash is a known mild side effect",
+      "Recommend an OTC antihistamine for the itching",
+      "Hold the dose and notify the provider immediately"
+    ],
+    answer: 3,
+    concept: "Carbamazepine SJS/TEN risk",
+    rationale: "Patients of Asian descent are at increased risk for Stevens-Johnson Syndrome (SJS) and toxic epidermal necrolysis (TEN) on carbamazepine — any rash must be reported immediately.",
+    deepExplanation: "SJS and TEN are life-threatening hypersensitivity reactions presenting with rash that can progress to widespread skin sloughing. Asian patients have a higher rate of HLA-B*1502 allele, which is strongly associated with this reaction. Patients of Asian descent may be screened genetically before starting carbamazepine.",
+    others: {
+      "0": "Watching and reassessing 24 hours later could be fatal.",
+      "1": "A spreading rash is NOT a benign side effect of carbamazepine.",
+      "2": "Antihistamines mask a potentially life-threatening reaction."
     }
   }
 ];
