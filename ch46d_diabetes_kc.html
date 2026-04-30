@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 46d Diabetes — Knowledge Check</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-soft: #14b8a6;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+      --partial: #d97706;
+      --partial-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .start-stat { text-align: center; padding: 18px 12px; background: var(--teal-pale); border-radius: 8px; border: 1px solid var(--line); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--teal); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer; background: var(--teal); color: white; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--teal); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--teal-soft); background: var(--teal-pale); }
+    .option.selected { border-color: var(--teal); background: var(--teal-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--teal); color: white; border-color: var(--teal); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--teal-pale); border-left: 3px solid var(--teal); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--teal); color: white; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--teal); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Knowledge Check · Chapter 46d</div>
+  <h1>Diabetes</h1>
+  <p class="tagline">Direct recall: long-term complications (macro/microvascular), hypoglycemia management (15g rule, glucagon, D50), classic 3 Ps, and DKA vs HHS distinction.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">25</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">MC</span><span class="start-stat-label">Format</span></div>
+      <div class="start-stat"><span class="start-stat-num">Yes</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">Each question is direct recall from your review guides. Answer, get instant rationale, move on.</p>
+    <button class="btn" onclick="begin()">Begin</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 25</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Knowledge Check</div>
+    <h1>Diabetes</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 25 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Quiz</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'Which of the following are MACROVASCULAR complications of unmanaged diabetes?',
+    options: [
+      'Diabetic retinopathy and neuropathy',
+      'Diabetic nephropathy and proteinuria',
+      'Hypoglycemia and DKA episodes',
+      'Coronary artery disease, stroke, and PAD'
+    ],
+    answer: 3,
+    concept: 'Macrovascular Complications',
+    rationale: 'Macrovascular complications of unmanaged diabetes include coronary artery disease (CAD), stroke (CVD), and peripheral arterial disease (PAD). These affect large blood vessels and are the leading cause of mortality in diabetes.',
+    others: {
+      0: 'Retinopathy and neuropathy are microvascular.',
+      1: 'Nephropathy is microvascular.',
+      2: 'Hypoglycemia and DKA are acute complications, not vascular.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'Which is a MICROVASCULAR complication of unmanaged diabetes?',
+    options: [
+      'Coronary artery disease leading to MI',
+      'Stroke from carotid artery atherosclerosis',
+      'Diabetic retinopathy causing vision loss',
+      'Peripheral arterial disease in the legs'
+    ],
+    answer: 2,
+    concept: 'Microvascular Complications',
+    rationale: 'Diabetic retinopathy is a microvascular complication causing vision loss. Microvascular complications affect small blood vessels and include retinopathy, nephropathy, and neuropathy.',
+    others: {
+      0: 'CAD is macrovascular.',
+      1: 'Stroke is macrovascular.',
+      3: 'PAD is macrovascular.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'Diabetic nephropathy is characterized by:',
+    options: [
+      'Vision loss from retinal damage',
+      'Numbness and tingling in the feet',
+      'Kidney damage with proteinuria',
+      'Hardening of the carotid arteries'
+    ],
+    answer: 2,
+    concept: 'Diabetic Nephropathy',
+    rationale: 'Diabetic nephropathy is kidney damage with proteinuria. It is a leading cause of end-stage renal disease (ESRD) in the United States. Patients are screened with urine albumin/creatinine ratio.',
+    others: {
+      0: 'Vision loss is retinopathy.',
+      1: 'Numbness/tingling in feet is neuropathy.',
+      3: 'Carotid artery hardening is macrovascular.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'Diabetic neuropathy classically presents with:',
+    options: [
+      'Bright red flushing of the cheeks',
+      'Sudden painless vision loss only',
+      'Bilateral leg edema and warmth',
+      'Numbness/tingling in the feet'
+    ],
+    answer: 3,
+    concept: 'Diabetic Neuropathy',
+    rationale: 'Diabetic neuropathy presents with numbness and tingling in the feet from nerve damage. This puts patients at huge risk for undetected foot injuries and burning injuries because they cannot feel pain or heat.',
+    others: {
+      0: 'Cheek flushing is not neuropathy.',
+      1: 'Painless vision loss is retinopathy.',
+      2: 'Bilateral leg edema suggests heart failure.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'Why are patients with diabetic neuropathy at high risk for foot injuries?',
+    options: [
+      'They have decreased mobility making walking dangerous',
+      'They cannot feel pain or heat in the affected feet',
+      'They have severely reduced platelet counts daily',
+      'They have weakened immune systems with high WBCs'
+    ],
+    answer: 1,
+    concept: 'Neuropathy Foot Risk',
+    rationale: 'Patients with diabetic neuropathy cannot feel pain or heat in their feet due to nerve damage. They risk undetected cuts, burns, blisters, and pressure injuries that can progress to ulcers, infection, and amputation.',
+    others: {
+      0: 'Mobility is not the primary mechanism.',
+      2: 'Platelets are not the issue here.',
+      3: 'Immune issues are separate.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'Hypoglycemia is defined as a blood glucose level below:',
+    options: [
+      '60 mg/dL',
+      '120 mg/dL',
+      '200 mg/dL',
+      '300 mg/dL'
+    ],
+    answer: 0,
+    concept: 'Hypoglycemia Threshold',
+    rationale: 'Hypoglycemia is defined as blood glucose less than 60 mg/dL. Some sources use <70 mg/dL as the threshold, but the chapter defines it at <60 mg/dL.',
+    others: {
+      1: '120 mg/dL is normal range.',
+      2: '200 mg/dL is hyperglycemia.',
+      3: '300 mg/dL suggests DKA threshold.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'Which signs and symptoms indicate hypoglycemia?',
+    options: [
+      'Polyuria, polydipsia, and polyphagia',
+      'Fruity breath and Kussmaul respirations',
+      'High fever, chills, and severe dehydration',
+      'Shaky, sweaty, tachycardic, and confused'
+    ],
+    answer: 3,
+    concept: 'Hypoglycemia S/S',
+    rationale: 'Hypoglycemia presents with shakiness, sweating (diaphoresis), tachycardia, confusion, hunger, and irritability. These are sympathetic nervous system responses to low glucose. Severe hypoglycemia leads to LOC and seizures.',
+    others: {
+      0: 'The 3 Ps are signs of HYPERglycemia/diabetes onset.',
+      1: 'Fruity breath and Kussmaul respirations are DKA signs.',
+      2: 'Fever and chills suggest infection.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'A conscious patient with hypoglycemia (BG 55) should be given:',
+    options: [
+      '15 grams of fast-acting carbs (4-6 oz juice)',
+      'IV insulin to correct the blood glucose',
+      'Subcutaneous regular insulin immediately',
+      'NPO until blood glucose returns to normal'
+    ],
+    answer: 0,
+    concept: '15g Rule Conscious',
+    rationale: 'A conscious hypoglycemic patient should receive 15 grams of fast-acting carbs (4-6 oz juice, glucose tablets, hard candy). Recheck blood glucose in 15 minutes — repeat if still low. This is the "15-15 rule."',
+    others: {
+      1: 'Insulin LOWERS glucose — would worsen hypoglycemia.',
+      2: 'Subcutaneous insulin worsens hypoglycemia.',
+      3: 'NPO does not treat hypoglycemia.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'After giving a conscious hypoglycemic patient 15g of carbs, when should the nurse recheck blood glucose?',
+    options: [
+      'In 5 minutes',
+      'In 15 minutes',
+      'In 1 hour',
+      'In 4 hours'
+    ],
+    answer: 1,
+    concept: '15-15 Rule Recheck',
+    rationale: 'Recheck blood glucose in 15 minutes after giving 15g of fast-acting carbs (the 15-15 rule). If still hypoglycemic, give another 15g of carbs and recheck. Once glucose is stable, follow with a complex carb + protein snack.',
+    others: {
+      0: '5 minutes is too soon — carbs need time to absorb.',
+      2: '1 hour is too long — could deteriorate.',
+      3: '4 hours is far too long.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'For an UNCONSCIOUS hypoglycemic patient with NO IV access, the nurse anticipates which intervention?',
+    options: [
+      'Pour 4-6 oz juice into the patient mouth',
+      'Insert a feeding tube to give glucose tablets',
+      'Wait for IV access before giving any treatment',
+      'Administer 1 mg Glucagon SubQ or IM'
+    ],
+    answer: 3,
+    concept: 'Glucagon No IV',
+    rationale: 'For an unconscious hypoglycemic patient with no IV access (or insertion unsuccessful), administer 1 mg Glucagon subcutaneously or intramuscularly. Glucagon stimulates the liver to release stored glucose.',
+    others: {
+      0: 'Giving oral substances to unconscious patient causes aspiration.',
+      1: 'Inserting a feeding tube is too slow.',
+      2: 'Waiting for IV access risks death.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'For an unconscious hypoglycemic patient WITH IV access, the PREFERRED treatment is:',
+    options: [
+      '4-6 oz of orange juice given orally',
+      '1 mg Glucagon SubQ or IM injection',
+      '25-50 mL of 50% Dextrose IV',
+      'Subcutaneous regular insulin injection'
+    ],
+    answer: 2,
+    concept: 'D50 IV Preferred',
+    rationale: 'For an unconscious hypoglycemic patient with IV access, the PREFERRED treatment is 25-50 mL of 50% Dextrose IV. This delivers glucose directly into the bloodstream for rapid correction.',
+    others: {
+      0: 'Oral juice causes aspiration in unconscious patients.',
+      1: 'Glucagon is used when no IV access — D50 is preferred when IV available.',
+      3: 'Insulin LOWERS glucose — worsens hypoglycemia.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'Which of the following are the classic "3 Ps" of diabetes?',
+    options: [
+      'Pulse, pressure, perfusion',
+      'Polyuria, polydipsia, polyphagia',
+      'Pain, pyrexia, paresthesia',
+      'Pallor, paralysis, pulselessness'
+    ],
+    answer: 1,
+    concept: 'Three Ps',
+    rationale: 'The classic 3 Ps of diabetes are: Polyuria (excessive urination), Polydipsia (excessive thirst), and Polyphagia (excessive hunger). These are the cardinal signs of new-onset or uncontrolled diabetes.',
+    others: {
+      0: 'Pulse, pressure, perfusion are not the 3 Ps of diabetes.',
+      2: 'These are unrelated.',
+      3: 'These are 4 of the 6 Ps for fractures, not diabetes.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'Polyuria in diabetes refers to:',
+    options: [
+      'Excessive sweating',
+      'Excessive urination',
+      'Excessive thirst',
+      'Excessive hunger'
+    ],
+    answer: 1,
+    concept: 'Polyuria',
+    rationale: 'Polyuria is excessive urination — one of the classic 3 Ps of diabetes. The kidneys excrete excess glucose, taking water with it (osmotic diuresis), leading to large volumes of urine.',
+    others: {
+      0: 'Excessive sweating is diaphoresis.',
+      2: 'Excessive thirst is polydipsia.',
+      3: 'Excessive hunger is polyphagia.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'Polydipsia in diabetes refers to:',
+    options: [
+      'Excessive urination',
+      'Excessive hunger',
+      'Excessive sweating',
+      'Excessive thirst'
+    ],
+    answer: 3,
+    concept: 'Polydipsia',
+    rationale: 'Polydipsia is excessive thirst. It occurs as the body tries to compensate for the fluid loss from polyuria. Patients drink large volumes of fluid to quench their thirst.',
+    others: {
+      0: 'Excessive urination is polyuria.',
+      1: 'Excessive hunger is polyphagia.',
+      2: 'Excessive sweating is diaphoresis.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'Polyphagia in diabetes refers to:',
+    options: [
+      'Excessive urination',
+      'Excessive thirst',
+      'Excessive hunger',
+      'Excessive sweating'
+    ],
+    answer: 2,
+    concept: 'Polyphagia',
+    rationale: 'Polyphagia is excessive hunger. Even when eating, cells cannot use glucose due to insulin resistance or deficiency, leading to persistent hunger and weight loss despite increased intake.',
+    others: {
+      0: 'Excessive urination is polyuria.',
+      1: 'Excessive thirst is polydipsia.',
+      3: 'Excessive sweating is diaphoresis.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'Diabetic ketoacidosis (DKA) most commonly occurs in:',
+    options: [
+      'Type 1 diabetes',
+      'Type 2 diabetes only',
+      'Gestational diabetes only',
+      'Pre-diabetes patients'
+    ],
+    answer: 0,
+    concept: 'DKA Type 1',
+    rationale: 'DKA most commonly occurs in Type 1 diabetes. Patients with Type 1 produce no insulin, so when stressed or insulin is missed, the body breaks down fat for energy, producing ketones and causing acidosis.',
+    others: {
+      1: 'DKA can occur in Type 2 but is more common in Type 1.',
+      2: 'Gestational diabetes typically does not present with DKA.',
+      3: 'Pre-diabetes does not typically cause DKA.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'Which findings are characteristic of DKA?',
+    options: [
+      'Blood sugar <60 mg/dL with sweating, shakiness, and confusion',
+      'BS >300, metabolic acidosis, ketones, fruity breath, Kussmaul respirations',
+      'BS >600 mg/dL with profound dehydration but no acidosis or ketones',
+      'Bilateral leg edema with dyspnea, cough, and orthopnea symptoms'
+    ],
+    answer: 1,
+    concept: 'DKA S/S',
+    rationale: 'DKA is characterized by blood sugar >300 mg/dL, metabolic acidosis, ketones in blood/urine, fruity breath (acetone), and Kussmaul respirations (deep, rapid breathing to blow off CO2). It leads to severe dehydration and electrolyte loss.',
+    others: {
+      0: 'BS <60 is hypoglycemia, not DKA.',
+      2: 'BS >600 with no acidosis/ketones is HHS.',
+      3: 'Edema and dyspnea suggest heart failure.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'What is the FIRST priority in DKA treatment?',
+    options: [
+      'Insulin drip immediately at high dose',
+      'Oral antibiotics for suspected infection',
+      'Bicarbonate IV push to correct pH quickly',
+      'IV fluids first (rehydration is the immediate priority)'
+    ],
+    answer: 3,
+    concept: 'DKA IV Fluids First',
+    rationale: 'IV fluids FIRST is the immediate priority in DKA treatment. Severe dehydration must be addressed to restore volume. Then continuous IV regular insulin is given to reverse acidosis and stop fat breakdown. Electrolyte balance is restored throughout.',
+    others: {
+      0: 'Insulin is given AFTER IV fluids start.',
+      1: 'Antibiotics are not first-line for DKA.',
+      2: 'Bicarbonate is not routine first-line.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'What type of insulin is used in continuous IV infusion for DKA?',
+    options: [
+      'Regular insulin',
+      'NPH insulin',
+      'Long-acting glargine (Lantus)',
+      'Long-acting detemir (Levemir)'
+    ],
+    answer: 0,
+    concept: 'Regular Insulin DKA',
+    rationale: 'Regular insulin is used in continuous IV infusion for DKA. It is the only insulin that can be given IV. Long-acting insulins (NPH, glargine, detemir) cannot be given IV.',
+    others: {
+      1: 'NPH cannot be given IV.',
+      2: 'Glargine (Lantus) cannot be given IV.',
+      3: 'Detemir (Levemir) cannot be given IV.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'Hyperglycemic Hyperosmolar Syndrome (HHS) most commonly occurs in:',
+    options: [
+      'Type 1 diabetes only with absolute insulin deficiency',
+      'Type 2 diabetes (especially older adults)',
+      'Gestational diabetes only during the second trimester',
+      'Pre-diabetes patients with no diagnosed condition yet'
+    ],
+    answer: 1,
+    concept: 'HHS Type 2',
+    rationale: 'HHS most commonly occurs in Type 2 diabetes, especially in older adults. Patients still have some endogenous insulin, so they do not develop ketoacidosis (no significant ketones, normal pH), but glucose rises extremely high.',
+    others: {
+      0: 'HHS is more common in Type 2.',
+      2: 'Gestational diabetes does not typically cause HHS.',
+      3: 'Pre-diabetes does not cause HHS.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'HHS is most commonly triggered by:',
+    options: [
+      'Routine exercise routine',
+      'Skipping a single meal',
+      'Stress (illness, infection, trauma)',
+      'Adequate insulin therapy use'
+    ],
+    answer: 2,
+    concept: 'HHS Triggers',
+    rationale: 'HHS is triggered by stress — illness, infection, trauma, or other physiological stressors. Stress hormones increase insulin resistance and glucose levels, overwhelming the body remaining insulin production.',
+    others: {
+      0: 'Routine exercise does not trigger HHS.',
+      1: 'Skipping a single meal does not trigger HHS.',
+      3: 'Adequate insulin therapy prevents HHS.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'Which findings are characteristic of HHS?',
+    options: [
+      'Blood sugar 120-180 mg/dL with normal hydration',
+      'BS >300 with ketones, acidosis, and fruity breath',
+      'BS >600 mg/dL, profound dehydration, no acidosis, NO ketones',
+      'BS <60 mg/dL with sweating and tremors'
+    ],
+    answer: 2,
+    concept: 'HHS S/S',
+    rationale: 'HHS is characterized by severe hyperglycemia (>600 mg/dL), profound dehydration, hypernatremia, tachycardia, hypotension, and neurologic signs. There is NO acidosis (normal pH) and absent ketones in serum or urine.',
+    others: {
+      0: 'BS 120-180 is normal-mild hyperglycemia.',
+      1: 'BS >300 with ketones is DKA.',
+      3: 'BS <60 is hypoglycemia.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'What is the FIRST priority in HHS treatment?',
+    options: [
+      'Aggressive IV fluid resuscitation FIRST',
+      'High-dose subcutaneous insulin immediately',
+      'Bicarbonate IV push to correct pH right away',
+      'Oral fluids only to slowly rehydrate'
+    ],
+    answer: 0,
+    concept: 'HHS IV Fluids First',
+    rationale: 'Aggressive IV fluid resuscitation is the absolute priority in HHS — massive replacement is needed to combat profound dehydration. Insulin/electrolyte correction follows rehydration.',
+    others: {
+      1: 'Insulin is given after fluid resuscitation.',
+      2: 'No acidosis in HHS — bicarbonate not needed.',
+      3: 'Oral fluids are inadequate for profound dehydration.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'A key difference between DKA and HHS is:',
+    options: [
+      'DKA has acidosis and ketones; HHS does not',
+      'HHS has acidosis and ketones; DKA does not',
+      'Both DKA and HHS always have ketones present',
+      'Neither DKA nor HHS has metabolic acidosis present'
+    ],
+    answer: 0,
+    concept: 'DKA vs HHS',
+    rationale: 'A key difference: DKA has acidosis (low pH) and ketones (positive in blood/urine), while HHS does NOT (normal pH, absent ketones). HHS has higher blood glucose (>600) than DKA (>300) but no ketoacidosis.',
+    others: {
+      1: 'Reversed — DKA has acidosis/ketones, HHS does not.',
+      2: 'Only DKA has ketones, not HHS.',
+      3: 'DKA HAS metabolic acidosis.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'Kussmaul respirations are characteristic of:',
+    options: [
+      'Hypoglycemia',
+      'Hyperglycemic Hyperosmolar Syndrome',
+      'Diabetic Ketoacidosis',
+      'Routine well-controlled diabetes'
+    ],
+    answer: 2,
+    concept: 'Kussmaul Respirations',
+    rationale: 'Kussmaul respirations (deep, rapid breathing) are characteristic of DKA. The body attempts to blow off CO2 to compensate for the metabolic acidosis. Combined with fruity breath, blood sugar >300, and ketones, Kussmaul respirations help confirm DKA.',
+    others: {
+      0: 'Hypoglycemia presents differently.',
+      1: 'HHS does not have acidosis or Kussmaul respirations.',
+      3: 'Well-controlled diabetes does not cause Kussmaul respirations.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let score = 0;
+let totalPoints = 0;
+let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_diabetes_knowledge';
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  document.getElementById('q-stem').textContent = q.stem;
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong recall on diabetes. Move on to the Deep Drill for application scenarios.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed concepts below before moving to the Deep Drill.';
+  else if (pct >= 60) msg = 'Below pass threshold. Re-read Ch 46d, retry, then move to the Deep Drill.';
+  else msg = 'Lots of room to grow. Re-study Ch 46d carefully — DKA vs HHS, hypoglycemia, complications — and run this again.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>

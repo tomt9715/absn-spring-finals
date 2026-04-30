@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 46d Diabetes — Deep Drill</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-soft: #14b8a6;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-soft: #8b5cf6;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+      --partial: #d97706;
+      --partial-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--purple); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .start-stat { text-align: center; padding: 18px 12px; background: var(--purple-pale); border-radius: 8px; border: 1px solid var(--line); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--purple); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer; background: var(--purple); color: white; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--purple); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--purple-soft); background: var(--purple-pale); }
+    .option.selected { border-color: var(--purple); background: var(--purple-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--purple); color: white; border-color: var(--purple); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--purple-pale); border-left: 3px solid var(--purple); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--purple); color: white; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--purple); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Deep Drill · Chapter 46d</div>
+  <h1>Diabetes</h1>
+  <p class="tagline">NCLEX-style application: hypoglycemia priority response, DKA vs HHS recognition, insulin safety, foot care teaching, and complication monitoring.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">25</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">MC</span><span class="start-stat-label">Format</span></div>
+      <div class="start-stat"><span class="start-stat-num">Yes</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">These are scenario-based application questions. Read carefully, watch for distractors, and reason through priority before selecting.</p>
+    <button class="btn" onclick="begin()">Begin</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 25</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Deep Drill</div>
+    <h1>Diabetes</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 25 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Quiz</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'A 25-year-old patient with Type 1 diabetes is diaphoretic, shaky, and confused. Their blood glucose is 52 mg/dL. They are awake and able to swallow. Which intervention is the priority?',
+    options: [
+      'Administer 4 oz of orange juice and recheck in 15 minutes',
+      'Administer subcutaneous regular insulin immediately',
+      'Withhold all food until blood glucose normalizes',
+      'Administer 1 mg Glucagon SubQ for blood glucose 52'
+    ],
+    answer: 0,
+    concept: 'Conscious Hypoglycemia',
+    rationale: 'For a conscious hypoglycemic patient (BG 52, can swallow), give 15g fast-acting carbs (4 oz juice) and recheck in 15 minutes. Insulin LOWERS glucose and would worsen hypoglycemia. Glucagon is for unconscious patients without IV access.',
+    others: {
+      1: 'Insulin lowers glucose — worsens hypoglycemia.',
+      2: 'Withholding food worsens hypoglycemia.',
+      3: 'Glucagon is for unconscious patients without IV.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'A patient with Type 1 diabetes is found unresponsive on the floor. They have a pulse, are breathing, but unconscious. They have an IV line in place. Blood glucose is 38 mg/dL. The PRIORITY intervention is:',
+    options: [
+      'Pour 4 oz of orange juice into their mouth slowly',
+      'Administer 25-50 mL of 50% Dextrose IV',
+      'Administer 1 mg Glucagon SubQ injection',
+      'Wait for the rapid response team to assess'
+    ],
+    answer: 1,
+    concept: 'Unconscious + IV',
+    rationale: 'For an unconscious hypoglycemic patient WITH IV access, the PREFERRED treatment is 25-50 mL of 50% Dextrose IV. This delivers glucose directly into the bloodstream for rapid correction. Glucagon is the alternative when no IV is available.',
+    others: {
+      0: 'Oral juice in unconscious patient causes aspiration.',
+      2: 'Glucagon is for when no IV access exists — IV D50 is preferred when available.',
+      3: 'Waiting risks death — act immediately.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'A nurse is monitoring a patient admitted with DKA. After 2 hours of IV fluids and insulin drip, the blood glucose has dropped from 480 to 220 mg/dL. The potassium is now 3.2 mEq/L (normal 3.5-5.0). What is the priority?',
+    options: [
+      'Stop the insulin drip and increase IV fluids alone',
+      'Continue current treatment without any modifications',
+      'Notify provider — likely needs potassium replacement',
+      'Discontinue all IV fluids and start oral feeding'
+    ],
+    answer: 2,
+    concept: 'DKA Hypokalemia',
+    rationale: 'In DKA, insulin therapy drives potassium into cells, causing hypokalemia. Potassium of 3.2 with insulin running is critical. Notify the provider for potassium replacement before insulin worsens hypokalemia further. Severe hypokalemia can cause arrhythmias.',
+    others: {
+      0: 'Stopping insulin without addressing K reverses progress.',
+      1: 'Hypokalemia must be addressed.',
+      3: 'IV fluids should continue.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'A 70-year-old patient with Type 2 diabetes is admitted with blood glucose of 850 mg/dL, severe dehydration, hypernatremia, no ketones, and normal pH. The nurse anticipates which diagnosis?',
+    options: [
+      'Diabetic Ketoacidosis (DKA)',
+      'Hypoglycemia from missed meals',
+      'Hyperglycemic Hyperosmolar Syndrome (HHS)',
+      'Acute kidney injury without diabetes'
+    ],
+    answer: 2,
+    concept: 'HHS Recognition',
+    rationale: 'BS >600, profound dehydration, hypernatremia, NO ketones, and normal pH define HHS — common in older adults with Type 2 diabetes. Treatment priority is aggressive IV fluid resuscitation, then insulin and electrolyte correction.',
+    others: {
+      0: 'DKA has acidosis and ketones — this patient has neither.',
+      1: 'BS 850 is severe hyperglycemia, not hypoglycemia.',
+      3: 'AKI alone does not produce these findings.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'A 22-year-old patient with Type 1 diabetes is admitted with BS 480, fruity breath, Kussmaul respirations, and serum ketones positive. The PRIORITY intervention is:',
+    options: [
+      'Start IV fluids first to address dehydration',
+      'Give SubQ insulin for the high blood glucose',
+      'Administer oral glucose to reverse the symptoms',
+      'Wait for provider orders before any intervention'
+    ],
+    answer: 0,
+    concept: 'DKA Priority',
+    rationale: 'IV fluids FIRST is the immediate priority in DKA. Severe dehydration must be corrected before anything else. After fluids start, continuous IV regular insulin is added, and electrolytes are restored throughout.',
+    others: {
+      1: 'SubQ insulin is too slow — need continuous IV regular insulin.',
+      2: 'Oral glucose worsens hyperglycemia.',
+      3: 'Waiting risks death — initiate fluids per protocol.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'A patient with diabetes asks the nurse to teach them about preventing complications. Which teaching is MOST important for foot care?',
+    options: [
+      'Soak feet in hot water for 30 minutes daily',
+      'Walk barefoot at home to strengthen the feet',
+      'Inspect feet daily for cuts, blisters, or color changes',
+      'Cut toenails very short and rounded at the corners'
+    ],
+    answer: 2,
+    concept: 'Diabetic Foot Care',
+    rationale: 'Daily foot inspection for cuts, blisters, or color changes is essential for diabetics with neuropathy. They cannot feel injuries, so visual inspection prevents progression to ulcers, infection, and amputation. Use a mirror for hard-to-see areas.',
+    others: {
+      0: 'Hot water can burn feet with neuropathy (cannot feel temperature).',
+      1: 'Walking barefoot risks unnoticed injuries.',
+      3: 'Toenails should be cut straight across (not short/rounded) to prevent ingrown toenails.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'A patient with Type 1 diabetes is admitted with vomiting and unable to eat. They ask if they should skip their insulin since they are not eating. Which response is BEST?',
+    options: [
+      '"Yes, skip your insulin while you cannot keep food down."',
+      '"Take half your usual dose without checking your blood sugar."',
+      '"Continue insulin — call your provider for sick day adjustments."',
+      '"Stop all medications and rest until you feel better at home."'
+    ],
+    answer: 2,
+    concept: 'Sick Day Rules',
+    rationale: 'Type 1 diabetics must continue insulin even when sick or not eating because the body still needs basal insulin and stress increases glucose. They should call their provider for sick day adjustments. Skipping insulin can trigger DKA.',
+    others: {
+      0: 'Skipping insulin in Type 1 can trigger DKA.',
+      1: 'Half-dose without monitoring is unsafe.',
+      3: 'Stopping all medications is dangerous.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'A patient with Type 1 diabetes reports they ate a normal dinner but forgot to take their insulin 4 hours ago. They report fruity breath, deep rapid breathing, and feel very thirsty. The nurse anticipates which intervention?',
+    options: [
+      'Administer 4 oz of orange juice immediately',
+      'Discharge home with regular food intake',
+      'IV fluids and insulin drip for suspected DKA',
+      'Give SubQ insulin and reassess in 4 hours'
+    ],
+    answer: 2,
+    concept: 'DKA Recognition',
+    rationale: 'Missed insulin + fruity breath + Kussmaul respirations + thirst in Type 1 diabetes is DKA. Anticipate IV fluids first, then continuous IV regular insulin drip, with electrolyte monitoring throughout. SubQ insulin alone is too slow.',
+    others: {
+      0: 'Juice worsens hyperglycemia.',
+      1: 'Discharging home is dangerous — DKA needs hospital management.',
+      3: 'SubQ insulin is too slow for DKA.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'A patient newly diagnosed with Type 2 diabetes asks why they have polyuria. The BEST nursing response is:',
+    options: [
+      '"Excess glucose pulls water into the kidneys, causing increased urination."',
+      '"You are drinking too much water and need to limit your intake."',
+      '"This is unrelated to your diabetes and just a coincidence."',
+      '"Your bladder has been irritated by the new medications."'
+    ],
+    answer: 0,
+    concept: 'Polyuria Mechanism',
+    rationale: 'Polyuria in diabetes occurs because excess glucose in the blood pulls water into the kidneys (osmotic diuresis), causing increased urination. This leads to polydipsia (thirst) as the body tries to compensate for fluid loss.',
+    others: {
+      1: 'Water intake follows polyuria, not causes it.',
+      2: 'Polyuria is a cardinal sign of diabetes.',
+      3: 'Polyuria predates medication initiation.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'A 65-year-old patient with Type 2 diabetes presents to the ED with confusion, BS 720, severe dehydration, and dry mucous membranes. Family states they have had a UTI for 5 days. What is the FIRST intervention?',
+    options: [
+      'Aggressive IV fluid resuscitation',
+      'High-dose subcutaneous insulin injection',
+      'Bicarbonate IV push to correct pH',
+      'Oral fluids and rest at home'
+    ],
+    answer: 0,
+    concept: 'HHS First Action',
+    rationale: 'Aggressive IV fluid resuscitation is the FIRST priority in HHS. Massive replacement is needed to combat profound dehydration. UTI is a common HHS trigger. After fluids, insulin and electrolyte correction follow.',
+    others: {
+      1: 'Insulin comes after fluid resuscitation.',
+      2: 'No acidosis in HHS — bicarbonate not needed.',
+      3: 'Oral fluids inadequate for profound dehydration.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'A patient with Type 2 diabetes is being taught about home blood glucose monitoring. Which patient statement requires further teaching?',
+    options: [
+      '"I will check my blood glucose before meals and at bedtime."',
+      '"I will report any blood glucose values below 60 mg/dL."',
+      '"I will share my glucose log with my provider at appointments."',
+      '"I only need to check my blood glucose once a week at home."'
+    ],
+    answer: 3,
+    concept: 'Glucose Monitoring',
+    rationale: 'Once-weekly monitoring is far too infrequent for diabetes management. Most diabetics need to check before meals and at bedtime, or as directed by provider. Continuous monitoring (CGM) is also common. Frequent monitoring catches dangerous BG trends early.',
+    others: {
+      0: 'Before meals and bedtime is correct.',
+      1: 'Reporting BG <60 is correct.',
+      2: 'Sharing log with provider is correct.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'A patient with diabetes has a BG of 350 mg/dL. The nurse should monitor for which sign of progressing hyperglycemia?',
+    options: [
+      'Shakiness, sweating, and tachycardia',
+      'Facial flushing and warm dry skin',
+      'Sudden bilateral leg edema with pain',
+      'Fruity breath and deep rapid breathing'
+    ],
+    answer: 3,
+    concept: 'Worsening Hyperglycemia',
+    rationale: 'Fruity breath (acetone) and Kussmaul respirations (deep rapid breathing) indicate progression to DKA. The body breaks down fat for energy, producing ketones that cause acidosis. The nurse should anticipate IV fluids and insulin.',
+    others: {
+      0: 'Shakiness and sweating are hypoglycemia signs.',
+      1: 'Facial flushing alone is not specific.',
+      2: 'Bilateral leg edema is not progressive hyperglycemia.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'A patient with diabetes is being discharged with new insulin therapy. Which teaching is CRITICAL?',
+    options: [
+      'Store insulin at room temperature for 6 months',
+      'Inject insulin into the same site each day',
+      'Rotate injection sites and check BG regularly',
+      'Skip doses if you forget to check your blood sugar'
+    ],
+    answer: 2,
+    concept: 'Insulin Safety',
+    rationale: 'Rotate injection sites (abdomen, thigh, upper arm, buttock) to prevent lipohypertrophy. Check BG regularly per provider orders. Insulin should be refrigerated until use, then can be kept at room temperature for ~28 days.',
+    others: {
+      0: 'Once opened, insulin is good at room temperature for ~28 days, not 6 months.',
+      1: 'Same-site injection causes lipohypertrophy.',
+      3: 'Skipping doses is dangerous.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'A patient with diabetes asks why they should reduce sodium intake. The BEST nursing response is:',
+    options: [
+      '"It helps prevent macrovascular complications like HTN and stroke."',
+      '"It will completely cure your diabetes within 6 months of dieting."',
+      '"It will help you avoid eating any vegetables in your diet."',
+      '"It has no effect on diabetes outcomes whatsoever for you."'
+    ],
+    answer: 0,
+    concept: 'Sodium and Diabetes',
+    rationale: 'Reducing sodium helps prevent macrovascular complications like hypertension and stroke. Diabetics are at increased risk for cardiovascular disease, so blood pressure control through dietary modification is essential.',
+    others: {
+      1: 'Sodium reduction does not cure diabetes.',
+      2: 'Reducing sodium does not require avoiding vegetables.',
+      3: 'Sodium reduction DOES affect diabetes outcomes.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'A patient with diabetes had an annual eye exam. Results showed mild diabetic retinopathy. The patient says, "I have no vision problems, so this must be wrong." The BEST nursing response is:',
+    options: [
+      '"You are right — without symptoms, the diagnosis must be wrong."',
+      '"Diabetic retinopathy can be present before vision changes occur."',
+      '"You should refuse all further eye exams since you have no symptoms."',
+      '"This means you definitely will go blind in the next few months."'
+    ],
+    answer: 1,
+    concept: 'Retinopathy Asymptomatic',
+    rationale: 'Diabetic retinopathy can be present before noticeable vision changes occur. This is why annual dilated eye exams are essential for diabetics — to catch early retinopathy before vision loss. Treatment can prevent progression.',
+    others: {
+      0: 'Asymptomatic retinopathy is real and common.',
+      2: 'Refusing exams allows progression to vision loss.',
+      3: 'Early retinopathy with treatment does not mean blindness.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'A patient with Type 1 diabetes presents with BS 320 mg/dL, fatigue, and trace ketones in urine. They report "feeling stressed at work this week." Which teaching is MOST important?',
+    options: [
+      'Stress can elevate blood glucose — adjust insulin and follow up',
+      'Stress has no impact on blood glucose at any time ever',
+      'Continue normal insulin doses despite the elevated glucose',
+      'Wait until BG is over 500 before notifying the provider'
+    ],
+    answer: 0,
+    concept: 'Stress and Glucose',
+    rationale: 'Stress (physical or emotional) raises blood glucose through cortisol and stress hormones. Patients should adjust insulin per sick day rules and follow up with their provider. Trace ketones indicate early DKA risk and need monitoring.',
+    others: {
+      1: 'Stress DOES elevate glucose.',
+      2: 'Continuing normal doses can lead to DKA.',
+      3: 'Waiting for BS >500 is dangerous — act earlier.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'A patient with diabetes is being taught about sick day management. Which patient statement requires further teaching?',
+    options: [
+      '"I will check my blood glucose every 2-4 hours when sick."',
+      '"I will continue taking my insulin or oral medications."',
+      '"I will drink plenty of fluids to prevent dehydration."',
+      '"I will skip insulin if I cannot eat much during illness."'
+    ],
+    answer: 3,
+    concept: 'Sick Day Insulin',
+    rationale: 'Skipping insulin during illness is dangerous and can trigger DKA in Type 1 diabetics. Patients must continue insulin or other diabetes medications, monitor glucose more frequently, stay hydrated, and contact provider for adjustments.',
+    others: {
+      0: 'Frequent monitoring is correct.',
+      1: 'Continuing meds is correct.',
+      2: 'Hydration is correct.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'A patient with Type 2 diabetes is taking metformin and reports a strange metallic taste, severe muscle pain, and rapid breathing. The nurse suspects:',
+    options: [
+      'A side effect of insulin overdose with severe hypoglycemia',
+      'Lactic acidosis (rare metformin complication)',
+      'A common cold with general illness',
+      'Routine adjustment to the new medication regimen'
+    ],
+    answer: 1,
+    concept: 'Metformin Lactic Acidosis',
+    rationale: 'Metformin can cause lactic acidosis (rare but serious). Symptoms include metallic taste, muscle pain (myalgia), abdominal pain, and rapid breathing. The nurse must notify the provider immediately. Contraindicated with kidney disease and contrast dye procedures.',
+    others: {
+      0: 'Insulin overdose causes hypoglycemia, not these symptoms.',
+      2: 'Common cold does not cause metallic taste and rapid breathing.',
+      3: 'These are NOT routine adjustments.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'A patient with diabetes has been told they need a contrast CT scan. They are taking metformin. Which is the appropriate nursing action?',
+    options: [
+      'Continue metformin without any modifications',
+      'Hold metformin before and after contrast administration',
+      'Increase metformin dose before the procedure',
+      'Stop all diabetes medications permanently'
+    ],
+    answer: 1,
+    concept: 'Metformin and Contrast',
+    rationale: 'Metformin should be held before and after contrast administration (typically 24-48 hours after) due to risk of contrast-induced nephropathy and lactic acidosis. The provider will give specific timing. Patients resume metformin after kidney function is verified.',
+    others: {
+      0: 'Continuing metformin with contrast risks lactic acidosis.',
+      2: 'Increasing dose worsens the risk.',
+      3: 'Stopping permanently is unnecessary — only around contrast administration.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'A nurse is assessing a patient with diabetes on an insulin drip for DKA. The blood glucose has dropped from 510 to 260 mg/dL. The nurse should:',
+    options: [
+      'Stop the insulin drip and document the improvement',
+      'Continue insulin drip and add dextrose-containing IV fluids',
+      'Discharge the patient home with oral diabetes meds',
+      'Give a large bolus of regular insulin SubQ now'
+    ],
+    answer: 1,
+    concept: 'DKA Insulin Continuation',
+    rationale: 'When BG drops to 250-300 mg/dL during DKA treatment, dextrose-containing IV fluids are added (D5NS). Insulin is continued because acidosis is still being corrected. Insulin is needed until acidosis resolves, even if BG is normalizing.',
+    others: {
+      0: 'Stopping insulin too early reverses acidosis correction.',
+      2: 'DKA is not resolved at BG 260 — patient needs continued treatment.',
+      3: 'A bolus is not standard at this point.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'A patient with diabetes is on a sliding scale insulin regimen. Their pre-meal BG is 280 mg/dL. The sliding scale orders 6 units of insulin for this range. The nurse should:',
+    options: [
+      'Skip the dose since the patient is about to eat a meal',
+      'Give 6 units of regular insulin as ordered',
+      'Give 12 units of regular insulin since BG is high',
+      'Give SubQ glucagon to balance the BG before food'
+    ],
+    answer: 1,
+    concept: 'Sliding Scale Insulin',
+    rationale: 'Give 6 units as ordered per the sliding scale. Sliding scale insulin is calibrated to the BG and meal. Skipping or doubling doses is unsafe. Always verify the order, BG reading, and timing before administering.',
+    others: {
+      0: 'Skipping the dose worsens hyperglycemia.',
+      2: 'Doubling the dose can cause hypoglycemia.',
+      3: 'Glucagon raises BG — patient needs insulin to lower.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'A patient with diabetes asks the nurse about exercise. Which teaching is appropriate?',
+    options: [
+      'Avoid all exercise to prevent dangerous BG fluctuations',
+      'Exercise on an empty stomach for the best blood sugar control',
+      'Take extra insulin before exercising for better glucose control',
+      'Check BG before, during, and after exercise — carry a snack'
+    ],
+    answer: 3,
+    concept: 'Exercise Teaching',
+    rationale: 'Diabetics should check BG before, during, and after exercise. They should carry a fast-acting carb snack in case of hypoglycemia. Exercise lowers BG, so timing with food and insulin is important. Avoid exercising at insulin peak times.',
+    others: {
+      0: 'Exercise is beneficial — should be encouraged.',
+      1: 'Empty stomach exercise risks hypoglycemia.',
+      2: 'Extra insulin before exercise causes hypoglycemia.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'A patient with diabetes has BS 240 in the morning consistently for 1 week. They have been adherent to medications. Which is the BEST nursing recommendation?',
+    options: [
+      'Notify provider — may need medication adjustment',
+      'Increase insulin doses on your own without provider input',
+      'Skip breakfast since the BG is already elevated',
+      'Wait several more weeks before any consultation'
+    ],
+    answer: 0,
+    concept: 'Persistent Hyperglycemia',
+    rationale: 'Persistent morning hyperglycemia despite adherence indicates the medication regimen needs adjustment. The nurse should advise the patient to notify their provider for evaluation and possible dose change, additional medication, or further investigation.',
+    others: {
+      1: 'Self-adjusting medications is dangerous.',
+      2: 'Skipping breakfast worsens blood sugar control.',
+      3: 'Waiting weeks allows complications to develop.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'A nurse is delegating tasks for a patient with newly diagnosed Type 2 diabetes who is on insulin therapy. Which task is most appropriate to delegate to the unlicensed assistive personnel (UAP)?',
+    options: [
+      'Initial teaching about insulin injection technique',
+      'Assessment of patient response to first dose of insulin',
+      'Administration of subcutaneous insulin per orders',
+      'Vital signs and assistance with meal trays at bedside'
+    ],
+    answer: 3,
+    concept: 'Diabetes Delegation',
+    rationale: 'Vital signs and meal tray assistance are within UAP scope. Initial teaching, assessment of medication response, and insulin administration are all RN-only tasks.',
+    others: {
+      0: 'Initial teaching is RN responsibility.',
+      1: 'Assessment of medication response is RN responsibility.',
+      2: 'Insulin administration is an RN/provider task.'
+    }
+  },
+  {
+    topic: 'Diabetes',
+    type: 'standard',
+    stem: 'A patient with diabetes is being discharged. Which patient statement indicates the BEST understanding of long-term complications?',
+    options: [
+      '"I will get an annual eye exam, foot exam, and check my kidneys."',
+      '"I do not need any follow-ups since I take my pills daily."',
+      '"I only need to worry about my blood sugar — nothing else matters."',
+      '"I will skip my A1C checks if my home BG looks normal to me."'
+    ],
+    answer: 0,
+    concept: 'Comprehensive Care',
+    rationale: 'Comprehensive diabetes care includes annual eye exams (retinopathy), foot exams (neuropathy/PAD), kidney function checks (nephropathy), HbA1C every 3-6 months, BP monitoring, and lipid panels. This catches complications early when treatment is most effective.',
+    others: {
+      1: 'Pills alone do not prevent complications without monitoring.',
+      2: 'Many factors matter beyond BG.',
+      3: 'A1C reflects 3-month average — must be checked even if home BG looks normal.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let score = 0;
+let totalPoints = 0;
+let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_diabetes_deepdrill';
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  document.getElementById('q-stem').textContent = q.stem;
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong application reasoning across diabetes — DKA, HHS, hypoglycemia, complications. You\'re ready for the exam simulator.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed scenarios — application is where the final exam will challenge you.';
+  else if (pct >= 60) msg = 'Below pass threshold. Review missed concepts carefully and rerun this drill before the exam simulator.';
+  else msg = 'Significant gaps in application. Re-study Ch 46d review materials and the rationales below, then rerun this drill until you hit 77%+.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>
