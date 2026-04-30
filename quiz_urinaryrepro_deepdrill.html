@@ -147,18 +147,18 @@ const questions = [
     stem: "A nurse is preparing to administer bethanechol to four post-op patients. Which patient should the nurse question the order on?",
     options: [
       "A 72-year-old with post-op urinary retention 6 hours after a knee replacement",
-      "A 60-year-old with a neurogenic bladder needing voiding assistance",
+      "A 45-year-old with active asthma and a history of two recent flares",
       "A 38-year-old postpartum patient unable to void 8 hours after delivery",
-      "A 45-year-old with active asthma and a history of two recent flares"
+      "A 60-year-old with a neurogenic bladder needing voiding assistance"
     ],
-    answer: 3,
+    answer: 1,
     concept: "Bethanechol asthma CI",
     rationale: "Bethanechol is contraindicated in patients with latent or active asthma due to bronchoconstriction risk from cholinergic stimulation.",
     deepExplanation: "Bethanechol's muscarinic activity affects more than just the bladder — it also causes bronchoconstriction, bradycardia, and hypotension. Active asthma is an absolute contraindication that the nurse should clarify with the provider before administering.",
     others: {
       "0": "Post-op urinary retention is exactly the indication for bethanechol.",
-      "1": "Neurogenic bladder is an indication for bethanechol.",
-      "2": "Postpartum urinary retention is also an appropriate indication."
+      "2": "Postpartum urinary retention is also an appropriate indication.",
+      "3": "Neurogenic bladder is an indication for bethanechol."
     }
   },
   {
@@ -188,17 +188,17 @@ const questions = [
     type: "standard",
     stem: "A wife of a patient on finasteride accidentally handles a crushed pill while preparing his medications. What is the nurse's priority assessment?",
     options: [
-      "Determine if the wife is or could be pregnant",
       "Assess for signs of an allergic reaction in the wife",
+      "Determine if the wife is or could be pregnant",
       "Check the wife's blood pressure and heart rate",
       "Ask if the wife has any liver disease"
     ],
-    answer: 0,
+    answer: 1,
     concept: "Finasteride teratogenicity priority",
     rationale: "Finasteride is teratogenic to male fetuses — pregnancy status determines whether this is a serious exposure.",
     deepExplanation: "Whole tablets are coated to prevent transdermal absorption, but crushed or broken pills expose the active drug. Pregnant women should never handle broken finasteride pills. If the wife is or could be pregnant, the provider must be notified for follow-up.",
     others: {
-      "1": "Allergic reaction is not the primary concern with finasteride contact.",
+      "0": "Allergic reaction is not the primary concern with finasteride contact.",
       "2": "BP and HR are not the priority assessment for finasteride exposure.",
       "3": "Liver disease is not the immediate concern."
     }
@@ -228,27 +228,6 @@ const questions = [
     topic: "Urinary",
     confirmed: false,
     type: "standard",
-    stem: "A patient reports an erection lasting 5 hours after taking sildenafil last night. What is the nurse's priority action?",
-    options: [
-      "Tell the patient this is a normal effect that will resolve",
-      "Have the patient take an extra dose of sildenafil",
-      "Direct the patient to seek emergency medical care now",
-      "Recommend a warm bath to help the erection resolve"
-    ],
-    answer: 2,
-    concept: "Priapism emergency",
-    rationale: "An erection lasting more than 4 hours (priapism) is a medical emergency — prolonged ischemia can cause permanent erectile damage.",
-    deepExplanation: "Priapism requires emergency treatment, often with aspiration and pharmacologic agents to detumesce the penis. Delays cause irreversible tissue damage. Patients should be educated about this risk before starting therapy.",
-    others: {
-      "0": "This is NOT a normal effect — it is an emergency.",
-      "1": "Additional sildenafil makes the situation worse.",
-      "3": "Home remedies are inappropriate for priapism."
-    }
-  },
-  {
-    topic: "Urinary",
-    confirmed: false,
-    type: "standard",
     stem: "A patient with a history of sildenafil use 8 hours ago arrives in the ED with chest pain. Nitroglycerin is ordered. What is the nurse's priority?",
     options: [
       "Hold the nitroglycerin and notify the provider of recent sildenafil use",
@@ -264,27 +243,6 @@ const questions = [
       "1": "Giving the nitroglycerin can cause profound hypotension.",
       "2": "Half-doses are still dangerous and not within nursing scope.",
       "3": "The nurse cannot independently change the medication plan — must contact the provider."
-    }
-  },
-  {
-    topic: "Reproductive",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient calls the clinic stating she missed two progestin-only pills in a row. What instructions should the nurse give?",
-    options: [
-      "\"Take all 3 pills today and continue normally.\"",
-      "\"Skip the rest of the pack and start a new one next month.\"",
-      "\"Stop the pills entirely and use a different contraceptive method.\"",
-      "\"Restart the regimen and use backup contraception for at least 2 days.\""
-    ],
-    answer: 3,
-    concept: "Mini-pill 2 missed",
-    rationale: "For 2 missed mini-pills: restart the regimen and use backup contraception for at least 2 days.",
-    deepExplanation: "The progestin-only pill has a very narrow window of effectiveness, which is why the rules are stricter than for combo pills. For 1 missed pill: take ASAP and use backup for 2 days. For 2 missed: restart and use backup for 2 days.",
-    others: {
-      "0": "Taking 3 at once is unsafe.",
-      "1": "Skipping a month exposes her to pregnancy risk.",
-      "2": "A different method change should be a clinic visit decision, not the immediate plan."
     }
   },
   {
@@ -351,27 +309,6 @@ const questions = [
     }
   },
   {
-    topic: "Urinary",
-    confirmed: false,
-    type: "standard",
-    stem: "A 68-year-old male on tamsulosin for BPH is scheduled for cataract surgery in 3 weeks. The nurse reviewing his pre-op information should ensure which finding is communicated to the ophthalmologist?",
-    options: [
-      "The patient takes a multivitamin daily for general health",
-      "The patient is on tamsulosin — risk of intraoperative floppy iris syndrome",
-      "The patient has well-controlled type 2 diabetes on metformin",
-      "The patient occasionally drinks coffee in the morning before driving"
-    ],
-    answer: 1,
-    concept: "Tamsulosin + Floppy Iris Syndrome",
-    rationale: "Tamsulosin (alpha-1A blocker) causes Intraoperative Floppy Iris Syndrome (IFIS) — the iris fails to dilate and may billow during cataract surgery, increasing risk of complications. Even DISCONTINUED tamsulosin can cause IFIS for years afterward. The ophthalmologist must know.",
-    deepExplanation: "Tamsulosin binds tightly to alpha-1A receptors in the iris dilator muscle. The effect persists long after stopping the drug, so simply pausing the med pre-op does NOT eliminate risk. The ophthalmologist uses this information to adjust surgical technique (iris hooks, intracameral phenylephrine, viscoelastic agents). All alpha-1 blockers can cause IFIS but tamsulosin has the strongest association. This is a Beers Criteria caution in older adults.",
-    others: {
-      "0": "Multivitamins do not affect cataract surgery.",
-      "2": "Diabetes is relevant to cataract surgery generally but not the priority disclosure here.",
-      "3": "Coffee consumption is irrelevant to surgical preparation."
-    }
-  },
-  {
     topic: "Neuro",
     confirmed: false,
     type: "standard",
@@ -393,27 +330,6 @@ const questions = [
     }
   },
   {
-    topic: "Repro",
-    confirmed: false,
-    type: "standard",
-    stem: "A pregnant patient at 36 weeks with severe preeclampsia is receiving IV magnesium sulfate for seizure prophylaxis. The nurse's most recent assessment shows: DTRs absent, RR 10/min, urine output 18 mL/hr over the past 2 hours, magnesium level 9.5 mEq/L (therapeutic 4-7 for preeclampsia; normal 1.5-2.5). The priority action is:",
-    options: [
-      "Increase the magnesium infusion rate to maintain therapy",
-      "Stop the magnesium infusion, administer IV calcium gluconate, notify provider",
-      "Continue current rate and recheck level in 4 hours",
-      "Add an IV diuretic to clear the excess magnesium quickly"
-    ],
-    answer: 1,
-    concept: "Magnesium toxicity in preeclampsia",
-    rationale: "Magnesium toxicity stages: therapeutic 4-7 mEq/L; loss of DTRs 7-10 mEq/L; respiratory depression 10-13 mEq/L; cardiac arrest >15. This patient is in toxic range. STOP magnesium, administer IV calcium gluconate (the antidote), notify provider.",
-    deepExplanation: "Calcium gluconate (1 g IV over 3-5 minutes) directly antagonizes magnesium's neuromuscular effects. Always have it AT THE BEDSIDE during magnesium therapy. Monitoring on magnesium: DTRs, RR (must be ≥12), urine output (must be ≥30 mL/hr — magnesium is renally cleared, so low UO causes accumulation), and magnesium levels. Loss of DTRs is the EARLIEST sign of toxicity and warns before respiratory depression. NEVER increase the infusion in the setting of any toxicity sign.",
-    others: {
-      "0": "Increasing the rate worsens toxicity and can cause cardiac arrest.",
-      "2": "Continuing the infusion at toxic levels is dangerous — never delay action.",
-      "3": "Diuretics may help eliminate magnesium but only AFTER stopping infusion and giving the antidote."
-    }
-  },
-  {
     topic: "Urinary",
     confirmed: false,
     type: "standard",
@@ -432,27 +348,6 @@ const questions = [
       "0": "Correct teaching — broken pills are dangerous to pregnant women.",
       "2": "Correct teaching about blood donation.",
       "3": "Correct teaching about onset of full benefit."
-    }
-  },
-  {
-    topic: "Urinary",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient on terazosin is admitted with a fall after standing up from the toilet. The nurse reviews the timing of his medication. When was the most likely time he took the drug?",
-    options: [
-      "Immediately upon waking up that morning",
-      "Right at bedtime as a first dose",
-      "In the early afternoon with lunch",
-      "With dinner at 6 PM"
-    ],
-    answer: 0,
-    concept: "Terazosin first-dose hypotension",
-    rationale: "First-dose orthostatic hypotension with terazosin is most pronounced when patients take it in the morning — bedtime dosing is preferred for the first dose to minimize fall risk.",
-    deepExplanation: "A morning dose followed by getting out of bed and moving around is the highest-risk scenario. By contrast, taking it at bedtime allows the orthostatic effect to occur during sleep when the patient is supine.",
-    others: {
-      "1": "Bedtime is the preferred first-dose timing.",
-      "2": "Afternoon dosing is less risky than morning.",
-      "3": "Evening dosing is also lower-risk than morning."
     }
   },
   {
@@ -495,48 +390,6 @@ const questions = [
       "0": "Severe headache with vision changes is NOT a common minor side effect.",
       "1": "OTC ibuprofen treatment is inappropriate without ruling out stroke.",
       "3": "Two weeks is too long to wait for evaluation."
-    }
-  },
-  {
-    topic: "Repro",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient receiving IV oxytocin for labor induction is now having contractions every 90 seconds lasting 100 seconds. Fetal heart rate shows late decelerations to 90 bpm with each contraction. The nurse's priority action is:",
-    options: [
-      "Continue oxytocin at current rate and reassess in 15 minutes",
-      "Increase the oxytocin rate to deliver the baby faster",
-      "Stop the oxytocin infusion, reposition patient left side, give O2, IV fluid bolus",
-      "Document findings and notify the provider during the next nursing round"
-    ],
-    answer: 2,
-    concept: "Oxytocin tachysystole with late decels",
-    rationale: "Tachysystole (>5 contractions/10 min, contractions <2 min apart, or contractions >90 sec) + late decelerations = uteroplacental insufficiency — fetus is hypoxic. STOP oxytocin immediately, reposition (left lateral), give O2 (8-10 L NRB), IV LR bolus, notify provider.",
-    deepExplanation: "Late decelerations = fetal hypoxia, mirror contractions but offset (start AFTER contraction begins, end AFTER contraction ends). Oxytocin's short half-life (~3-6 min) means stopping the infusion provides relatively rapid effect. If decelerations don't resolve, terbutaline (tocolytic) may be given to relax the uterus. C-section may be needed. The mnemonic for late decel response is \"VEAL CHOP\": V=Variable→C=Cord compression; E=Early→H=Head compression; A=Accelerations→O=OK; L=Late→P=Placental insufficiency.",
-    others: {
-      "0": "Continuing oxytocin worsens fetal hypoxia.",
-      "1": "Increasing oxytocin in tachysystole is dangerous.",
-      "3": "Late decels with tachysystole demand IMMEDIATE action, not routine documentation."
-    }
-  },
-  {
-    topic: "Urinary",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient on bethanechol for postpartum urinary retention develops bradycardia (HR 48), wheezing, and excessive salivation. What is the nurse's priority action?",
-    options: [
-      "Continue the medication — these are expected effects",
-      "Hold the next dose and notify the provider immediately",
-      "Encourage the patient to drink more water",
-      "Apply oxygen via nasal cannula and continue the medication"
-    ],
-    answer: 1,
-    concept: "Bethanechol cholinergic crisis",
-    rationale: "Bradycardia, bronchoconstriction (wheezing), and excessive salivation are signs of cholinergic toxicity (SLUDGE-like effects) — hold the dose and notify the provider.",
-    deepExplanation: "These are signs of muscarinic overstimulation. Atropine is the antidote for cholinergic toxicity. The nurse cannot continue administering a drug that is causing toxicity, and oxygen alone doesn't address the underlying problem.",
-    others: {
-      "0": "Toxicity signs require holding the drug, not continuing.",
-      "2": "Hydration doesn't address the cholinergic toxicity.",
-      "3": "Oxygen helps respiratory symptoms but doesn't address the drug toxicity."
     }
   },
   {
@@ -603,27 +456,6 @@ const questions = [
     }
   },
   {
-    topic: "Repro",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient 30 minutes postpartum has continued heavy vaginal bleeding despite uterine massage. The fundus is boggy. The provider has ordered methylergonovine (Methergine) 0.2 mg IM. The nurse reviews the chart and notes the patient has a BP of 168/98 and a history of chronic hypertension. What is the priority action?",
-    options: [
-      "Administer the methylergonovine as ordered immediately",
-      "Hold methylergonovine and notify provider — contraindicated in HTN",
-      "Reduce the dose by 50% and give the medication",
-      "Give the medication via the IV route instead of IM"
-    ],
-    answer: 1,
-    concept: "Methylergonovine contraindicated in HTN",
-    rationale: "Methylergonovine is an ergot alkaloid that causes potent vasoconstriction → can cause severe HTN, MI, stroke. CONTRAINDICATED in hypertension and preeclampsia. Hold and notify provider — alternatives include carboprost (Hemabate) or misoprostol.",
-    deepExplanation: "Postpartum hemorrhage uterotonic ladder: (1) Oxytocin (Pitocin) IV/IM — first-line, safe for most patients; (2) Methylergonovine IM — second-line BUT avoid in HTN/preeclampsia; (3) Carboprost (Hemabate) IM — avoid in asthma (causes bronchospasm); (4) Misoprostol (Cytotec) PR/buccal — broad safety profile. The nurse must always check the patient history against the contraindication for each agent. Tranexamic acid (TXA) is also added per protocols.",
-    others: {
-      "0": "Administering with active HTN risks hypertensive crisis, MI, stroke.",
-      "2": "Dose reduction does not eliminate the contraindication.",
-      "3": "Methylergonovine IS NOT given IV — it can cause severe HTN crisis. IM only."
-    }
-  },
-  {
     topic: "Reproductive",
     confirmed: false,
     type: "standard",
@@ -642,27 +474,6 @@ const questions = [
       "1": "Light spotting is common during the first month.",
       "2": "Mild breast tenderness is a common, expected effect.",
       "3": "Decreased menstrual flow is a common expected effect."
-    }
-  },
-  {
-    topic: "Repro",
-    confirmed: false,
-    type: "standard",
-    stem: "A 32-year-old breastfeeding patient on a progestin-only pill (mini-pill) calls the clinic stating she usually takes the pill at 8 AM but didn't take it until 12 PM today (4 hours late). She had unprotected intercourse last night. What is the most accurate response?",
-    options: [
-      "No action needed — the mini-pill has a built-in 24-hour grace period for late doses",
-      "Take the missed pill now, take next dose on time, no backup contraception needed at this point",
-      "Take pill now, use backup for 48 hr, consider emergency contraception given the intercourse",
-      "Stop the pill entirely and switch to a combination oral contraceptive at the next visit"
-    ],
-    answer: 2,
-    concept: "Mini-pill (POP) 3-hour window",
-    rationale: "Progestin-only pills have a STRICT 3-hour window — being more than 3 hours late = considered missed. Take the pill now, use backup contraception for 48 hours, and given recent unprotected intercourse, consider emergency contraception (levonorgestrel or ulipristal acetate).",
-    deepExplanation: "POPs (mini-pill) work primarily by thickening cervical mucus and altering endometrium, with less consistent ovulation suppression than combination pills. Their efficacy depends on tight timing — even 3+ hours late is enough to lose contraceptive cover. Combination OCPs are more forgiving (24 hours window for late dose). POPs are preferred during breastfeeding (estrogen suppresses milk supply) and for women with estrogen contraindications (smoking >35, history of DVT/PE, migraine with aura).",
-    others: {
-      "0": "POPs do NOT have a 24-hour grace period — that applies to combination pills.",
-      "1": "Late >3 hours requires backup contraception, especially given the unprotected intercourse.",
-      "3": "Combination pills are contraindicated in breastfeeding (suppresses milk)."
     }
   }
 ];

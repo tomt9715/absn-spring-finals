@@ -146,40 +146,19 @@ const questions = [
     type: "standard",
     stem: "A nurse caring for four patients on carbamazepine reviews their CBCs. Which patient should the nurse notify the provider about first?",
     options: [
-      "A patient with a WBC of 2800 and complaints of sore throat",
       "A patient whose hemoglobin dropped from 13.5 to 13.1 today",
+      "A patient with a WBC of 2800 and complaints of sore throat",
       "A patient whose platelets are stable at 220,000 currently",
       "A patient with a normal absolute neutrophil count today"
     ],
-    answer: 0,
+    answer: 1,
     concept: "Carbamazepine WBC threshold",
     rationale: "Carbamazepine should be discontinued if WBC drops below 3000 — a WBC of 2800 with infection signs (sore throat) is an emergency.",
     deepExplanation: "This combination indicates evolving agranulocytosis with active infection risk. The drug must be held immediately and the patient evaluated. The other findings are stable or non-concerning.",
     others: {
-      "1": "A 0.4 g/dL drop in hemoglobin is not urgent.",
+      "0": "A 0.4 g/dL drop in hemoglobin is not urgent.",
       "2": "Stable platelets are fine.",
       "3": "A normal ANC is reassuring, not concerning."
-    }
-  },
-  {
-    topic: "Neuro",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient is brought to the ED actively seizing for the past 8 minutes. The seizure has not stopped despite supportive care. Which intervention does the nurse anticipate as FIRST-line pharmacologic therapy?",
-    options: [
-      "IV phenytoin 20 mg/kg loading dose given over 30 minutes",
-      "IV lorazepam 0.1 mg/kg or diazepam 0.15 mg/kg push",
-      "IV phenobarbital 20 mg/kg as induction therapy",
-      "Oral levetiracetam 1500 mg via nasogastric tube"
-    ],
-    answer: 1,
-    concept: "Status epilepticus first-line therapy",
-    rationale: "Status epilepticus = seizure >5 minutes OR ≥2 seizures without recovery between. First-line: IV benzodiazepine (lorazepam preferred, or diazepam, or IM/IN midazolam). Phenytoin/fosphenytoin or levetiracetam IV is SECOND-line if benzo fails.",
-    deepExplanation: "The longer status epilepticus continues, the harder it is to stop and the more neurons die. Treatment ladder: (1) IV benzodiazepine (lorazepam 0.1 mg/kg max 4 mg/dose, may repeat once); (2) IV antiseizure med (fosphenytoin 20 mg PE/kg, levetiracetam 60 mg/kg, or valproic acid 40 mg/kg); (3) anesthetic agents (propofol, midazolam infusion, pentobarbital) for refractory status. Always check glucose, give thiamine, address airway/oxygenation simultaneously.",
-    others: {
-      "0": "Phenytoin is second-line — given AFTER benzodiazepines fail.",
-      "2": "Phenobarbital is third-line for refractory status.",
-      "3": "Oral/NG meds are inappropriate during active seizure (aspiration risk, slow absorption)."
     }
   },
   {
@@ -189,17 +168,17 @@ const questions = [
     stem: "A patient on donepezil reports a fall last night when getting up to use the bathroom. Which assessment finding most likely explains this?",
     options: [
       "Severe orthostatic hypertension after dosing",
-      "Acute hyperglycemia from the medication",
       "Bradycardia syncope from the cholinergic effect",
+      "Acute hyperglycemia from the medication",
       "Tachycardia from sympathetic stimulation"
     ],
-    answer: 2,
+    answer: 1,
     concept: "Donepezil bradycardia syncope",
     rationale: "Donepezil can cause bradycardia syncope — a known fall risk that is why bedtime dosing is preferred.",
     deepExplanation: "Cholinesterase inhibition increases acetylcholine, which stimulates muscarinic receptors in the heart and slows it. With bedtime dosing, the patient is already supine if syncope occurs. Patients getting up to use the bathroom in the middle of the night are particularly at risk.",
     others: {
       "0": "Donepezil tends to LOWER BP, not raise it.",
-      "1": "Donepezil does not cause hyperglycemia.",
+      "2": "Donepezil does not cause hyperglycemia.",
       "3": "Donepezil causes BRADY-cardia, not tachycardia."
     }
   },
@@ -222,27 +201,6 @@ const questions = [
       "0": "This is not the primary clinical rationale.",
       "1": "There is a clear pharmacologic rationale.",
       "2": "Insurance is not the medical reason."
-    }
-  },
-  {
-    topic: "Neuro",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient with Parkinson's on levodopa/carbidopa for 4 years reports that 30 minutes before each scheduled dose, her tremors and rigidity return — but she feels better 30 minutes after taking the dose. Which phenomenon is the nurse describing?",
-    options: [
-      "\"On-off\" phenomenon — sudden unpredictable shifts in symptoms",
-      "\"Wearing-off\" effect — predictable symptom return as dose effect ends",
-      "Acute drug allergy requiring discontinuation of levodopa",
-      "Dyskinesia — involuntary movements at peak dose effect"
-    ],
-    answer: 1,
-    concept: "Levodopa wearing-off vs on-off phenomenon",
-    rationale: "\"Wearing-off\" = predictable return of symptoms as dose effect ends (typically before next dose). \"On-off\" = sudden, unpredictable shifts between mobile/immobile states unrelated to dose timing. The PREDICTABLE pattern tied to dose schedule = wearing-off.",
-    deepExplanation: "Both phenomena are long-term motor fluctuations from levodopa. Wearing-off appears earlier (3-5 years of therapy) and is managed by: (1) more frequent smaller doses, (2) adding COMT inhibitor (entacapone) or MAO-B inhibitor (selegiline, rasagiline), (3) extended-release formulations. On-off is less predictable, often later in disease, and may require apomorphine rescue or deep brain stimulation. Dyskinesias (involuntary writhing/twisting) are SEPARATE — they occur at PEAK dose, not trough.",
-    others: {
-      "0": "On-off is unpredictable — this patient's pattern is dose-related and predictable.",
-      "2": "Drug allergy presents with rash, anaphylaxis, not return of disease symptoms.",
-      "3": "Dyskinesia occurs at peak dose effect, not before next dose."
     }
   },
   {
@@ -312,27 +270,6 @@ const questions = [
     topic: "Neuro",
     confirmed: false,
     type: "standard",
-    stem: "A patient on long-term levodopa develops new involuntary jerking movements of the arms and face. What is the nurse's priority action?",
-    options: [
-      "Tell the patient this means the disease has progressed beyond treatment",
-      "Encourage the patient to push through the movements with exercise",
-      "Increase the dose to overcome the involuntary movements",
-      "Report the dyskinesias to the provider for possible dose reduction"
-    ],
-    answer: 3,
-    concept: "Levodopa paradox dyskinesias",
-    rationale: "Levodopa can cause paradox dyskinesias — extra involuntary movement that requires a dose REDUCTION, not an increase. Long-term occurrence should be reported.",
-    deepExplanation: "Dyskinesias often emerge after years of levodopa therapy and represent excess dopamine activity. Counterintuitively, the response is to lower the dose, not raise it. The nurse should report this finding so the provider can adjust dosing.",
-    others: {
-      "0": "Dyskinesias don't mean the disease is untreatable.",
-      "1": "Pushing through doesn't resolve drug-induced dyskinesias.",
-      "2": "Increasing the dose worsens dyskinesias."
-    }
-  },
-  {
-    topic: "Neuro",
-    confirmed: false,
-    type: "standard",
     stem: "A patient on levodopa/carbidopa is being discharged. The nurse provides dietary teaching. Which patient statement requires further teaching?",
     options: [
       "\"I will spread my protein intake throughout the day.\"",
@@ -369,27 +306,6 @@ const questions = [
       "1": "AKI doesn't typically cause this acute BP elevation.",
       "2": "Parkinson's itself doesn't cause hypertensive crisis.",
       "3": "A BP of 220/130 is not a normal stress response."
-    }
-  },
-  {
-    topic: "Neuro",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient with myasthenia gravis is in the ICU with worsening weakness. The provider plans an edrophonium (Tensilon) test to differentiate myasthenic crisis from cholinergic crisis. The nurse should have which medication immediately available at the bedside?",
-    options: [
-      "Naloxone — for opioid reversal if needed",
-      "Atropine — to reverse cholinergic effects if symptoms worsen",
-      "Epinephrine — for emergency hypertensive crisis",
-      "Flumazenil — to reverse benzodiazepine sedation"
-    ],
-    answer: 1,
-    concept: "Edrophonium (Tensilon) test antidote",
-    rationale: "Edrophonium is a short-acting cholinesterase inhibitor that boosts ACh transiently. If the patient has myasthenic crisis (under-treatment) → strength IMPROVES briefly. If cholinergic crisis (over-treatment) → symptoms WORSEN. ATROPINE must be at bedside to reverse acute cholinergic effects (bradycardia, bronchospasm).",
-    deepExplanation: "The Tensilon test is largely historical — most centers now use clinical exam + serology. But on NCLEX, the principle stands: cholinergic crisis worsens with edrophonium, myasthenic crisis improves. Atropine 0.5-1 mg IV is the antidote because edrophonium can cause severe bradycardia, bronchospasm, and increased secretions. The \"SLUDGE\" mnemonic (Salivation, Lacrimation, Urination, Defecation, GI cramping, Emesis) describes cholinergic excess. Edrophonium has a short duration (~5-10 min), so worsening is brief but can cause severe airway/cardiac compromise.",
-    others: {
-      "0": "Naloxone reverses opioids — not relevant to cholinergic crisis.",
-      "2": "Epinephrine treats anaphylaxis or asystole, not cholinergic effects.",
-      "3": "Flumazenil reverses benzodiazepines — not relevant here."
     }
   },
   {
@@ -480,27 +396,6 @@ const questions = [
     topic: "Neuro",
     confirmed: false,
     type: "standard",
-    stem: "A patient on sumatriptan also takes fluoxetine for depression. What is the nurse's priority concern?",
-    options: [
-      "Risk of hypoglycemia from drug interaction",
-      "Increased migraine frequency from the combination",
-      "Reduced sumatriptan effectiveness over time",
-      "Risk of serotonin syndrome from the combination"
-    ],
-    answer: 3,
-    concept: "Sumatriptan + SSRI",
-    rationale: "Combining sumatriptan with an SSRI like fluoxetine creates serotonin syndrome risk — this combination should be avoided.",
-    deepExplanation: "Serotonin syndrome presents with agitation, confusion, hyperthermia, hyperreflexia, clonus, autonomic instability. Both drugs increase serotonergic activity. Sumatriptan must never be combined with ergotamine, other triptans, SSRIs, or SNRIs.",
-    others: {
-      "0": "No hypoglycemia risk from this combination.",
-      "1": "The interaction does not increase migraine frequency.",
-      "2": "The risk is not reduced effectiveness — it's acute toxicity."
-    }
-  },
-  {
-    topic: "Neuro",
-    confirmed: false,
-    type: "standard",
     stem: "A patient is brought to the ED with suspected benzodiazepine overdose. The provider orders flumazenil. Which finding would be most concerning during administration?",
     options: [
       "Sudden onset of seizure activity",
@@ -531,7 +426,7 @@ const questions = [
       "\"I should drink alcohol moderately to help with my anxiety.\"",
       "\"I should stop the drug if my next refill is delayed.\""
     ],
-    answerArr: [0,1,3],
+    answerArr: [0, 1, 3],
     concept: "Carbamazepine teaching SATA",
     rationale: "Correct teaching: avoid grapefruit, report myelosuppression signs, expect periodic CBCs. Incorrect: alcohol with AEDs is unsafe, abrupt discontinuation risks seizures.",
     others: {
@@ -581,94 +476,10 @@ const questions = [
       "1": "Increasing the dose worsens hallucinations.",
       "2": "Encouraging interaction reinforces the experience."
     }
-  },
-  {
-    topic: "Neuro",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient with MG is in the ICU with worsening weakness. The nurse must determine if this is myasthenic crisis (under-treatment) or cholinergic crisis (over-treatment). Which assessment finding most reliably differentiates the two?",
-    options: [
-      "The patient's blood pressure trend over the past hour",
-      "The size of the patient's pupils on examination",
-      "The presence or absence of excessive salivation",
-      "The level of pain reported by the patient"
-    ],
-    answer: 2,
-    concept: "MG crisis differentiation",
-    rationale: "Excessive salivation indicates cholinergic crisis (over-treatment, SLUDGE effects). Its absence with weakness suggests myasthenic crisis (under-treatment).",
-    deepExplanation: "Both crises present with weakness, but the SLUDGE/cholinergic findings only occur in over-treatment. Other distinguishing features: under-treatment shows ptosis and dysphagia; over-treatment shows salivation, lacrimation, urination, diarrhea, bradycardia, bronchospasm. Atropine is used for cholinergic crisis.",
-    others: {
-      "0": "BP trend can change in either crisis.",
-      "1": "Pupil size alone is not the most reliable differentiator.",
-      "3": "Pain is not the differentiating feature."
-    }
-  },
-  {
-    topic: "Neuro",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient prescribed sumatriptan for acute migraines also has a prescription for ergotamine in their medication list. The patient says, \"I usually take ergotamine first, then if it doesn't work, I take sumatriptan within an hour.\" What is the nurse's priority concern?",
-    options: [
-      "The combination causes severe nausea and vomiting",
-      "Combined coronary vasoconstriction — risk of MI, stroke, peripheral ischemia",
-      "The two drugs cancel each other out and provide no relief",
-      "The combination causes mild dizziness — no clinical concern"
-    ],
-    answer: 1,
-    concept: "Triptan + ergot combination danger",
-    rationale: "Both triptans (sumatriptan) and ergots (ergotamine, dihydroergotamine) are potent vasoconstrictors. Combined use causes excessive vasoconstriction → MI, stroke, peripheral ischemia, and severe HTN. They must be separated by at least 24 hours.",
-    deepExplanation: "Triptans = 5-HT1B/1D agonists; ergots = nonselective serotonin receptor agonists. Both cause coronary, cerebral, and peripheral vasoconstriction. Combined contraindications: triptan within 24 hours of ergot (or vice versa), CAD, uncontrolled HTN, prior stroke, hemiplegic/basilar migraine, pregnancy. SSRIs/SNRIs + triptan = serotonin syndrome risk (separate concern). Always reconcile a migraine patient's med list — this combination is more common than expected because patients often don't mention all their PRN meds.",
-    others: {
-      "0": "Nausea is a common SE of both individually but not the priority concern.",
-      "2": "They both work — but stacking causes vascular complications.",
-      "3": "This combination is potentially fatal, not benign."
-    }
-  },
-  {
-    topic: "Neuro",
-    confirmed: false,
-    type: "standard",
-    stem: "A 22-year-old woman with epilepsy on carbamazepine for 6 months reports she took emergency contraception last week after a missed pill. She then learned at her clinic visit today that she is pregnant. The nurse explains which mechanism is most likely?",
-    options: [
-      "Carbamazepine accelerated metabolism of her oral contraceptive, reducing efficacy",
-      "Carbamazepine permanently sterilizes patients within 6 months of use",
-      "Emergency contraception cannot be used by patients on any seizure medications",
-      "The pregnancy is unrelated to her seizure medication regimen overall"
-    ],
-    answer: 0,
-    concept: "Enzyme-inducing AEDs reduce contraceptive efficacy",
-    rationale: "Carbamazepine is a strong CYP3A4 inducer that ACCELERATES the metabolism of estrogen-containing contraceptives, lowering hormone levels and reducing efficacy. Patients on enzyme-inducing AEDs need higher-dose contraceptives, IUDs, or alternative methods.",
-    deepExplanation: "Enzyme-inducing AEDs reducing contraceptive efficacy: carbamazepine, phenytoin, phenobarbital, primidone, topiramate (>200 mg), oxcarbazepine. Non-inducing AEDs (safer with OCPs): valproate, levetiracetam, lamotrigine, gabapentin. Counseling for women of childbearing age on AEDs is critical. Once pregnant on carbamazepine: increased risk of neural tube defects, craniofacial defects — needs prenatal counseling, high-dose folate, and possible AED switch (but never abruptly without provider). Lamotrigine and levetiracetam are preferred AEDs in pregnancy when possible.",
-    others: {
-      "1": "Carbamazepine does not cause sterility.",
-      "2": "Emergency contraception can be used; the issue is reduced regular OCP efficacy.",
-      "3": "This pregnancy is directly related to carbamazepine's OCP interaction."
-    }
-  },
-  {
-    topic: "Neuro",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient newly started on carbamazepine reports an unusual rash spreading on his trunk. The patient is of Asian descent. What is the priority action?",
-    options: [
-      "Apply a moisturizing lotion and reassess in 24 hours",
-      "Continue the medication — rash is a known mild side effect",
-      "Recommend an OTC antihistamine for the itching",
-      "Hold the dose and notify the provider immediately"
-    ],
-    answer: 3,
-    concept: "Carbamazepine SJS/TEN risk",
-    rationale: "Patients of Asian descent are at increased risk for Stevens-Johnson Syndrome (SJS) and toxic epidermal necrolysis (TEN) on carbamazepine — any rash must be reported immediately.",
-    deepExplanation: "SJS and TEN are life-threatening hypersensitivity reactions presenting with rash that can progress to widespread skin sloughing. Asian patients have a higher rate of HLA-B*1502 allele, which is strongly associated with this reaction. Patients of Asian descent may be screened genetically before starting carbamazepine.",
-    others: {
-      "0": "Watching and reassessing 24 hours later could be fatal.",
-      "1": "A spreading rash is NOT a benign side effect of carbamazepine.",
-      "2": "Antihistamines mask a potentially life-threatening reaction."
-    }
   }
 ];
 
-// === QUIZ ENGINE ===
+        // === QUIZ ENGINE ===
 const TOTAL = questions.length;
 let currentQ = 0;
 let totalPoints = 0;

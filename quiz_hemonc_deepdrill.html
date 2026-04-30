@@ -185,66 +185,24 @@ const questions = [
     }
   },
   {
-    topic: "Hemonc",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient is 24 hours into induction chemotherapy for newly diagnosed acute leukemia (high tumor burden). Labs show: K 6.4 mEq/L (normal 3.5-5.0), phosphate 7.8 mg/dL (normal 2.5-4.5), calcium 7.2 mg/dL (normal 9-10.5), uric acid 14.2 mg/dL (normal 3.5-7.2), creatinine 2.1 mg/dL (normal 0.6-1.2; baseline 0.9). The nurse anticipates which intervention?",
-    options: [
-      "Increase the chemo rate to clear malignant cells faster",
-      "Aggressive IV hydration, allopurinol/rasburicase, monitor for arrhythmia",
-      "Hold all IV fluids to prevent fluid overload from chemo",
-      "Administer IV calcium gluconate to correct the hypocalcemia first"
-    ],
-    answer: 1,
-    concept: "Tumor lysis syndrome management",
-    rationale: "Tumor lysis syndrome (TLS): hyperkalemia + hyperphosphatemia + hypocalcemia + hyperuricemia + AKI from rapid tumor cell breakdown. Treatment: aggressive hydration, allopurinol or rasburicase for uric acid, monitor for arrhythmia from hyperkalemia.",
-    deepExplanation: "TLS is highest risk in leukemias, lymphomas, and high tumor burden cancers within 12-72 hours of starting chemo. The \"Cairo-Bishop criteria\" define TLS by these labs. Calcium correction is delayed unless the patient is symptomatic — giving Ca with high phosphate causes calcium-phosphate precipitation and worsens AKI. Rasburicase rapidly degrades uric acid; allopurinol prevents new uric acid formation but works slower.",
-    others: {
-      "0": "Increasing chemo rate worsens TLS by accelerating cell breakdown.",
-      "2": "Withholding fluids worsens AKI — hydration is the cornerstone of TLS prevention/treatment.",
-      "3": "Calcium repletion in setting of hyperphosphatemia causes precipitation and worsens AKI."
-    }
-  },
-  {
     topic: "HemOnc",
     confirmed: false,
     type: "standard",
     stem: "A 65-year-old patient with lung cancer has the following findings: chronic cough for 3 weeks, weight loss, and a non-healing oral sore. Which CAUTION sign is the patient reporting?",
     options: [
       "Change in bowel or bladder habits",
-      "Indigestion or difficulty swallowing",
+      "Multiple CAUTION signs combined",
       "Obvious change in a wart or mole",
-      "Multiple CAUTION signs combined"
+      "Indigestion or difficulty swallowing"
     ],
-    answer: 3,
+    answer: 1,
     concept: "CAUTION sign recognition",
     rationale: "The patient is reporting multiple CAUTION signs: A sore that doesn't heal AND Nagging cough or hoarseness. Multiple combined CAUTION signs warrant urgent evaluation.",
     deepExplanation: "C.A.U.T.I.O.N. = Change in bowel/bladder habits, A sore that doesn't heal, Unusual bleeding/discharge, Thickening/lump, Indigestion or difficulty swallowing, Obvious change in wart/mole, Nagging cough/hoarseness. Patients reporting multiple signs should be evaluated quickly.",
     others: {
       "0": "Bowel or bladder changes are not what was reported.",
-      "1": "Difficulty swallowing was not mentioned.",
-      "2": "No mole or wart change was reported."
-    }
-  },
-  {
-    topic: "Hemonc",
-    confirmed: false,
-    type: "standard",
-    stem: "A nurse infusing IV doxorubicin (a vesicant) through a peripheral IV notes the patient is now reporting burning at the IV site. The site shows mild swelling and redness. Place the nursing actions in the correct priority order: (1) Notify the provider and oncology team, (2) Stop the infusion immediately, (3) Aspirate residual drug through the existing IV catheter, (4) Apply cold compress (specific to anthracyclines), (5) Mark the affected area and document with photo.",
-    options: [
-      "1, 2, 3, 4, 5",
-      "2, 3, 1, 4, 5",
-      "5, 2, 1, 3, 4",
-      "3, 2, 4, 1, 5"
-    ],
-    answer: 1,
-    concept: "Vesicant extravasation order of operations",
-    rationale: "STOP infusion FIRST (prevent further drug entering tissue), aspirate residual drug through the existing IV catheter, then notify provider, then apply cold compress (anthracyclines = cold; vinca alkaloids = warm), then mark and document.",
-    deepExplanation: "Doxorubicin causes severe tissue necrosis if extravasated — sometimes requiring skin grafts or amputation. The order matters because the IV catheter is the route for both stopping more drug from entering and removing the pooled drug already in tissue. Cold compress for anthracyclines causes vasoconstriction limiting drug spread; warm compress for vinca alkaloids promotes drug absorption away from the site. Dexrazoxane is the antidote for anthracycline extravasation.",
-    others: {
-      "0": "Notifying first delays the critical stop-the-infusion step.",
-      "2": "Documentation comes after acute interventions — the drug is still flowing in option C.",
-      "3": "Aspirating without first stopping infusion does not prevent more drug entering tissue."
+      "2": "No mole or wart change was reported.",
+      "3": "Difficulty swallowing was not mentioned."
     }
   },
   {
@@ -293,48 +251,6 @@ const questions = [
     topic: "HemOnc",
     confirmed: false,
     type: "standard",
-    stem: "A patient newly diagnosed with cancer asks her nurse, \"Am I going to die from this?\" The nurse knows the goals of treatment. What is the most therapeutic response?",
-    options: [
-      "\"Don't worry, the medication will cure your cancer for sure.\"",
-      "\"Cancer outcomes depend on many factors. Let's talk about your treatment goals.\"",
-      "\"You only have a 50% chance based on standard statistics.\"",
-      "\"Most patients with cancer pass away within 5 years anyway.\""
-    ],
-    answer: 1,
-    concept: "Therapeutic communication",
-    rationale: "Acknowledging uncertainty while opening a discussion about treatment goals is the therapeutic response — prognosis depends on many factors including type, stage, metastasis, and individual response.",
-    deepExplanation: "The three goals of treatment (cure, prolongation, palliation) should be discussed with the patient and provider. False reassurance (\"you will be cured\"), arbitrary statistics, or hopeless framing are all non-therapeutic. The nurse's role is to facilitate informed dialogue.",
-    others: {
-      "0": "False reassurance is non-therapeutic.",
-      "2": "Arbitrary statistics are not appropriate.",
-      "3": "This is hopeless framing — non-therapeutic."
-    }
-  },
-  {
-    topic: "Hemonc",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient receiving paclitaxel for ovarian cancer (first dose, 8 minutes into infusion) suddenly develops dyspnea, flushing, BP 86/48, and back pain. The nurse's PRIORITY action is:",
-    options: [
-      "Slow the infusion rate by 50% and reassess in 15 minutes",
-      "Stop the infusion, give IV diphenhydramine and corticosteroid, prepare for epinephrine",
-      "Continue the infusion as ordered — these are expected side effects",
-      "Switch to oral premedication and resume at the same rate"
-    ],
-    answer: 1,
-    concept: "Paclitaxel acute hypersensitivity",
-    rationale: "Paclitaxel hypersensitivity reactions occur in ~10% of patients, typically within minutes of starting. STOP infusion, give IV diphenhydramine + dexamethasone + H2 blocker, prepare for epinephrine if anaphylaxis develops.",
-    deepExplanation: "The Cremophor EL solvent in paclitaxel is the primary trigger for hypersensitivity. Standard premedication (dexamethasone 12-24 hr before, plus diphenhydramine and H2 blocker pre-infusion) reduces but does NOT eliminate risk. Patients are monitored closely for the first 15 minutes of every infusion. After resolution, infusion may resume at slower rate with extended monitoring. Reactions are most common with the first or second dose.",
-    others: {
-      "0": "Slowing the infusion does not address active anaphylaxis.",
-      "2": "Hypotension and dyspnea are not expected — they signal hypersensitivity.",
-      "3": "Switching premedication does not address the active reaction."
-    }
-  },
-  {
-    topic: "HemOnc",
-    confirmed: false,
-    type: "standard",
     stem: "A chemo patient with thrombocytopenia is being discharged. Which patient statement requires further teaching?",
     options: [
       "\"I will use a soft-bristle toothbrush for oral care.\"",
@@ -376,27 +292,6 @@ const questions = [
   {
     topic: "HemOnc",
     confirmed: false,
-    type: "standard",
-    stem: "A patient about to start chemo is meeting with the nurse. The patient mentions she is hoping to have children \"in a few years.\" What is the nurse's priority response?",
-    options: [
-      "\"Don't worry, you can have children right after chemo ends.\"",
-      "\"Cancer treatment will not affect your fertility at all.\"",
-      "\"Discuss fertility preservation with your provider before starting treatment.\"",
-      "\"Just wait until after treatment — fertility usually returns within weeks.\""
-    ],
-    answer: 2,
-    concept: "Fertility preservation timing",
-    rationale: "Fertility preservation (sperm banking, egg/embryo cryopreservation) must be discussed BEFORE chemo because reproductive toxicity from chemo can be IRREVERSIBLE.",
-    deepExplanation: "Chemo causes fetal malformation and irreversible sterility. The window to preserve fertility closes once treatment begins. Patients should also use effective contraception during and after chemo. This is a critical pre-treatment teaching point that cannot wait.",
-    others: {
-      "0": "Sterility from chemo can be permanent — false reassurance.",
-      "1": "Chemo DOES affect fertility — this is misinformation.",
-      "3": "Sterility is often irreversible, not a few weeks."
-    }
-  },
-  {
-    topic: "HemOnc",
-    confirmed: false,
     type: "sata",
     stem: "A patient with chemo-induced neutropenia is being educated about home precautions. Which teaching points are correct? Select all that apply.",
     options: [
@@ -422,81 +317,18 @@ const questions = [
     stem: "A nurse is preparing to administer chemotherapy. Lab results show ANC of 480 (normal >1,500), platelets of 85,000 (normal 150,000-400,000), and hemoglobin of 9.8 g/dL (normal 12-16). What is the nurse's priority action?",
     options: [
       "Administer the chemotherapy as scheduled",
-      "Reduce the chemo dose by 50% and proceed",
+      "Hold the chemotherapy and notify the provider",
       "Give a transfusion before administering chemo",
-      "Hold the chemotherapy and notify the provider"
+      "Reduce the chemo dose by 50% and proceed"
     ],
-    answer: 3,
+    answer: 1,
     concept: "Chemo hold for ANC",
     rationale: "ANC of 480 is below 500 — chemotherapy must be HELD and the provider notified. This is a clear hold criterion.",
     deepExplanation: "The provider may delay the cycle, reduce the dose, or order CSFs (filgrastim, pegfilgrastim, sargramostim) before resuming. The platelet count and hemoglobin are also concerning but the ANC is the absolute hold trigger. The nurse cannot independently reduce dose or proceed.",
     others: {
       "0": "ANC under 500 is a hold criterion.",
-      "1": "Dose reduction is a provider decision.",
-      "2": "Transfusion alone doesn't address neutropenia."
-    }
-  },
-  {
-    topic: "HemOnc",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient on chemotherapy with thrombocytopenia has a platelet count of 18,000 (normal 150,000-400,000). Which finding would be most concerning?",
-    options: [
-      "New onset severe headache and confusion",
-      "Mild bruising on the upper arms",
-      "Slight gum bleeding when brushing teeth",
-      "A small petechial rash on the lower legs"
-    ],
-    answer: 0,
-    concept: "Intracranial bleeding recognition",
-    rationale: "New onset severe headache and confusion with a platelet count of 18,000 raises concern for intracranial bleeding — a life-threatening emergency.",
-    deepExplanation: "Below 20,000 platelets, spontaneous bleeding can occur including life-threatening hemorrhage. Headache plus altered mental status in a thrombocytopenic patient is a red flag requiring immediate imaging. The other findings are concerning but indicate manageable mucosal/skin bleeding.",
-    others: {
-      "1": "Mild bruising is expected with thrombocytopenia.",
-      "2": "Slight gum bleeding indicates need for soft-bristle care, not emergency.",
-      "3": "Petechial rash is expected with low platelets."
-    }
-  },
-  {
-    topic: "Hemonc",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient with newly diagnosed lung cancer presents with face and neck swelling, distended neck and chest veins, dyspnea worsening when supine, and a \"feeling of fullness\" in the head. The nurse anticipates which intervention?",
-    options: [
-      "Routine outpatient follow-up with oncologist in 2 weeks",
-      "Schedule outpatient CT scan for next available appointment",
-      "Elevate HOB, oxygen, urgent radiation therapy or stenting consult",
-      "Discharge home with diuretic therapy for the swelling"
-    ],
-    answer: 2,
-    concept: "SVC syndrome — oncologic emergency",
-    rationale: "SVC syndrome: tumor compression of the superior vena cava blocks venous return from the upper body. Findings: facial/neck/upper extremity edema, distended veins, dyspnea worse supine, head fullness. Treatment: HOB elevated, oxygen, urgent radiation or endovascular stenting.",
-    deepExplanation: "Most common in lung cancer (especially small cell) and lymphoma. Without treatment, can progress to airway obstruction, cerebral edema, and stroke. CT chest with contrast confirms the diagnosis. Definitive treatment depends on cause: chemo for chemo-sensitive tumors (small cell, lymphoma), radiation for non-small cell lung, stenting for refractory cases. Steroids are sometimes used to reduce edema.",
-    others: {
-      "0": "Outpatient follow-up risks airway obstruction and stroke.",
-      "1": "Outpatient CT delays urgent treatment.",
-      "3": "Diuretics do not relieve venous obstruction from external compression."
-    }
-  },
-  {
-    topic: "Hemonc",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient with metastatic breast cancer reports new mid-back pain (worse when lying flat) for 4 days, weakness in both legs, and a \"tingling\" sensation around the umbilicus. Bowel and bladder function are intact for now. The nurse's PRIORITY action is:",
-    options: [
-      "Schedule outpatient physical therapy for the back pain",
-      "Encourage bed rest and oral analgesics for 48 hours",
-      "Notify provider STAT — possible spinal cord compression",
-      "Apply heat to the back and reassess in 24 hours"
-    ],
-    answer: 2,
-    concept: "Malignant spinal cord compression",
-    rationale: "Malignant spinal cord compression (MSCC) is a true oncologic emergency. Red flags: progressive back pain (worse lying flat), motor weakness, sensory level (umbilicus = T10), eventual bowel/bladder loss. Window to preserve function is hours-days.",
-    deepExplanation: "Most common in breast, lung, and prostate metastases. Anticipate STAT MRI of the entire spine (multiple levels possible), high-dose IV dexamethasone (10 mg load, then 4 mg q6h), urgent radiation therapy or surgical decompression. Once paraplegia develops, function rarely returns even with treatment. Bowel/bladder loss = late finding indicating worse prognosis. Pain at rest or worse lying flat is more concerning than mechanical pain.",
-    others: {
-      "0": "PT cannot address tumor compression and delays diagnosis.",
-      "1": "Bed rest does not address the underlying compression and risks irreversible paraplegia.",
-      "3": "Heat does not treat spinal cord compression and delays critical workup."
+      "2": "Transfusion alone doesn't address neutropenia.",
+      "3": "Dose reduction is a provider decision."
     }
   },
   {
@@ -563,48 +395,6 @@ const questions = [
     }
   },
   {
-    topic: "Hemonc",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient with chemo-induced anemia is receiving the first unit of PRBCs. 15 minutes into the transfusion, the patient develops chills, T 102.4°F (was 98.6°F), back pain, dark amber urine, and BP drops from 132/80 to 92/54. What is the nurse's priority action?",
-    options: [
-      "Slow the transfusion rate and continue with antipyretic premedication",
-      "Stop the transfusion, maintain IV with NS, notify provider STAT, send blood/urine samples",
-      "Continue transfusion — fever within 1°C is an expected mild reaction",
-      "Discontinue all IV access and monitor vital signs every 15 minutes"
-    ],
-    answer: 1,
-    concept: "Acute hemolytic transfusion reaction",
-    rationale: "Acute hemolytic transfusion reaction (typically ABO incompatibility): chills + fever + back/flank pain + hemoglobinuria + hypotension within minutes. STOP transfusion, maintain IV with NS through a NEW line, notify provider STAT, return unit + samples to blood bank.",
-    deepExplanation: "Distinguish from febrile non-hemolytic reaction (fever ≥1°C rise, no hemolysis signs — slow but can continue with antipyretic) and allergic reactions (urticaria, can continue with antihistamine). Hemolytic reaction monitoring: watch for DIC (bleeding, low platelets, prolonged PT/PTT, low fibrinogen) and AKI. Send patient blood + urine + transfused unit to blood bank for analysis. Most cases are due to clerical errors — patient identification is the prevention.",
-    others: {
-      "0": "Slowing the rate does not address hemolysis — the reaction continues.",
-      "2": "Fever + back pain + dark urine + hypotension is NOT a febrile non-hemolytic reaction.",
-      "3": "Discontinuing IV access loses the route for emergency fluids/medications."
-    }
-  },
-  {
-    topic: "Hemonc",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient with breast cancer has received doxorubicin cumulative dose of 540 mg/m² (the lifetime limit is generally 450-550 mg/m²). The patient now reports dyspnea on exertion, ankle swelling, and orthopnea. Echocardiogram shows EF 38% (baseline 60%). The nurse anticipates:",
-    options: [
-      "Continue current chemotherapy as ordered with very close cardiac monitoring",
-      "Increase doxorubicin dose to overcome the apparent treatment resistance",
-      "Discontinue doxorubicin, anticipate switch to non-anthracycline, manage HF",
-      "Order daily ECGs but continue current treatment unchanged"
-    ],
-    answer: 2,
-    concept: "Doxorubicin cardiotoxicity (lifetime dose)",
-    rationale: "Doxorubicin (and all anthracyclines) cause dose-dependent cardiotoxicity that is often irreversible. Lifetime dose limit is ~450-550 mg/m². Past this, risk of cardiomyopathy/HF rises sharply. HF + decreased EF mandates stopping doxorubicin and switching regimens.",
-    deepExplanation: "Cardiotoxicity is from oxidative stress in cardiomyocytes (which lack the catalase enzyme to neutralize free radicals). Manage HF per usual: ACE inhibitor, beta-blocker, diuretic. Dexrazoxane is cardioprotective and may be added in patients approaching lifetime dose. Baseline echo is standard before starting, with serial monitoring during treatment. Newer agents (trastuzumab, etc.) have separate but additive cardiotoxicity risks. Liposomal doxorubicin reduces cardiotoxicity.",
-    others: {
-      "0": "Continuing past lifetime dose with active HF is dangerous.",
-      "1": "Increasing dose worsens cardiotoxicity, not overcomes it.",
-      "3": "ECGs miss systolic dysfunction — echo is the right monitoring tool, but treatment changes are still needed."
-    }
-  },
-  {
     topic: "HemOnc",
     confirmed: false,
     type: "standard",
@@ -647,66 +437,24 @@ const questions = [
     }
   },
   {
-    topic: "Hemonc",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient is receiving high-dose IV methotrexate as part of chemotherapy. The nurse reviews the orders and notes that leucovorin (folinic acid) is scheduled to start 24 hours after the methotrexate infusion ends. A new nurse asks why leucovorin is needed. What is the most accurate response?",
-    options: [
-      "Leucovorin enhances methotrexate's anticancer activity in the tumor cells",
-      "Leucovorin rescues normal cells from methotrexate's folate antagonism",
-      "Leucovorin is a stronger chemotherapy that replaces methotrexate",
-      "Leucovorin treats the nausea caused by high-dose methotrexate"
-    ],
-    answer: 1,
-    concept: "Leucovorin rescue mechanism",
-    rationale: "Methotrexate inhibits dihydrofolate reductase (folate antagonist), affecting all rapidly dividing cells. Leucovorin (folinic acid) bypasses the blockade and rescues normal cells from severe toxicity (mucositis, myelosuppression, nephrotoxicity). Timing is critical.",
-    deepExplanation: "Leucovorin is given 24 hours after MTX to allow tumor cell kill while sparing normal cells. Starting too early reduces antitumor effect; too late = severe toxicity. Methotrexate level monitoring guides leucovorin duration (continued until MTX level <0.05 µmol/L). Folic acid (DIFFERENT molecule) does NOT work as rescue — only leucovorin does. High-dose MTX requires aggressive hydration, urinary alkalinization (urine pH >7), and serial MTX levels.",
-    others: {
-      "0": "Leucovorin is a rescue agent, not an enhancer of antitumor effect.",
-      "2": "Leucovorin does not treat cancer — it rescues normal cells.",
-      "3": "Leucovorin is not an antiemetic."
-    }
-  },
-  {
     topic: "HemOnc",
     confirmed: false,
     type: "standard",
     stem: "A nurse is reviewing tumor markers for several patients. A patient asks if a high tumor marker means cancer is back. What is the most accurate response?",
     options: [
       "Yes — high markers always mean cancer recurrence",
-      "No — markers are unreliable and shouldn't be checked",
+      "Markers track cancer status but require interpretation in context",
       "Markers only matter at the time of initial diagnosis",
-      "Markers track cancer status but require interpretation in context"
+      "No — markers are unreliable and shouldn't be checked"
     ],
-    answer: 3,
+    answer: 1,
     concept: "Tumor marker interpretation",
     rationale: "Tumor markers track cancer status (detection, progression, treatment response, remission) but require interpretation in clinical context — they can be elevated in non-cancer conditions too.",
     deepExplanation: "Examples: PSA can be elevated in BPH; CEA in smoking; CA-125 in endometriosis. Trend over time matters more than a single value. The provider correlates markers with imaging and clinical findings to determine if recurrence is occurring.",
     others: {
       "0": "High markers don't ALWAYS mean recurrence.",
-      "1": "Markers are useful tools, not unreliable.",
-      "2": "Markers track cancer throughout treatment, not just at diagnosis."
-    }
-  },
-  {
-    topic: "Hemonc",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient on capecitabine for metastatic colon cancer reports painful redness, swelling, and peeling on her palms and soles. She also has tingling in her fingers and difficulty holding objects. The nurse anticipates which provider action?",
-    options: [
-      "Increase the capecitabine dose to overcome the side effect",
-      "Continue current dose and apply topical antibiotic cream",
-      "Diagnose this as cellulitis and start IV antibiotics",
-      "Hold or dose-reduce capecitabine; manage with emollients, cool compress, analgesics"
-    ],
-    answer: 3,
-    concept: "Hand-foot syndrome (PPE)",
-    rationale: "Hand-foot syndrome (palmar-plantar erythrodysesthesia) is common with capecitabine, 5-FU, sorafenib, sunitinib, doxorubicin liposomal. Treatment: dose reduction or hold drug, emollients, cool compresses, analgesics, avoid hot water/friction.",
-    deepExplanation: "Grading: Grade 1 = minimal redness/numbness, no functional impairment; Grade 2 = painful redness with swelling but functional; Grade 3 = ulceration, blistering, severe pain, unable to use hands/feet. Severe cases require dose discontinuation. NOT cellulitis (no fever, bilateral symmetric distribution, no progression up extremity, no warmth/cellulitic margins). Pyridoxine (B6) and urea-based emollients may have prophylactic benefit. Pre-treatment teaching includes avoiding tight-fitting shoes, hot water, prolonged friction.",
-    others: {
-      "0": "Increasing dose worsens the toxicity.",
-      "1": "Topical antibiotics do not treat HFS — and there is no infection.",
-      "2": "Cellulitis is unilateral, not symmetric on palms AND soles, and would have systemic signs."
+      "2": "Markers track cancer throughout treatment, not just at diagnosis.",
+      "3": "Markers are useful tools, not unreliable."
     }
   },
   {

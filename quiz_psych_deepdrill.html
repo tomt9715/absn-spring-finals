@@ -165,49 +165,6 @@ const questions = [
     topic: "Psych",
     confirmed: false,
     type: "standard",
-    stem: "A patient who started haloperidol 4 days ago is brought to the ED with T 104.2°F, BP 168/102, HR 128, severe muscle rigidity, and altered mental status. Labs show CK 4,200 U/L (normal <200). The nurse anticipates which intervention?",
-    options: [
-      "Increase the haloperidol dose to break through the rigidity",
-      "Administer an anticholinergic agent like benztropine and continue therapy",
-      "Discontinue haloperidol immediately, IV cooling, and dantrolene/bromocriptine",
-      "Switch to a long-acting injectable haloperidol decanoate this week"
-    ],
-    answer: 2,
-    concept: "NMS emergency management",
-    rationale: "Neuroleptic Malignant Syndrome (NMS): hyperthermia + rigidity + autonomic instability + altered mental status + elevated CK. Stop the antipsychotic immediately, supportive care (cooling, fluids), dantrolene or bromocriptine.",
-    deepExplanation: "NMS mortality is 10-20% if untreated. CK elevates from rhabdomyolysis caused by sustained muscle rigidity. The autonomic instability (tachycardia, labile BP, diaphoresis) and altered mental status distinguish it from simple EPS. Dantrolene reduces muscle rigidity; bromocriptine restores dopaminergic activity. NMS occurs most often within first 2 weeks of treatment or after a dose increase.",
-    others: {
-      "0": "Increasing the dose worsens NMS — the drug is the cause.",
-      "1": "Anticholinergics treat acute dystonia, not NMS — and continuing the drug is dangerous.",
-      "3": "Long-acting injectables prolong drug exposure — opposite of what is needed."
-    }
-  },
-  {
-    topic: "Psych",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient on clozapine for 6 weeks calls the clinic at 3 PM with fever 101.8°F, sore throat, and mouth ulcers. The patient's last ANC (drawn 6 days ago) was 1,800. What is the priority nursing action?",
-    options: [
-      "Reassure the patient — these are common viral symptoms, follow up in a week",
-      "Schedule a routine CBC for the next available appointment slot",
-      "Direct the patient to ED today for STAT CBC, hold clozapine, prepare for possible agranulocytosis",
-      "Take 650 mg acetaminophen and reduce the next clozapine dose by half"
-    ],
-    answer: 2,
-    concept: "Clozapine REMS — agranulocytosis emergency",
-    rationale: "Clozapine causes agranulocytosis. Fever + sore throat + mouth ulcers in a clozapine patient is a neutropenic emergency until proven otherwise, regardless of last ANC. STAT CBC, hold drug, ED evaluation.",
-    deepExplanation: "Per REMS protocol: ANC <1500 = consider holding; ANC <1000 = hold; ANC <500 = permanent discontinuation. The \"last ANC was normal\" trap is dangerous because ANC can drop precipitously between scheduled draws. Symptoms suggestive of infection in any clozapine patient warrant immediate CBC regardless of monitoring schedule.",
-    others: {
-      "0": "Reassurance without evaluation can be fatal — agranulocytosis kills via overwhelming sepsis.",
-      "1": "Routine scheduling delays critical evaluation by days.",
-      "3": "Acetaminophen masks fever and dose reduction does not address the bone marrow problem.",
-      "4": "Self-adjusting clozapine doses is dangerous and does not address agranulocytosis risk."
-    }
-  },
-  {
-    topic: "Psych",
-    confirmed: false,
-    type: "standard",
     stem: "A patient on lithium reports they decided to start a low-sodium diet for \"heart health.\" What is the nurse's priority concern?",
     options: [
       "The patient may experience reduced lithium effectiveness",
@@ -271,41 +228,20 @@ const questions = [
     topic: "Psych",
     confirmed: false,
     type: "standard",
-    stem: "A patient on lithium calls reporting flu symptoms with vomiting and diarrhea for 2 days. What is the nurse's priority concern?",
-    options: [
-      "The patient may need an antiviral medication",
-      "Volume loss can cause lithium toxicity from sodium depletion",
-      "The flu may interact with the lithium directly",
-      "The patient should switch to an injectable form"
-    ],
-    answer: 1,
-    concept: "Lithium + dehydration",
-    rationale: "Vomiting and diarrhea cause volume and sodium loss, which can drive lithium to toxic levels — a serious concern requiring evaluation.",
-    deepExplanation: "GI illness, sweating from exercise/heat, dehydration, and salt restriction all reduce sodium and can precipitate lithium toxicity. Patients should know to call their provider during any illness involving fluid loss.",
-    others: {
-      "0": "Antivirals are not the priority over toxicity prevention.",
-      "2": "Direct flu-lithium interaction is not the mechanism.",
-      "3": "Injectable lithium is not standard."
-    }
-  },
-  {
-    topic: "Psych",
-    confirmed: false,
-    type: "standard",
     stem: "A patient newly started on lithium has a baseline TSH of 2.0 microunits/mL (normal 0.4-4.0). Six months later, TSH is 8.5 microunits/mL. What is the most likely explanation?",
     options: [
-      "Lithium has caused hypothyroidism — an expected adverse effect",
-      "The patient has developed acute hyperthyroidism",
       "The patient needs an urgent endocrinology referral",
+      "The patient has developed acute hyperthyroidism",
+      "Lithium has caused hypothyroidism — an expected adverse effect",
       "The lab result is most likely an error and should be repeated"
     ],
-    answer: 0,
+    answer: 2,
     concept: "Lithium-induced hypothyroidism",
     rationale: "Lithium causes hypothyroidism (rising TSH) as an expected adverse effect — the patient does NOT need an endocrinology referral, just monitoring and possible levothyroxine.",
     deepExplanation: "Lithium reduces iodine into thyroid hormone and reduces thyroid hormone secretion, leading to compensatory TSH rise. This is an expected effect that the prescribing provider can manage. Goiter is also possible.",
     others: {
+      "0": "No referral needed — this is an expected and manageable effect.",
       "1": "Rising TSH = hypothyroid, not hyper.",
-      "2": "No referral needed — this is an expected and manageable effect.",
       "3": "The result is consistent with a known drug effect."
     }
   },
@@ -355,27 +291,6 @@ const questions = [
     topic: "Psych",
     confirmed: false,
     type: "standard",
-    stem: "A patient on fluoxetine had tramadol added 3 days ago. The patient now presents with T 102.4°F, agitation, hyperreflexia, clonus in the lower extremities, dilated pupils, and diaphoresis. Which finding most strongly distinguishes this from NMS?",
-    options: [
-      "The presence of fever — NMS does not cause hyperthermia",
-      "The patient's elevated heart rate — NMS has bradycardia",
-      "Hyperreflexia and clonus — NMS shows lead-pipe rigidity instead",
-      "The patient's dilated pupils — NMS causes pinpoint pupils typically"
-    ],
-    answer: 2,
-    concept: "Serotonin syndrome vs NMS",
-    rationale: "Both syndromes share fever, autonomic instability, and altered mental status. The key differentiator: serotonin syndrome shows hyperreflexia + clonus + dilated pupils + GI symptoms; NMS shows lead-pipe rigidity + bradyreflexia.",
-    deepExplanation: "Serotonin syndrome onset is rapid (hours-days after a serotonergic drug interaction); NMS develops over days-weeks after starting a dopamine antagonist. Tramadol is a notorious trigger because it has serotonin reuptake inhibition. Other triggers: SSRI + MAOI, SSRI + linezolid, SSRI + triptans, SSRI + St. John's wort. Treatment differs: serotonin syndrome → cyproheptadine; NMS → dantrolene/bromocriptine.",
-    others: {
-      "0": "Both syndromes cause hyperthermia.",
-      "1": "Both cause tachycardia from autonomic instability.",
-      "3": "Both can affect pupil size; this is not the strongest differentiator."
-    }
-  },
-  {
-    topic: "Psych",
-    confirmed: false,
-    type: "standard",
     stem: "A patient on lithium for bipolar disorder has these labs drawn over 3 months: lithium 0.8 mEq/L (Month 1; therapeutic 0.6-1.2), 1.4 mEq/L (Month 2), 2.3 mEq/L (Month 3). The patient now reports coarse tremor, vomiting, and muscle twitching. What is the nurse's priority action?",
     options: [
       "Hold lithium, prepare for IV NS, anticipate possible hemodialysis",
@@ -391,27 +306,6 @@ const questions = [
       "1": "Level 2.3 is clearly toxic — not within acceptable range.",
       "2": "Outpatient management is unsafe with neurologic symptoms.",
       "3": "Dose reduction without addressing acute toxicity allows continued accumulation."
-    }
-  },
-  {
-    topic: "Psych",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient on fluoxetine for 3 weeks calls the clinic stating he feels much more energetic but is having more thoughts of suicide. What is the priority response?",
-    options: [
-      "\"Come to the clinic or ED immediately for safety evaluation.\"",
-      "\"This is a normal phase — keep taking the medication.\"",
-      "\"Stop the fluoxetine right away and call back next week.\"",
-      "\"Increase your dose to push past this difficult period.\""
-    ],
-    answer: 0,
-    concept: "SSRI suicide window",
-    rationale: "During the first weeks of SSRI therapy, energy returns before mood improves — this can increase suicide risk. The patient needs immediate safety evaluation.",
-    deepExplanation: "This is the basis of the SSRI black box warning. The patient now has the energy to act on suicidal thoughts but has not yet experienced mood relief. Safety evaluation is the priority. The provider may also continue a benzo as a taper during this vulnerable window.",
-    others: {
-      "1": "Although it's a known phase, it requires action, not just observation.",
-      "2": "Stopping abruptly without a plan is not the priority over safety.",
-      "3": "Increasing the dose without evaluation is unsafe."
     }
   },
   {
@@ -439,27 +333,6 @@ const questions = [
     topic: "Psych",
     confirmed: false,
     type: "standard",
-    stem: "A patient on paroxetine for 2 years stopped taking it abruptly 3 days ago to \"clean out\" her system before starting therapy. She now reports dizziness, \"electric shock\" sensations in her head, nausea, irritability, and vivid dreams. The nurse interprets these findings as:",
-    options: [
-      "Acute serotonin syndrome from the missed doses requiring ED evaluation",
-      "SSRI discontinuation syndrome — restart drug and taper slowly over weeks",
-      "Return of underlying depression — start a different antidepressant immediately",
-      "Anticholinergic withdrawal — needs IV fluids and benztropine therapy"
-    ],
-    answer: 1,
-    concept: "SSRI discontinuation syndrome",
-    rationale: "SSRI discontinuation syndrome (FINISH mnemonic): Flu-like, Insomnia, Nausea, Imbalance, Sensory disturbances (\"brain zaps\"), Hyperarousal. Onset 2-5 days after stopping. Treatment: restart and taper slowly over weeks.",
-    deepExplanation: "Paroxetine has a short half-life (~21 hr) which makes it the SSRI most associated with discontinuation syndrome. Fluoxetine (half-life 4-6 days, longer for active metabolite) rarely causes this because it self-tapers. Discontinuation syndrome timing (within days) and characteristic \"brain zaps\" distinguish it from depression relapse (weeks-months) and serotonin syndrome (hyperreflexia, clonus, fever — not present here). All antidepressants should be tapered, not stopped abruptly.",
-    others: {
-      "0": "No fever, hyperreflexia, or clonus — not serotonin syndrome (which would also be from ADDING, not stopping).",
-      "2": "Depression relapse takes weeks-months and lacks the sensory symptoms.",
-      "3": "There is no anticholinergic withdrawal syndrome; SSRIs do not cause this."
-    }
-  },
-  {
-    topic: "Psych",
-    confirmed: false,
-    type: "standard",
     stem: "A nurse is reviewing the medication list of a 78-year-old patient newly prescribed amitriptyline (a TCA). Which medication on the list would be the most concerning?",
     options: [
       "Diphenhydramine taken nightly for seasonal allergies",
@@ -481,27 +354,6 @@ const questions = [
     topic: "Psych",
     confirmed: false,
     type: "standard",
-    stem: "A patient on a TCA is also prescribed tramadol for chronic back pain. What is the nurse's priority concern?",
-    options: [
-      "Increased risk of opioid addiction over time",
-      "Possible reduction in TCA effectiveness",
-      "Mild gastrointestinal upset over the next week",
-      "Risk of serotonin syndrome from the combination"
-    ],
-    answer: 3,
-    concept: "TCA + tramadol",
-    rationale: "Tramadol is a serotonergic opioid — combined with a TCA, it creates serotonin syndrome risk. TCAs must not be combined with tramadol.",
-    deepExplanation: "Serotonin syndrome presents with agitation, confusion, hyperthermia, hyperreflexia, clonus, and autonomic instability. TCAs are also strictly contraindicated within 14 days of MAOIs for the same reason.",
-    others: {
-      "0": "Addiction is a concern but not the immediate drug interaction priority.",
-      "1": "TCA effectiveness is not the issue here.",
-      "2": "GI upset is not the primary concern."
-    }
-  },
-  {
-    topic: "Psych",
-    confirmed: false,
-    type: "standard",
     stem: "A patient on a high-dose TCA has the following ECG findings: prolonged QRS, prolonged QT, and frequent PVCs. What is the nurse's priority action?",
     options: [
       "Reassure the patient — these findings are normal on TCAs",
@@ -517,27 +369,6 @@ const questions = [
       "0": "These ECG findings are NOT normal.",
       "2": "Increasing the dose worsens cardiotoxicity.",
       "3": "A 2-week wait is too long for these findings."
-    }
-  },
-  {
-    topic: "Psych",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient is brought to the ED after intentional ingestion of an unknown amount of amitriptyline 4 hours ago. ECG shows QRS 140 msec (normal <120) and the patient is becoming hypotensive. The nurse anticipates which intervention as the priority?",
-    options: [
-      "Activated charcoal PO and observation for 12 hours",
-      "IV sodium bicarbonate to narrow the QRS and treat acidosis",
-      "IV flumazenil to reverse the sedation immediately now",
-      "Gastric lavage with normal saline before any other intervention"
-    ],
-    answer: 1,
-    concept: "TCA overdose ECG management",
-    rationale: "TCA overdose causes wide QRS via Na+ channel blockade, leading to arrhythmias and seizures. IV sodium bicarbonate is first-line: alkalinizes blood, narrows QRS, increases TCA protein binding.",
-    deepExplanation: "TCAs have a narrow therapeutic index. Wide QRS (>100 msec) predicts arrhythmias; QRS >160 predicts seizures. Sodium bicarbonate works by (1) raising serum sodium to overcome the Na+ channel blockade and (2) alkalinization which increases protein binding (less free drug). Goal: pH 7.45-7.55, narrowing QRS. Activated charcoal is only useful within 1-2 hours of ingestion. Flumazenil is for benzo overdose. Gastric lavage is rarely used and contraindicated without airway protection.",
-    others: {
-      "0": "Charcoal at 4 hours post-ingestion is too late and does not address the active toxicity.",
-      "2": "Flumazenil reverses benzodiazepines, not TCAs — and can precipitate seizures here.",
-      "3": "Gastric lavage at 4 hours has minimal benefit and significant aspiration risk."
     }
   },
   {
@@ -607,27 +438,6 @@ const questions = [
     topic: "Psych",
     confirmed: false,
     type: "standard",
-    stem: "A patient receiving the second dose of haloperidol IM (started 2 days ago) suddenly develops severe neck twisting to the right, eyes rolled upward, and tongue protrusion. The patient is awake, terrified, and unable to speak clearly. What is the nurse's priority action?",
-    options: [
-      "Reassure the patient — these are mild reversible side effects to expect",
-      "Document the findings and reassess in 4 hours per protocol",
-      "Administer IM diphenhydramine or benztropine immediately",
-      "Hold the next haloperidol dose only and monitor closely overnight"
-    ],
-    answer: 2,
-    concept: "Acute dystonia — airway emergency",
-    rationale: "Acute dystonic reaction (oculogyric crisis, torticollis, tongue protrusion, laryngospasm risk) is an emergency. Treat IMMEDIATELY with IM/IV diphenhydramine 25-50 mg or benztropine 1-2 mg.",
-    deepExplanation: "Acute dystonia is the most rapid-onset EPS — appears within hours to days of starting a high-potency FGA. Risk factors: young males, high-potency agents (haloperidol, fluphenazine), IM dosing. The biggest fear is laryngospasm, which can cause stridor and airway obstruction. Anticholinergic agents work because dystonia results from a dopamine-acetylcholine imbalance in the basal ganglia. Once acute episode resolves, oral anticholinergic prophylaxis or switch to a lower-potency agent is considered.",
-    others: {
-      "0": "Reassurance without intervention can lead to laryngospasm and airway compromise.",
-      "1": "Documenting and waiting allows the dystonia to potentially progress to airway involvement.",
-      "3": "Holding the next dose alone does not treat the active dystonia — the patient needs immediate antidote."
-    }
-  },
-  {
-    topic: "Psych",
-    confirmed: false,
-    type: "standard",
     stem: "A patient with insomnia is offered flurazepam. The patient mentions they drive a school bus first thing in the morning. What is the nurse's priority concern?",
     options: [
       "The drug is contraindicated with morning driving safety",
@@ -643,27 +453,6 @@ const questions = [
       "1": "Flurazepam DOES work for sleep — that's the issue.",
       "2": "Higher dose worsens the problem.",
       "3": "Flurazepam IS approved in adults — age isn't the issue."
-    }
-  },
-  {
-    topic: "Psych",
-    confirmed: false,
-    type: "standard",
-    stem: "A nurse is reviewing fluoxetine indications with a nursing student. Which statement by the student requires correction?",
-    options: [
-      "\"Fluoxetine can be used for OCD and panic disorder.\"",
-      "\"Fluoxetine can be helpful for bulimia nervosa.\"",
-      "\"Fluoxetine can be used for bipolar disorder.\"",
-      "\"Fluoxetine should be the first choice in pregnant patients.\""
-    ],
-    answer: 3,
-    concept: "Fluoxetine in pregnancy",
-    rationale: "Fluoxetine should be AVOIDED in pregnancy — sertraline (Zoloft) is the preferred SSRI in pregnancy and lactation.",
-    deepExplanation: "Fluoxetine has broad indications (OCD, panic, bipolar, bulimia, depression) but pregnancy is not one of them. Also, a 14-day washout is mandatory before MAOI use due to serotonin syndrome risk.",
-    others: {
-      "0": "OCD and panic disorder ARE valid fluoxetine uses.",
-      "1": "Bulimia IS a valid fluoxetine use.",
-      "2": "Bipolar disorder IS a valid fluoxetine use."
     }
   }
 ];

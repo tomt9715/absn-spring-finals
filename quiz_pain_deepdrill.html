@@ -209,27 +209,6 @@ const questions = [
     topic: "Pain",
     confirmed: false,
     type: "standard",
-    stem: "A nurse is rounding on a postoperative patient with a morphine PCA. The patient's spouse says, \"I press the button for him every 20 minutes when he's sleeping so he doesn't wake up in pain.\" The patient has RR 9, SpO2 88%, and is difficult to arouse. What is the priority nursing action?",
-    options: [
-      "Stop the PCA, give naloxone if needed, educate spouse that only the patient may press the button",
-      "Thank the spouse for being attentive and continue current PCA settings",
-      "Increase the lockout interval but allow the spouse to continue helping",
-      "Decrease the demand dose by 50% and reassess in 1 hour"
-    ],
-    answer: 0,
-    concept: "PCA-by-proxy safety",
-    rationale: "PCA-by-proxy is a serious safety violation. The \"patient must press the button\" rule is the built-in safety mechanism — a sedated patient won't press it, which prevents overdose. RR 9 + SpO2 88% + sedation = opioid-induced respiratory depression. Stop PCA, prepare naloxone, educate spouse.",
-    deepExplanation: "ISMP and Joint Commission have specific guidance against \"PCA-by-proxy\" (family-, friend-, or even nurse-controlled dosing). The natural sedation feedback loop is what makes PCA safe — when the patient becomes too sedated, they stop pressing. Bypassing this can cause fatal respiratory depression. Authorized agent-controlled analgesia (AACA) is a separate, specific protocol with documentation/training requirements.",
-    others: {
-      "1": "Continuing PCA-by-proxy with active respiratory depression risks death.",
-      "2": "Lockout interval doesn't address the proxy violation or the active respiratory depression.",
-      "3": "Decreasing dose doesn't address the active sedation/hypoxia or the unsafe practice."
-    }
-  },
-  {
-    topic: "Pain",
-    confirmed: false,
-    type: "standard",
     stem: "A patient on morphine ER capsules tells the nurse \"I had a glass of wine with my dinner.\" What is the priority response?",
     options: [
       "\"That should be fine occasionally — just don't make it a habit.\"",
@@ -314,27 +293,6 @@ const questions = [
     topic: "Pain",
     confirmed: false,
     type: "standard",
-    stem: "A nurse assesses a postoperative patient who received hydromorphone 1 mg IV 30 minutes ago. Findings: patient drowsy, drifts off mid-conversation but is easily aroused, RR 12, SpO2 94% on room air. Using the Pasero Opioid-Induced Sedation Scale (POSS), the priority action is:",
-    options: [
-      "POSS 1 (awake/alert) — give next dose as scheduled",
-      "POSS 3 (frequently drowsy, drifts off mid-conversation) — withhold next dose, monitor q15 min",
-      "POSS 4 (somnolent, minimal response) — administer naloxone immediately",
-      "POSS 2 (slightly drowsy, easily aroused) — increase the next dose"
-    ],
-    answer: 1,
-    concept: "Pasero Opioid-Induced Sedation Scale",
-    rationale: "POSS levels: S = sleep, easily aroused; 1 = awake/alert; 2 = slightly drowsy, easily aroused; 3 = frequently drowsy, drifts off mid-conversation; 4 = somnolent, minimal/no response to stimuli. POSS 3 is the threshold to WITHHOLD the next dose — sedation precedes respiratory depression.",
-    deepExplanation: "Sedation is a more sensitive indicator of opioid toxicity than respiratory rate — patients become sedated BEFORE they become bradypneic. POSS 3 is the action threshold: hold the dose, increase monitoring (q15 min), notify provider, consider reducing the dose. POSS 4 = naloxone. The \"drifts off mid-conversation\" finding (vs \"easily aroused\" of POSS 2) is the key differentiator. Combine POSS with RR — but never wait for RR <8 to act.",
-    others: {
-      "0": "POSS 1 is awake/alert — this patient is drifting off mid-conversation.",
-      "2": "POSS 4 is minimal/no response — this patient is still rousable.",
-      "3": "POSS 2 is slightly drowsy but not drifting off mid-conversation; increasing dose is unsafe."
-    }
-  },
-  {
-    topic: "Pain",
-    confirmed: false,
-    type: "standard",
     stem: "A patient on oxymorphone tells the nurse \"I always take it with breakfast so I remember.\" What is the priority teaching?",
     options: [
       "\"That's a great way to ensure consistency with dosing.\"",
@@ -356,61 +314,19 @@ const questions = [
     topic: "Pain",
     confirmed: false,
     type: "standard",
-    stem: "A patient on chronic oxycodone (taken at home for 2 years) was admitted yesterday and has not received any opioids since admission. Today the patient reports anxiety, runny nose, dilated pupils, goosebumps, abdominal cramping, and yawning. The nurse interprets these findings as:",
-    options: [
-      "Opioid overdose requiring immediate naloxone administration",
-      "Allergic reaction to a recently administered new medication",
-      "Opioid withdrawal — uncomfortable but not life-threatening for adults",
-      "New-onset viral infection requiring isolation precautions"
-    ],
-    answer: 2,
-    concept: "Opioid withdrawal recognition",
-    rationale: "Opioid withdrawal: rhinorrhea, lacrimation, mydriasis (dilated pupils), piloerection (goosebumps), yawning, abdominal cramping, anxiety, diarrhea, sweating. NOT life-threatening in adults (unlike alcohol/benzo withdrawal). Classic finding: \"everything is running\" (eyes, nose, GI).",
-    deepExplanation: "Opioid withdrawal is uncomfortable but not life-threatening in adults — distinguishes from alcohol/benzo withdrawal (which can kill via seizures/DTs). However, in pregnancy, opioid withdrawal can harm the fetus, and in neonates, NAS requires careful weaning. Clinical Opiate Withdrawal Scale (COWS) quantifies severity. Treatment: clonidine (autonomic symptoms), antidiarrheals, supportive care, or restart opioid taper if appropriate. Pinpoint pupils = OD; dilated = withdrawal — pupils are the fastest tell.",
-    others: {
-      "0": "Pinpoint pupils + sedation + respiratory depression = OD. This patient has dilated pupils and arousal.",
-      "1": "Allergic reactions present with hives, wheezing, anaphylaxis — not autonomic withdrawal symptoms.",
-      "3": "Viral infections don't cause dilated pupils or piloerection."
-    }
-  },
-  {
-    topic: "Pain",
-    confirmed: false,
-    type: "standard",
-    stem: "A nurse is caring for a patient who took methadone for opioid detoxification 6 months ago. The patient now asks about pain management for an injury. What is the priority concern?",
-    options: [
-      "The patient may not need any pain medication at all",
-      "The patient may have developed a new methadone allergy",
-      "The patient may be at risk for relapse on opioid therapy",
-      "The patient may have ongoing QT prolongation effects"
-    ],
-    answer: 2,
-    concept: "Opioid use disorder + new opioids",
-    rationale: "A patient who completed methadone detox is at risk for relapse if started on opioid therapy — non-opioid alternatives should be prioritized when possible, with multidisciplinary support.",
-    deepExplanation: "Patients in recovery often benefit from multimodal pain management: APAP, NSAIDs, regional blocks, and non-pharmacologic approaches. If opioids are necessary, they should be carefully managed with the patient's recovery team. Methadone for opioid use disorder differs from methadone for severe pain.",
-    others: {
-      "0": "Pain still needs management — but with extra care.",
-      "1": "Allergy is not the primary concern post-detox.",
-      "3": "QT effects from past methadone use don't typically persist 6 months later."
-    }
-  },
-  {
-    topic: "Pain",
-    confirmed: false,
-    type: "standard",
     stem: "A patient with a head injury and altered mental status arrives in the ED reporting severe pain. The provider considers ordering morphine. What is the nurse's priority concern?",
     options: [
-      "Morphine is contraindicated in head trauma with LOC",
       "Morphine should be given via the IV route only",
+      "Morphine is contraindicated in head trauma with LOC",
       "Morphine requires a higher dose for head injury",
       "Morphine is the first-line drug for head trauma pain"
     ],
-    answer: 0,
+    answer: 1,
     concept: "Opioids in head trauma",
     rationale: "Opioids are contraindicated in head trauma with loss of consciousness — they mask neurologic changes (level of consciousness, pupillary response) and can increase intracranial pressure.",
     deepExplanation: "Other opioid contraindications: respiratory depression, paralytic ileus, pregnancy/lactation (caution). Patients with head injuries need clean neuro checks for assessment of evolving brain injury. Alternative analgesics or a careful provider decision may be needed.",
     others: {
-      "1": "Route doesn't address the contraindication.",
+      "0": "Route doesn't address the contraindication.",
       "2": "Higher dose worsens the masking effect.",
       "3": "Opioids are NOT first-line for head trauma."
     }
@@ -428,33 +344,12 @@ const questions = [
       "Wash hands after handling the patch",
       "Burn used patches in a metal trash can"
     ],
-    answerArr: [0,1,3,4],
+    answerArr: [0, 1, 3, 4],
     concept: "Fentanyl patch disposal SATA",
     rationale: "Correct: fold sticky sides together, flush down the toilet, used patches still contain dangerous amounts of drug, and wash hands after handling. Saving for clinic and burning are both inappropriate.",
     others: {
       "2": "Saving for clinic risks accidental exposure at home.",
       "5": "Burning is not an FDA-recommended disposal method."
-    }
-  },
-  {
-    topic: "Pain",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient is brought to the ED after a methadone overdose 90 minutes ago. The nurse administers IV naloxone 0.4 mg, and within 2 minutes the patient is awake, breathing at 16/min, alert. Thirty minutes later, the patient becomes lethargic again with RR 8. What is the most likely explanation?",
-    options: [
-      "The patient took an additional unknown dose during transport",
-      "The naloxone dose was insufficient at first and another reaction is occurring",
-      "Methadone has a much longer half-life than naloxone — re-sedation is expected",
-      "The patient is now experiencing methadone-induced acute kidney injury"
-    ],
-    answer: 2,
-    concept: "Naloxone re-dosing in long-acting opioid OD",
-    rationale: "Naloxone half-life is 30-90 minutes. Methadone half-life is 8-59 hours. Re-sedation is EXPECTED as naloxone wears off but methadone continues acting. The patient needs repeat naloxone doses or a continuous naloxone infusion until methadone clears.",
-    deepExplanation: "This is a critical safety concept. Long-acting opioids that outlast naloxone include: methadone, fentanyl patches (skin reservoir), extended-release morphine/oxycodone. Patients given naloxone for these MUST be observed in a monitored setting for hours, not discharged after initial reversal. Continuous naloxone infusion is often required. Failing to recognize this is a leading cause of \"rescue then relapse\" deaths.",
-    others: {
-      "0": "Possible but the half-life mismatch is the more likely explanation in an ED setting.",
-      "1": "The naloxone dose was effective initially — re-sedation is from naloxone wearing off, not insufficient initial dose.",
-      "3": "AKI does not cause acute re-sedation in this timeframe."
     }
   },
   {
@@ -503,27 +398,6 @@ const questions = [
     topic: "Pain",
     confirmed: false,
     type: "standard",
-    stem: "A patient on oral morphine 60 mg every 4 hours is being transitioned to IV morphine. Using a 3:1 PO-to-IV equianalgesic conversion, what is the appropriate equivalent IV dose every 4 hours?",
-    options: [
-      "60 mg IV every 4 hours (same dose, same route conversion)",
-      "20 mg IV every 4 hours",
-      "180 mg IV every 4 hours (multiply by 3)",
-      "6 mg IV every 4 hours"
-    ],
-    answer: 1,
-    concept: "Equianalgesic conversion (PO to IV morphine)",
-    rationale: "Oral morphine to IV morphine is a 3:1 conversion (PO:IV). 60 mg PO ÷ 3 = 20 mg IV equivalent. IV is more potent because it bypasses first-pass metabolism — so the IV dose is smaller.",
-    deepExplanation: "Oral morphine has roughly 30% bioavailability due to first-pass hepatic metabolism — so 30 mg PO ≈ 10 mg IV (3:1 ratio). When CONVERTING TO a new opioid or new route, also reduce the calculated dose by 25-50% for incomplete cross-tolerance and patient safety. Common conversions: morphine PO 30 mg = morphine IV 10 mg = oxycodone PO 20 mg = hydromorphone PO 7.5 mg = hydromorphone IV 1.5 mg.",
-    others: {
-      "0": "Same dose IV would be 3× the analgesic effect — overdose risk.",
-      "2": "Multiplying by 3 (instead of dividing) would be a fatal overdose.",
-      "3": "6 mg is too low — that would convert at 10:1, leaving the patient under-medicated and risking withdrawal."
-    }
-  },
-  {
-    topic: "Pain",
-    confirmed: false,
-    type: "standard",
     stem: "A 14-year-old with influenza and headache asks the nurse if she can take aspirin. What is the priority response?",
     options: [
       "\"Aspirin is fine for teenagers — go ahead and take some.\"",
@@ -566,90 +440,6 @@ const questions = [
     topic: "Pain",
     confirmed: false,
     type: "standard",
-    stem: "A nurse administers naloxone 0.4 mg IV to a postoperative patient with RR 6 and unresponsive after morphine. The patient becomes alert with RR 18, but is now agitated, tachycardic (HR 132), hypertensive (BP 188/110), and reporting severe pain. The nurse interprets these findings as:",
-    options: [
-      "Anaphylactic reaction to naloxone — administer epinephrine immediately",
-      "Acute opioid withdrawal precipitated by naloxone — supportive care, monitor closely",
-      "Dangerous oversedation requiring an additional naloxone dose now",
-      "Normal postoperative recovery from anesthesia and morphine"
-    ],
-    answer: 1,
-    concept: "Acute precipitated withdrawal from naloxone",
-    rationale: "Rapid naloxone reversal precipitates acute opioid withdrawal: agitation, tachycardia, hypertension, severe pain (rebound), nausea/vomiting, sweating. Supportive care, monitor for re-sedation as naloxone wears off, assess pain and consider non-opioid analgesia.",
-    deepExplanation: "The standard postop OD reversal dose is 0.04-0.4 mg titrated to respiration (NOT consciousness) — to avoid precipitating severe withdrawal in opioid-tolerant patients. Findings of withdrawal vs anaphylaxis: anaphylaxis has urticaria, wheezing, hypotension, NOT hypertension. Watch for re-sedation in 30-60 min as naloxone wears off (especially with long-acting opioids). For severe pain post-naloxone, consider IV acetaminophen, ketorolac, or local techniques rather than re-bolusing opioid.",
-    others: {
-      "0": "Anaphylaxis presents with hypotension and respiratory compromise, not hypertension.",
-      "2": "The patient is now ALERT with RR 18 — over-sedation has been reversed.",
-      "3": "Severe pain + hypertension + tachycardia + agitation is not normal recovery."
-    }
-  },
-  {
-    topic: "Pain",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient who had a fentanyl patch removed 6 hours ago reports persistent drowsiness and slowed breathing. What is the most accurate explanation?",
-    options: [
-      "The patient must be allergic to fentanyl now",
-      "These symptoms are expected for several weeks",
-      "The patient developed a separate viral illness",
-      "Fentanyl absorption continues from skin reservoirs"
-    ],
-    answer: 3,
-    concept: "Fentanyl skin reservoir",
-    rationale: "Fentanyl creates a skin depot during patch wear — drug continues being absorbed from the skin reservoir even after patch removal, causing prolonged effects.",
-    deepExplanation: "This is why patches require careful monitoring after removal, especially when transitioning to other opioids. The skin reservoir can release fentanyl for many hours after the patch is off. Always remove the old patch before applying a new one — but recognize the post-removal window.",
-    others: {
-      "0": "Symptoms are not allergic — they reflect drug pharmacokinetics.",
-      "1": "These symptoms shouldn't persist for weeks.",
-      "2": "Symptoms are clearly drug-related, not viral."
-    }
-  },
-  {
-    topic: "Pain",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient on chronic opioids develops constipation despite using docusate. What is the most appropriate next step?",
-    options: [
-      "Stop the docusate — it's clearly not effective",
-      "Reduce fluid intake to firm up the stools",
-      "Switch to a different chronic opioid medication",
-      "Add a stimulant laxative like senna to the regimen"
-    ],
-    answer: 3,
-    concept: "Opioid bowel regimen escalation",
-    rationale: "Docusate alone often isn't enough for opioid-induced constipation — adding a stimulant laxative (senna) addresses the slowed motility directly.",
-    deepExplanation: "Standard approach: docusate (stool softener) + senna (stimulant laxative) for chronic opioid users. If that fails, escalate to osmotic agents (PEG, lactulose), then stimulants, then peripherally-acting mu antagonists (methylnaltrexone, naloxegol). Tolerance never develops to constipation, so the regimen continues throughout therapy.",
-    others: {
-      "0": "Stopping docusate doesn't help — adding more is the answer.",
-      "1": "Reducing fluid worsens constipation.",
-      "2": "All opioids cause constipation — switching doesn't solve it."
-    }
-  },
-  {
-    topic: "Pain",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient on methadone 60 mg daily for chronic pain is started on ondansetron for postoperative nausea. The patient has a baseline QTc of 460 msec. What is the nurse's priority concern?",
-    options: [
-      "The combination may cause severe sedation requiring naloxone",
-      "Both methadone and ondansetron prolong QTc — risk of torsades de pointes",
-      "Ondansetron will reduce the effectiveness of methadone analgesia",
-      "The combination causes serotonin syndrome similar to SSRIs"
-    ],
-    answer: 1,
-    concept: "Methadone + ondansetron QT prolongation",
-    rationale: "Both methadone and ondansetron prolong the QT interval — combined risk of torsades de pointes (polymorphic ventricular tachycardia). Anticipate alternative antiemetic (e.g., a non-QT-prolonging option) or close ECG monitoring with electrolyte optimization (K, Mg).",
-    deepExplanation: "QT-prolonging drugs commonly used: methadone, ondansetron, haloperidol, ciprofloxacin, azithromycin, fluconazole, citalopram (>40 mg), erythromycin, amiodarone. QTc >500 msec significantly raises torsades risk. Risk is multiplied with multiple QT-prolonging drugs, hypokalemia, hypomagnesemia, female sex, and bradycardia. For methadone patients, alternative antiemetics include metoclopramide (use cautiously) or scopolamine. Always check QTc baseline and during methadone therapy.",
-    others: {
-      "0": "Ondansetron is not a sedating drug.",
-      "2": "Ondansetron does not affect methadone analgesia.",
-      "3": "Ondansetron is a 5-HT3 antagonist — not associated with serotonin syndrome."
-    }
-  },
-  {
-    topic: "Pain",
-    confirmed: false,
-    type: "standard",
     stem: "A nurse is supervising a student preparing to apply a fentanyl patch. Which student action requires correction?",
     options: [
       "Cleansing the upper torso application site with water only",
@@ -669,7 +459,7 @@ const questions = [
   }
 ];
 
-// === QUIZ ENGINE ===
+        // === QUIZ ENGINE ===
 const TOTAL = questions.length;
 let currentQ = 0;
 let totalPoints = 0;

@@ -540,27 +540,6 @@ const questions = [
     topic: "Endocrine",
     confirmed: false,
     type: "standard",
-    stem: "A patient with hypothyroidism comes to the clinic for routine TSH check. The TSH has been stable at 1.5 microunits/mL for over a year, but today's level is 6.8. Which question should the nurse ask first?",
-    options: [
-      "\"Have you been more stressed than usual lately at work or home?\"",
-      "\"Are you eating significantly more cruciferous vegetables now?\"",
-      "\"Did your pharmacy switch your levothyroxine brand or generic?\"",
-      "\"Have you been getting more sleep than you typically need?\""
-    ],
-    answer: 2,
-    concept: "Levothyroxine non-interchangeability",
-    rationale: "Levothyroxine brands and generics are NOT bioequivalent. A sudden TSH change in a previously stable patient should always prompt questioning about a recent refill or brand switch.",
-    deepExplanation: "This is a tested clinical pearl — small differences in absorption between manufacturers can shift TSH significantly. The other questions are reasonable but the most likely cause of a sudden lab change is a formulation change at the pharmacy.",
-    others: {
-      "0": "Stress can affect thyroid labs but is not the most likely cause of a sudden change.",
-      "1": "Cruciferous vegetables affect thyroid function only in extreme amounts.",
-      "3": "Sleep is not a primary cause of a TSH shift."
-    }
-  },
-  {
-    topic: "Endocrine",
-    confirmed: false,
-    type: "standard",
     stem: "A patient is admitted to the ICU with severe hypothermia, profound bradycardia, hypotension, and altered mental status. The patient has a history of hypothyroidism and recently stopped taking her levothyroxine. The provider diagnoses myxedema coma. Which route of levothyroxine administration does the nurse anticipate?",
     options: [
       "IV administration as an emergency intervention",
@@ -688,69 +667,6 @@ const questions = [
     topic: "Endocrine",
     confirmed: false,
     type: "standard",
-    stem: "A T1DM patient on glargine at bedtime reports waking up with morning glucose readings of 240-280 mg/dL for the past week. The provider asks the nurse to check a 3 AM glucose. The result: 52 mg/dL with the patient diaphoretic and shaky. Which intervention does the nurse anticipate?",
-    options: [
-      "Decrease the bedtime glargine dose — this is Somogyi effect",
-      "Increase the bedtime glargine dose for better overnight coverage",
-      "Add rapid-acting insulin at bedtime to lower morning glucose",
-      "Continue current dose and recheck morning glucose in 1 week"
-    ],
-    answer: 0,
-    concept: "Somogyi effect vs Dawn phenomenon",
-    rationale: "Somogyi effect: nighttime hypoglycemia → counter-regulatory hormone surge → rebound morning hyperglycemia. The 3 AM hypoglycemia (52 mg/dL) confirms it. Treatment: DECREASE bedtime insulin or have a bedtime snack — counterintuitive. Increasing insulin worsens it.",
-    deepExplanation: "Distinguishing morning hyperglycemia causes via 3 AM glucose: Somogyi = LOW 3 AM (insulin too high → rebound); Dawn phenomenon = NORMAL/RISING 3 AM (natural cortisol/GH surge → insulin not enough); Insulin waning = NORMAL 3 AM with progressive rise (insulin doesn't last). Treatment differs sharply: Somogyi → reduce evening insulin or add bedtime snack; Dawn → increase evening insulin or shift timing later; Waning → switch to longer-acting or add basal. Always check 3 AM glucose before adjusting bedtime insulin in a patient with morning highs.",
-    others: {
-      "1": "Increasing glargine causes more nighttime hypoglycemia and worse rebound — exactly wrong.",
-      "2": "Adding rapid-acting at bedtime causes severe nighttime hypoglycemia.",
-      "3": "Continuing the current regimen does not address the dangerous nocturnal hypoglycemia."
-    }
-  },
-  {
-    topic: "Endocrine",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient in the ED with HHNS has stabilized after fluid resuscitation. The provider now orders IV regular insulin. The nurse notes the patient's most recent potassium is 3.2 mEq/L (normal 3.5-5.0). What is the nurse's priority action?",
-    options: [
-      "Begin the insulin infusion as ordered immediately",
-      "Give an IV potassium bolus and start the insulin simultaneously",
-      "Hold the insulin and notify the provider about the low potassium",
-      "Switch to subcutaneous insulin to avoid the potassium issue"
-    ],
-    answer: 2,
-    concept: "HHNS + hypokalemia",
-    rationale: "Insulin drives potassium intracellularly, which can dangerously worsen hypokalemia. The nurse should hold the insulin and notify the provider to address potassium first.",
-    deepExplanation: "Strict potassium monitoring is part of every HHNS protocol. With a K of 3.2 (already low), starting insulin without first replacing potassium can drop levels into dysrhythmia territory. Insulin moves K into cells; without correction first, this is a setup for cardiac arrest.",
-    others: {
-      "0": "Starting insulin with low potassium can cause severe hypokalemia and dysrhythmias.",
-      "1": "Bolusing potassium and insulin simultaneously without provider orders is unsafe.",
-      "3": "The route doesn't change the potassium-shifting effect of insulin."
-    }
-  },
-  {
-    topic: "Endocrine",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient with poorly controlled Graves disease is admitted with T 104.6°F, HR 168 (atrial fibrillation), BP 178/96, agitation progressing to delirium, vomiting, and diarrhea. The patient stopped taking methimazole 2 weeks ago. The nurse anticipates which interventions?",
-    options: [
-      "IV beta-blocker, PTU, iodine solution, hydrocortisone, cooling, ICU monitoring",
-      "Increase oral methimazole dose and discharge home with follow-up",
-      "IV levothyroxine for newly suspected myxedema coma",
-      "Outpatient endocrinology consultation in the next 2 weeks"
-    ],
-    answer: 0,
-    concept: "Thyroid storm recognition and management",
-    rationale: "Thyroid storm: extreme thyrotoxicosis (T >104, HR >140, AFib, CNS dysfunction, GI symptoms) — life-threatening, mortality 10-30%. ICU-level care: beta-blocker (propranolol) for cardiac symptoms, PTU/methimazole to block synthesis, iodine (1+ HOUR after PTU) to block release, hydrocortisone for adrenal insufficiency and to reduce T4→T3 conversion.",
-    deepExplanation: "Common triggers for thyroid storm: stopping antithyroid meds, surgery, infection, trauma, iodine load, thyroid manipulation, DKA, MI. CRITICAL ORDER: PTU/methimazole FIRST, then iodine 1+ hour later (otherwise iodine is incorporated into new hormone synthesis = \"Wolff-Chaikoff escape\"). PTU is preferred over methimazole in storm because PTU also blocks peripheral T4→T3 conversion. Beta-blocker (propranolol) controls tachycardia and tremor. Cooling: acetaminophen NOT aspirin (aspirin displaces thyroid hormone from binding proteins). Mortality remains high without aggressive treatment.",
-    others: {
-      "1": "Oral methimazole and discharge will result in death — this requires ICU treatment.",
-      "2": "Levothyroxine is for HYPOthyroidism (myxedema coma) — opposite condition; would be fatal here.",
-      "3": "Outpatient follow-up cannot manage life-threatening thyroid storm."
-    }
-  },
-  {
-    topic: "Endocrine",
-    confirmed: false,
-    type: "standard",
     stem: "A patient newly started on glimepiride is being discharged. Which statement by the patient indicates a need for further teaching?",
     options: [
       "\"I will keep glucose tablets with me in case I feel shaky.\"",
@@ -787,27 +703,6 @@ const questions = [
       "1": "Breast cancer history is not specifically contraindicated with semaglutide.",
       "2": "Travel history is not relevant to semaglutide screening.",
       "3": "Vaccination records are not relevant to semaglutide."
-    }
-  },
-  {
-    topic: "Endocrine",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient in DKA has labs: glucose 580 mg/dL (normal 70-110), K+ 5.8 mEq/L (normal 3.5-5.0), pH 7.18, anion gap 22. The provider has ordered IV regular insulin infusion and IV NS. Just before starting the insulin, the nurse notes the latest K+ is now 3.4 mEq/L. What is the nurse's priority action?",
-    options: [
-      "Start the insulin infusion as ordered immediately",
-      "Hold insulin, give IV potassium replacement first, then start insulin",
-      "Increase IV NS rate and start the insulin simultaneously",
-      "Switch to subcutaneous insulin and proceed without K+ replacement"
-    ],
-    answer: 1,
-    concept: "DKA insulin + potassium paradox",
-    rationale: "In DKA, total body potassium is DEPLETED but serum K+ initially appears normal/high because acidosis drives K+ out of cells. Insulin drives K+ BACK into cells, dropping serum K+ rapidly. If serum K+ <3.3, HOLD insulin and replace K+ FIRST to prevent fatal hypokalemia and arrhythmia.",
-    deepExplanation: "DKA potassium thresholds for insulin/replacement: K+ >5.3 = no K+ supplementation, start insulin; K+ 3.3-5.3 = add K+ to IV fluids (20-30 mEq/L) AND start insulin; K+ <3.3 = HOLD insulin, replace K+ aggressively before starting insulin (because insulin will drop K+ further into critically dangerous range). Other DKA priorities: fluid resuscitation FIRST (NS), then insulin + K+ management, then transition to dextrose-containing fluids when glucose <250 to prevent hypoglycemia (continue insulin until anion gap closes — closing the gap reverses ketoacidosis).",
-    others: {
-      "0": "Starting insulin with K+ 3.4 will drop K+ further → fatal arrhythmia risk.",
-      "2": "Increasing fluids does not address dangerous hypokalemia — insulin will still drop K+.",
-      "3": "Subcutaneous insulin is not standard for DKA, and the K+ problem persists."
     }
   },
   {
@@ -892,27 +787,6 @@ const questions = [
       "0": "Effects are delayed by months, not hours.",
       "2": "I-131 is typically a one-time dose, not a daily medication.",
       "3": "I-131 destroys tissue rather than blocking TSI."
-    }
-  },
-  {
-    topic: "Endocrine",
-    confirmed: false,
-    type: "standard",
-    stem: "A patient with Addison disease on chronic hydrocortisone 20 mg daily is admitted with severe diarrhea, BP 78/42, HR 132, glucose 58 mg/dL (normal 70-110), Na 128 mEq/L (normal 135-145), K 5.9 mEq/L (normal 3.5-5.0), lethargy. The patient missed her morning hydrocortisone dose and could not keep down food for 24 hours. The nurse anticipates which intervention?",
-    options: [
-      "Oral hydrocortisone 30 mg with sips of water and reassess",
-      "IV hydrocortisone 100 mg STAT, IV NS bolus, dextrose for hypoglycemia",
-      "IV insulin to treat the elevated potassium first",
-      "Discharge with prescription for stress-dose oral hydrocortisone"
-    ],
-    answer: 1,
-    concept: "Adrenal crisis (Addisonian crisis) management",
-    rationale: "Adrenal crisis: hypotension + hypovolemia + hypoglycemia + hyponatremia + hyperkalemia in a patient with adrenal insufficiency. Triggered here by missed dose + GI losses (vomiting/diarrhea). Treatment: IV hydrocortisone 100 mg STAT + aggressive IV NS + IV dextrose for hypoglycemia.",
-    deepExplanation: "Stress-dose teaching for chronic steroid users: triple home dose for moderate illness/fever; for inability to keep oral down, vomiting/diarrhea, or major stress → IV/IM hydrocortisone needed urgently. Patients should carry an emergency injection kit (Solu-Cortef 100 mg IM). The \"rule of 3s\": x3 dose for moderate stress; x10 for major stress/surgery. After resolution, taper back to baseline. Patients with adrenal insufficiency MUST never abruptly stop steroids — even small interruptions can precipitate crisis. The K+ correction happens with the steroid + fluid + glucose treatment; treating K+ alone misses the underlying cause.",
-    others: {
-      "0": "Oral hydrocortisone is too slow and the patient cannot keep food down — needs IV.",
-      "2": "Treating K+ alone without addressing adrenal crisis misses the underlying cause; K+ will correct with hydrocortisone + volume.",
-      "3": "This patient is in active crisis — discharging would be fatal."
     }
   },
   {
