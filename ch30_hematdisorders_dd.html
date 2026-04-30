@@ -124,483 +124,483 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 36px; color: var(--navy)
 <script>
 const questions = [
   {
-    topic: 'HematDisorders',
-    type: 'standard',
-    stem: 'A 67-year-old patient is admitted with fatigue, gum bleeding, and a CBC showing decreased RBCs and platelets with elevated WBCs. Which leukemia does the nurse suspect?',
+    topic: "HematDisorders",
+    type: "standard",
+    stem: "A 67-year-old patient is admitted with fatigue, gum bleeding, and a CBC showing decreased RBCs and platelets with elevated WBCs. Which leukemia does the nurse suspect?",
     options: [
-      'AML (Acute Myeloid Leukemia)',
-      'CLL (Chronic Lymphocytic Leukemia)',
-      'ALL (Acute Lymphocytic Leukemia)',
-      'Hodgkin lymphoma'
+      "AML (Acute Myeloid Leukemia)",
+      "CLL (Chronic Lymphocytic Leukemia)",
+      "ALL (Acute Lymphocytic Leukemia)",
+      "Hodgkin lymphoma"
     ],
     answer: 0,
-    concept: 'AML Recognition',
-    rationale: 'AML peaks around age 67. Classic presentation: fatigue, bleeding, gum hyperplasia, with CBC showing decreased RBCs and platelets. Bone pain and hepatosplenomegaly are common.',
+    concept: "AML Recognition",
+    rationale: "AML peaks around age 67. Classic presentation: fatigue, bleeding, gum hyperplasia, with CBC showing decreased RBCs and platelets. Bone pain and hepatosplenomegaly are common.",
     others: {
-      1: 'CLL has mean age 72 with "B symptoms" (fever, night sweats, weight loss).',
-      2: 'ALL is most common in children (peak age 4).',
-      3: 'Hodgkin lymphoma is a lymphoma, not leukemia.'
+      "1": "CLL has mean age 72 with \"B symptoms\" (fever, night sweats, weight loss).",
+      "2": "ALL is most common in children (peak age 4).",
+      "3": "Hodgkin lymphoma is a lymphoma, not leukemia."
     }
   },
   {
-    topic: 'HematDisorders',
-    type: 'standard',
-    stem: 'A 4-year-old presents with bone pain, hepatosplenomegaly, persistent headaches, and vomiting. Which condition does the nurse suspect?',
+    topic: "Hematologic Disorders",
+    type: "standard",
+    stem: "A 4-year-old with newly diagnosed ALL is admitted for induction chemotherapy. The nurse reviews the most recent labs: WBC 85,000 (normal 5,000-10,000), platelets 22,000 (normal 150,000-400,000), uric acid 9.8 (normal 3.5-7.2), K+ 5.6 (normal 3.5-5.0). Which action is the priority?",
     options: [
-      'Migraine with abdominal involvement',
-      'AML with CNS spread',
-      'ALL with CNS involvement',
-      'Polycythemia vera'
-    ],
-    answer: 2,
-    concept: 'ALL with CNS Involvement',
-    rationale: 'ALL is the most common pediatric leukemia (peak age 4). Bone pain and hepatosplenomegaly are classic. CNS involvement is common — presenting with headaches and vomiting.',
-    others: {
-      0: 'Migraine does not cause hepatosplenomegaly.',
-      1: 'AML peaks at age 67, not 4.',
-      3: 'Polycythemia vera presents with headache and dizziness from thick blood, but not typical pediatric pattern.'
-    }
-  },
-  {
-    topic: 'HematDisorders',
-    type: 'standard',
-    stem: 'A 72-year-old with CLL and a history of recurrent pneumonias is admitted. Which medication is MOST appropriate to prevent further infections?',
-    options: [
-      'Daily oral corticosteroids',
-      'IVIG (intravenous immunoglobulin)',
-      'Iron supplementation orally',
-      'Daily prophylactic aspirin'
+      "Initiate bleeding precautions and a soft toothbrush",
+      "Increase IV fluids and notify provider for tumor lysis risk",
+      "Place the child in protective isolation for the high WBC",
+      "Hold chemotherapy until the platelet count rises above 50,000"
     ],
     answer: 1,
-    concept: 'IVIG in CLL',
-    rationale: 'CLL patients have impaired antibody production (hypogammaglobulinemia). IVIG is used in CLL with recurrent infections to provide passive antibody protection.',
+    concept: "ALL Tumor Lysis Risk",
+    rationale: "A child with very high WBC starting induction is at high risk for tumor lysis syndrome — rapid cell breakdown releases K+, phosphate, and uric acid. The lab pattern (already elevated uric acid and K+) is early TLS. Priority is aggressive hydration, notify for allopurinol/rasburicase. Bleeding precautions are appropriate but not the priority action with these labs. The high WBC is leukemic blasts, not infection-fighting cells, so isolation is for neutropenia (not for high WBC count alone).",
     others: {
-      0: 'Daily steroids would worsen infection risk.',
-      2: 'Iron does not prevent infections.',
-      3: 'Aspirin does not prevent infections.'
+      "0": "Bleeding precautions are appropriate but TLS is the more acute risk with these labs.",
+      "2": "High WBC in leukemia is blasts — not protective; the child is functionally immunocompromised, not protected by the count.",
+      "3": "Holding chemo for low platelets is wrong — induction proceeds with platelet support."
     }
   },
   {
-    topic: 'HematDisorders',
-    type: 'standard',
-    stem: 'A patient with polycythemia vera is being discharged after therapeutic phlebotomy. Which patient statement indicates a need for FURTHER teaching?',
+    topic: "HematDisorders",
+    type: "standard",
+    stem: "A 72-year-old with CLL and a history of recurrent pneumonias is admitted. Which medication is MOST appropriate to prevent further infections?",
     options: [
-      '"I should drink plenty of fluids to stay hydrated."',
-      '"I should take iron supplements to build my blood back up."',
-      '"I will report any sudden chest pain or stroke symptoms."',
-      '"I should report headache and dizziness if they worsen."'
+      "Daily oral corticosteroids",
+      "IVIG (intravenous immunoglobulin)",
+      "Iron supplementation orally",
+      "Daily prophylactic aspirin"
     ],
     answer: 1,
-    concept: 'PV Iron Avoidance',
-    rationale: 'Polycythemia vera patients should AVOID iron supplements — iron promotes RBC production, the opposite of treatment goals. Therapeutic phlebotomy aims to LOWER blood cells.',
+    concept: "IVIG in CLL",
+    rationale: "CLL patients have impaired antibody production (hypogammaglobulinemia). IVIG is used in CLL with recurrent infections to provide passive antibody protection.",
     others: {
-      0: 'Hydration thins blood and is appropriate.',
-      2: 'Stroke and MI are real risks from thickened blood; reporting is appropriate.',
-      3: 'Headache and dizziness signal disease progression and should be reported.'
+      "0": "Daily steroids would worsen infection risk.",
+      "2": "Iron does not prevent infections.",
+      "3": "Aspirin does not prevent infections."
     }
   },
   {
-    topic: 'HematDisorders',
-    type: 'standard',
-    stem: 'A nurse is caring for four hematology patients. Which patient should be assessed FIRST?',
+    topic: "HematDisorders",
+    type: "standard",
+    stem: "A patient with polycythemia vera is being discharged after therapeutic phlebotomy. Which patient statement indicates a need for FURTHER teaching?",
     options: [
-      'A CLL patient awaiting "watch and wait" follow-up labs',
-      'A polycythemia vera patient post-phlebotomy with stable VS',
-      'An ALL pediatric patient with severe headache and projectile vomiting',
-      'A CML patient on imatinib reporting baseline mild fatigue'
+      "\"I should drink plenty of fluids to stay hydrated.\"",
+      "\"I should take iron supplements to build my blood back up.\"",
+      "\"I will report any sudden chest pain or stroke symptoms.\"",
+      "\"I should report headache and dizziness if they worsen.\""
+    ],
+    answer: 1,
+    concept: "PV Iron Avoidance",
+    rationale: "Polycythemia vera patients should AVOID iron supplements — iron promotes RBC production, the opposite of treatment goals. Therapeutic phlebotomy aims to LOWER blood cells.",
+    others: {
+      "0": "Hydration thins blood and is appropriate.",
+      "2": "Stroke and MI are real risks from thickened blood; reporting is appropriate.",
+      "3": "Headache and dizziness signal disease progression and should be reported."
+    }
+  },
+  {
+    topic: "HematDisorders",
+    type: "standard",
+    stem: "A nurse is caring for four hematology patients. Which patient should be assessed FIRST?",
+    options: [
+      "A CLL patient awaiting \"watch and wait\" follow-up labs",
+      "A polycythemia vera patient post-phlebotomy with stable VS",
+      "An ALL pediatric patient with severe headache and projectile vomiting",
+      "A CML patient on imatinib reporting baseline mild fatigue"
     ],
     answer: 2,
-    concept: 'Priority Triage',
-    rationale: 'Severe headache and projectile vomiting in an ALL patient suggest CNS involvement with potentially raised intracranial pressure — a neurologic emergency. Priority assessment.',
+    concept: "Priority Triage",
+    rationale: "Severe headache and projectile vomiting in an ALL patient suggest CNS involvement with potentially raised intracranial pressure — a neurologic emergency. Priority assessment.",
     others: {
-      0: 'Watch and wait is stable monitoring; not urgent.',
-      1: 'Stable post-phlebotomy patient is not urgent.',
-      3: 'Baseline mild fatigue on stable therapy is expected.'
+      "0": "Watch and wait is stable monitoring; not urgent.",
+      "1": "Stable post-phlebotomy patient is not urgent.",
+      "3": "Baseline mild fatigue on stable therapy is expected."
     }
   },
   {
-    topic: 'HematDisorders',
-    type: 'standard',
-    stem: 'A patient with CML has been on imatinib (Gleevec) and asks how it works. The BEST nursing response is:',
+    topic: "HematDisorders",
+    type: "standard",
+    stem: "A patient with CML has been on imatinib (Gleevec) and asks how it works. The BEST nursing response is:",
     options: [
-      '"It blocks the BCR-ABL signal causing your cancer."',
-      '"It boosts your immune system to fight cancer cells."',
-      '"It replaces your bone marrow with healthy cells."',
-      '"It reduces your platelet count to prevent clotting."'
+      "\"It blocks the BCR-ABL signal causing your cancer.\"",
+      "\"It boosts your immune system to fight cancer cells.\"",
+      "\"It replaces your bone marrow with healthy cells.\"",
+      "\"It reduces your platelet count to prevent clotting.\""
     ],
     answer: 0,
-    concept: 'Imatinib Mechanism',
-    rationale: 'Imatinib mesylate (Gleevec) blocks BCR-ABL signaling — the genetic driver of CML (Philadelphia chromosome). It is a targeted therapy.',
+    concept: "Imatinib Mechanism",
+    rationale: "Imatinib mesylate (Gleevec) blocks BCR-ABL signaling — the genetic driver of CML (Philadelphia chromosome). It is a targeted therapy.",
     others: {
-      1: 'Imatinib is targeted therapy, not immune boosting.',
-      2: 'Imatinib does not replace marrow.',
-      3: 'Platelet count reduction is not its mechanism.'
+      "1": "Imatinib is targeted therapy, not immune boosting.",
+      "2": "Imatinib does not replace marrow.",
+      "3": "Platelet count reduction is not its mechanism."
     }
   },
   {
-    topic: 'HematDisorders',
-    type: 'standard',
-    stem: 'A patient with newly diagnosed AML is hospitalized for induction chemotherapy. Which is the PRIORITY nursing concern?',
+    topic: "HematDisorders",
+    type: "standard",
+    stem: "A patient with newly diagnosed AML is hospitalized for induction chemotherapy. Which is the PRIORITY nursing concern?",
     options: [
-      'Promoting independence and discharge planning',
-      'Encouraging socialization with other patients',
-      'Encouraging aggressive physical therapy',
-      'Preventing infection and bleeding'
+      "Promoting independence and discharge planning",
+      "Encouraging socialization with other patients",
+      "Encouraging aggressive physical therapy",
+      "Preventing infection and bleeding"
     ],
     answer: 3,
-    concept: 'AML Priority Concerns',
-    rationale: 'AML patients have decreased WBCs (infection risk) and decreased platelets (bleeding risk). These are the two major causes of death in AML. Prevention is priority.',
+    concept: "AML Priority Concerns",
+    rationale: "AML patients have decreased WBCs (infection risk) and decreased platelets (bleeding risk). These are the two major causes of death in AML. Prevention is priority.",
     others: {
-      0: 'Discharge planning is not priority during acute treatment.',
-      1: 'Socialization is contraindicated during induction (infection risk).',
-      2: 'Aggressive PT increases bleeding and fatigue.'
+      "0": "Discharge planning is not priority during acute treatment.",
+      "1": "Socialization is contraindicated during induction (infection risk).",
+      "2": "Aggressive PT increases bleeding and fatigue."
     }
   },
   {
-    topic: 'HematDisorders',
-    type: 'standard',
-    stem: 'A nurse is teaching a parent of a child with newly diagnosed ALL. Which statement indicates the parent needs additional teaching?',
+    topic: "Hematologic Disorders",
+    type: "standard",
+    stem: "The parent of a child with ALL on day 7 of induction calls the clinic stating, \"He has a temperature of 38.6°C (101.5°F) and seems more tired than usual. Should I give him acetaminophen and watch him at home?\" What is the nurse's best response?",
     options: [
-      '"My child has a much better prognosis than an adult would."',
-      '"Treatment will include chemo and possibly steroids."',
-      '"This is a different disease than the AML my friend\'s child had."',
-      '"My child can return to school during induction chemotherapy."'
-    ],
-    answer: 3,
-    concept: 'ALL Treatment Reality',
-    rationale: 'During induction chemotherapy, the child is severely immunosuppressed and CANNOT return to school due to infection risk. This requires further teaching.',
-    others: {
-      0: 'Correct — pediatric ALL has 85% prognosis vs <45% adult.',
-      1: 'Correct — chemo, HSCT, monoclonal antibodies, and corticosteroids are used.',
-      2: 'Correct — ALL and AML are different leukemias.'
-    }
-  },
-  {
-    topic: 'HematDisorders',
-    type: 'standard',
-    stem: 'A 64-year-old patient is in the clinic for a routine annual physical. CBC is unremarkable except for WBC of 18,000 (normal 4,000-11,000). The patient denies symptoms. Which leukemia is MOST likely?',
-    options: [
-      'CLL in early "watch and wait" phase',
-      'Acute Myeloid Leukemia (AML)',
-      'Chronic Myeloid Leukemia in chronic stage',
-      'Acute Lymphocytic Leukemia (ALL)'
-    ],
-    answer: 2,
-    concept: 'CML Chronic Stage Presentation',
-    rationale: 'CML in chronic stage is often asymptomatic and discovered incidentally on routine CBC showing leukocytosis. Mean age is 64. This profile fits chronic CML.',
-    others: {
-      0: 'CLL has mean age 72 and may show "B symptoms".',
-      1: 'AML presents with severe symptoms (fever, bleeding), not asymptomatic.',
-      3: 'ALL is most common pediatric (peak age 4).'
-    }
-  },
-  {
-    topic: 'HematDisorders',
-    type: 'standard',
-    stem: 'A patient with CLL reports new fever, drenching night sweats, and 15-pound unintentional weight loss over 2 months. What is the BEST nursing interpretation?',
-    options: [
-      'Routine viral illness — no action needed',
-      '"B Symptoms" indicating CLL progression',
-      'Side effect of "watch and wait" approach',
-      'Routine aging changes for the elderly'
+      "\"Give acetaminophen now and call back if the fever does not break in 4 hours.\"",
+      "\"Bring him to the emergency department immediately for evaluation and IV antibiotics.\"",
+      "\"Monitor his temperature every 2 hours and bring him in if it goes above 39°C.\"",
+      "\"Acetaminophen is fine for now. Call our office tomorrow morning to discuss.\""
     ],
     answer: 1,
-    concept: 'B Symptoms in CLL',
-    rationale: '"B Symptoms" — fever, night sweats, and unintentional weight loss — indicate CLL progression, which may move the patient out of "watch and wait" into active treatment.',
+    concept: "Neutropenic Fever Action",
+    rationale: "A child with ALL on induction chemo is severely neutropenic by day 7. Fever ≥38°C in a neutropenic patient is a medical emergency — must be evaluated and started on empiric broad-spectrum IV antibiotics within 1 hour. Home management or delayed evaluation can be fatal (sepsis). Acetaminophen also masks fever and is held until cultured.",
     others: {
-      0: 'B symptoms are NOT a routine viral illness.',
-      2: '"Watch and wait" itself does not cause B symptoms.',
-      3: 'New fever and weight loss are NEVER routine aging.'
+      "0": "Home acetaminophen masks the fever and delays critical antibiotic therapy.",
+      "2": "Any fever, not just >39°C, requires evaluation in a neutropenic patient.",
+      "3": "Waiting until morning could allow sepsis to develop overnight; this is an emergency."
     }
   },
   {
-    topic: 'HematDisorders',
-    type: 'standard',
-    stem: 'A patient with polycythemia vera develops sudden severe leg pain, calf swelling, and warmth. What is the priority nursing action?',
+    topic: "HematDisorders",
+    type: "standard",
+    stem: "A 64-year-old patient is in the clinic for a routine annual physical. CBC is unremarkable except for WBC of 18,000 (normal 4,000-11,000). The patient denies symptoms. Which leukemia is MOST likely?",
     options: [
-      'Apply ice for 30 minutes and elevate the leg',
-      'Encourage ambulation to reduce stiffness',
-      'Notify the provider — assess for DVT',
-      'Massage the calf to relieve discomfort'
+      "CLL in early \"watch and wait\" phase",
+      "Acute Myeloid Leukemia (AML)",
+      "Chronic Myeloid Leukemia in chronic stage",
+      "Acute Lymphocytic Leukemia (ALL)"
     ],
     answer: 2,
-    concept: 'PV Thrombosis Risk',
-    rationale: 'Polycythemia vera thickens blood and dramatically increases DVT/PE/stroke/MI risk. Sudden unilateral calf pain, swelling, and warmth signal possible DVT. Notify provider immediately.',
+    concept: "CML Chronic Stage Presentation",
+    rationale: "CML in chronic stage is often asymptomatic and discovered incidentally on routine CBC showing leukocytosis. Mean age is 64. This profile fits chronic CML.",
     others: {
-      0: 'Ice is symptomatic only and delays diagnosis.',
-      1: 'Ambulation can dislodge a clot, causing pulmonary embolism.',
-      3: 'Massaging a possible DVT can dislodge the clot — contraindicated.'
+      "0": "CLL has mean age 72 and may show \"B symptoms\".",
+      "1": "AML presents with severe symptoms (fever, bleeding), not asymptomatic.",
+      "3": "ALL is most common pediatric (peak age 4)."
     }
   },
   {
-    topic: 'HematDisorders',
-    type: 'standard',
-    stem: 'A nurse is reviewing the assignment for a patient with severe AML during induction. Which task is APPROPRIATE to delegate to a UAP?',
+    topic: "HematDisorders",
+    type: "standard",
+    stem: "A patient with CLL reports new fever, drenching night sweats, and 15-pound unintentional weight loss over 2 months. What is the BEST nursing interpretation?",
     options: [
-      'Initial assessment of new oral lesions and bleeding',
-      'Helping the patient bathe with sterile linens',
-      'Teaching about neutropenic precautions',
-      'Adjusting platelet transfusion infusion rate'
+      "Routine viral illness — no action needed",
+      "\"B Symptoms\" indicating CLL progression",
+      "Side effect of \"watch and wait\" approach",
+      "Routine aging changes for the elderly"
     ],
     answer: 1,
-    concept: 'AML Delegation',
-    rationale: 'Helping with hygiene using sterile linens is within UAP scope. Assessment, teaching, and titrating transfusions all require nursing judgment.',
+    concept: "B Symptoms in CLL",
+    rationale: "\"B Symptoms\" — fever, night sweats, and unintentional weight loss — indicate CLL progression, which may move the patient out of \"watch and wait\" into active treatment.",
     others: {
-      0: 'Assessment requires RN judgment.',
-      2: 'Patient teaching is RN responsibility.',
-      3: 'Transfusion adjustment requires RN judgment.'
+      "0": "B symptoms are NOT a routine viral illness.",
+      "2": "\"Watch and wait\" itself does not cause B symptoms.",
+      "3": "New fever and weight loss are NEVER routine aging."
     }
   },
   {
-    topic: 'HematDisorders',
-    type: 'standard',
-    stem: 'A nurse is admitting a patient with acute leukemia. Which finding requires the MOST immediate intervention?',
+    topic: "HematDisorders",
+    type: "standard",
+    stem: "A patient with polycythemia vera develops sudden severe leg pain, calf swelling, and warmth. What is the priority nursing action?",
     options: [
-      'Reports of fatigue and mild bone pain on movement',
-      'Temperature of 100.6°F with WBC of 1,500',
-      'Pallor of conjunctiva and mucous membranes',
-      'Mild bruising on bilateral lower extremities'
-    ],
-    answer: 1,
-    concept: 'Neutropenic Fever Priority',
-    rationale: 'Fever in a neutropenic patient (WBC 1,500) is a MEDICAL EMERGENCY — even low-grade fever can indicate life-threatening sepsis. Immediate cultures and broad-spectrum antibiotics are needed.',
-    others: {
-      0: 'Fatigue and bone pain are expected in leukemia.',
-      2: 'Pallor is expected with anemia.',
-      3: 'Mild bruising is expected with thrombocytopenia.'
-    }
-  },
-  {
-    topic: 'HematDisorders',
-    type: 'standard',
-    stem: 'A patient asks the nurse why early CLL is managed with "watch and wait" instead of immediate chemotherapy. The BEST response is:',
-    options: [
-      '"Chemo causes too many side effects to use in CLL ever."',
-      '"CLL always self-resolves without intervention."',
-      '"Treatment is delayed until symptoms worsen, since survival is 2-14 years."',
-      '"This approach is rarely used and your case is unusual."'
+      "Apply ice for 30 minutes and elevate the leg",
+      "Encourage ambulation to reduce stiffness",
+      "Notify the provider — assess for DVT",
+      "Massage the calf to relieve discomfort"
     ],
     answer: 2,
-    concept: 'CLL Watch and Wait Rationale',
-    rationale: 'CLL has variable survival of 2-14 years. Early treatment provides no survival benefit and exposes patients to side effects. "Watch and wait" defers therapy until symptoms or progression occur.',
+    concept: "PV Thrombosis Risk",
+    rationale: "Polycythemia vera thickens blood and dramatically increases DVT/PE/stroke/MI risk. Sudden unilateral calf pain, swelling, and warmth signal possible DVT. Notify provider immediately.",
     others: {
-      0: 'Chemo IS used in advanced CLL.',
-      1: 'CLL does not self-resolve.',
-      3: '"Watch and wait" is standard for early CLL — common practice.'
+      "0": "Ice is symptomatic only and delays diagnosis.",
+      "1": "Ambulation can dislodge a clot, causing pulmonary embolism.",
+      "3": "Massaging a possible DVT can dislodge the clot — contraindicated."
     }
   },
   {
-    topic: 'HematDisorders',
-    type: 'standard',
-    stem: 'A child with ALL is receiving induction chemotherapy. Which nursing action is essential before each dose?',
+    topic: "HematDisorders",
+    type: "standard",
+    stem: "A nurse is reviewing the assignment for a patient with severe AML during induction. Which task is APPROPRIATE to delegate to a UAP?",
     options: [
-      'Ensure family is present for emotional support',
-      'Verify the child has eaten a full meal',
-      'Have the child stand and walk to ensure mobility',
-      'Verify the child\'s identity using two identifiers'
+      "Initial assessment of new oral lesions and bleeding",
+      "Helping the patient bathe with sterile linens",
+      "Teaching about neutropenic precautions",
+      "Adjusting platelet transfusion infusion rate"
+    ],
+    answer: 1,
+    concept: "AML Delegation",
+    rationale: "Helping with hygiene using sterile linens is within UAP scope. Assessment, teaching, and titrating transfusions all require nursing judgment.",
+    others: {
+      "0": "Assessment requires RN judgment.",
+      "2": "Patient teaching is RN responsibility.",
+      "3": "Transfusion adjustment requires RN judgment."
+    }
+  },
+  {
+    topic: "HematDisorders",
+    type: "standard",
+    stem: "A nurse is admitting a patient with acute leukemia. Which finding requires the MOST immediate intervention?",
+    options: [
+      "Reports of fatigue and mild bone pain on movement",
+      "Temperature of 100.6°F with WBC of 1,500",
+      "Pallor of conjunctiva and mucous membranes",
+      "Mild bruising on bilateral lower extremities"
+    ],
+    answer: 1,
+    concept: "Neutropenic Fever Priority",
+    rationale: "Fever in a neutropenic patient (WBC 1,500) is a MEDICAL EMERGENCY — even low-grade fever can indicate life-threatening sepsis. Immediate cultures and broad-spectrum antibiotics are needed.",
+    others: {
+      "0": "Fatigue and bone pain are expected in leukemia.",
+      "2": "Pallor is expected with anemia.",
+      "3": "Mild bruising is expected with thrombocytopenia."
+    }
+  },
+  {
+    topic: "HematDisorders",
+    type: "standard",
+    stem: "A patient asks the nurse why early CLL is managed with \"watch and wait\" instead of immediate chemotherapy. The BEST response is:",
+    options: [
+      "\"Chemo causes too many side effects to use in CLL ever.\"",
+      "\"CLL always self-resolves without intervention.\"",
+      "\"Treatment is delayed until symptoms worsen, since survival is 2-14 years.\"",
+      "\"This approach is rarely used and your case is unusual.\""
+    ],
+    answer: 2,
+    concept: "CLL Watch and Wait Rationale",
+    rationale: "CLL has variable survival of 2-14 years. Early treatment provides no survival benefit and exposes patients to side effects. \"Watch and wait\" defers therapy until symptoms or progression occur.",
+    others: {
+      "0": "Chemo IS used in advanced CLL.",
+      "1": "CLL does not self-resolve.",
+      "3": "\"Watch and wait\" is standard for early CLL — common practice."
+    }
+  },
+  {
+    topic: "HematDisorders",
+    type: "standard",
+    stem: "A child with ALL is receiving induction chemotherapy. Which nursing action is essential before each dose?",
+    options: [
+      "Ensure family is present for emotional support",
+      "Verify the child has eaten a full meal",
+      "Have the child stand and walk to ensure mobility",
+      "Verify the child's identity using two identifiers"
     ],
     answer: 3,
-    concept: 'Chemo Safety',
-    rationale: 'Two-identifier patient verification is REQUIRED before any chemotherapy administration — chemo errors can be fatal. Joint Commission patient safety standard.',
+    concept: "Chemo Safety",
+    rationale: "Two-identifier patient verification is REQUIRED before any chemotherapy administration — chemo errors can be fatal. Joint Commission patient safety standard.",
     others: {
-      0: 'Family support is helpful but not the essential safety check.',
-      1: 'Full meal not always required and is not the priority safety step.',
-      2: 'Mobility is unrelated to chemo administration safety.'
+      "0": "Family support is helpful but not the essential safety check.",
+      "1": "Full meal not always required and is not the priority safety step.",
+      "2": "Mobility is unrelated to chemo administration safety."
     }
   },
   {
-    topic: 'HematDisorders',
-    type: 'standard',
-    stem: 'A patient with CML who has been on imatinib for 2 years presents with rapid worsening symptoms, organ involvement, and lab evidence of disease progression. Which CML stage is suspected?',
+    topic: "HematDisorders",
+    type: "standard",
+    stem: "A patient with CML who has been on imatinib for 2 years presents with rapid worsening symptoms, organ involvement, and lab evidence of disease progression. Which CML stage is suspected?",
     options: [
-      'Chronic stage',
-      'Remission stage',
-      'Recovery stage',
-      'Blast stage'
+      "Chronic stage",
+      "Remission stage",
+      "Recovery stage",
+      "Blast stage"
     ],
     answer: 3,
-    concept: 'CML Blast Stage',
-    rationale: 'Blast stage of CML is highly aggressive with organ metastasis. It is the third and most severe stage after chronic and accelerated.',
+    concept: "CML Blast Stage",
+    rationale: "Blast stage of CML is highly aggressive with organ metastasis. It is the third and most severe stage after chronic and accelerated.",
     others: {
-      0: 'Chronic stage is slow with mild symptoms — opposite of described picture.',
-      1: 'Remission is improvement, not worsening.',
-      2: '"Recovery" is not a CML stage.'
+      "0": "Chronic stage is slow with mild symptoms — opposite of described picture.",
+      "1": "Remission is improvement, not worsening.",
+      "2": "\"Recovery\" is not a CML stage."
     }
   },
   {
-    topic: 'HematDisorders',
-    type: 'standard',
-    stem: 'A polycythemia vera patient is receiving aspirin 81 mg daily as prevention. The nurse understands that the purpose is to:',
+    topic: "HematDisorders",
+    type: "standard",
+    stem: "A polycythemia vera patient is receiving aspirin 81 mg daily as prevention. The nurse understands that the purpose is to:",
     options: [
-      'Reduce thrombotic risk from increased blood viscosity',
-      'Treat headaches caused by polycythemia',
-      'Stimulate bone marrow to produce more cells',
-      'Replace the need for therapeutic phlebotomy'
+      "Reduce thrombotic risk from increased blood viscosity",
+      "Treat headaches caused by polycythemia",
+      "Stimulate bone marrow to produce more cells",
+      "Replace the need for therapeutic phlebotomy"
     ],
     answer: 0,
-    concept: 'Aspirin in PV',
-    rationale: 'Low-dose aspirin is used in polycythemia vera to reduce thrombotic risk from thickened blood. PV dramatically increases stroke, MI, and DVT risk.',
+    concept: "Aspirin in PV",
+    rationale: "Low-dose aspirin is used in polycythemia vera to reduce thrombotic risk from thickened blood. PV dramatically increases stroke, MI, and DVT risk.",
     others: {
-      1: 'Aspirin treats headache symptomatically but is not the primary purpose in PV.',
-      2: 'Aspirin does not stimulate bone marrow.',
-      3: 'Aspirin does not replace phlebotomy in moderate-severe disease.'
+      "1": "Aspirin treats headache symptomatically but is not the primary purpose in PV.",
+      "2": "Aspirin does not stimulate bone marrow.",
+      "3": "Aspirin does not replace phlebotomy in moderate-severe disease."
     }
   },
   {
-    topic: 'HematDisorders',
-    type: 'standard',
-    stem: 'A nurse is reviewing four patients on the unit. Which patient profile fits ALL?',
+    topic: "Hematologic Disorders",
+    type: "standard",
+    stem: "A nurse is caring for four patients with hematologic malignancies. Which patient should the nurse assess FIRST?",
     options: [
-      'A 4-year-old with bone pain, headaches, and hepatosplenomegaly',
-      'A 67-year-old with fever, gum hyperplasia, and pancytopenia',
-      'A 64-year-old with mild fatigue and incidental high WBC',
-      'A 72-year-old with fever, night sweats, and weight loss'
-    ],
-    answer: 0,
-    concept: 'ALL Demographics',
-    rationale: 'ALL is most common pediatric leukemia (peak age 4). Classic features: bone pain, CNS involvement (headaches), hepatosplenomegaly.',
-    others: {
-      1: 'Age 67 with gum hyperplasia and pancytopenia fits AML.',
-      2: 'Age 64 with incidental leukocytosis fits CML.',
-      3: 'Age 72 with B symptoms fits CLL.'
-    }
-  },
-  {
-    topic: 'HematDisorders',
-    type: 'standard',
-    stem: 'A nurse is teaching a leukemia patient about home care after discharge. Which patient statement indicates UNDERSTANDING of safety?',
-    options: [
-      '"I will use a hard-bristle toothbrush for thorough cleaning."',
-      '"I can resume gardening to keep myself busy."',
-      '"I will avoid raw or undercooked foods like sushi."',
-      '"I should host a welcome-home party for visitors."'
-    ],
-    answer: 2,
-    concept: 'Leukemia Home Safety',
-    rationale: 'Avoiding raw/undercooked foods (sushi, deli meats, soft cheeses, runny eggs) is essential in leukemia patients due to immunosuppression and infection risk.',
-    others: {
-      0: 'Hard bristles cause gum bleeding in thrombocytopenia.',
-      1: 'Soil and plants harbor pathogens — gardening is contraindicated.',
-      3: 'Crowds and visitors increase infection risk.'
-    }
-  },
-  {
-    topic: 'HematDisorders',
-    type: 'standard',
-    stem: 'A patient with AML develops a temperature of 101.8°F. The nurse\'s priority action is to:',
-    options: [
-      'Administer acetaminophen 650 mg orally',
-      'Apply cooling blankets to reduce temperature',
-      'Notify the provider and obtain blood cultures',
-      'Document the finding and reassess in 1 hour'
-    ],
-    answer: 2,
-    concept: 'Neutropenic Fever Priority Action',
-    rationale: 'In a neutropenic AML patient, fever ≥101°F is a MEDICAL EMERGENCY. Notify provider, obtain cultures BEFORE antibiotics, and start broad-spectrum antibiotics within 1 hour.',
-    others: {
-      0: 'Treating fever symptomatically without identifying cause is dangerous.',
-      1: 'Cooling without treatment delays critical care.',
-      3: 'Reassessing in 1 hour delays critical intervention.'
-    }
-  },
-  {
-    topic: 'HematDisorders',
-    type: 'standard',
-    stem: 'A patient with polycythemia vera is scheduled for therapeutic phlebotomy. Which assessment is MOST important before the procedure?',
-    options: [
-      'Patient\'s last meal time and food preferences',
-      'Patient\'s favorite music for procedure comfort',
-      'Patient\'s weekend activity and family plans',
-      'Baseline VS, hematocrit, and hydration status'
-    ],
-    answer: 3,
-    concept: 'Pre-Phlebotomy Assessment',
-    rationale: 'Baseline VS (especially BP), hematocrit, and hydration status are essential before therapeutic phlebotomy. Removing blood can cause hypotension, especially if dehydrated or borderline hypotensive.',
-    others: {
-      0: 'Last meal is not the priority.',
-      1: 'Music preference is comfort, not safety.',
-      2: 'Activity plans are not relevant.'
-    }
-  },
-  {
-    topic: 'HematDisorders',
-    type: 'standard',
-    stem: 'A nurse delegates care for an early-stage CLL patient on "watch and wait" to a new RN. Which orientation point is MOST important?',
-    options: [
-      'Aggressive chemotherapy regimens for CLL',
-      'Bone marrow transplant pre-procedure care',
-      'Monitoring for B symptoms signaling progression',
-      'Setting up IVIG infusion equipment'
-    ],
-    answer: 2,
-    concept: 'CLL Monitoring Priority',
-    rationale: 'During "watch and wait," the priority is monitoring for B symptoms (fever, night sweats, weight loss), enlarged lymph nodes, or rising WBC — signs that may move the patient to active treatment.',
-    others: {
-      0: 'Aggressive chemo is for advanced CLL — not relevant in early stage.',
-      1: 'BMT is uncommon in early CLL.',
-      3: 'IVIG is for CLL with recurrent infections, not all early CLL.'
-    }
-  },
-  {
-    topic: 'HematDisorders',
-    type: 'standard',
-    stem: 'A patient receiving induction chemotherapy for AML develops a platelet count of 8,000 (normal 150,000-400,000). Which intervention is MOST critical?',
-    options: [
-      'Administer prescribed platelet transfusion immediately',
-      'Encourage frequent ambulation to prevent clots',
-      'Discontinue all medications and observe',
-      'Increase oral intake of leafy green vegetables'
-    ],
-    answer: 0,
-    concept: 'Critical Thrombocytopenia Tx',
-    rationale: 'Platelets at 8,000 represent CRITICAL thrombocytopenia with high spontaneous bleeding risk (especially intracranial). Immediate platelet transfusion is needed.',
-    others: {
-      1: 'Ambulation increases bleeding risk; activity must be cautious.',
-      2: 'Discontinuing medications without provider orders is inappropriate.',
-      3: 'Leafy greens contain vitamin K but cannot raise platelets quickly enough.'
-    }
-  },
-  {
-    topic: 'HematDisorders',
-    type: 'standard',
-    stem: 'A patient with CML on imatinib reports new-onset peripheral edema, weight gain, and shortness of breath. What is the BEST nursing action?',
-    options: [
-      'Encourage the patient to exercise more vigorously',
-      'Tell the patient these are normal medication effects',
-      'Restrict the patient\'s fluid intake aggressively',
-      'Notify the provider — possible cardiac side effects'
-    ],
-    answer: 3,
-    concept: 'Imatinib Cardiac Side Effects',
-    rationale: 'Imatinib can cause fluid retention, peripheral edema, and rare cardiac dysfunction (heart failure). New edema with weight gain and dyspnea warrants provider notification.',
-    others: {
-      0: 'Vigorous exercise worsens fluid overload symptoms.',
-      1: 'These are concerning side effects, not normal expected.',
-      2: 'Aggressive fluid restriction without provider input could harm.'
-    }
-  },
-  {
-    topic: 'HematDisorders',
-    type: 'standard',
-    stem: 'A nurse is reviewing four patients with hematologic disorders. Which patient should be assessed FIRST?',
-    options: [
-      'A polycythemia vera patient with stable HCT post-phlebotomy',
-      'An AML patient with new sudden severe headache and confusion',
-      'A CLL patient on watch and wait awaiting routine labs',
-      'A CML patient with stable mild fatigue on imatinib'
+      "A patient with CLL whose new lab shows WBC 95,000 and is asymptomatic",
+      "A patient with ALL on day 10 of induction with temp 38.4°C and SBP 92",
+      "A patient with CML on imatinib reporting mild diarrhea after dosing",
+      "A patient with multiple myeloma reporting low back pain rated 4/10"
     ],
     answer: 1,
-    concept: 'AML Bleeding Priority',
-    rationale: 'Sudden severe headache and confusion in an AML patient suggests possible intracranial bleeding from severe thrombocytopenia. This is a neurologic emergency requiring immediate action.',
+    concept: "Hem Malignancy Prioritization",
+    rationale: "The ALL patient on day 10 of induction is severely neutropenic with fever AND a borderline-low BP — this is sepsis until proven otherwise and could decompensate within minutes. The CLL patient with high WBC is asymptomatic (CLL tolerates high counts). CML with mild diarrhea is an expected side effect. MM with stable back pain at 4/10 is not acute.",
     others: {
-      0: 'Stable post-phlebotomy is not urgent.',
-      2: 'Routine labs in stable patient are not urgent.',
-      3: 'Stable mild fatigue on therapy is expected.'
+      "0": "CLL often has very high WBC counts and asymptomatic patients are stable.",
+      "2": "GI side effects of imatinib are expected and not urgent at this severity.",
+      "3": "Stable bone pain in myeloma is not acute compared to febrile neutropenia with hypotension."
+    }
+  },
+  {
+    topic: "HematDisorders",
+    type: "standard",
+    stem: "A nurse is teaching a leukemia patient about home care after discharge. Which patient statement indicates UNDERSTANDING of safety?",
+    options: [
+      "\"I will use a hard-bristle toothbrush for thorough cleaning.\"",
+      "\"I can resume gardening to keep myself busy.\"",
+      "\"I will avoid raw or undercooked foods like sushi.\"",
+      "\"I should host a welcome-home party for visitors.\""
+    ],
+    answer: 2,
+    concept: "Leukemia Home Safety",
+    rationale: "Avoiding raw/undercooked foods (sushi, deli meats, soft cheeses, runny eggs) is essential in leukemia patients due to immunosuppression and infection risk.",
+    others: {
+      "0": "Hard bristles cause gum bleeding in thrombocytopenia.",
+      "1": "Soil and plants harbor pathogens — gardening is contraindicated.",
+      "3": "Crowds and visitors increase infection risk."
+    }
+  },
+  {
+    topic: "HematDisorders",
+    type: "standard",
+    stem: "A patient with AML develops a temperature of 101.8°F. The nurse's priority action is to:",
+    options: [
+      "Administer acetaminophen 650 mg orally",
+      "Apply cooling blankets to reduce temperature",
+      "Notify the provider and obtain blood cultures",
+      "Document the finding and reassess in 1 hour"
+    ],
+    answer: 2,
+    concept: "Neutropenic Fever Priority Action",
+    rationale: "In a neutropenic AML patient, fever ≥101°F is a MEDICAL EMERGENCY. Notify provider, obtain cultures BEFORE antibiotics, and start broad-spectrum antibiotics within 1 hour.",
+    others: {
+      "0": "Treating fever symptomatically without identifying cause is dangerous.",
+      "1": "Cooling without treatment delays critical care.",
+      "3": "Reassessing in 1 hour delays critical intervention."
+    }
+  },
+  {
+    topic: "HematDisorders",
+    type: "standard",
+    stem: "A patient with polycythemia vera is scheduled for therapeutic phlebotomy. Which assessment is MOST important before the procedure?",
+    options: [
+      "Patient's last meal time and food preferences",
+      "Patient's favorite music for procedure comfort",
+      "Patient's weekend activity and family plans",
+      "Baseline VS, hematocrit, and hydration status"
+    ],
+    answer: 3,
+    concept: "Pre-Phlebotomy Assessment",
+    rationale: "Baseline VS (especially BP), hematocrit, and hydration status are essential before therapeutic phlebotomy. Removing blood can cause hypotension, especially if dehydrated or borderline hypotensive.",
+    others: {
+      "0": "Last meal is not the priority.",
+      "1": "Music preference is comfort, not safety.",
+      "2": "Activity plans are not relevant."
+    }
+  },
+  {
+    topic: "HematDisorders",
+    type: "standard",
+    stem: "A nurse delegates care for an early-stage CLL patient on \"watch and wait\" to a new RN. Which orientation point is MOST important?",
+    options: [
+      "Aggressive chemotherapy regimens for CLL",
+      "Bone marrow transplant pre-procedure care",
+      "Monitoring for B symptoms signaling progression",
+      "Setting up IVIG infusion equipment"
+    ],
+    answer: 2,
+    concept: "CLL Monitoring Priority",
+    rationale: "During \"watch and wait,\" the priority is monitoring for B symptoms (fever, night sweats, weight loss), enlarged lymph nodes, or rising WBC — signs that may move the patient to active treatment.",
+    others: {
+      "0": "Aggressive chemo is for advanced CLL — not relevant in early stage.",
+      "1": "BMT is uncommon in early CLL.",
+      "3": "IVIG is for CLL with recurrent infections, not all early CLL."
+    }
+  },
+  {
+    topic: "HematDisorders",
+    type: "standard",
+    stem: "A patient receiving induction chemotherapy for AML develops a platelet count of 8,000 (normal 150,000-400,000). Which intervention is MOST critical?",
+    options: [
+      "Administer prescribed platelet transfusion immediately",
+      "Encourage frequent ambulation to prevent clots",
+      "Discontinue all medications and observe",
+      "Increase oral intake of leafy green vegetables"
+    ],
+    answer: 0,
+    concept: "Critical Thrombocytopenia Tx",
+    rationale: "Platelets at 8,000 represent CRITICAL thrombocytopenia with high spontaneous bleeding risk (especially intracranial). Immediate platelet transfusion is needed.",
+    others: {
+      "1": "Ambulation increases bleeding risk; activity must be cautious.",
+      "2": "Discontinuing medications without provider orders is inappropriate.",
+      "3": "Leafy greens contain vitamin K but cannot raise platelets quickly enough."
+    }
+  },
+  {
+    topic: "HematDisorders",
+    type: "standard",
+    stem: "A patient with CML on imatinib reports new-onset peripheral edema, weight gain, and shortness of breath. What is the BEST nursing action?",
+    options: [
+      "Encourage the patient to exercise more vigorously",
+      "Tell the patient these are normal medication effects",
+      "Restrict the patient's fluid intake aggressively",
+      "Notify the provider — possible cardiac side effects"
+    ],
+    answer: 3,
+    concept: "Imatinib Cardiac Side Effects",
+    rationale: "Imatinib can cause fluid retention, peripheral edema, and rare cardiac dysfunction (heart failure). New edema with weight gain and dyspnea warrants provider notification.",
+    others: {
+      "0": "Vigorous exercise worsens fluid overload symptoms.",
+      "1": "These are concerning side effects, not normal expected.",
+      "2": "Aggressive fluid restriction without provider input could harm."
+    }
+  },
+  {
+    topic: "HematDisorders",
+    type: "standard",
+    stem: "A nurse is reviewing four patients with hematologic disorders. Which patient should be assessed FIRST?",
+    options: [
+      "A polycythemia vera patient with stable HCT post-phlebotomy",
+      "An AML patient with new sudden severe headache and confusion",
+      "A CLL patient on watch and wait awaiting routine labs",
+      "A CML patient with stable mild fatigue on imatinib"
+    ],
+    answer: 1,
+    concept: "AML Bleeding Priority",
+    rationale: "Sudden severe headache and confusion in an AML patient suggests possible intracranial bleeding from severe thrombocytopenia. This is a neurologic emergency requiring immediate action.",
+    others: {
+      "0": "Stable post-phlebotomy is not urgent.",
+      "2": "Routine labs in stable patient are not urgent.",
+      "3": "Stable mild fatigue on therapy is expected."
     }
   }
 ];
 
-// === QUIZ ENGINE ===
+        // === QUIZ ENGINE ===
 let currentQ = 0;
 let totalPts = 0;
 let answers = [];
