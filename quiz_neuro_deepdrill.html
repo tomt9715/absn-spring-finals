@@ -793,7 +793,8 @@ function showRationale(q, verdict, pts) {
     </div>`;
     html += `<h4>Why these are correct</h4>`;
     q.answerArr.forEach(i => {
-      html += `<div class="correct-answer-display">${q.options[i]}<br><small style="color:var(--ink-soft);">${q.perOptionExplanations[i]}</small></div>`;
+      const _perOpt = q.perOptionExplanations && q.perOptionExplanations[i] ? `<br><small style="color:var(--ink-soft);">${q.perOptionExplanations[i]}</small>` : '';
+      html += `<div class="correct-answer-display">${q.options[i]}${_perOpt}</div>`;
     });
     html += `<p><strong>Overall:</strong> ${q.rationale}</p>`;
     if (q.others && Object.keys(q.others).length > 0) {

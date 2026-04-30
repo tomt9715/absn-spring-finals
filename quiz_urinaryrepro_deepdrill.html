@@ -396,7 +396,7 @@ const questions = [
     topic: "Repro",
     confirmed: false,
     type: "standard",
-    stem: "A pregnant patient at 36 weeks with severe preeclampsia is receiving IV magnesium sulfate for seizure prophylaxis. The nurse's most recent assessment shows: DTRs absent, RR 10/min, urine output 18 mL/hr over the past 2 hours, magnesium level 9.5 mEq/L. The priority action is:",
+    stem: "A pregnant patient at 36 weeks with severe preeclampsia is receiving IV magnesium sulfate for seizure prophylaxis. The nurse's most recent assessment shows: DTRs absent, RR 10/min, urine output 18 mL/hr over the past 2 hours, magnesium level 9.5 mEq/L (therapeutic 4-7 for preeclampsia; normal 1.5-2.5). The priority action is:",
     options: [
       "Increase the magnesium infusion rate to maintain therapy",
       "Stop the magnesium infusion, administer IV calcium gluconate, notify provider",
@@ -468,7 +468,7 @@ const questions = [
       "\"I should take it daily at bedtime.\"",
       "\"I should report sudden vision changes immediately.\""
     ],
-    answerArr: [0,2,3,5],
+    answerArr: [0, 2, 3, 5],
     concept: "Sildenafil teaching SATA",
     rationale: "Correct points: take 60 min before activity, avoid nitrates, priapism over 4 hours is an emergency, sudden vision changes need urgent evaluation. Grapefruit juice should be avoided, and sildenafil is on-demand, not daily.",
     others: {
@@ -667,7 +667,7 @@ const questions = [
   }
 ];
 
-// === QUIZ ENGINE ===
+        // === QUIZ ENGINE ===
 const TOTAL = questions.length;
 let currentQ = 0;
 let totalPoints = 0;
@@ -792,7 +792,8 @@ function showRationale(q, verdict, pts) {
     </div>`;
     html += `<h4>Why these are correct</h4>`;
     q.answerArr.forEach(i => {
-      html += `<div class="correct-answer-display">${q.options[i]}<br><small style="color:var(--ink-soft);">${q.perOptionExplanations[i]}</small></div>`;
+      const _perOpt = q.perOptionExplanations && q.perOptionExplanations[i] ? `<br><small style="color:var(--ink-soft);">${q.perOptionExplanations[i]}</small>` : '';
+      html += `<div class="correct-answer-display">${q.options[i]}${_perOpt}</div>`;
     });
     html += `<p><strong>Overall:</strong> ${q.rationale}</p>`;
     if (q.others && Object.keys(q.others).length > 0) {
