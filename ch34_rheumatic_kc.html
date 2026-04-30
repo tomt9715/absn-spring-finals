@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 34 Rheumatic Disorders — Knowledge Check</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-soft: #14b8a6;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+      --partial: #d97706;
+      --partial-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .start-stat { text-align: center; padding: 18px 12px; background: var(--teal-pale); border-radius: 8px; border: 1px solid var(--line); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--teal); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer; background: var(--teal); color: white; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--teal); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--teal-soft); background: var(--teal-pale); }
+    .option.selected { border-color: var(--teal); background: var(--teal-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--teal); color: white; border-color: var(--teal); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--teal-pale); border-left: 3px solid var(--teal); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--teal); color: white; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--teal); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Knowledge Check · Chapter 34</div>
+  <h1>Rheumatic Disorders</h1>
+  <p class="tagline">Direct recall: SLE (lupus) key signs, RA bilateral symmetric pattern, swan neck deformity, and key teaching points.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">12</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">MC</span><span class="start-stat-label">Format</span></div>
+      <div class="start-stat"><span class="start-stat-num">Yes</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">Each question is direct recall from your review guides. Answer, get instant rationale, move on.</p>
+    <button class="btn" onclick="begin()">Begin</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 12</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Knowledge Check</div>
+    <h1>Rheumatic Disorders</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 12 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Quiz</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: 'Rheumatic',
+    type: 'standard',
+    stem: 'Systemic lupus erythematosus (SLE) is best classified as which type of disorder?',
+    options: [
+      'A localized infection of the skin and joints',
+      'A genetic disorder that does not progress over time',
+      'A short-term viral illness that resolves on its own',
+      'An autoimmune disorder that affects the whole body'
+    ],
+    answer: 3,
+    concept: 'SLE Definition',
+    rationale: 'SLE is an autoimmune disorder that affects the whole body. The immune system mistakenly attacks healthy tissue, causing inflammation and damage in multiple organ systems including skin, joints, kidneys, heart, and lungs.',
+    others: {
+      0: 'SLE is systemic, not a localized infection.',
+      1: 'SLE is autoimmune, not strictly genetic, and it does progress.',
+      2: 'SLE is chronic, not a short-term viral illness.'
+    }
+  },
+  {
+    topic: 'Rheumatic',
+    type: 'standard',
+    stem: 'Which finding is a hallmark sign of SLE?',
+    options: [
+      'A butterfly-shaped rash across the cheeks and nose',
+      'Yellow plaques and silvery scales on the elbows',
+      'Dark hyperpigmentation along the lower extremities',
+      'Painless purplish lesions on the chest and arms'
+    ],
+    answer: 0,
+    concept: 'SLE Butterfly Rash',
+    rationale: 'A butterfly-shaped (malar) rash across the cheeks and bridge of the nose is a hallmark sign of SLE. Other key signs include joint pain, fever, and organ involvement.',
+    others: {
+      1: 'Yellow plaques with silvery scales describe psoriasis.',
+      2: 'Dark hyperpigmentation suggests venous insufficiency or other conditions.',
+      3: 'Painless purplish lesions suggest Kaposi sarcoma.'
+    }
+  },
+  {
+    topic: 'Rheumatic',
+    type: 'standard',
+    stem: 'Which of the following are KEY signs of SLE?',
+    options: [
+      'Painful joint deformity in only one knee with no fever',
+      'Sudden onset chest pain with radiation to the left arm',
+      'Persistent productive cough with thick yellow sputum',
+      'Butterfly rash, joint pain, fever, and organ involvement'
+    ],
+    answer: 3,
+    concept: 'SLE Key Signs',
+    rationale: 'The key signs of SLE are butterfly rash, joint pain, fever, and organ involvement (kidneys, heart, lungs). SLE can flare and remit, so symptoms vary over time.',
+    others: {
+      0: 'A single deformed knee without fever does not match SLE.',
+      1: 'Chest pain with arm radiation suggests MI.',
+      2: 'Productive yellow sputum suggests pneumonia.'
+    }
+  },
+  {
+    topic: 'Rheumatic',
+    type: 'standard',
+    stem: 'Which teaching is MOST important for a patient with SLE?',
+    options: [
+      'Stop taking medications when feeling well to avoid side effects',
+      'Avoid sun exposure and wear sunscreen daily when outdoors',
+      'Increase salt intake to maintain blood pressure each day',
+      'Avoid all forms of exercise to prevent joint inflammation'
+    ],
+    answer: 1,
+    concept: 'SLE Sun Avoidance',
+    rationale: 'Sun exposure can trigger SLE flares. Patients should avoid direct sun, wear sunscreen daily (even on cloudy days), wear protective clothing, and use hats outdoors.',
+    others: {
+      0: 'Stopping meds is unsafe and triggers flares.',
+      2: 'High salt intake is harmful — SLE patients are at risk for HTN.',
+      3: 'Avoiding all exercise worsens deconditioning.'
+    }
+  },
+  {
+    topic: 'Rheumatic',
+    type: 'standard',
+    stem: 'A patient with SLE is being monitored for complications. Why is the nurse particularly watchful for signs of infection?',
+    options: [
+      'SLE strengthens immunity, masking signs of infection',
+      'Patients with SLE never develop infections naturally',
+      'Immunosuppressive treatment for SLE increases infection risk',
+      'Infection has no clinical significance in SLE patients'
+    ],
+    answer: 2,
+    concept: 'SLE Infection Risk',
+    rationale: 'Patients with SLE are often on immunosuppressive medications (steroids, methotrexate, biologics) that increase infection risk. The nurse must watch for fever, redness, drainage, and respond promptly.',
+    others: {
+      0: 'SLE and its treatments suppress immunity, not strengthen it.',
+      1: 'SLE patients DO develop infections — at higher rates.',
+      3: 'Infection is significant and can be life-threatening.'
+    }
+  },
+  {
+    topic: 'Rheumatic',
+    type: 'standard',
+    stem: 'A patient with SLE is being referred to a dietitian. What is the rationale?',
+    options: [
+      'SLE patients are at high risk for cardiovascular disease and HTN',
+      'SLE patients should follow a high-sodium diet for energy',
+      'SLE patients require parenteral nutrition for nutrient absorption',
+      'SLE patients have unique caloric requirements over 4000 daily'
+    ],
+    answer: 0,
+    concept: 'SLE Cardiovascular Risk',
+    rationale: 'SLE increases the risk for cardiovascular disease including hypertension and atherosclerosis. Dietary consultation helps patients manage these risks through heart-healthy eating.',
+    others: {
+      1: 'High sodium worsens HTN risk.',
+      2: 'Parenteral nutrition is not standard SLE management.',
+      3: 'SLE patients do not have unique 4000-calorie requirements.'
+    }
+  },
+  {
+    topic: 'Rheumatic',
+    type: 'standard',
+    stem: 'A patient with SLE has been on long-term corticosteroid therapy. The nurse should screen the patient for which complication?',
+    options: [
+      'Acute strep throat from immunosuppression',
+      'Acute appendicitis from steroid metabolism',
+      'Osteoporosis from long-term steroid use',
+      'Severe dehydration from steroid effects'
+    ],
+    answer: 2,
+    concept: 'Steroid Osteoporosis',
+    rationale: 'Long-term corticosteroid use causes osteoporosis by decreasing bone formation and calcium absorption. Screen for osteoporosis with bone density scans and consider calcium/vitamin D supplementation.',
+    others: {
+      0: 'Strep throat is not the long-term steroid complication.',
+      1: 'Appendicitis is not specifically caused by steroids.',
+      3: 'Dehydration is not the typical long-term steroid complication.'
+    }
+  },
+  {
+    topic: 'Rheumatic',
+    type: 'standard',
+    stem: 'Rheumatoid arthritis (RA) is best characterized by which joint pattern?',
+    options: [
+      'Unilateral pain in only one large joint at a time',
+      'Bilateral and symmetric joint pain with swelling and warmth',
+      'Sudden severe pain in only the great toe with redness',
+      'Crepitus and pain in only weight-bearing joints'
+    ],
+    answer: 1,
+    concept: 'RA Joint Pattern',
+    rationale: 'RA presents with bilateral and symmetric joint pain, swelling, and warmth. Both sides of the body are typically affected at the same joints (e.g., both wrists, both fingers).',
+    others: {
+      0: 'Unilateral single-joint pain is not the RA pattern.',
+      2: 'Sudden great toe pain suggests gout.',
+      3: 'Pain in weight-bearing joints with crepitus suggests osteoarthritis.'
+    }
+  },
+  {
+    topic: 'Rheumatic',
+    type: 'standard',
+    stem: 'A patient with RA reports morning stiffness in the joints. How long does this stiffness typically last in RA?',
+    options: [
+      'Less than 5 minutes upon waking',
+      'About 15 to 30 minutes after rising',
+      'Longer than 1 hour each morning',
+      'Stiffness that resolves within 1 minute'
+    ],
+    answer: 2,
+    concept: 'RA Morning Stiffness',
+    rationale: 'In RA, morning stiffness lasts longer than 1 hour. This distinguishes it from osteoarthritis, where stiffness typically resolves within 30 minutes.',
+    others: {
+      0: 'Less than 5 minutes is too short for RA.',
+      1: '15-30 minutes is more typical of osteoarthritis.',
+      3: '1 minute is far too short for RA.'
+    }
+  },
+  {
+    topic: 'Rheumatic',
+    type: 'standard',
+    stem: 'Which finding is a key deformity associated with rheumatoid arthritis?',
+    options: [
+      'Bunions on the great toe of both feet',
+      'Swan neck deformity of the fingers',
+      'Heberden nodes on the distal joints',
+      'Bouchard nodes on the proximal joints'
+    ],
+    answer: 1,
+    concept: 'Swan Neck Deformity',
+    rationale: 'Swan neck deformity of the fingers is a key sign of advanced RA. It is caused by chronic inflammation and joint damage to the small joints of the hands.',
+    others: {
+      0: 'Bunions are not specific to RA.',
+      2: 'Heberden nodes are characteristic of osteoarthritis.',
+      3: 'Bouchard nodes are characteristic of osteoarthritis.'
+    }
+  },
+  {
+    topic: 'Rheumatic',
+    type: 'standard',
+    stem: 'Which assessment finding is most consistent with active inflammation in a joint affected by RA?',
+    options: [
+      'Coolness, pallor, and bony crepitus around the joint area',
+      'Loud popping sounds with stable pain-free movement',
+      'Ulcers around the joint with no warmth or any swelling',
+      'Warmth, swelling, redness, and tenderness in the joint'
+    ],
+    answer: 3,
+    concept: 'RA Active Inflammation',
+    rationale: 'RA active joint inflammation produces warmth, swelling, redness, and tenderness. These are classic signs of inflammation that the nurse assesses bilaterally and symmetrically.',
+    others: {
+      0: 'Coolness, pallor, and crepitus suggest osteoarthritis or vascular issues.',
+      1: 'Loud popping with stable pain-free motion is not active inflammation.',
+      2: 'Ulcers without warmth/swelling are not RA inflammation.'
+    }
+  },
+  {
+    topic: 'Rheumatic',
+    type: 'standard',
+    stem: 'A patient with RA is asking how to manage joint pain at home. Which intervention is appropriate?',
+    options: [
+      'Apply heat to stiff joints in the morning to relieve stiffness',
+      'Avoid all movement of the affected joints to spare them',
+      'Apply ice packs constantly throughout the day for hours',
+      'Use only NSAIDs and avoid all other physical interventions'
+    ],
+    answer: 0,
+    concept: 'RA Pain Management',
+    rationale: 'Heat applied to stiff joints in the morning helps relieve RA stiffness. Gentle ROM exercises, balanced rest and activity, and prescribed medications are all part of RA management.',
+    others: {
+      1: 'Avoiding all movement worsens stiffness and deconditioning.',
+      2: 'Continuous ice for hours is not standard RA management.',
+      3: 'Multimodal approaches work best, not NSAIDs alone.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let score = 0;
+let totalPoints = 0;
+let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_rheumatic_knowledge';
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  document.getElementById('q-stem').textContent = q.stem;
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong recall on rheumatic disorders. Move on to the Deep Drill for application scenarios.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed concepts below before moving to the Deep Drill.';
+  else if (pct >= 60) msg = 'Below pass threshold. Re-read Ch 34, retry, then move to the Deep Drill.';
+  else msg = 'Lots of room to grow. Re-study Ch 34 carefully — SLE and RA basics — and run this again.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>
