@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 40 Gastric & Duodenal — Deep Drill</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-soft: #14b8a6;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-soft: #8b5cf6;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+      --partial: #d97706;
+      --partial-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--purple); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .start-stat { text-align: center; padding: 18px 12px; background: var(--purple-pale); border-radius: 8px; border: 1px solid var(--line); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--purple); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer; background: var(--purple); color: white; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--purple); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--purple-soft); background: var(--purple-pale); }
+    .option.selected { border-color: var(--purple); background: var(--purple-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--purple); color: white; border-color: var(--purple); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--purple-pale); border-left: 3px solid var(--purple); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--purple); color: white; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--purple); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Deep Drill · Chapter 40</div>
+  <h1>Gastric & Duodenal Disorders</h1>
+  <p class="tagline">NCLEX-style application: distinguishing gastric vs duodenal ulcer pain, GI bleeding recognition, perforation as a surgical emergency, and PUD/gastritis teaching.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">12</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">MC</span><span class="start-stat-label">Format</span></div>
+      <div class="start-stat"><span class="start-stat-num">Yes</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">These are scenario-based application questions. Read carefully, watch for distractors, and reason through priority before selecting.</p>
+    <button class="btn" onclick="begin()">Begin</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 12</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Deep Drill</div>
+    <h1>Gastric & Duodenal Disorders</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 12 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Quiz</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: 'Gastric',
+    type: 'standard',
+    stem: 'A patient with PUD suddenly develops sudden, severe, sharp abdominal pain that they describe as "the worst pain of my life." Their abdomen is rigid. The nurse\'s priority action is:',
+    options: [
+      'Administer the next scheduled dose of pain medication',
+      'Encourage the patient to eat to soothe the pain',
+      'Reposition the patient and reassess the pain in 30 minutes',
+      'Prepare the patient for emergency surgery — possible perforation'
+    ],
+    answer: 3,
+    concept: 'Perforation Priority',
+    rationale: 'Sudden severe sharp abdominal pain with rigid abdomen in a PUD patient is perforation — a surgical emergency. Keep NPO, establish IV access, prepare for OR transfer, notify the surgical team. Delay can lead to sepsis and death.',
+    others: {
+      0: 'Pain medication does not address perforation.',
+      1: 'Eating with perforation worsens contamination of the peritoneum.',
+      2: 'Waiting 30 minutes risks sepsis and death.'
+    }
+  },
+  {
+    topic: 'Gastric',
+    type: 'standard',
+    stem: 'A patient with PUD presents with hematemesis (vomiting bright red blood) and tarry black stools. The nurse interprets these findings as:',
+    options: [
+      'Routine PUD symptoms that will resolve with bland diet',
+      'A normal response to taking H2 blockers daily',
+      'GI bleeding from the ulcer — major complication',
+      'Mild gastric irritation from spicy food intake'
+    ],
+    answer: 2,
+    concept: 'GI Bleeding Recognition',
+    rationale: 'Hematemesis (bright red blood vomit) and melena (black tarry stools) indicate active GI bleeding from the ulcer. This is a major complication of PUD. The nurse should establish IV access, monitor vital signs, and notify the provider for urgent intervention.',
+    others: {
+      0: 'GI bleeding is NOT routine — it is a major complication.',
+      1: 'H2 blockers reduce bleeding risk, not cause it.',
+      3: 'Hematemesis is not from spicy food — it is bleeding.'
+    }
+  },
+  {
+    topic: 'Gastric',
+    type: 'standard',
+    stem: 'A patient with gastritis is taking ibuprofen daily for chronic back pain. Which teaching is MOST important?',
+    options: [
+      'Ibuprofen worsens gastritis — discuss alternatives with provider',
+      'Ibuprofen is the safest choice for managing chronic back pain',
+      'Continue ibuprofen but take it on an empty stomach',
+      'Take ibuprofen with milk to coat the stomach lining'
+    ],
+    answer: 0,
+    concept: 'NSAIDs in Gastritis',
+    rationale: 'NSAIDs (ibuprofen, naproxen, aspirin) worsen gastritis by reducing protective gastric prostaglandins. The patient should discuss alternative pain management (acetaminophen, topical analgesics) with their provider. Continued NSAID use can cause ulcers and bleeding.',
+    others: {
+      1: 'Ibuprofen is NOT safe for gastritis patients.',
+      2: 'Empty stomach worsens NSAID irritation.',
+      3: 'Milk does not protect against NSAID damage.'
+    }
+  },
+  {
+    topic: 'Gastric',
+    type: 'standard',
+    stem: 'A patient with PUD asks why they should avoid coffee, alcohol, and spicy foods. The BEST nursing response is:',
+    options: [
+      '"They all irritate the GI lining and slow ulcer healing."',
+      '"They have absolutely no effect on your peptic ulcer healing."',
+      '"They speed up the ulcer healing process when used in moderation."',
+      '"They prevent the development of any further ulcer formation."'
+    ],
+    answer: 0,
+    concept: 'PUD Triggers Rationale',
+    rationale: 'Coffee, alcohol, and spicy foods all irritate the GI lining and slow ulcer healing. They increase gastric acid production and impair the protective mucosal barrier. Patients should avoid them during active PUD treatment.',
+    others: {
+      1: 'These substances DO affect PUD healing.',
+      2: 'They DELAY healing, not speed it up.',
+      3: 'They contribute to ulcer formation, not prevent it.'
+    }
+  },
+  {
+    topic: 'Gastric',
+    type: 'standard',
+    stem: 'A patient with PUD asks if they can drink hot tea or eat very cold ice cream. The BEST nursing response is:',
+    options: [
+      '"Hot and cold extremes are fine since they do not affect ulcers."',
+      '"Avoid food and beverage temperature extremes — they irritate ulcers."',
+      '"Only the temperature of water affects ulcers, not other items."',
+      '"Hot and cold drinks should be alternated for the most benefit."'
+    ],
+    answer: 1,
+    concept: 'Temperature Extremes',
+    rationale: 'Patients with PUD should avoid extremes of temperature in food and beverages because they irritate the GI lining. Foods at moderate temperatures are gentler on the healing ulcer.',
+    others: {
+      0: 'Temperature extremes DO irritate ulcers.',
+      2: 'Temperature extremes affect more than just water.',
+      3: 'Alternating hot and cold provides no benefit.'
+    }
+  },
+  {
+    topic: 'Gastric',
+    type: 'standard',
+    stem: 'A 45-year-old patient with gastritis is being discharged. Which patient statement requires further teaching?',
+    options: [
+      '"I will eat bland foods like crackers and plain chicken at home."',
+      '"I will increase my fluid intake throughout the day for hydration."',
+      '"I will take ibuprofen daily for my joint pain just like before."',
+      '"I will avoid drinking alcohol while my gastritis is healing."'
+    ],
+    answer: 2,
+    concept: 'Discharge Teaching',
+    rationale: 'Continuing ibuprofen daily worsens gastritis. The patient needs to discuss alternative pain management with their provider. The other statements all reflect correct teaching for gastritis self-management.',
+    others: {
+      0: 'Bland diet is correct teaching.',
+      1: 'Increasing fluids is correct teaching.',
+      3: 'Avoiding alcohol is correct teaching.'
+    }
+  },
+  {
+    topic: 'Gastric',
+    type: 'standard',
+    stem: 'A patient with a duodenal ulcer reports that their pain feels relieved when they eat a snack. Which nursing teaching is the BEST?',
+    options: [
+      '"Eat large meals to keep the ulcer pain controlled all day long."',
+      '"This relief is temporary — pain will return 2-3 hours later."',
+      '"You should snack continuously throughout the day and evening."',
+      '"This means the ulcer is healed — you can stop your medications."'
+    ],
+    answer: 1,
+    concept: 'Duodenal Pain Pattern Teaching',
+    rationale: 'Relief of pain after eating in duodenal ulcer is temporary. Pain typically returns 2-3 hours later when the food has been digested. Patients should continue prescribed medications and follow the recommended diet — not rely on continuous eating.',
+    others: {
+      0: 'Large meals do not control PUD pain effectively.',
+      2: 'Continuous snacking is not the management approach.',
+      3: 'Pain relief from food does NOT mean the ulcer is healed.'
+    }
+  },
+  {
+    topic: 'Gastric',
+    type: 'standard',
+    stem: 'A patient is admitted with suspected PUD perforation. Which assessment finding supports this diagnosis?',
+    options: [
+      'Patient reports mild discomfort when eating spicy foods',
+      'Patient reports temporary heartburn relieved by antacids',
+      'Patient has a board-like rigid abdomen with rebound tenderness',
+      'Patient has slight pyrosis (burning) after a heavy dinner'
+    ],
+    answer: 2,
+    concept: 'Perforation Assessment',
+    rationale: 'A board-like rigid abdomen with rebound tenderness is a classic sign of perforation. Gastric contents have leaked into the peritoneum, causing peritonitis. This is a surgical emergency requiring immediate intervention.',
+    others: {
+      0: 'Mild discomfort with spicy food is gastritis or PUD, not perforation.',
+      1: 'Heartburn relieved by antacids is GERD or mild PUD, not perforation.',
+      3: 'Slight pyrosis is gastritis, not perforation.'
+    }
+  },
+  {
+    topic: 'Gastric',
+    type: 'standard',
+    stem: 'A patient with gastritis reports drinking alcohol heavily on weekends. Which teaching is the priority?',
+    options: [
+      'Reduce alcohol intake during the next 2-3 weekends',
+      'Switch to drinking wine instead of beer or hard liquor',
+      'Alcohol is fine if taken with food during the meal',
+      'Alcohol must be completely avoided during gastritis healing'
+    ],
+    answer: 3,
+    concept: 'Alcohol Avoidance',
+    rationale: 'Alcohol must be completely avoided during gastritis healing. It directly irritates the gastric lining and increases acid production, worsening inflammation and delaying healing. Patients should avoid all alcohol regardless of type or whether taken with food.',
+    others: {
+      0: 'Reducing intake is not enough — must be eliminated.',
+      1: 'All types of alcohol cause gastric irritation.',
+      2: 'Alcohol with food still causes irritation.'
+    }
+  },
+  {
+    topic: 'Gastric',
+    type: 'standard',
+    stem: 'A patient with PUD has been on PPI therapy for 4 weeks. Which finding indicates the medication is working?',
+    options: [
+      'Decreased epigastric pain and improved appetite levels',
+      'New onset of bloody emesis and very dark tarry stools',
+      'Sudden severe abdominal pain with abdominal rigidity',
+      'A high fever with chills and severe nausea each meal'
+    ],
+    answer: 0,
+    concept: 'PPI Effectiveness',
+    rationale: 'Decreased epigastric pain and improved appetite indicate the PPI is working effectively. PPIs reduce stomach acid production, allowing the ulcer to heal. The other findings are signs of complications (bleeding, perforation, infection) that require provider notification.',
+    others: {
+      1: 'Bloody emesis and dark stools indicate worsening GI bleeding.',
+      2: 'Sudden severe pain with rigidity indicates perforation.',
+      3: 'High fever and chills suggest infection or complication.'
+    }
+  },
+  {
+    topic: 'Gastric',
+    type: 'standard',
+    stem: 'A patient with H. pylori-positive gastritis is being prescribed triple therapy. Which teaching is correct?',
+    options: [
+      'Stop the medications as soon as you start to feel better',
+      'Take all medications as prescribed for the full course',
+      'Take only the antibiotic and skip the acid suppressors',
+      'Stop the antibiotics if any mild side effects develop'
+    ],
+    answer: 1,
+    concept: 'H. Pylori Triple Therapy',
+    rationale: 'H. pylori treatment requires triple therapy (typically two antibiotics plus a PPI) for the full prescribed course (usually 10-14 days). Stopping early leads to treatment failure and antibiotic resistance.',
+    others: {
+      0: 'Stopping early causes treatment failure.',
+      2: 'All medications are needed to eradicate H. pylori.',
+      3: 'Side effects should be discussed with provider, not cause self-discontinuation.'
+    }
+  },
+  {
+    topic: 'Gastric',
+    type: 'standard',
+    stem: 'A nurse is delegating tasks for a patient with active GI bleeding from PUD. Which task is most appropriate to delegate to the unlicensed assistive personnel (UAP)?',
+    options: [
+      'Initial assessment of the type and quantity of bleeding',
+      'Administration of IV proton pump inhibitor medications',
+      'Patient teaching on bleeding precautions for discharge',
+      'Vital signs and bedside assistance with patient hygiene'
+    ],
+    answer: 3,
+    concept: 'PUD Bleeding Delegation',
+    rationale: 'Vital signs and bedside hygiene assistance are within UAP scope. Initial assessment, IV medication administration, and patient teaching are all RN-only tasks.',
+    others: {
+      0: 'Initial assessment is RN responsibility.',
+      1: 'IV medication administration is RN responsibility.',
+      2: 'Patient teaching is RN responsibility.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let score = 0;
+let totalPoints = 0;
+let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_gastric_deepdrill';
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  document.getElementById('q-stem').textContent = q.stem;
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong application reasoning across gastric and duodenal disorders. Move on to the next chapter.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed scenarios — application is where the final exam will challenge you.';
+  else if (pct >= 60) msg = 'Below pass threshold. Review missed concepts carefully and rerun this drill before moving on.';
+  else msg = 'Significant gaps in application. Re-study Ch 40 review materials and the rationales below, then rerun this drill until you hit 77%+.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>

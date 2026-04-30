@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 40 Gastric & Duodenal — Knowledge Check</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-soft: #14b8a6;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+      --partial: #d97706;
+      --partial-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .start-stat { text-align: center; padding: 18px 12px; background: var(--teal-pale); border-radius: 8px; border: 1px solid var(--line); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--teal); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer; background: var(--teal); color: white; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--teal); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--teal-soft); background: var(--teal-pale); }
+    .option.selected { border-color: var(--teal); background: var(--teal-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--teal); color: white; border-color: var(--teal); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--teal-pale); border-left: 3px solid var(--teal); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--teal); color: white; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--teal); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Knowledge Check · Chapter 40</div>
+  <h1>Gastric & Duodenal Disorders</h1>
+  <p class="tagline">Direct recall: gastritis (H. pylori, pain after eating), peptic ulcer disease (duodenal — relief with eating, GI bleeding), and perforation as a surgical emergency.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">12</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">MC</span><span class="start-stat-label">Format</span></div>
+      <div class="start-stat"><span class="start-stat-num">Yes</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">Each question is direct recall from your review guides. Answer, get instant rationale, move on.</p>
+    <button class="btn" onclick="begin()">Begin</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 12</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Knowledge Check</div>
+    <h1>Gastric & Duodenal Disorders</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 12 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Quiz</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: 'Gastric',
+    type: 'standard',
+    stem: 'Gastritis is caused by which common pathogen?',
+    options: [
+      'Helicobacter pylori (H. pylori) bacteria',
+      'Streptococcus pneumoniae bacteria',
+      'Mycobacterium tuberculosis bacteria',
+      'Staphylococcus aureus skin bacteria'
+    ],
+    answer: 0,
+    concept: 'Gastritis Pathogen',
+    rationale: 'Gastritis is inflammation of the gastric (stomach) lining caused by H. pylori (Helicobacter pylori). H. pylori is also a common cause of peptic ulcer disease.',
+    others: {
+      1: 'S. pneumoniae causes pneumonia, not gastritis.',
+      2: 'M. tuberculosis causes TB, not gastritis.',
+      3: 'S. aureus causes skin infections, not gastritis.'
+    }
+  },
+  {
+    topic: 'Gastric',
+    type: 'standard',
+    stem: 'Which symptom is characteristic of gastritis?',
+    options: [
+      'Pain that occurs only with deep breathing in cold air',
+      'Pain that increases AFTER eating food',
+      'Pain that is relieved by eating a normal meal',
+      'Pain that occurs only with strenuous exercise'
+    ],
+    answer: 1,
+    concept: 'Gastritis Pain Pattern',
+    rationale: 'Pain after eating is characteristic of gastritis. Eating stimulates gastric acid production, which irritates the inflamed stomach lining and worsens pain.',
+    others: {
+      0: 'Pain with breathing is not gastritis.',
+      2: 'Relief after eating is more typical of duodenal ulcer.',
+      3: 'Exercise-induced pain is not gastritis.'
+    }
+  },
+  {
+    topic: 'Gastric',
+    type: 'standard',
+    stem: 'Which clinical manifestation is associated with gastritis?',
+    options: [
+      'Polyuria with frequent thirst',
+      'Pyrosis (burning feeling in the stomach)',
+      'Bilateral leg swelling and warmth',
+      'Severe chest pain radiating to the jaw'
+    ],
+    answer: 1,
+    concept: 'Pyrosis',
+    rationale: 'Pyrosis (burning feeling in the stomach) is a clinical manifestation of gastritis, along with pain after eating and dyspepsia (indigestion).',
+    others: {
+      0: 'Polyuria is not associated with gastritis.',
+      2: 'Bilateral leg swelling is not gastritis.',
+      3: 'Chest pain to jaw suggests MI, not gastritis.'
+    }
+  },
+  {
+    topic: 'Gastric',
+    type: 'standard',
+    stem: 'Which substances should a patient with gastritis AVOID?',
+    options: [
+      'Bland foods like crackers and plain chicken',
+      'Plain water and clear unsweetened liquids',
+      'Alcohol and NSAIDs (such as ibuprofen)',
+      'Any low-fat dairy products in the morning'
+    ],
+    answer: 2,
+    concept: 'Gastritis Avoid',
+    rationale: 'Patients with gastritis must AVOID alcohol and NSAIDs (ibuprofen, naproxen, aspirin). Both irritate the gastric lining and worsen inflammation. NSAIDs reduce protective prostaglandins, increasing risk of ulceration.',
+    others: {
+      0: 'Bland foods are recommended for gastritis.',
+      1: 'Clear liquids and water are fine.',
+      3: 'Low-fat dairy in moderation is generally acceptable.'
+    }
+  },
+  {
+    topic: 'Gastric',
+    type: 'standard',
+    stem: 'Which dietary recommendation is appropriate for gastritis?',
+    options: [
+      'High-spice diet to stimulate digestion at every meal',
+      'High-acid diet with citrus fruits and tomato sauce',
+      'High-caffeine diet with coffee multiple times per day',
+      'Bland diet with crackers and plain chicken'
+    ],
+    answer: 3,
+    concept: 'Gastritis Bland Diet',
+    rationale: 'A bland diet (crackers, plain chicken, rice, etc.) is recommended for gastritis to reduce gastric irritation. Patients should also increase fluids and avoid alcohol, NSAIDs, spicy foods, caffeine, and acidic foods.',
+    others: {
+      0: 'Spicy foods irritate the gastric lining.',
+      1: 'Acidic foods worsen gastritis.',
+      2: 'Caffeine increases acid and irritates the stomach.'
+    }
+  },
+  {
+    topic: 'Gastric',
+    type: 'standard',
+    stem: 'A peptic ulcer is best described as:',
+    options: [
+      'An open sore in the GI lining',
+      'A benign tumor of the stomach wall',
+      'A muscle spasm in the duodenal wall',
+      'A small allergic reaction in the gastric tissue'
+    ],
+    answer: 0,
+    concept: 'Peptic Ulcer Definition',
+    rationale: 'A peptic ulcer is an open sore in the GI lining. It can occur in the stomach (gastric ulcer) or in the duodenum (duodenal ulcer). PUD is most often caused by H. pylori or NSAID use.',
+    others: {
+      1: 'A tumor is not the same as an ulcer.',
+      2: 'Muscle spasms are different from ulcers.',
+      3: 'Allergic reactions are not ulcers.'
+    }
+  },
+  {
+    topic: 'Gastric',
+    type: 'standard',
+    stem: 'Which pain pattern is characteristic of a duodenal peptic ulcer?',
+    options: [
+      'Pain worsens immediately after eating any meal',
+      'Pain only occurs after extreme physical exertion',
+      'Pain only present with severe coughing or sneezing',
+      'Patient expresses RELIEF of pain AFTER eating'
+    ],
+    answer: 3,
+    concept: 'Duodenal Ulcer Pain',
+    rationale: 'In duodenal peptic ulcer disease, patients express RELIEF of pain after eating. Food coats the ulcer and neutralizes acid, providing temporary relief. Pain typically returns 2-3 hours later.',
+    others: {
+      0: 'Pain worsening after eating is more typical of gastritis or gastric ulcer.',
+      1: 'Pain with exertion is not characteristic of PUD.',
+      2: 'Pain with coughing is not characteristic of PUD.'
+    }
+  },
+  {
+    topic: 'Gastric',
+    type: 'standard',
+    stem: 'Which is the MAJOR uncomplicated complication of peptic ulcer disease?',
+    options: [
+      'Allergic reaction to the gastric lining over time',
+      'GI bleeding from the ulcer site',
+      'Severe joint pain in the back from referred pain',
+      'Rapid weight gain over a 24-hour period'
+    ],
+    answer: 1,
+    concept: 'PUD GI Bleeding',
+    rationale: 'GI bleeding is the major uncomplicated complication of peptic ulcer disease. The ulcer can erode into a blood vessel, causing hematemesis (bloody vomit), melena (black tarry stools), or occult blood loss leading to anemia.',
+    others: {
+      0: 'Allergic reaction is not a PUD complication.',
+      2: 'Joint pain is not a PUD complication.',
+      3: 'Rapid weight gain is not a PUD complication.'
+    }
+  },
+  {
+    topic: 'Gastric',
+    type: 'standard',
+    stem: 'A patient with PUD should AVOID which of the following?',
+    options: [
+      'Alcohol, coffee, caffeine, spicy foods, and food temperature extremes',
+      'Plain water and clear broth all throughout the day',
+      'Bland low-fat foods served at room temperature',
+      'Lean protein with steamed unseasoned vegetables'
+    ],
+    answer: 0,
+    concept: 'PUD Triggers',
+    rationale: 'Patients with PUD should avoid alcohol, coffee and caffeine, spicy foods, and food/beverage temperature extremes. These all irritate the GI lining and worsen ulcer pain.',
+    others: {
+      1: 'Plain water and clear broth are fine.',
+      2: 'Bland low-fat foods are appropriate.',
+      3: 'Lean protein with vegetables is appropriate.'
+    }
+  },
+  {
+    topic: 'Gastric',
+    type: 'standard',
+    stem: 'A patient with peptic ulcer disease suddenly develops sudden, severe abdominal pain. What is the priority concern?',
+    options: [
+      'Mild dehydration from lack of fluid intake',
+      'Common viral gastroenteritis',
+      'Perforation — abdominal emergency requiring surgery',
+      'Routine PUD pain that will resolve with eating'
+    ],
+    answer: 2,
+    concept: 'PUD Perforation',
+    rationale: 'Sudden, severe abdominal pain in a patient with PUD signals perforation — an abdominal emergency requiring immediate surgery. The ulcer has eroded through the GI wall, releasing gastric contents into the peritoneum.',
+    others: {
+      0: 'Dehydration does not cause sudden severe pain.',
+      1: 'Gastroenteritis is not the priority concern in known PUD.',
+      3: 'Sudden severe pain is NOT routine — it signals an emergency.'
+    }
+  },
+  {
+    topic: 'Gastric',
+    type: 'standard',
+    stem: 'Which management is appropriate for a patient with PUD perforation?',
+    options: [
+      'Send the patient home with bland diet teaching',
+      'Schedule routine outpatient follow-up in 2 weeks',
+      'Administer mild oral antacids and observe for 6 hours',
+      'Prepare the patient for immediate emergency surgery'
+    ],
+    answer: 3,
+    concept: 'Perforation Management',
+    rationale: 'PUD perforation is an abdominal emergency that needs immediate surgery. The nurse should keep the patient NPO, establish IV access, prepare for OR transfer, and notify the surgical team immediately.',
+    others: {
+      0: 'Sending the patient home is dangerous — perforation is a surgical emergency.',
+      1: 'Outpatient follow-up is inappropriate for a surgical emergency.',
+      2: 'Antacids do not treat perforation.'
+    }
+  },
+  {
+    topic: 'Gastric',
+    type: 'standard',
+    stem: 'A patient with gastritis is being taught about fluid intake. What is the recommendation?',
+    options: [
+      'Limit fluids to 500 mL daily to reduce stomach irritation',
+      'Avoid all liquids and rely only on solid foods alone',
+      'Increase fluids to support the bland diet management',
+      'Drink only carbonated beverages with each meal of the day'
+    ],
+    answer: 2,
+    concept: 'Gastritis Fluids',
+    rationale: 'Patients with gastritis are encouraged to increase fluids. This helps with dilution of gastric acid, prevents dehydration if there is vomiting, and supports recovery alongside the bland diet and avoidance of alcohol/NSAIDs.',
+    others: {
+      0: 'Limiting fluids to 500 mL is harmful and not recommended.',
+      1: 'Avoiding all liquids is dangerous.',
+      3: 'Carbonated beverages can irritate the stomach.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let score = 0;
+let totalPoints = 0;
+let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_gastric_knowledge';
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  document.getElementById('q-stem').textContent = q.stem;
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong recall on gastric and duodenal disorders. Move on to the Deep Drill for application scenarios.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed concepts below before moving to the Deep Drill.';
+  else if (pct >= 60) msg = 'Below pass threshold. Re-read Ch 40, retry, then move to the Deep Drill.';
+  else msg = 'Lots of room to grow. Re-study Ch 40 carefully — gastritis, PUD, perforation — and run this again.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>
