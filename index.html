@@ -70,8 +70,7 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
 .dash-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px; color: var(--muted); text-transform: uppercase; }
 
 /* Simulator */
-.simulator-card { background: var(--navy); border-radius: 10px; padding: 24px 32px; margin-bottom: 32px; color: white; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }
-.sim-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin-bottom: 8px; }
+.simulator-card { background: var(--navy); border-radius: 10px; padding: 24px 32px; margin-bottom: 32px; color: white; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }.sim-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin-bottom: 8px; }
 .sim-title { font-family: 'DM Serif Display', serif; font-size: 24px; color: white; margin-bottom: 4px; }
 .sim-desc { color: rgba(255,255,255,0.7); font-size: 13px; }
 .sim-action { text-align: center; }
@@ -83,6 +82,23 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
 .sim-btn { background: var(--gold); color: var(--navy); border: none; padding: 10px 24px; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 700; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; }
 .sim-btn:hover { background: #d97706; }
 .sim-btn.disabled { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.5); cursor: not-allowed; pointer-events: none; }
+
+/* High-Yield Recall Card (Pharm only — exam intel from peer) */
+.recall-card { background: linear-gradient(135deg, var(--navy) 0%, #102f4d 100%); border-radius: 10px; padding: 22px 32px; margin-bottom: 16px; color: white; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; border: 1px solid rgba(245, 158, 11, 0.35); position: relative; overflow: hidden; }
+.recall-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--gold), var(--gold-soft), var(--gold)); }
+.recall-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+.recall-eyebrow::before { content: '★'; color: var(--gold); font-size: 12px; }
+.recall-title { font-family: 'DM Serif Display', serif; font-size: 22px; color: white; margin-bottom: 4px; }
+.recall-desc { color: rgba(255,255,255,0.75); font-size: 13px; line-height: 1.5; }
+.recall-action { text-align: center; }
+.recall-score { font-family: 'DM Serif Display', serif; font-size: 36px; color: var(--gold); line-height: 1; margin-bottom: 4px; }
+.recall-score.no-attempt { color: rgba(255,255,255,0.4); font-size: 18px; font-style: italic; }
+.recall-status { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; min-height: 12px; }
+.recall-status.pass { color: var(--gold); }
+.recall-status.fail { color: #fca5a5; }
+.recall-btn { background: var(--gold); color: var(--navy); border: none; padding: 9px 20px; font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 700; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; letter-spacing: 0.3px; }
+.recall-btn:hover { background: #d97706; }
+.recall-btn.empty { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.6); cursor: default; pointer-events: none; }
 
 /* Continue studying */
 .continue-section { background: linear-gradient(135deg, #fff8e6 0%, #fef3c7 100%); border: 1px solid var(--gold); border-radius: 10px; padding: 20px 24px; margin-bottom: 32px; }
@@ -263,6 +279,20 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
       <span class="dash-num" id="stat-bank">0</span>
       <span class="dash-label">Practice Bank</span>
     </div>
+  </div>
+</div>
+
+<!-- High-Yield Recall (Pharm only) -->
+<div class="recall-card" id="recall-card" style="display: none;">
+  <div>
+    <div class="recall-eyebrow">High-Yield Recall · Peer-Sourced Exam Intel</div>
+    <div class="recall-title">Pharm Final · Exam Recall Drill</div>
+    <div class="recall-desc">Concepts a classmate confirmed appeared on the actual final. The single highest-yield drill before exam day.</div>
+  </div>
+  <div class="recall-action">
+    <div class="recall-score no-attempt" id="recall-score">Not attempted</div>
+    <div class="recall-status" id="recall-status">&nbsp;</div>
+    <a href="pharm_high_yield_recall.html" class="recall-btn" id="recall-btn">Start Drill</a>
   </div>
 </div>
 
@@ -777,6 +807,43 @@ function renderSimulator() {
   }
 }
 
+// ===== HIGH-YIELD RECALL CARD (Pharm only) =====
+function renderRecallCard() {
+  const card = document.getElementById('recall-card');
+  if (currentClass !== 'pharm') {
+    card.style.display = 'none';
+    return;
+  }
+  card.style.display = 'grid';
+
+  const recall = getScore('pharm', 'recall');
+  const scoreEl = document.getElementById('recall-score');
+  const statusEl = document.getElementById('recall-status');
+
+  // Reset
+  scoreEl.classList.add('no-attempt');
+  scoreEl.classList.remove('pass', 'fail');
+  scoreEl.style.color = '';
+  statusEl.textContent = '\u00A0';
+  statusEl.classList.remove('pass', 'fail');
+
+  if (recall) {
+    scoreEl.textContent = recall.pct.toFixed(0) + '%';
+    scoreEl.classList.remove('no-attempt');
+    if (recall.pct >= 77) {
+      scoreEl.style.color = 'var(--gold)';
+      statusEl.textContent = '✓ Strong';
+      statusEl.classList.add('pass');
+    } else {
+      scoreEl.style.color = '#fca5a5';
+      statusEl.textContent = '✗ Drill again';
+      statusEl.classList.add('fail');
+    }
+  } else {
+    scoreEl.textContent = 'Not attempted';
+  }
+}
+
 // ===== CLASS SWITCHING =====
 function switchClass(cls) {
   currentClass = cls;
@@ -791,6 +858,7 @@ function switchClass(cls) {
   updateDashboard();
   buildContinueList();
   renderSimulator();
+  renderRecallCard();
 }
 
 function resetAllScores() {
@@ -805,6 +873,7 @@ renderSystemGroups();
 updateDashboard();
 buildContinueList();
 renderSimulator();
+renderRecallCard();
 </script>
 </body>
 </html>
