@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 39 Oral & Esophageal — Knowledge Check</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-soft: #14b8a6;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+      --partial: #d97706;
+      --partial-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .start-stat { text-align: center; padding: 18px 12px; background: var(--teal-pale); border-radius: 8px; border: 1px solid var(--line); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--teal); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer; background: var(--teal); color: white; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--teal); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--teal-soft); background: var(--teal-pale); }
+    .option.selected { border-color: var(--teal); background: var(--teal-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--teal); color: white; border-color: var(--teal); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--teal-pale); border-left: 3px solid var(--teal); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--teal); color: white; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--teal); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Knowledge Check · Chapter 39</div>
+  <h1>Oral & Esophageal Disorders</h1>
+  <p class="tagline">Direct recall: GERD pathophysiology and dietary management, plus parenteral nutrition (TPN) safety.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">12</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">MC</span><span class="start-stat-label">Format</span></div>
+      <div class="start-stat"><span class="start-stat-num">Yes</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">Each question is direct recall from your review guides. Answer, get instant rationale, move on.</p>
+    <button class="btn" onclick="begin()">Begin</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 12</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Knowledge Check</div>
+    <h1>Oral & Esophageal Disorders</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 12 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Quiz</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: 'OralEsoph',
+    type: 'standard',
+    stem: 'Gastroesophageal reflux disease (GERD) is best described as:',
+    options: [
+      'Inflammation of the stomach lining caused by H. pylori',
+      'An open sore in the lining of the duodenum or stomach',
+      'A condition that involves only the small intestine lining',
+      'Stomach acid that flows back up into the esophagus'
+    ],
+    answer: 3,
+    concept: 'GERD Definition',
+    rationale: 'GERD is when stomach acid flows back up into the esophagus. It is also known as heartburn. Common manifestations include heartburn and regurgitation.',
+    others: {
+      0: 'Stomach lining inflammation from H. pylori is gastritis.',
+      1: 'An open sore in the GI lining is peptic ulcer disease.',
+      2: 'GERD affects the esophagus, not the small intestine.'
+    }
+  },
+  {
+    topic: 'OralEsoph',
+    type: 'standard',
+    stem: 'GERD is also commonly known as:',
+    options: [
+      'Heartburn',
+      'Indigestion only',
+      'Constipation problem',
+      'Acute appendicitis'
+    ],
+    answer: 0,
+    concept: 'GERD Common Name',
+    rationale: 'GERD is commonly called heartburn. The acid reflux causes a burning sensation in the chest as it travels up the esophagus.',
+    others: {
+      1: 'Indigestion (dyspepsia) is associated with gastritis, not GERD specifically.',
+      2: 'Constipation is unrelated to GERD.',
+      3: 'Appendicitis is an acute abdominal emergency, not GERD.'
+    }
+  },
+  {
+    topic: 'OralEsoph',
+    type: 'standard',
+    stem: 'Which clinical manifestation is typical of GERD?',
+    options: [
+      'Painful black tarry stools after every meal each day',
+      'Sudden severe abdominal pain that radiates to the back',
+      'Heartburn and regurgitation of food into the mouth',
+      'Yellow productive cough with thick green mucus daily'
+    ],
+    answer: 2,
+    concept: 'GERD Manifestations',
+    rationale: 'GERD typically presents with heartburn and regurgitation — food coming back up into the mouth from the esophagus. These are the classic clinical manifestations.',
+    others: {
+      0: 'Black tarry stools suggest GI bleeding from peptic ulcer disease.',
+      1: 'Sudden severe abdominal pain radiating to the back suggests pancreatitis.',
+      3: 'Yellow productive cough with green mucus suggests respiratory infection.'
+    }
+  },
+  {
+    topic: 'OralEsoph',
+    type: 'standard',
+    stem: 'Which dietary recommendation is appropriate for a patient with GERD?',
+    options: [
+      'A low-fat diet to reduce acid reflux symptoms',
+      'A high-fat diet to coat the lining of the esophagus',
+      'A high-caffeine diet to speed up stomach emptying',
+      'A diet high in spicy foods to numb the chest pain'
+    ],
+    answer: 0,
+    concept: 'GERD Low-Fat Diet',
+    rationale: 'A low-fat diet is recommended for GERD. Fatty foods relax the lower esophageal sphincter, making reflux worse. Patients should also avoid coffee, spicy foods, carbonated beverages, and milk.',
+    others: {
+      1: 'High-fat diet worsens GERD by relaxing the LES.',
+      2: 'High-caffeine diet worsens GERD by relaxing the LES.',
+      3: 'Spicy foods worsen GERD symptoms.'
+    }
+  },
+  {
+    topic: 'OralEsoph',
+    type: 'standard',
+    stem: 'A patient with GERD asks when they should stop eating before bedtime. The nurse responds:',
+    options: [
+      'Stop eating 30 minutes before bedtime each night',
+      'Stop eating immediately before lying down for sleep',
+      'Stop eating and drinking 2 hours before bedtime',
+      'Eat a large meal right before lying down for sleep'
+    ],
+    answer: 2,
+    concept: 'GERD Bedtime Rule',
+    rationale: 'Patients with GERD should AVOID EATING/DRINKING for 2 hours before bedtime. Lying down too soon after eating allows stomach acid to flow back into the esophagus, worsening symptoms.',
+    others: {
+      0: '30 minutes is not enough time before lying down.',
+      1: 'Eating immediately before bed worsens GERD.',
+      3: 'Eating a large meal before lying down worsens GERD significantly.'
+    }
+  },
+  {
+    topic: 'OralEsoph',
+    type: 'standard',
+    stem: 'Which foods should patients with GERD avoid?',
+    options: [
+      'Plain crackers and grilled boneless chicken breast',
+      'Coffee, spicy foods, carbonated beverages, and milk',
+      'Whole grain bread and unsweetened oatmeal cereals',
+      'Steamed vegetables and small portions of lean fish'
+    ],
+    answer: 1,
+    concept: 'GERD Foods to Avoid',
+    rationale: 'Patients with GERD should avoid coffee, spicy foods, carbonated beverages, and milk. These foods worsen reflux by relaxing the lower esophageal sphincter or increasing acid production.',
+    others: {
+      0: 'Plain crackers and grilled chicken are bland and acceptable.',
+      2: 'Whole grain bread and oatmeal are typically tolerated.',
+      3: 'Steamed vegetables and lean fish are typically tolerated.'
+    }
+  },
+  {
+    topic: 'OralEsoph',
+    type: 'standard',
+    stem: 'Parenteral nutrition (PN) provides nutrients to the body via:',
+    options: [
+      'A nasogastric (NG) tube directly to the stomach',
+      'A jejunostomy (J-tube) directly to the small intestine',
+      'An IV or central line directly into the bloodstream',
+      'An oral diet supplemented with nutritional shakes'
+    ],
+    answer: 2,
+    concept: 'TPN Route',
+    rationale: 'Parenteral nutrition (PN) provides nutrients to the body through an IV or central line, bypassing the GI tract. TPN (total parenteral nutrition) is given when patients cannot tolerate enteral feeds.',
+    others: {
+      0: 'NG tube is enteral nutrition, not parenteral.',
+      1: 'J-tube is enteral nutrition, not parenteral.',
+      3: 'Oral diet is enteral nutrition, not parenteral.'
+    }
+  },
+  {
+    topic: 'OralEsoph',
+    type: 'standard',
+    stem: 'What are the goals of parenteral nutrition (PN)?',
+    options: [
+      'Improve nutritional status and promote weight gain/maintenance',
+      'Prevent UTIs and reduce blood pressure to a normal level',
+      'Stimulate the bowel to produce frequent loose stools daily',
+      'Reduce blood sugar levels and prevent diabetes diagnosis'
+    ],
+    answer: 0,
+    concept: 'TPN Goals',
+    rationale: 'The goals of PN are to improve nutritional status and promote weight gain and maintenance. PN is used for patients who cannot meet nutritional needs through the GI tract.',
+    others: {
+      1: 'PN is not for UTI prevention or blood pressure management.',
+      2: 'PN is not used to stimulate bowel function.',
+      3: 'PN often raises blood sugar — not a goal of therapy.'
+    }
+  },
+  {
+    topic: 'OralEsoph',
+    type: 'standard',
+    stem: 'How is TPN always administered?',
+    options: [
+      'By gravity drip without any pump on a central line',
+      'Through a peripheral IV by intermittent push',
+      'Bolus through any peripheral IV every 6 hours',
+      'With an infusion pump for accurate dosing always'
+    ],
+    answer: 3,
+    concept: 'TPN Pump',
+    rationale: 'TPN is ALWAYS hung WITH AN INFUSION PUMP. The pump ensures accurate, controlled delivery to prevent fluid overload, hyperglycemia, or hypoglycemia from rapid rate changes.',
+    others: {
+      0: 'Gravity drip without pump is unsafe for TPN.',
+      1: 'TPN is a continuous infusion through a central line, not peripheral IV push.',
+      2: 'TPN is not given by bolus or peripheral IV.'
+    }
+  },
+  {
+    topic: 'OralEsoph',
+    type: 'standard',
+    stem: 'How often is the TPN bag changed?',
+    options: [
+      'Every 12 hours to prevent excessive intake',
+      'Every 24 hours to prevent infection',
+      'Every 48 hours when convenient for the staff',
+      'Every 72 hours per the standard hospital protocol'
+    ],
+    answer: 1,
+    concept: 'TPN Bag Change',
+    rationale: 'The TPN bag is changed every 24 hours to prevent infection. TPN is high in dextrose and creates a perfect environment for bacterial and fungal growth, so strict aseptic protocol is essential.',
+    others: {
+      0: 'Every 12 hours is more frequent than necessary.',
+      2: 'Every 48 hours is too long and increases infection risk.',
+      3: 'Every 72 hours is far too long and unsafe.'
+    }
+  },
+  {
+    topic: 'OralEsoph',
+    type: 'standard',
+    stem: 'Why is the TPN bag changed every 24 hours?',
+    options: [
+      'To save the hospital money on supplies and pharmacy costs',
+      'To rotate brands of TPN solutions for medical research',
+      'To allow time off from infusion for the patient bowel rest',
+      'To prevent infection from bacterial and fungal growth'
+    ],
+    answer: 3,
+    concept: 'TPN Infection Prevention',
+    rationale: 'TPN bags are changed every 24 hours to prevent infection. The high glucose content of TPN creates a perfect medium for bacterial and fungal growth, making strict aseptic technique and timely bag changes essential.',
+    others: {
+      0: 'TPN bag changes are not for cost savings.',
+      1: 'TPN bag changes are not for product rotation or research.',
+      2: 'TPN bag changes are not for bowel rest.'
+    }
+  },
+  {
+    topic: 'OralEsoph',
+    type: 'standard',
+    stem: 'Which patient is the BEST candidate for parenteral nutrition (PN)?',
+    options: [
+      'A patient with a normal functional GI tract eating regular meals',
+      'A patient with severe Crohn disease unable to tolerate oral intake',
+      'A patient who recently had a successful bowel surgery now eating',
+      'A patient on a soft regular diet with no GI absorption issues'
+    ],
+    answer: 1,
+    concept: 'TPN Indication',
+    rationale: 'PN is indicated for patients who cannot meet nutritional needs through the GI tract — including severe Crohn disease, short bowel syndrome, severe pancreatitis, and other conditions that prevent oral or enteral intake.',
+    others: {
+      0: 'Patients eating normally do not need PN.',
+      2: 'Patients eating after bowel surgery do not need PN.',
+      3: 'Patients on a regular diet without absorption issues do not need PN.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let score = 0;
+let totalPoints = 0;
+let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_oralesoph_knowledge';
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  document.getElementById('q-stem').textContent = q.stem;
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong recall on GERD and TPN. Move on to the Deep Drill for application scenarios.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed concepts below before moving to the Deep Drill.';
+  else if (pct >= 60) msg = 'Below pass threshold. Re-read Ch 39, retry, then move to the Deep Drill.';
+  else msg = 'Lots of room to grow. Re-study Ch 39 carefully — GERD and TPN basics — and run this again.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>
