@@ -285,27 +285,27 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
 <div class="recall-card" id="recall-card" style="display: none;">
   <div>
     <div class="recall-eyebrow">Priority Review · Confidential</div>
-    <div class="recall-title">Pharm Final · Recall Drill</div>
+    <div class="recall-title">Pharm Final · Final Push Review</div>
     <div class="recall-desc">Targeted review of confirmed high-yield concepts. Highest-priority drill before exam day.</div>
   </div>
   <div class="recall-action">
     <div class="recall-score no-attempt" id="recall-score">Not attempted</div>
     <div class="recall-status" id="recall-status">&nbsp;</div>
-    <a href="pharm_high_yield_recall.html" class="recall-btn" id="recall-btn">Start Drill</a>
+    <a href="pharm_high_yield_recall.html" class="recall-btn" id="recall-btn">Start Review</a>
   </div>
 </div>
 
 <!-- Simulator (per-class) -->
 <div class="simulator-card">
   <div>
-    <div class="sim-eyebrow" id="sim-eyebrow">Final Exam Simulator</div>
-    <div class="sim-title" id="sim-title">Full Final Simulation</div>
+    <div class="sim-eyebrow" id="sim-eyebrow">Final Exam Practice Test</div>
+    <div class="sim-title" id="sim-title">Final Exam Practice Test</div>
     <div class="sim-desc" id="sim-desc">All sections weighted to blueprint. Fresh questions not in topic quizzes.</div>
   </div>
   <div class="sim-action">
     <div class="sim-score no-attempt" id="sim-score">Not attempted</div>
     <div class="sim-status" id="sim-status">&nbsp;</div>
-    <a href="exam_simulator.html" class="sim-btn" id="sim-btn">Start Simulator</a>
+    <a href="exam_simulator.html" class="sim-btn" id="sim-btn">Start Practice Test</a>
   </div>
 </div>
 
@@ -430,7 +430,7 @@ const classConfig = {
     systems: pharmSystems,
     qPerQuiz: 25,
     simEyebrow: 'Pharmacology II Final · 75 Q · Pass at 77%',
-    simTitle: 'Pharm Final Simulation',
+    simTitle: 'Pharm Final Practice Test',
     simDesc: '15 Hem/Onc · 13 Pain · 10 Neuro · 11 Urin/Repro · 9 Psych · 9 Endo · 8 Mixed',
     simReady: true
   },
@@ -439,7 +439,7 @@ const classConfig = {
     systems: medsurgSystems,
     qPerQuiz: 25,
     simEyebrow: 'MedSurg I Final · 75 Q · Pass at 77%',
-    simTitle: 'MedSurg Final Simulation',
+    simTitle: 'MedSurg Final Practice Test',
     simDesc: 'All sections weighted to blueprint. Fresh questions not in topic quizzes.',
     simReady: true
   },
@@ -448,7 +448,7 @@ const classConfig = {
     systems: matpedsSystems,
     qPerQuiz: 25,
     simEyebrow: 'Maternity / Peds Final · 70 Q · 105 minutes',
-    simTitle: 'Maternity / Peds Simulation',
+    simTitle: 'Maternity / Peds Practice Test',
     simDesc: '35 Maternity (Ch 8-24) · 35 Pediatrics (Ch 47-51)',
     simReady: false
   }
@@ -779,7 +779,7 @@ function renderSimulator() {
   btnEl.classList.remove('disabled');
 
   if (config.simReady) {
-    btnEl.textContent = sim ? 'Retake Simulator' : 'Start Simulator';
+    btnEl.textContent = sim ? 'Retake Practice Test' : 'Start Practice Test';
     if (currentClass === 'pharm') btnEl.href = 'exam_simulator.html';
     else if (currentClass === 'medsurg') btnEl.href = 'medsurg_exam_simulator.html';
     else if (currentClass === 'matpeds') btnEl.href = 'matpeds_exam_simulator.html';
@@ -835,7 +835,7 @@ function renderRecallCard() {
       statusEl.classList.add('pass');
     } else {
       scoreEl.style.color = '#fca5a5';
-      statusEl.textContent = '✗ Drill again';
+      statusEl.textContent = '✗ Review again';
       statusEl.classList.add('fail');
     }
   } else {

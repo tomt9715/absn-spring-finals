@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MedSurg I Final — Exam Simulator</title>
+  <title>MedSurg I Final — Practice Test</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -110,8 +110,8 @@
 
 <div id="start-screen">
   <div class="start-card">
-    <div class="eyebrow">MedSurg I Final · Exam Simulator</div>
-    <h1>Final Exam Simulation</h1>
+    <div class="eyebrow">MedSurg I Final · Practice Test</div>
+    <h1>Final Exam Practice Test</h1>
     <p class="tagline">Full-length 75-question exam matching the Spring 2026 blueprint. Pass at 77%. Fresh questions not in your topic quizzes.</p>
     <div class="start-stats">
       <div class="start-stat"><span class="start-stat-num">75</span><span class="start-stat-label">Questions</span></div>
@@ -165,15 +165,15 @@
 <div id="results-screen" class="hidden">
   <div class="results-card">
     <div class="results-header">
-      <div class="eyebrow">Final Exam Simulator · Results</div>
-      <h1>MedSurg I Final Simulation</h1>
+      <div class="eyebrow">Final Exam Practice Test · Results</div>
+      <h1>MedSurg I Final Practice Test</h1>
       <div class="results-score" id="r-score">0%</div>
       <div class="results-pts" id="r-pts">0 / 75 points</div>
       <div class="results-status" id="r-status">Pending</div>
     </div>
     <div class="perf-msg" id="r-msg"></div>
     <div class="btn-row" style="justify-content: center; margin-bottom: 8px;">
-      <button class="btn" onclick="location.reload()">Retake Simulator</button>
+      <button class="btn" onclick="location.reload()">Retake Practice Test</button>
       <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
     </div>
     <div class="by-chapter">
@@ -1176,7 +1176,7 @@ function showResults() {
   if (pct >= 90) msg = 'Outstanding — you are exam ready. Spend the final days reviewing your weakest chapters from the breakdown below.';
   else if (pct >= 77) msg = 'Passing range. Drill the chapters where you missed 50%+ before exam day.';
   else if (pct >= 60) msg = 'Below pass threshold. Targeted review needed — focus on chapters with lowest performance below.';
-  else msg = 'Significant gaps. Revisit the chapter Knowledge Checks and Deep Drills before retrying the simulator.';
+  else msg = 'Significant gaps. Revisit the chapter Knowledge Checks and Deep Drills before retrying the practice test.';
   document.getElementById('r-msg').textContent = msg;
 
   // Chapter breakdown

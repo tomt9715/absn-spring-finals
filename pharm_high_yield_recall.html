@@ -103,10 +103,10 @@
 <div id="start-screen">
   <div class="start-card">
     <div class="eyebrow">Pharmacology II Final · Priority Review</div>
-    <h1>Recall Drill</h1>
-    <p class="tagline">Targeted review of confirmed high-yield concepts. The highest-priority drill before exam day.</p>
+    <h1>Final Push Review</h1>
+    <p class="tagline">Targeted review of confirmed high-yield concepts. The highest-priority study session before exam day.</p>
     <div class="source-note">
-      <strong>Note:</strong> This drill covers confirmed high-priority concepts identified through targeted review. Treat it as the highest-yield study session before exam day.
+      <strong>Note:</strong> This review covers confirmed high-priority concepts identified through targeted preparation. Treat it as the highest-yield study session before exam day.
     </div>
     <div id="ready-state" class="hidden">
       <div class="start-stats">
@@ -115,11 +115,11 @@
         <div class="start-stat"><span class="start-stat-num">Yes</span><span class="start-stat-label">Rationale</span></div>
       </div>
       <p style="color: rgba(255,255,255,0.7); font-size: 13px; margin-bottom: 20px;">Each question maps to a concept that appeared on the actual exam. Answer, get instant rationale, move on.</p>
-      <button class="btn" onclick="begin()">Begin Drill</button>
+      <button class="btn" onclick="begin()">Begin Review</button>
     </div>
     <div id="empty-state" class="empty-state">
-      <div class="empty-state-title">Drill being assembled</div>
-      <div class="empty-state-text">High-priority concepts are being added to this drill. Check back shortly — once the questions are in, this page will be ready to drill.</div>
+      <div class="empty-state-title">Review being assembled</div>
+      <div class="empty-state-text">High-priority concepts are being added to this review. Check back shortly — once the questions are in, this page will be ready.</div>
     </div>
   </div>
 </div>
@@ -144,12 +144,12 @@
 <div id="results-screen" class="hidden">
   <div class="results-card">
     <div class="eyebrow">Results · Priority Review</div>
-    <h1>Recall Drill</h1>
+    <h1>Final Push Review</h1>
     <div class="results-score" id="r-score">0%</div>
     <div class="results-pts" id="r-pts">0 / 0 points</div>
     <div class="perf-msg" id="r-msg"></div>
     <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
-      <button class="btn" onclick="location.reload()">Retry Drill</button>
+      <button class="btn" onclick="location.reload()">Retry Review</button>
       <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
     </div>
     <div class="missed-section" id="missed-section"></div>
@@ -297,9 +297,9 @@ function showResults() {
   document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
 
   let msg = '';
-  if (pct >= 90) msg = 'Strong recall on the high-yield concepts. You are well-positioned for exam day.';
+  if (pct >= 90) msg = 'Strong command of the high-yield concepts. You are well-positioned for exam day.';
   else if (pct >= 77) msg = 'Passing range. Review the missed concepts below — these are concepts that actually appeared on the exam.';
-  else if (pct >= 60) msg = 'Below pass threshold. Re-study the missed concepts carefully and rerun this drill before exam day.';
+  else if (pct >= 60) msg = 'Below pass threshold. Re-study the missed concepts carefully and rerun this review before exam day.';
   else msg = 'Significant gaps in high-yield concepts. Spend serious time on the missed concepts below — these are confirmed exam content.';
   document.getElementById('r-msg').textContent = msg;
 
