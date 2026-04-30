@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 46u Urinary Disorders — Deep Drill</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-soft: #14b8a6;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-soft: #8b5cf6;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+      --partial: #d97706;
+      --partial-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--purple); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .start-stat { text-align: center; padding: 18px 12px; background: var(--purple-pale); border-radius: 8px; border: 1px solid var(--line); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--purple); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer; background: var(--purple); color: white; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--purple); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--purple-soft); background: var(--purple-pale); }
+    .option.selected { border-color: var(--purple); background: var(--purple-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--purple); color: white; border-color: var(--purple); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--purple-pale); border-left: 3px solid var(--purple); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--purple); color: white; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--purple); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Deep Drill · Chapter 46u</div>
+  <h1>Urinary Disorders</h1>
+  <p class="tagline">NCLEX-style application: atypical UTI in older adults, renal calculi pain priority, stone-specific dietary teaching, and pyelonephritis follow-up.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">20</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">MC</span><span class="start-stat-label">Format</span></div>
+      <div class="start-stat"><span class="start-stat-num">Yes</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">These are scenario-based application questions. Read carefully, watch for distractors, and reason through priority before selecting.</p>
+    <button class="btn" onclick="begin()">Begin</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 20</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Deep Drill</div>
+    <h1>Urinary Disorders</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 20 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Quiz</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: 'Urinary',
+    type: 'standard',
+    stem: 'An 82-year-old patient is admitted with sudden new-onset confusion. Vital signs: T 100.4, HR 102, BP 118/72. The nurse should anticipate which assessment is needed FIRST?',
+    options: [
+      'Urinalysis and clean catch urine culture for possible UTI',
+      'CT scan of the head for suspected acute stroke',
+      'Echocardiogram for new arrhythmia',
+      'Lumbar puncture for suspected meningitis'
+    ],
+    answer: 0,
+    concept: 'Older Adult UTI Atypical',
+    rationale: 'New-onset confusion in an older adult — even with mild fever — is often the only sign of UTI. The nurse should anticipate urinalysis and culture as the first assessment. Older adults often present atypically with delirium rather than classic UTI symptoms.',
+    others: {
+      1: 'CT head may be needed but UTI workup is first given fever and confusion.',
+      2: 'Echocardiogram is not the priority for this presentation.',
+      3: 'Lumbar puncture is invasive and not first-line.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    type: 'standard',
+    stem: 'A patient presents with right flank pain rated 10/10, nausea, and pain radiating to the groin. Which intervention is the priority?',
+    options: [
+      'Increase fluid intake immediately by drinking water',
+      'Administer prescribed pain medication and increase fluids',
+      'Strain all urine through a coffee filter at home',
+      'Apply ice packs to the flank area for pain relief'
+    ],
+    answer: 1,
+    concept: 'Renal Calculi Pain Priority',
+    rationale: 'Pain control is the priority for renal calculi due to the excruciating, colicky nature. Opioids are often required. Increasing fluids helps flush the stone. Both interventions occur together but pain management addresses immediate suffering.',
+    others: {
+      0: 'Increasing fluids is important but pain management is co-priority.',
+      2: 'Straining urine is appropriate but not for immediate pain.',
+      3: 'Ice packs do not address renal colic pain effectively.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    type: 'standard',
+    stem: 'A patient with a recent kidney stone is being taught to prevent future stones. Stone analysis showed calcium oxalate composition. Which teaching is correct?',
+    options: [
+      'Increase milk and dairy products to coat the kidney',
+      'Eat more organ meats and shellfish for nutrition',
+      'Drink only 2 cups of water per day to slow stones',
+      'Decrease calcium intake and reduce sodium in diet'
+    ],
+    answer: 3,
+    concept: 'Calcium Oxalate Stones',
+    rationale: 'For calcium-based stones, decrease calcium intake. Reducing sodium also helps because high sodium increases urinary calcium excretion. Patients should also avoid oxalate-rich foods (spinach, beets, chocolate) and stay well-hydrated.',
+    others: {
+      0: 'Increasing dairy/calcium worsens calcium stones.',
+      1: 'Organ meats and shellfish are for AVOIDING uric acid stones.',
+      2: 'Limiting water to 2 cups worsens stone formation.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    type: 'standard',
+    stem: 'A patient with a recent kidney stone is being taught to prevent future stones. Stone analysis showed uric acid composition. Which dietary teaching is appropriate?',
+    options: [
+      'Eat plenty of organ meats and shellfish daily',
+      'Increase intake of dairy and calcium-rich foods',
+      'Eat asparagus and spinach for added nutrients',
+      'Avoid organ meats, shellfish, and asparagus'
+    ],
+    answer: 3,
+    concept: 'Uric Acid Stone Diet',
+    rationale: 'For uric acid stones, follow a low-purine diet — avoid organ meats, shellfish, and asparagus. These foods are high in purines, which metabolize to uric acid and contribute to stone formation.',
+    others: {
+      0: 'Organ meats and shellfish increase purines and uric acid stones.',
+      1: 'Calcium-rich foods are for calcium stone management.',
+      2: 'Asparagus is high in purines and should be avoided.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    type: 'standard',
+    stem: 'A patient is admitted with right flank pain, fever 102.5, chills, and right costovertebral angle (CVA) tenderness. Urinalysis shows pyuria and bacteriuria. The nurse anticipates which diagnosis?',
+    options: [
+      'Uncomplicated lower UTI / cystitis',
+      'Pyelonephritis (upper UTI / kidney infection)',
+      'Renal calculi only without infection',
+      'Acute appendicitis with fever and pain'
+    ],
+    answer: 1,
+    concept: 'Pyelonephritis Recognition',
+    rationale: 'Flank pain + fever + chills + CVA tenderness + pyuria/bacteriuria is classic pyelonephritis (upper UTI / kidney infection). Treatment requires a 14-day antibiotic course and follow-up urine culture 2 weeks after antibiotics.',
+    others: {
+      0: 'Lower UTI does not typically have flank pain or high fever with CVA tenderness.',
+      2: 'Renal calculi alone do not cause fever or pyuria.',
+      3: 'Appendicitis pain is in the right lower quadrant, not flank.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    type: 'standard',
+    stem: 'A patient with pyelonephritis is being discharged after a 14-day antibiotic course. Which teaching is the MOST important?',
+    options: [
+      'Stop your antibiotics 5 days early if symptoms resolve quickly',
+      'Schedule a follow-up urine culture 2 weeks after antibiotics',
+      'Drink only 2 glasses of water daily to rest the kidneys',
+      'Avoid all bathing for 1 month after starting medication'
+    ],
+    answer: 1,
+    concept: 'Pyelonephritis Follow-Up',
+    rationale: 'A mandatory follow-up urine culture 2 weeks after finishing antibiotics is essential to confirm complete eradication. Untreated or partially treated pyelonephritis can lead to renal scarring, abscess, or sepsis.',
+    others: {
+      0: 'Stopping antibiotics early causes treatment failure.',
+      2: 'Limiting fluids worsens kidney issues.',
+      3: 'Avoiding bathing is unnecessary.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    type: 'standard',
+    stem: 'A 28-year-old female reports recurrent UTIs. Which patient statement requires further teaching?',
+    options: [
+      '"I will wipe from front to back after toileting and bowel movements."',
+      '"I will drink 8-10 glasses of water daily to flush my system."',
+      '"I will hold my urine for as long as possible during the workday."',
+      '"I will void after sexual activity to flush bacteria from my urethra."'
+    ],
+    answer: 2,
+    concept: 'UTI Prevention Trap',
+    rationale: 'Holding urine for prolonged periods allows bacteria to multiply in the bladder, increasing UTI risk. Patients should void regularly (every 2-4 hours) and never hold urine. The other statements all reflect correct UTI prevention teaching.',
+    others: {
+      0: 'Front to back wiping is correct.',
+      1: '8-10 glasses water is correct.',
+      3: 'Voiding after sex flushes bacteria and is correct.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    type: 'standard',
+    stem: 'A patient with cystitis is prescribed a 7-day antibiotic course. After 3 days, the patient feels better and considers stopping. Which teaching is BEST?',
+    options: [
+      'Stop now since you feel better and save the rest for later',
+      'Take only 1 dose per day instead of 2 to make it last',
+      'Take half doses for the remaining days as you taper off',
+      'Finish the entire 7-day course to fully eradicate the infection'
+    ],
+    answer: 3,
+    concept: 'Antibiotic Course',
+    rationale: 'Patients must finish the entire antibiotic course even when they feel better. Stopping early allows surviving bacteria to multiply and develop resistance, leading to recurrent or worse infections.',
+    others: {
+      0: 'Stopping early causes recurrence and resistance.',
+      1: 'Reducing dose frequency reduces effectiveness.',
+      2: 'Half doses are subtherapeutic.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    type: 'standard',
+    stem: 'A nurse is collecting a urine sample for culture from a patient with suspected UTI. Which technique is correct?',
+    options: [
+      'Collect any random void into any clean cup',
+      'Empty the indwelling catheter bag into a non-sterile bottle',
+      'Have the patient void into the toilet and skim the water',
+      'Use clean catch midstream technique with sterile container'
+    ],
+    answer: 3,
+    concept: 'Clean Catch Technique',
+    rationale: 'Clean catch midstream technique with a sterile container is the standard method for urine culture. The patient cleanses the perineal area, voids a small amount into the toilet, then collects midstream into the sterile container. This minimizes contamination.',
+    others: {
+      0: 'Random void into a clean cup is not sterile collection.',
+      1: 'Bag urine is contaminated.',
+      2: 'Skimming toilet water is not sterile.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    type: 'standard',
+    stem: 'A patient is admitted with suspected renal calculi. Which diagnostic test does the nurse anticipate?',
+    options: [
+      'Non-contrast CT scan of the abdomen and pelvis',
+      'Routine chest X-ray for suspected stones',
+      'Lower extremity Doppler ultrasound bilaterally',
+      'Cardiac catheterization to evaluate stones'
+    ],
+    answer: 0,
+    concept: 'Renal Calculi Imaging',
+    rationale: 'Non-contrast CT scan of the abdomen and pelvis is the gold standard for diagnosing renal calculi. It shows the location, size, and number of stones without contrast (which could mask them).',
+    others: {
+      1: 'Chest X-ray is not for kidney stones.',
+      2: 'Lower extremity Doppler is for vascular issues.',
+      3: 'Cardiac catheterization is unrelated.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    type: 'standard',
+    stem: 'A patient with a kidney stone has been straining urine for 3 days but no stone has been captured. Pain has worsened over the past 6 hours. The nurse should:',
+    options: [
+      'Continue straining urine and reassess in 24 hours',
+      'Stop the straining and discharge the patient home',
+      'Notify the provider for re-evaluation and imaging',
+      'Increase ibuprofen dose without provider consultation'
+    ],
+    answer: 2,
+    concept: 'Stone Not Passing',
+    rationale: 'Worsening pain after 3 days without stone passage signals possible obstruction or worsening condition. The nurse must notify the provider for re-evaluation, possibly repeat imaging, and consideration of intervention (lithotripsy, ureteroscopy).',
+    others: {
+      0: 'Continuing without notification risks worsening obstruction.',
+      1: 'Discharging a patient with worsening pain is unsafe.',
+      3: 'Self-increasing medication doses is unsafe.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    type: 'standard',
+    stem: 'A patient with cystitis has been on antibiotics for 4 days. Symptoms have improved but they note their urine is now bright orange. Which is the BEST nursing action?',
+    options: [
+      'Notify the provider — likely sign of severe infection',
+      'Reassure — pyridium causes orange urine and is normal',
+      'Stop all medications immediately — possible reaction',
+      'Increase fluids to dilute the orange-colored urine'
+    ],
+    answer: 1,
+    concept: 'Pyridium Color',
+    rationale: 'Phenazopyridine (Pyridium) is commonly prescribed for UTI symptoms (burning) and turns urine bright orange. This is a normal, expected side effect. The nurse should reassure the patient. Pyridium also stains clothing.',
+    others: {
+      0: 'Orange urine from pyridium is not a sign of severe infection.',
+      2: 'Stopping medications is unnecessary.',
+      3: 'Increasing fluids does not change pyridium color.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    type: 'standard',
+    stem: 'A nurse is teaching a patient with recurrent calcium-based renal calculi about diet. Which patient statement indicates correct understanding?',
+    options: [
+      '"I will eat plenty of dairy and milk to coat my kidneys."',
+      '"I will eat more spinach and almonds for nutrition."',
+      '"I will reduce sodium and animal protein in my diet."',
+      '"I will eat lots of organ meats for the iron content."'
+    ],
+    answer: 2,
+    concept: 'Calcium Stone Prevention',
+    rationale: 'Reducing sodium and animal protein helps prevent calcium-based stones. High sodium increases urinary calcium excretion, and animal protein increases acid load, both promoting stone formation. Adequate hydration is also key.',
+    others: {
+      0: 'Increasing dairy worsens calcium stones.',
+      1: 'Spinach and almonds are high in oxalate (worsen calcium oxalate stones).',
+      3: 'Organ meats are for uric acid stone avoidance.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    type: 'standard',
+    stem: 'A patient with pyelonephritis is admitted to the hospital. Which assessment finding requires immediate provider notification?',
+    options: [
+      'Mild flank pain rated 4/10 on the affected side',
+      'Temperature of 100.2 with chills and shivering',
+      'BP 82/48, HR 124, urine output 18 mL last hour',
+      'Some mild burning during urination occurring still'
+    ],
+    answer: 2,
+    concept: 'Pyelonephritis Sepsis',
+    rationale: 'BP 82/48, HR 124, and decreased urine output indicate possible urosepsis — a life-threatening complication of pyelonephritis. The nurse must notify the provider immediately for rapid intervention (IV fluids, antibiotics, possible ICU transfer).',
+    others: {
+      0: 'Mild flank pain is expected.',
+      1: 'Mild fever and chills are expected.',
+      3: 'Mild burning is expected during early treatment.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    type: 'standard',
+    stem: 'A patient with a kidney stone passes a stone. The nurse should:',
+    options: [
+      'Discard the stone and the urine immediately',
+      'Have the patient swallow the stone for disposal',
+      'Place the stone in the trash with regular waste',
+      'Send the captured stone to the lab for analysis'
+    ],
+    answer: 3,
+    concept: 'Stone Lab Analysis',
+    rationale: 'The captured stone must be sent to the lab for analysis. Stone composition (calcium, uric acid, struvite, cystine) determines specific dietary teaching to prevent recurrence. Without analysis, prevention is generic and less effective.',
+    others: {
+      0: 'Discarding the stone loses critical information.',
+      1: 'Swallowing the stone is dangerous and unnecessary.',
+      2: 'Throwing it away loses the analysis opportunity.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    type: 'standard',
+    stem: 'A nurse is delegating tasks for a patient with pyelonephritis on IV antibiotics. Which task is most appropriate to delegate to the unlicensed assistive personnel (UAP)?',
+    options: [
+      'Initial assessment of CVA tenderness and pain level',
+      'Administration of IV antibiotics on schedule',
+      'Patient teaching on antibiotic course completion',
+      'Vital signs and assistance with toileting needs'
+    ],
+    answer: 3,
+    concept: 'Pyelonephritis Delegation',
+    rationale: 'Vital signs and toileting assistance are within UAP scope. Initial assessment, IV medication administration, and patient teaching are all RN-only tasks.',
+    others: {
+      0: 'Initial assessment is RN responsibility.',
+      1: 'IV medication administration is RN responsibility.',
+      2: 'Patient teaching is RN responsibility.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    type: 'standard',
+    stem: 'A patient with cystitis asks if cranberry juice will help prevent recurrent UTIs. The BEST nursing response is:',
+    options: [
+      '"Cranberry juice may help prevent recurrence but does not treat existing infections."',
+      '"Cranberry juice cures all UTIs and replaces the need for antibiotics."',
+      '"Cranberry juice causes severe damage and you should never drink it."',
+      '"Cranberry juice has no effect on UTIs at all in any way ever."'
+    ],
+    answer: 0,
+    concept: 'Cranberry Education',
+    rationale: 'Cranberry juice may help prevent UTI recurrence by inhibiting bacterial adhesion to the bladder wall. However, it does NOT treat existing infections — antibiotics are required for active UTI. Patients should not rely on cranberry alone for treatment.',
+    others: {
+      1: 'Cranberry does not cure or replace antibiotics.',
+      2: 'Cranberry juice does not cause damage.',
+      3: 'Cranberry juice may have prevention benefit.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    type: 'standard',
+    stem: 'A patient is admitted with renal calculi 8mm in size. The patient asks if they will pass the stone or need surgery. The BEST nursing response is:',
+    options: [
+      '"Stones up to 5mm usually pass; 8mm stones may need lithotripsy or removal."',
+      '"All stones pass on their own without any intervention from anyone."',
+      '"All stones require immediate surgical removal regardless of their size."',
+      '"There is no way to predict whether you will pass the stone or not."'
+    ],
+    answer: 0,
+    concept: 'Stone Size Outcomes',
+    rationale: 'Stones up to ~5mm typically pass spontaneously with hydration and pain management. Stones 6-10mm may pass but often need lithotripsy (sound waves to break up). Stones >10mm typically require ureteroscopy or surgical removal.',
+    others: {
+      1: 'Not all stones pass spontaneously.',
+      2: 'Not all stones require immediate surgery.',
+      3: 'Stone size predicts likelihood of passage.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    type: 'standard',
+    stem: 'A 65-year-old female with a 3-day history of urinary urgency, frequency, and burning is found to have positive urine culture for E. coli. The nurse anticipates which intervention?',
+    options: [
+      'Antifungal medication for 7 to 14 days at home',
+      'Antibiotic prescription with patient teaching',
+      'Hospital admission for IV antiviral therapy',
+      'No treatment — symptoms will resolve on their own'
+    ],
+    answer: 1,
+    concept: 'UTI E. Coli Treatment',
+    rationale: 'E. coli is the most common UTI pathogen. Treatment is oral antibiotics (often nitrofurantoin, TMP-SMX, or fosfomycin) with teaching on full course completion. Patients are typically managed outpatient unless complicated.',
+    others: {
+      0: 'E. coli is bacterial, not fungal — antifungals are wrong.',
+      2: 'IV antivirals are not for UTIs.',
+      3: 'UTIs require treatment to prevent progression.'
+    }
+  },
+  {
+    topic: 'Urinary',
+    type: 'standard',
+    stem: 'A patient with renal calculi asks the nurse why they should drink so much water. The BEST nursing response is:',
+    options: [
+      '"Adequate fluids help flush the stone through your urinary tract."',
+      '"Water is needed to dissolve the calcium-based stone in the bladder."',
+      '"Drinking water makes the stone larger before it dissolves naturally."',
+      '"Water has no effect on stone passage but it prevents dehydration only."'
+    ],
+    answer: 0,
+    concept: 'Hydration Rationale',
+    rationale: 'Adequate hydration (at least 2-3 L/day unless contraindicated) helps flush the stone through the urinary tract by increasing urine volume and pressure. It also dilutes urine, reducing future stone formation.',
+    others: {
+      1: 'Water does not dissolve calcium stones.',
+      2: 'Water does not enlarge stones.',
+      3: 'Water DOES help flush stones.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let score = 0;
+let totalPoints = 0;
+let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_urinary_deepdrill';
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  document.getElementById('q-stem').textContent = q.stem;
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong application reasoning across UTI, renal calculi, and pyelonephritis. Move on to the next chapter.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed scenarios — application is where the final exam will challenge you.';
+  else if (pct >= 60) msg = 'Below pass threshold. Review missed concepts carefully and rerun this drill before moving on.';
+  else msg = 'Significant gaps in application. Re-study Ch 46u review materials and the rationales below, then rerun this drill until you hit 77%+.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>
