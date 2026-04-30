@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 37 Musculoskeletal Trauma — Deep Drill</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-soft: #14b8a6;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-soft: #8b5cf6;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+      --partial: #d97706;
+      --partial-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--purple); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .start-stat { text-align: center; padding: 18px 12px; background: var(--purple-pale); border-radius: 8px; border: 1px solid var(--line); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--purple); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer; background: var(--purple); color: white; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--purple); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--purple-soft); background: var(--purple-pale); }
+    .option.selected { border-color: var(--purple); background: var(--purple-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--purple); color: white; border-color: var(--purple); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--purple-pale); border-left: 3px solid var(--purple); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--purple); color: white; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--purple); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Deep Drill · Chapter 37</div>
+  <h1>Musculoskeletal Trauma</h1>
+  <p class="tagline">NCLEX-style application: compartment syndrome recognition (severe unrelieved pain), fat embolism emergency, cast care teaching traps, and femur fracture priorities.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">15</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">MC</span><span class="start-stat-label">Format</span></div>
+      <div class="start-stat"><span class="start-stat-num">Yes</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">These are scenario-based application questions. Read carefully, watch for distractors, and reason through priority before selecting.</p>
+    <button class="btn" onclick="begin()">Begin</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 15</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Deep Drill</div>
+    <h1>Musculoskeletal Trauma</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 15 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Quiz</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'A patient 8 hours post-op tibial fracture casting reports severe pain (10/10) unrelieved by morphine, with cyanotic toes and tingling. Which action is the priority?',
+    options: [
+      'Administer the next dose of pain medication early',
+      'Notify the provider immediately — possible compartment syndrome',
+      'Apply an ice pack to the affected leg for 30 minutes',
+      'Document the findings and reassess in 1 hour as ordered'
+    ],
+    answer: 1,
+    concept: 'Compartment Syndrome Priority',
+    rationale: 'Severe unrelieved pain plus cyanosis and tingling distally are hallmark signs of compartment syndrome. The provider must be notified immediately — irreversible damage occurs in 4-6 hours. Cast may need to be split or removed.',
+    others: {
+      0: 'Giving more pain medication delays diagnosis of an emergency.',
+      2: 'Ice does not address compartment pressure.',
+      3: 'Waiting 1 hour risks irreversible damage.'
+    }
+  },
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'A patient with a long bone fracture suddenly develops dyspnea, confusion, and petechiae across the chest and neck 24 hours after admission. The nurse anticipates which order?',
+    options: [
+      'Immediate oxygen and prepare for ICU transfer for fat embolism',
+      'Encourage ambulation to improve circulation in the legs',
+      'Administer oral diphenhydramine for the rash on the chest',
+      'Apply a heating pad to the affected fracture site for comfort'
+    ],
+    answer: 0,
+    concept: 'Fat Embolism Emergency',
+    rationale: 'The triad of dyspnea, confusion, and petechiae after long bone fracture indicates fat embolism — a medical emergency. Oxygen support and ICU monitoring are anticipated, with possible ventilatory support needed.',
+    others: {
+      1: 'Ambulation is dangerous in active fat embolism.',
+      2: 'Antihistamine does not treat fat embolism.',
+      3: 'Heating pad does not address the systemic emergency.'
+    }
+  },
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'A nurse is teaching a patient with a new arm cast about home care. Which patient statement requires further teaching?',
+    options: [
+      '"I will keep my arm elevated on pillows when sitting or lying down."',
+      '"I will inspect my fingers daily for color, warmth, and movement."',
+      '"I will call my provider if I notice a foul smell from the cast."',
+      '"I will use a coat hanger to scratch under my cast when it itches."'
+    ],
+    answer: 3,
+    concept: 'Cast Itch Trap',
+    rationale: 'Inserting objects (coat hangers, knitting needles, pencils) into a cast can cause skin injury, infection, and pressure ulcers. Patients should NEVER insert objects into a cast. The other statements all reflect correct teaching.',
+    others: {
+      0: 'Elevation reduces swelling and is correct.',
+      1: 'Daily neurovascular checks of fingers are correct.',
+      2: 'Reporting a foul smell (sign of infection) is correct.'
+    }
+  },
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'A nurse is performing a neurovascular assessment on a patient 2 hours post-op for a femur fracture. Which finding requires immediate notification of the provider?',
+    options: [
+      'Mild swelling at the surgical site with intact dressing',
+      'Skin warmth at the casted leg consistent with the other side',
+      'Capillary refill greater than 5 seconds with cool, pale toes',
+      'Patient reports pain rated 4 out of 10 controlled with analgesic'
+    ],
+    answer: 2,
+    concept: 'Neurovascular Compromise',
+    rationale: 'Capillary refill >5 seconds with cool, pale toes indicates compromised distal circulation — possible compartment syndrome or arterial damage. Notify the provider immediately for further evaluation.',
+    others: {
+      0: 'Mild swelling at the site is expected post-op.',
+      1: 'Symmetric warmth is normal.',
+      3: 'Pain 4/10 controlled with analgesic is acceptable post-op.'
+    }
+  },
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'A patient comes home with a freshly applied plaster cast. Which patient statement requires further teaching?',
+    options: [
+      '"I will handle the cast with my fingertips so I have a firmer grip."',
+      '"I will keep the cast elevated above heart level for the first 48 hours."',
+      '"I will check my fingers every few hours for color and movement."',
+      '"I will use a hair dryer on cool if my cast gets accidentally wet."'
+    ],
+    answer: 0,
+    concept: 'Wet Cast Fingertips Trap',
+    rationale: 'Fingertips can press indentations into a fresh wet cast, creating pressure points that injure the skin. Use only PALMS to handle a wet cast. The other statements reflect correct teaching.',
+    others: {
+      1: 'Elevation above heart level reduces swelling and is correct.',
+      2: 'Frequent neurovascular checks are correct.',
+      3: 'Hair dryer on cool setting is correct for a wet cast.'
+    }
+  },
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'A patient is being assessed using the 6 P\'s after a tibia fracture. Which finding is the EARLIEST sign of nerve damage?',
+    options: [
+      'Paresthesia (numbness or tingling) in the toes',
+      'Pulselessness with no detectable pulse in the foot',
+      'Paralysis with inability to move the foot at all',
+      'Pallor with extremely pale skin from the knee down'
+    ],
+    answer: 0,
+    concept: 'Earliest Nerve Sign',
+    rationale: 'Paresthesia (numbness or tingling) is the EARLIEST sign of nerve damage. Recognizing it early allows intervention before paralysis develops. Pulselessness and paralysis are LATE findings.',
+    others: {
+      1: 'Pulselessness is a late vascular finding.',
+      2: 'Paralysis is a late nerve damage finding.',
+      3: 'Pallor reflects circulation, not nerve damage specifically.'
+    }
+  },
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'A patient with a leg cast reports new severe pain in the casted area. The pain is described as "deep and constant," and morphine has not relieved it. What is the priority nursing action?',
+    options: [
+      'Administer additional pain medication and reassess in 30 minutes',
+      'Reposition the patient and apply a warm compress to the area',
+      'Notify the provider — assess for possible compartment syndrome',
+      'Document the report of pain and continue routine cast monitoring'
+    ],
+    answer: 2,
+    concept: 'Severe Unrelieved Pain',
+    rationale: 'Severe pain unrelieved by analgesics is the hallmark of compartment syndrome. The nurse must notify the provider immediately for evaluation and possible cast splitting or fasciotomy.',
+    others: {
+      0: 'Giving more pain medication delays critical diagnosis.',
+      1: 'Repositioning and warm compress do not address compartment pressure.',
+      3: 'Documenting and continuing routine monitoring risks irreversible damage.'
+    }
+  },
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'A patient with a cast reports the cast feels "tight" and they have new tingling in their toes. What is the BEST nursing action?',
+    options: [
+      'Reassure the patient — tightness is normal as the cast cures',
+      'Cut a small window in the cast to reduce the pressure',
+      'Notify the provider and prepare for possible cast removal',
+      'Tell the patient to walk around to improve circulation'
+    ],
+    answer: 2,
+    concept: 'Cast Tightness Action',
+    rationale: 'Tightness and new neurovascular symptoms (tingling) suggest compromised circulation. The nurse should notify the provider and prepare for possible cast splitting or removal. Nurses do NOT cut windows in casts independently.',
+    others: {
+      0: 'Tightness with neurovascular changes is NOT normal.',
+      1: 'Cutting the cast is not a nursing action without an order.',
+      3: 'Walking does not address the cast tightness emergency.'
+    }
+  },
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'A 28-year-old patient was just admitted with a femur fracture from a motor vehicle accident. Which nursing intervention is the priority during the first 24 hours?',
+    options: [
+      'Initiate physical therapy referral for ambulation training',
+      'Monitor for signs of fat embolism (confusion, dyspnea, petechiae)',
+      'Provide patient teaching on home cast care after discharge',
+      'Schedule the patient for nutrition consult before surgery'
+    ],
+    answer: 1,
+    concept: 'Femur Fracture Priority',
+    rationale: 'Patients with femur fractures are at high risk for fat embolism, especially in the first 12-72 hours. Monitoring for confusion, dyspnea, and petechial rash is the priority intervention.',
+    others: {
+      0: 'PT referral is appropriate but not the immediate priority.',
+      2: 'Cast care teaching is for discharge planning, not the priority now.',
+      3: 'Nutrition consult is appropriate but not the priority.'
+    }
+  },
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'A patient with a closed reduction of a forearm fracture is in a fiberglass cast. The nurse is performing the 6 P\'s assessment. Which finding is most concerning?',
+    options: [
+      'Mild swelling in the fingers that improves with elevation',
+      'Patient reports pain 3/10 well-controlled by ibuprofen',
+      'Capillary refill 2 seconds with warm pink fingertips',
+      'Patient reports new sharp tingling in the thumb and index finger'
+    ],
+    answer: 3,
+    concept: 'New Paresthesia',
+    rationale: 'New paresthesia (sharp tingling) is an early sign of nerve compromise. The nurse should notify the provider and assess for compartment syndrome or nerve compression from cast tightness.',
+    others: {
+      0: 'Mild swelling that improves with elevation is expected.',
+      1: 'Pain 3/10 well-controlled is acceptable.',
+      2: 'Cap refill 2 sec with warm pink fingertips is normal.'
+    }
+  },
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'A nurse is preparing to delegate tasks for a patient who is post-op for an open reduction internal fixation (ORIF) of the tibia. Which task is most appropriate to delegate to the unlicensed assistive personnel (UAP)?',
+    options: [
+      'Initial assessment of the postop neurovascular status',
+      'Patient teaching on the cast care at discharge',
+      'Adjustment of the IV pain medication infusion rate',
+      'Vital signs and assistance with bathing the patient'
+    ],
+    answer: 3,
+    concept: 'ORIF Delegation',
+    rationale: 'Vital signs and assistance with bathing are within UAP scope. Initial assessment, patient teaching, and medication adjustments are all RN-only tasks.',
+    others: {
+      0: 'Initial assessment is RN responsibility.',
+      1: 'Patient teaching is RN responsibility.',
+      2: 'Medication adjustment is an RN/provider task.'
+    }
+  },
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'A nurse is providing teaching to a patient with a new long leg cast. The patient asks if they should keep the cast in a plastic bag during showers. What is the BEST response?',
+    options: [
+      '"Yes, that is the right approach to keep your cast clean and dry."',
+      '"You can shower normally — the cast is sealed and waterproof."',
+      '"Take a sponge bath until the cast is removed to keep it dry."',
+      '"You can wrap the cast in a paper towel during your daily shower."'
+    ],
+    answer: 0,
+    concept: 'Cast Shower Protection',
+    rationale: 'Plaster casts must be kept clean and dry. A waterproof cover (such as a plastic bag with tape or specialized cover) keeps the cast dry during showers. Sponge baths are not necessary if proper protection is used.',
+    others: {
+      1: 'Plaster casts are not waterproof.',
+      2: 'Sponge baths only are not necessary if cast is protected.',
+      3: 'Paper towels do not provide waterproof protection.'
+    }
+  },
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'A patient with a recent fracture of the pelvis is now dyspneic, anxious, and confused. The nurse notes pinpoint petechiae across the upper chest. The patient just complained of chest pain. What is the priority nursing action?',
+    options: [
+      'Administer oral acetaminophen for the chest pain',
+      'Apply oxygen and call rapid response — possible fat embolism',
+      'Reposition the patient to a side-lying position for comfort',
+      'Document the findings and continue with routine monitoring'
+    ],
+    answer: 1,
+    concept: 'Fat Embolism Action',
+    rationale: 'Pelvic fracture + dyspnea + confusion + petechiae + chest pain = classic fat embolism syndrome. This is a medical emergency. Apply oxygen immediately and activate rapid response. The patient may need ICU admission and ventilatory support.',
+    others: {
+      0: 'Acetaminophen does not address the systemic emergency.',
+      2: 'Repositioning does not treat fat embolism.',
+      3: 'Routine monitoring during a life-threatening event is unsafe.'
+    }
+  },
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'A patient asks the nurse why elevation is so important after a fracture. The BEST nursing response is:',
+    options: [
+      '"It helps to numb the pain and reduces the need for medications."',
+      '"It promotes faster bone healing by aligning the broken bone parts."',
+      '"It reduces swelling by promoting venous return back to the heart."',
+      '"It provides comfortable positioning for sleep without any pillows."'
+    ],
+    answer: 2,
+    concept: 'Elevation Rationale',
+    rationale: 'Elevation reduces swelling by promoting venous return back to the heart. Less swelling reduces pain, prevents compartment syndrome, and improves healing. This is core teaching for any fracture or cast.',
+    others: {
+      0: 'Elevation helps with pain but not by numbing.',
+      1: 'Elevation does not align bones — that is reduction.',
+      3: 'Elevation has a clinical purpose beyond comfortable sleep.'
+    }
+  },
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'A patient with a recent fracture asks what to do if they feel new severe pain that is not relieved by their pain medication at home. The BEST teaching is:',
+    options: [
+      'Take more pain medication and lie down for several hours',
+      'Apply heat to the area and reassess in the morning',
+      'Wait until the next scheduled clinic visit to discuss',
+      'Call your provider or go to the ED — possible serious complication'
+    ],
+    answer: 3,
+    concept: 'Discharge Pain Teaching',
+    rationale: 'Severe new pain unrelieved by medication can signal compartment syndrome — an emergency. Patients must be taught to call their provider immediately or go to the ED. Waiting can lead to irreversible damage.',
+    others: {
+      0: 'Taking more medication delays critical evaluation.',
+      1: 'Heat does not address compartment pressure.',
+      2: 'Waiting until the next clinic visit risks permanent damage.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let score = 0;
+let totalPoints = 0;
+let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_mskTrauma_deepdrill';
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  document.getElementById('q-stem').textContent = q.stem;
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong application reasoning across MSK trauma. Move on to the next chapter.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed scenarios — application is where the final exam will challenge you.';
+  else if (pct >= 60) msg = 'Below pass threshold. Review missed concepts carefully and rerun this drill before moving on.';
+  else msg = 'Significant gaps in application. Re-study Ch 37 review materials and the rationales below, then rerun this drill until you hit 77%+.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>

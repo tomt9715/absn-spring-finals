@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 37 Musculoskeletal Trauma — Knowledge Check</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-soft: #14b8a6;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+      --partial: #d97706;
+      --partial-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .start-stat { text-align: center; padding: 18px 12px; background: var(--teal-pale); border-radius: 8px; border: 1px solid var(--line); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--teal); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer; background: var(--teal); color: white; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--teal); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--teal-soft); background: var(--teal-pale); }
+    .option.selected { border-color: var(--teal); background: var(--teal-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--teal); color: white; border-color: var(--teal); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--teal-pale); border-left: 3px solid var(--teal); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--teal); color: white; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--teal); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Knowledge Check · Chapter 37</div>
+  <h1>Musculoskeletal Trauma</h1>
+  <p class="tagline">Direct recall: fracture neurovascular assessment using the 6 P's, fat embolism recognition, cast care teaching, and compartment syndrome.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">15</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">MC</span><span class="start-stat-label">Format</span></div>
+      <div class="start-stat"><span class="start-stat-num">Yes</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">Each question is direct recall from your review guides. Answer, get instant rationale, move on.</p>
+    <button class="btn" onclick="begin()">Begin</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 15</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Knowledge Check</div>
+    <h1>Musculoskeletal Trauma</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 15 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Quiz</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'When assessing a patient with a fracture, the nurse always assesses neurovascular status using the 6 P\'s. Which of the following is one of the 6 P\'s?',
+    options: [
+      'Polyuria',
+      'Pyrexia',
+      'Pallor',
+      'Polydipsia'
+    ],
+    answer: 2,
+    concept: '6 Ps Pallor',
+    rationale: 'Pallor is one of the 6 P\'s for neurovascular assessment of a fracture: Pain, Poikilothermia (coolness), Pallor, Pulselessness, Paresthesia, Paralysis.',
+    others: {
+      0: 'Polyuria (excessive urination) is not a P of fractures.',
+      1: 'Pyrexia (fever) is not a P of fractures.',
+      3: 'Polydipsia (excessive thirst) is not a P of fractures.'
+    }
+  },
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'Which of the 6 P\'s refers to coolness of an extremity in fracture assessment?',
+    options: [
+      'Paresthesia',
+      'Poikilothermia',
+      'Paralysis',
+      'Pulselessness'
+    ],
+    answer: 1,
+    concept: 'Poikilothermia',
+    rationale: 'Poikilothermia means coolness — the affected extremity feels cool because of impaired blood flow. The 6 P\'s are Pain, Poikilothermia, Pallor, Pulselessness, Paresthesia, Paralysis.',
+    others: {
+      0: 'Paresthesia means numbness or tingling, not coolness.',
+      2: 'Paralysis means inability to move.',
+      3: 'Pulselessness means absent pulse, not coolness.'
+    }
+  },
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'Which of the 6 P\'s is considered an EARLY sign of nerve damage in fractures?',
+    options: [
+      'Pain that is severe and constant in the affected area',
+      'Pallor with cool skin and reduced capillary refill',
+      'Pulselessness with absence of distal pulses found',
+      'Paresthesia (numbness/tingling) of the affected limb'
+    ],
+    answer: 3,
+    concept: 'Early Nerve Damage',
+    rationale: 'Paresthesia (numbness or tingling) is an EARLY sign of nerve damage in fractures. Recognizing it early allows intervention before paralysis develops.',
+    others: {
+      0: 'Pain is universal in fractures and not specific to nerve damage.',
+      1: 'Pallor reflects circulation, not specifically nerve damage.',
+      2: 'Pulselessness reflects loss of circulation, a late sign.'
+    }
+  },
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'Which complication of a fracture involves a piece of fat traveling in a blood vessel?',
+    options: [
+      'Compartment syndrome',
+      'Deep vein thrombosis',
+      'Septic shock',
+      'Fat embolism'
+    ],
+    answer: 3,
+    concept: 'Fat Embolism',
+    rationale: 'Fat embolism is a complication where a piece of fat from bone marrow enters the blood vessel and travels through the circulation. It is most common after long bone fractures (especially femur).',
+    others: {
+      0: 'Compartment syndrome is swelling within the fascia.',
+      1: 'DVT is a clot in a deep vein, not fat.',
+      2: 'Septic shock is from infection, not fat.'
+    }
+  },
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'Which finding is characteristic of fat embolism?',
+    options: [
+      'Bilateral leg swelling and warmth without any other findings',
+      'Neurologic changes (confusion) with petechial rash on neck/chest',
+      'Sudden severe abdominal pain with green emesis only',
+      'Productive cough with green sputum and a high fever'
+    ],
+    answer: 1,
+    concept: 'Fat Embolism S/S',
+    rationale: 'Fat embolism presents with neurologic changes (confusion, altered mental status) and a petechial rash over the neck and chest. This is a classic triad and an emergency requiring immediate intervention.',
+    others: {
+      0: 'Bilateral leg swelling and warmth without other findings does not match.',
+      2: 'Severe abdominal pain with green emesis suggests GI causes.',
+      3: 'Productive green sputum with fever suggests pneumonia.'
+    }
+  },
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'A patient is being discharged with a cast. Which teaching point is correct?',
+    options: [
+      'Insert a small object inside the cast to scratch any itching',
+      'Get the cast wet daily to keep the skin clean and fresh',
+      'Do NOT insert objects into the cast and elevate the extremity',
+      'Avoid elevating the extremity to keep blood flowing freely'
+    ],
+    answer: 2,
+    concept: 'Cast Care Basics',
+    rationale: 'Patients with casts should NOT insert objects into the cast (risks injury and infection) and SHOULD elevate the extremity to reduce swelling. Keep the cast clean and dry.',
+    others: {
+      0: 'Inserting objects causes injury and infection risk.',
+      1: 'Casts must be kept DRY, not wet.',
+      3: 'Elevation reduces swelling and is recommended.'
+    }
+  },
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'A patient asks how to handle a new wet cast. What is the BEST teaching?',
+    options: [
+      'Use only your palms to handle the wet cast as it dries',
+      'Use only your fingertips to handle the wet cast as it dries',
+      'Use a paper towel to wrap the cast tightly while it dries',
+      'Apply a heating pad on high to speed up the drying time'
+    ],
+    answer: 0,
+    concept: 'Wet Cast Handling',
+    rationale: 'Use only your PALMS (not fingertips) to handle a new wet cast. Fingertips can press into the wet plaster and create indentations that put pressure on the skin underneath, causing injury.',
+    others: {
+      1: 'Fingertips create indentations that injure the skin underneath.',
+      2: 'Wrapping with paper towels prevents proper drying.',
+      3: 'A heating pad on high can damage the cast and skin.'
+    }
+  },
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'A patient cast got wet at home. What is the appropriate intervention?',
+    options: [
+      'Use a heating pad on high to dry the cast quickly',
+      'Use a hair dryer on the COOL setting to dry the cast',
+      'Wrap the wet cast in a thick wool blanket to dry it',
+      'Apply petroleum jelly all over the cast to repel water'
+    ],
+    answer: 1,
+    concept: 'Wet Cast Drying',
+    rationale: 'Use a hair dryer on the COOL setting to dry a wet cast. Heat can damage the cast and burn the skin underneath. The cool setting dries it safely.',
+    others: {
+      0: 'Heating pad on high can damage the cast and skin.',
+      2: 'Wool blankets do not properly dry casts and trap moisture.',
+      3: 'Petroleum jelly does not prevent water damage and traps moisture.'
+    }
+  },
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'A patient with a cast on their lower leg should:',
+    options: [
+      'Elevate the extremity to reduce swelling',
+      'Keep the leg below heart level at all times',
+      'Stand with the casted leg planted firmly always',
+      'Sit with the casted leg crossed over the other leg'
+    ],
+    answer: 0,
+    concept: 'Cast Elevation',
+    rationale: 'Elevation of the casted extremity reduces swelling and pain by promoting venous return. This is standard cast care for any extremity.',
+    others: {
+      1: 'Keeping the leg below heart level worsens swelling.',
+      2: 'Standing with the casted leg planted may cause weight-bearing damage.',
+      3: 'Crossing the legs compromises circulation.'
+    }
+  },
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'Compartment syndrome is described as:',
+    options: [
+      'Mild swelling around a fracture site that resolves quickly',
+      'A common bruise from a contusion of the muscle tissue',
+      'A localized infection of the cast and the underlying skin',
+      'Swelling within the fascia that cuts off blood and nerve supply'
+    ],
+    answer: 3,
+    concept: 'Compartment Syndrome Definition',
+    rationale: 'Compartment syndrome is swelling within the fascia (the tough membrane around muscle compartments) that cuts off blood and nerve supply. Without intervention, irreversible damage occurs in 4-6 hours.',
+    others: {
+      0: 'Mild swelling that resolves is not compartment syndrome.',
+      1: 'A muscle contusion is not the same as compartment syndrome.',
+      2: 'A localized cast infection is different.'
+    }
+  },
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'Within how many hours does irreversible damage occur in untreated compartment syndrome?',
+    options: [
+      '24 to 48 hours after the onset of swelling',
+      '4 to 6 hours after the onset of compartment pressure',
+      'About 1 to 2 weeks if not treated promptly',
+      '24 to 72 hours after surgery on the extremity'
+    ],
+    answer: 1,
+    concept: 'Compartment Syndrome Time',
+    rationale: 'Irreversible damage from compartment syndrome occurs in 4-6 hours. This makes it a true surgical emergency. The treatment is fasciotomy to relieve the pressure.',
+    others: {
+      0: '24-48 hours is far too long — irreversible damage already occurred.',
+      2: '1-2 weeks is far too long.',
+      3: '24-72 hours is far too long.'
+    }
+  },
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'Which finding is the HALLMARK of compartment syndrome?',
+    options: [
+      'Mild discomfort that improves with positioning and rest',
+      'Severe pain unrelieved by medications or repositioning',
+      'Slight tingling in the foot that resolves with elevation',
+      'Mild bruising along the side of the affected extremity'
+    ],
+    answer: 1,
+    concept: 'Compartment Syndrome Hallmark',
+    rationale: 'The hallmark of compartment syndrome is severe pain unrelieved by medications or repositioning — pain disproportionate to the injury. Cyanosis and tingling also occur. Assess fingers/toes for changes.',
+    others: {
+      0: 'Mild discomfort that improves does not match compartment syndrome.',
+      2: 'Slight tingling that resolves is not compartment syndrome.',
+      3: 'Mild bruising alone is not compartment syndrome.'
+    }
+  },
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'In addition to severe unrelieved pain, which findings are seen in compartment syndrome?',
+    options: [
+      'Cyanosis and tingling in the fingers or toes',
+      'Bright red flushing of the unaffected extremity',
+      'Yellow-green sputum production with a fever',
+      'Severe constipation and abdominal distension'
+    ],
+    answer: 0,
+    concept: 'Compartment Syndrome Distal',
+    rationale: 'In compartment syndrome, in addition to severe unrelieved pain, the nurse should assess fingers and toes for cyanosis (bluish discoloration) and tingling. These reflect compromised blood and nerve supply.',
+    others: {
+      1: 'Bright red flushing on the unaffected side is not compartment syndrome.',
+      2: 'Yellow-green sputum suggests infection, not compartment syndrome.',
+      3: 'Constipation and abdominal distension are GI findings.'
+    }
+  },
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'A patient with a long bone fracture suddenly develops confusion and a petechial rash on the chest. The nurse suspects:',
+    options: [
+      'Compartment syndrome',
+      'Mild dehydration',
+      'Common allergic reaction',
+      'Fat embolism'
+    ],
+    answer: 3,
+    concept: 'Fat Embolism Recognition',
+    rationale: 'Sudden confusion with petechial rash on the chest after a long bone fracture is classic for fat embolism. Fat from the bone marrow enters circulation, causing neurologic changes and skin findings.',
+    others: {
+      0: 'Compartment syndrome causes pain, not confusion and rash.',
+      1: 'Mild dehydration does not cause petechial rash.',
+      2: 'Allergic reaction does not present this way.'
+    }
+  },
+  {
+    topic: 'MskTrauma',
+    type: 'standard',
+    stem: 'A patient just returned from surgery for a femur fracture. Which assessment is the priority for the nurse?',
+    options: [
+      'Document the patient last bowel movement timing',
+      'Inspect the toenails for any new fungal changes',
+      'Assess all 6 P\'s for neurovascular status',
+      'Measure leg length on the unaffected side'
+    ],
+    answer: 2,
+    concept: 'Postop Neurovascular',
+    rationale: 'Assessing all 6 P\'s for neurovascular status is the priority post-op for a fracture. Early identification of compartment syndrome or nerve damage allows prompt intervention before irreversible damage.',
+    others: {
+      0: 'Bowel movement timing is not the priority post-op.',
+      1: 'Toenails are not the priority assessment.',
+      3: 'Leg length on the unaffected side is not the priority.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let score = 0;
+let totalPoints = 0;
+let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_mskTrauma_knowledge';
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  document.getElementById('q-stem').textContent = q.stem;
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong recall on musculoskeletal trauma. Move on to the Deep Drill for application scenarios.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed concepts below before moving to the Deep Drill.';
+  else if (pct >= 60) msg = 'Below pass threshold. Re-read Ch 37, retry, then move to the Deep Drill.';
+  else msg = 'Lots of room to grow. Re-study Ch 37 carefully — 6 P\'s, fat embolism, cast care, compartment syndrome — and run this again.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>
