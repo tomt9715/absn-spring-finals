@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 41 Intestinal & Rectal — Knowledge Check</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-soft: #14b8a6;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+      --partial: #d97706;
+      --partial-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .start-stat { text-align: center; padding: 18px 12px; background: var(--teal-pale); border-radius: 8px; border: 1px solid var(--line); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--teal); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer; background: var(--teal); color: white; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--teal); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--teal-soft); background: var(--teal-pale); }
+    .option.selected { border-color: var(--teal); background: var(--teal-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--teal); color: white; border-color: var(--teal); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--teal-pale); border-left: 3px solid var(--teal); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--teal); color: white; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--teal); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Knowledge Check · Chapter 41</div>
+  <h1>Intestinal & Rectal Disorders</h1>
+  <p class="tagline">Direct recall: Crohn's disease (skin care priority), ulcerative colitis (low-residue diet), constipation management, and perforation as a surgical emergency.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">15</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">MC</span><span class="start-stat-label">Format</span></div>
+      <div class="start-stat"><span class="start-stat-num">Yes</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">Each question is direct recall from your review guides. Answer, get instant rationale, move on.</p>
+    <button class="btn" onclick="begin()">Begin</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 15</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Knowledge Check</div>
+    <h1>Intestinal & Rectal Disorders</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 15 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Quiz</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: 'Intestinal',
+    type: 'standard',
+    stem: 'Crohn\'s disease is best described as:',
+    options: [
+      'Acute infection of the gallbladder requiring removal',
+      'A short-term viral GI illness that resolves on its own',
+      'A genetic condition that does not progress over time',
+      'Chronic GI inflammation causing pain and diarrhea'
+    ],
+    answer: 3,
+    concept: "Crohn's Definition",
+    rationale: "Crohn's disease is chronic GI inflammation that causes pain and diarrhea. It is one of the inflammatory bowel diseases (IBD) and can affect any part of the GI tract from the mouth to the anus.",
+    others: {
+      0: "Crohn's is not an acute gallbladder issue.",
+      1: "Crohn's is chronic, not a short-term viral illness.",
+      2: "Crohn's is autoimmune-related and progresses over time."
+    }
+  },
+  {
+    topic: 'Intestinal',
+    type: 'standard',
+    stem: "What is the PRIORITY nursing intervention for a patient with Crohn's disease who has constant diarrhea?",
+    options: [
+      'High-fiber diet to bulk up the stools properly',
+      'Strict bed rest to prevent the diarrhea from worsening',
+      'Daily laxatives to maintain bowel regularity habits',
+      'Meticulous skin care to protect the perianal area'
+    ],
+    answer: 3,
+    concept: "Crohn's Skin Care Priority",
+    rationale: "Meticulous skin care is the PRIORITY for Crohn's patients with constant diarrhea. Frequent diarrhea breaks down perianal skin, causing irritation, breakdown, and infection. Cleansing, barrier creams, and gentle drying are essential.",
+    others: {
+      0: 'High-fiber worsens diarrhea in Crohn flare.',
+      1: 'Bed rest is not necessary or recommended.',
+      2: 'Laxatives worsen diarrhea — they are not appropriate.'
+    }
+  },
+  {
+    topic: 'Intestinal',
+    type: 'standard',
+    stem: 'Ulcerative colitis (UC) is characterized by:',
+    options: [
+      'Acute inflammation of just the gallbladder lining',
+      'Chronic inflammation of the colon lining causing cramps and bloody diarrhea',
+      'Inflammation of only the appendix from an infection',
+      'A localized infection of only the rectum from contact'
+    ],
+    answer: 1,
+    concept: 'UC Definition',
+    rationale: 'Ulcerative colitis is chronic inflammation of the colon lining that causes cramps and bloody diarrhea. Unlike Crohn disease (which can affect any GI area), UC is limited to the colon and rectum.',
+    others: {
+      0: 'UC affects the colon, not the gallbladder.',
+      2: 'UC is colon inflammation, not appendix.',
+      3: 'UC affects the entire colon, not just the rectum.'
+    }
+  },
+  {
+    topic: 'Intestinal',
+    type: 'standard',
+    stem: 'What are the goals of nursing management for ulcerative colitis?',
+    options: [
+      'Increase diarrhea and stimulate the colon to heal faster',
+      'Maximize fiber intake daily for bulk in the stool',
+      'Control diarrhea and reduce inflammation in the colon',
+      'Avoid all medications and let the body heal itself'
+    ],
+    answer: 2,
+    concept: 'UC Management Goals',
+    rationale: 'The goals of UC management are to control diarrhea and reduce inflammation in the colon. Medications include anti-inflammatories and immunosuppressants, alongside dietary modifications.',
+    others: {
+      0: 'Increasing diarrhea worsens UC, does not heal it.',
+      1: 'High-fiber worsens UC during flares.',
+      3: 'UC requires medical management.'
+    }
+  },
+  {
+    topic: 'Intestinal',
+    type: 'standard',
+    stem: 'Which diet is recommended for a patient with active ulcerative colitis?',
+    options: [
+      'High-fiber diet with raw fruits and whole grains',
+      'Low-residue (less fiber) high-protein diet',
+      'High-residue diet with bran and lots of nuts',
+      'High-fat diet with fried foods and desserts'
+    ],
+    answer: 1,
+    concept: 'UC Low-Residue Diet',
+    rationale: 'A low-residue (less fiber) high-protein diet is recommended for UC. Less fiber means less stool bulk and less colon irritation. High protein helps replace nutrients lost from inflammation and diarrhea.',
+    others: {
+      0: 'High-fiber irritates the colon during UC flares.',
+      2: 'High-residue worsens UC.',
+      3: 'High-fat is not the standard UC recommendation.'
+    }
+  },
+  {
+    topic: 'Intestinal',
+    type: 'standard',
+    stem: 'A patient with UC needs nutritional support. Which is correct teaching?',
+    options: [
+      'Increase calories and protein, with vitamins and iron',
+      'Limit calories to reduce digestive workload daily',
+      'Restrict protein to reduce stool production',
+      'Limit iron and vitamins because they cause inflammation'
+    ],
+    answer: 0,
+    concept: 'UC Nutrition',
+    rationale: 'Patients with UC need high protein, high calorie diet with vitamins and iron supplementation. Chronic blood loss from bloody diarrhea causes anemia, and inflammation increases caloric and protein needs.',
+    others: {
+      1: 'Limiting calories worsens nutritional deficits.',
+      2: 'Restricting protein worsens healing.',
+      3: 'Iron and vitamins are essential for UC patients.'
+    }
+  },
+  {
+    topic: 'Intestinal',
+    type: 'standard',
+    stem: 'Which foods should a patient with UC AVOID if they are lactose intolerant?',
+    options: [
+      'Only chocolate-flavored desserts',
+      'Plain water and clear broth',
+      'Milk products if lactose intolerant',
+      'Lean proteins and steamed vegetables'
+    ],
+    answer: 2,
+    concept: 'UC Lactose Avoid',
+    rationale: 'Patients with UC who are lactose intolerant should avoid milk and dairy products. These can worsen diarrhea and cramping. Lactose-free options or substitutes (almond milk, soy milk) are alternatives.',
+    others: {
+      0: 'Chocolate desserts are not the priority concern.',
+      1: 'Water and broth are fine.',
+      3: 'Lean proteins and steamed vegetables are part of the recommended diet.'
+    }
+  },
+  {
+    topic: 'Intestinal',
+    type: 'standard',
+    stem: 'Which type of foods should a patient with UC avoid related to their colon irritation?',
+    options: [
+      'Cold foods that may worsen colon spasms',
+      'Hot tea or warm lukewarm broth at meals',
+      'Plain crackers and dry toast',
+      'Steamed white rice or pasta'
+    ],
+    answer: 0,
+    concept: 'UC Cold Foods',
+    rationale: 'Cold foods can worsen colon spasms and cramping in UC. Patients should be advised to consume foods at room temperature or slightly warm to reduce GI irritation.',
+    others: {
+      1: 'Warm liquids are generally okay.',
+      2: 'Plain crackers and toast are fine.',
+      3: 'White rice and pasta are appropriate (low-residue).'
+    }
+  },
+  {
+    topic: 'Intestinal',
+    type: 'standard',
+    stem: 'A common cause of constipation in older adults is:',
+    options: [
+      'Increased GI motility from age changes',
+      'Excessive consumption of fiber and water',
+      'Age-related decreased GI motility',
+      'Acute viral infection of the bowel'
+    ],
+    answer: 2,
+    concept: 'Age Constipation',
+    rationale: 'Age-related decreased GI motility is a common cause of constipation in older adults. Other contributors include lack of fiber, immobility, decreased fluid intake, and certain medications.',
+    others: {
+      0: 'Motility DECREASES with age, not increases.',
+      1: 'Excess fiber and water reduce constipation, not cause it.',
+      3: 'Acute viral infection typically causes diarrhea, not chronic constipation.'
+    }
+  },
+  {
+    topic: 'Intestinal',
+    type: 'standard',
+    stem: 'Which factors contribute to constipation in older adults?',
+    options: [
+      'Lack of fiber and immobility',
+      'Daily exercise and hydration',
+      'High-fiber diet and lots of water',
+      'Acute upper respiratory illness'
+    ],
+    answer: 0,
+    concept: 'Constipation Factors',
+    rationale: 'Lack of fiber and immobility are key contributors to constipation. Other factors include dehydration, certain medications (opioids, anticholinergics), and decreased GI motility with age.',
+    others: {
+      1: 'Daily exercise and hydration help PREVENT constipation.',
+      2: 'High-fiber diet and water PREVENT constipation.',
+      3: 'Upper respiratory illness is not a major cause.'
+    }
+  },
+  {
+    topic: 'Intestinal',
+    type: 'standard',
+    stem: 'Which is the recommended fluid intake for an adult to manage constipation?',
+    options: [
+      'About 500 mL daily for the whole day',
+      '2-3 L per day for adequate hydration',
+      'Less than 1 L per day to reduce bloating',
+      'Limit to clear liquids only at every meal'
+    ],
+    answer: 1,
+    concept: 'Constipation Fluids',
+    rationale: 'Hydration of 2-3 L per day is recommended to manage constipation. Adequate fluids combined with high fiber and mobility are the cornerstones of constipation management.',
+    others: {
+      0: '500 mL is far too low.',
+      2: 'Less than 1 L is inadequate.',
+      3: 'Clear liquids only is unnecessary.'
+    }
+  },
+  {
+    topic: 'Intestinal',
+    type: 'standard',
+    stem: 'Which is the best treatment approach for constipation?',
+    options: [
+      'Hydration, high fiber, and mobility',
+      'Long-term laxative use as primary treatment',
+      'Strict bed rest and limited fluids',
+      'Avoiding all fiber to reduce stool bulk'
+    ],
+    answer: 0,
+    concept: 'Constipation Treatment',
+    rationale: 'Constipation is best managed with hydration (2-3 L/day), high-fiber diet, and mobility. Lifestyle modification is preferred over chronic laxative dependence. Older adults benefit greatly from these foundational interventions.',
+    others: {
+      1: 'Long-term laxatives can cause dependence and worsen constipation.',
+      2: 'Bed rest worsens constipation.',
+      3: 'Avoiding fiber worsens constipation.'
+    }
+  },
+  {
+    topic: 'Intestinal',
+    type: 'standard',
+    stem: 'Perforation in the context of GI ulcers or inflammatory bowel disease is described as:',
+    options: [
+      'A mild surface infection of the colon wall',
+      'A common allergy that resolves with antihistamines',
+      'A life-threatening complication requiring emergency surgery',
+      'A self-limiting condition that needs only oral antibiotics'
+    ],
+    answer: 2,
+    concept: 'Perforation Definition',
+    rationale: 'Perforation is a life-threatening complication of GI ulcers or IBD. The wall of the GI tract erodes through, releasing GI contents into the peritoneum. This causes peritonitis and sepsis. Immediate emergency surgery is required.',
+    others: {
+      0: 'Perforation is full-thickness, not surface only.',
+      1: 'Perforation is not an allergy.',
+      3: 'Perforation cannot be managed with oral antibiotics alone.'
+    }
+  },
+  {
+    topic: 'Intestinal',
+    type: 'standard',
+    stem: 'Which signs indicate perforation in a patient with IBD or peptic ulcer disease?',
+    options: [
+      'Mild abdominal cramping with watery diarrhea',
+      'Sudden, severe abdominal pain with rigid, board-like abdomen',
+      'Slow gradual bloating and minor flatulence',
+      'Burning sensation in the chest with hot tea'
+    ],
+    answer: 1,
+    concept: 'Perforation S/S',
+    rationale: 'Sudden, severe abdominal pain with a rigid, board-like abdomen indicates perforation. This signals peritonitis and is a surgical emergency. The nurse must keep the patient NPO, establish IV access, and notify the surgical team immediately.',
+    others: {
+      0: 'Mild cramping with diarrhea is not perforation.',
+      2: 'Slow bloating is not perforation.',
+      3: 'Chest burning with hot tea suggests GERD or esophageal irritation.'
+    }
+  },
+  {
+    topic: 'Intestinal',
+    type: 'standard',
+    stem: 'A patient with IBD presents with sudden severe abdominal pain and rigid abdomen. What is the appropriate management?',
+    options: [
+      'Outpatient follow-up appointment in 1 week',
+      'Oral antibiotics with discharge instructions',
+      'Send the patient home with bland diet teaching',
+      'Immediate emergency surgery for perforation'
+    ],
+    answer: 3,
+    concept: 'Perforation Management',
+    rationale: 'Perforation requires immediate emergency surgery. The nurse should keep the patient NPO, establish IV access, prepare for OR transfer, and notify the surgical team. Delay leads to sepsis and death.',
+    others: {
+      0: 'Outpatient follow-up is dangerous for a surgical emergency.',
+      1: 'Oral antibiotics alone are insufficient.',
+      2: 'Discharge home is dangerous for perforation.'
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let score = 0;
+let totalPoints = 0;
+let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_intestinal_knowledge';
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  document.getElementById('q-stem').textContent = q.stem;
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong recall on intestinal and rectal disorders. Move on to the Deep Drill for application scenarios.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed concepts below before moving to the Deep Drill.';
+  else if (pct >= 60) msg = 'Below pass threshold. Re-read Ch 41, retry, then move to the Deep Drill.';
+  else msg = "Lots of room to grow. Re-study Ch 41 carefully — Crohn's, UC, constipation, perforation — and run this again.";
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>
