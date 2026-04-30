@@ -143,534 +143,528 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--navy)
 <script>
 const questions = [
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'A nurse is caring for four patients on opioid analgesics. Which patient should the nurse assess first?',
+    type: "standard",
+    stem: "A nurse is caring for four patients on opioid analgesics. Which patient should the nurse assess first?",
     options: [
-      'A patient on morphine ER who reports constipation for 3 days',
-      'A patient on oxymorphone who took it 30 minutes after breakfast',
-      'A patient on methadone with QT interval of 460 msec on baseline',
-      'A patient on a fentanyl patch with RR of 8 and pinpoint pupils'
+      "A patient on morphine ER who reports constipation for 3 days",
+      "A patient on oxymorphone who took it 30 minutes after breakfast",
+      "A patient on methadone with QT interval of 460 msec on baseline",
+      "A patient on a fentanyl patch with RR of 8 and pinpoint pupils"
     ],
     answer: 3,
-    concept: 'Opioid resp depression triage',
-    rationale: 'RR of 8 and pinpoint pupils on a fentanyl patch indicates opioid toxicity with respiratory depression — this is a medical emergency requiring immediate intervention.',
-    deepExplanation: 'Naloxone may be required. The patch should be removed and the patient monitored. RR under 12 with sedation/miosis is the classic opioid overdose presentation. The other patients have findings that warrant follow-up but are not immediate emergencies.',
+    concept: "Opioid resp depression triage",
+    rationale: "RR of 8 and pinpoint pupils on a fentanyl patch indicates opioid toxicity with respiratory depression — this is a medical emergency requiring immediate intervention.",
+    deepExplanation: "Naloxone may be required. The patch should be removed and the patient monitored. RR under 12 with sedation/miosis is the classic opioid overdose presentation. The other patients have findings that warrant follow-up but are not immediate emergencies.",
     others: {
-      0: 'Constipation needs a bowel regimen but isn\'t emergent.',
-      1: 'Oxymorphone with food alters absorption but isn\'t emergent.',
-      2: 'QT of 460 is borderline but below the 500 discontinuation threshold.'
+      "0": "Constipation needs a bowel regimen but isn't emergent.",
+      "1": "Oxymorphone with food alters absorption but isn't emergent.",
+      "2": "QT of 460 is borderline but below the 500 discontinuation threshold."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'A patient is being prescribed a fentanyl transdermal patch. Which patient is the BEST candidate?',
+    type: "standard",
+    stem: "A patient is being prescribed a fentanyl transdermal patch. Which patient is the BEST candidate?",
     options: [
-      'A 45-year-old opioid-naive patient with new acute back pain',
-      'An 18-month-old toddler with chronic pain from cancer',
-      'A 60-year-old on morphine 30 mg BID for 2 weeks',
-      'A 25-year-old with mild pain after a tooth extraction'
+      "A 60-year-old on morphine 30 mg BID for 2 weeks",
+      "An 18-month-old toddler with chronic pain from cancer",
+      "A 45-year-old opioid-naive patient with new acute back pain",
+      "A 25-year-old with mild pain after a tooth extraction"
+    ],
+    answer: 0,
+    concept: "Fentanyl patch candidate",
+    rationale: "A patient on morphine 30 mg BID (= 60 mg/day) for 2 weeks meets the opioid-tolerant criteria (60 mg morphine equivalents daily for at least 1 week) and is appropriate for a fentanyl patch.",
+    deepExplanation: "Fentanyl patches require: opioid-tolerant patient AND age over 2 years. Opioid-naive patients can suffer fatal respiratory depression. Mild acute pain is overtreated by patches. The 18-month-old fails the age criterion.",
+    others: {
+      "1": "Under 2 years — patches contraindicated.",
+      "2": "Opioid-naive — would suffer respiratory depression.",
+      "3": "Mild pain — patches are inappropriate overtreatment."
+    }
+  },
+  {
+    topic: "Pain",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient is being discharged with a fentanyl transdermal patch. Which patient statement requires further teaching?",
+    options: [
+      "\"I will use a heating pad on my back when the patch is on.\"",
+      "\"I will fold the old patch in half and flush it down the toilet.\"",
+      "\"I will avoid massaging the patch site or using a sauna.\"",
+      "\"I will apply the new patch only after removing the old one.\""
+    ],
+    answer: 0,
+    concept: "Fentanyl patch heat danger",
+    rationale: "Direct heat (heating pads, hot tubs, saunas) increases fentanyl absorption to FATAL levels — this statement requires correction.",
+    deepExplanation: "The other statements show correct understanding: flush old patches, avoid massage and saunas, always remove old before applying new. Heat is one of the most dangerous fentanyl patch teaching errors because absorption increase can be sudden and lethal.",
+    others: {
+      "1": "Flushing in the toilet is correct disposal.",
+      "2": "Avoiding massage and saunas is correct teaching.",
+      "3": "Removing old before applying new is correct."
+    }
+  },
+  {
+    topic: "Pain",
+    confirmed: false,
+    type: "standard",
+    stem: "A nurse is checking on a postoperative patient on a morphine PCA pump. The patient is sleeping deeply, RR 8, SpO2 88%. Family member at bedside states, \"I press the button for him every time he moans.\" The nurse's priority action is:",
+    options: [
+      "Continue current PCA settings — the family is helping with pain control",
+      "Increase the PCA continuous basal rate to reduce the moaning",
+      "Stop the family from pressing the button, assess sedation, prepare naloxone",
+      "Document the pain management approach and reassess in 1 hour"
     ],
     answer: 2,
-    concept: 'Fentanyl patch candidate',
-    rationale: 'A patient on morphine 30 mg BID (= 60 mg/day) for 2 weeks meets the opioid-tolerant criteria (60 mg morphine equivalents daily for at least 1 week) and is appropriate for a fentanyl patch.',
-    deepExplanation: 'Fentanyl patches require: opioid-tolerant patient AND age over 2 years. Opioid-naive patients can suffer fatal respiratory depression. Mild acute pain is overtreated by patches. The 18-month-old fails the age criterion.',
+    concept: "PCA pump — by-proxy dosing safety",
+    rationale: "PCA must be patient-controlled ONLY. \"PCA by proxy\" (family/staff pushing the button) is a sentinel event — bypasses the built-in safety that an over-sedated patient cannot self-dose. RR 8 + SpO2 88% = opioid-induced respiratory depression.",
+    deepExplanation: "The Joint Commission flagged PCA-by-proxy as a sentinel event. The whole safety mechanism of PCA depends on the patient being awake enough to press the button — once they are over-sedated, they stop pressing it. When someone else presses it, that safety brake is gone. Education for family should clearly state \"only the patient presses the button — even if they appear to be in pain.\" Treatment for current state: stop PCA, support ventilation, prepare naloxone (0.04-0.4 mg IV titrated).",
     others: {
-      0: 'Opioid-naive — would suffer respiratory depression.',
-      1: 'Under 2 years — patches contraindicated.',
-      3: 'Mild pain — patches are inappropriate overtreatment.'
+      "0": "PCA-by-proxy is a known sentinel event, not appropriate pain control.",
+      "1": "Increasing basal rate worsens respiratory depression.",
+      "3": "Documenting and waiting is unsafe with active respiratory depression."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'A patient is being discharged with a fentanyl transdermal patch. Which patient statement requires further teaching?',
+    type: "standard",
+    stem: "A patient on morphine ER capsules tells the nurse \"I had a glass of wine with my dinner.\" What is the priority response?",
     options: [
-      '"I will use a heating pad on my back when the patch is on."',
-      '"I will fold the old patch in half and flush it down the toilet."',
-      '"I will avoid massaging the patch site or using a sauna."',
-      '"I will apply the new patch only after removing the old one."'
-    ],
-    answer: 0,
-    concept: 'Fentanyl patch heat danger',
-    rationale: 'Direct heat (heating pads, hot tubs, saunas) increases fentanyl absorption to FATAL levels — this statement requires correction.',
-    deepExplanation: 'The other statements show correct understanding: flush old patches, avoid massage and saunas, always remove old before applying new. Heat is one of the most dangerous fentanyl patch teaching errors because absorption increase can be sudden and lethal.',
-    others: {
-      1: 'Flushing in the toilet is correct disposal.',
-      2: 'Avoiding massage and saunas is correct teaching.',
-      3: 'Removing old before applying new is correct.'
-    }
-  },
-  {
-    topic: 'Pain',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A patient on chronic opioid therapy reports being constipated. The nurse recognizes this finding indicates which fact about opioid tolerance?',
-    options: [
-      'Tolerance to constipation never develops',
-      'The patient must be over-dosing on opioids',
-      'Constipation only occurs in the first 24 hours',
-      'The patient is not absorbing the opioid properly'
-    ],
-    answer: 0,
-    concept: 'No tolerance to constipation',
-    rationale: 'Tolerance never develops to constipation or miosis — these effects persist throughout opioid therapy. The patient needs a bowel regimen.',
-    deepExplanation: 'Tolerance develops to analgesia, sedation, euphoria, and respiratory depression — but not to GI motility effects or pupil constriction. This is why every patient on chronic opioids needs prophylactic stool softeners (docusate) plus stimulant laxatives (senna).',
-    others: {
-      1: 'Constipation occurs at any opioid dose, not just overdose.',
-      2: 'Constipation persists indefinitely.',
-      3: 'Absorption isn\'t the issue — opioid mechanism is.'
-    }
-  },
-  {
-    topic: 'Pain',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A patient on morphine ER capsules tells the nurse "I had a glass of wine with my dinner." What is the priority response?',
-    options: [
-      '"That should be fine occasionally — just don\'t make it a habit."',
-      '"You may experience some mild dizziness from the combination."',
-      '"Stop the morphine ER for 24 hours after drinking alcohol."',
-      '"Alcohol with morphine ER carries a fatal overdose warning."'
+      "\"That should be fine occasionally — just don't make it a habit.\"",
+      "\"You may experience some mild dizziness from the combination.\"",
+      "\"Stop the morphine ER for 24 hours after drinking alcohol.\"",
+      "\"Alcohol with morphine ER carries a fatal overdose warning.\""
     ],
     answer: 3,
-    concept: 'Morphine ER + alcohol BBW',
-    rationale: 'Morphine ER + alcohol carries a Black Box Warning for fatal overdose — alcohol disrupts the extended-release mechanism, causing dose dumping.',
-    deepExplanation: 'Alcohol can rapidly release the entire 24-hour dose at once, causing fatal respiratory depression. The patient must be educated about strict alcohol avoidance and assessed for any current symptoms of overdose. The provider should be notified.',
+    concept: "Morphine ER + alcohol BBW",
+    rationale: "Morphine ER + alcohol carries a Black Box Warning for fatal overdose — alcohol disrupts the extended-release mechanism, causing dose dumping.",
+    deepExplanation: "Alcohol can rapidly release the entire 24-hour dose at once, causing fatal respiratory depression. The patient must be educated about strict alcohol avoidance and assessed for any current symptoms of overdose. The provider should be notified.",
     others: {
-      0: 'False reassurance — this is a fatal interaction risk.',
-      1: 'Dizziness understates the danger of fatal overdose.',
-      2: 'Stopping the morphine doesn\'t address the immediate risk.'
+      "0": "False reassurance — this is a fatal interaction risk.",
+      "1": "Dizziness understates the danger of fatal overdose.",
+      "2": "Stopping the morphine doesn't address the immediate risk."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'A breastfeeding mother is being prescribed codeine for postoperative pain. What is the nurse\'s priority action?',
+    type: "standard",
+    stem: "A breastfeeding mother is being prescribed codeine for postoperative pain. What is the nurse's priority action?",
     options: [
-      'Administer the codeine as ordered without concern',
-      'Question the order — codeine has a BBW for breastfeeding',
-      'Tell the patient to pump and dump for 24 hours after each dose',
-      'Reduce the codeine dose by 50% before administration'
+      "Administer the codeine as ordered without concern",
+      "Question the order — codeine has a BBW for breastfeeding",
+      "Tell the patient to pump and dump for 24 hours after each dose",
+      "Reduce the codeine dose by 50% before administration"
     ],
     answer: 1,
-    concept: 'Codeine + breastfeeding BBW',
-    rationale: 'Codeine carries a Black Box Warning for breastfeeding mothers due to CYP2D6 rapid metabolizer risk — the converted morphine can cause fatal neonatal sedation.',
-    deepExplanation: 'Codeine is a prodrug converted to morphine by CYP2D6. Rapid metabolizers convert it too quickly, leading to high morphine levels in breast milk and fatal infant sedation. Genetic testing for CYP2D6 status is crucial. The order should be questioned and an alternative analgesic used.',
+    concept: "Codeine + breastfeeding BBW",
+    rationale: "Codeine carries a Black Box Warning for breastfeeding mothers due to CYP2D6 rapid metabolizer risk — the converted morphine can cause fatal neonatal sedation.",
+    deepExplanation: "Codeine is a prodrug converted to morphine by CYP2D6. Rapid metabolizers convert it too quickly, leading to high morphine levels in breast milk and fatal infant sedation. Genetic testing for CYP2D6 status is crucial. The order should be questioned and an alternative analgesic used.",
     others: {
-      0: 'Administering ignores a serious BBW.',
-      2: 'Pump and dump doesn\'t address the underlying CYP2D6 risk.',
-      3: 'Dose reduction doesn\'t mitigate the rapid metabolizer risk.'
+      "0": "Administering ignores a serious BBW.",
+      "2": "Pump and dump doesn't address the underlying CYP2D6 risk.",
+      "3": "Dose reduction doesn't mitigate the rapid metabolizer risk."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'A 6-year-old with a viral illness has a fever of 102.4°F. Which medication should the nurse give from the PRN orders?',
+    type: "standard",
+    stem: "A 6-year-old with a viral illness has a fever of 102.4°F. Which medication should the nurse give from the PRN orders?",
     options: [
-      'Acetaminophen 240 mg PO',
-      'Aspirin 325 mg PO',
-      'Codeine 5 mg PO',
-      'Methadone 2.5 mg PO'
+      "Acetaminophen 240 mg PO",
+      "Aspirin 325 mg PO",
+      "Codeine 5 mg PO",
+      "Methadone 2.5 mg PO"
     ],
     answer: 0,
-    concept: 'Pediatric viral fever',
-    rationale: 'Acetaminophen is appropriate for a pediatric viral fever — aspirin is contraindicated due to Reye\'s syndrome risk in children with viral illness.',
-    deepExplanation: 'Reye\'s syndrome is a rare but devastating condition associated with aspirin in pediatric viral infections. APAP and ibuprofen are the preferred analgesics/antipyretics in children. Codeine carries a BBW in pediatric patients due to CYP2D6 risks, and methadone is not first-line pediatric pain.',
+    concept: "Pediatric viral fever",
+    rationale: "Acetaminophen is appropriate for a pediatric viral fever — aspirin is contraindicated due to Reye's syndrome risk in children with viral illness.",
+    deepExplanation: "Reye's syndrome is a rare but devastating condition associated with aspirin in pediatric viral infections. APAP and ibuprofen are the preferred analgesics/antipyretics in children. Codeine carries a BBW in pediatric patients due to CYP2D6 risks, and methadone is not first-line pediatric pain.",
     others: {
-      1: 'Aspirin is contraindicated due to Reye\'s syndrome.',
-      2: 'Codeine has BBW concerns in pediatrics.',
-      3: 'Methadone is not first-line pediatric.'
+      "1": "Aspirin is contraindicated due to Reye's syndrome.",
+      "2": "Codeine has BBW concerns in pediatrics.",
+      "3": "Methadone is not first-line pediatric."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'A nurse is preparing to start methadone on a new patient. The baseline ECG shows a QT interval of 470 msec. What is the priority action?',
+    type: "standard",
+    stem: "A nurse is preparing to start methadone on a new patient. The baseline ECG shows a QT interval of 470 msec. What is the priority action?",
     options: [
-      'Hold methadone and notify the provider of the QT finding',
-      'Administer methadone — QT under 500 msec is acceptable',
-      'Start methadone but reduce the initial dose by 50%',
-      'Perform another ECG before deciding what to do next'
+      "Hold methadone and notify the provider of the QT finding",
+      "Administer methadone — QT under 500 msec is acceptable",
+      "Start methadone but reduce the initial dose by 50%",
+      "Perform another ECG before deciding what to do next"
     ],
     answer: 1,
-    concept: 'Methadone QT < 500',
-    rationale: 'A QT interval of 470 msec is below the 500 msec discontinuation threshold — methadone can be administered. ECGs are required at baseline, 30 days, and annually thereafter.',
-    deepExplanation: 'Methadone is contraindicated/discontinued only if QT exceeds 500 msec. Below that, the drug can be started with monitoring. The 30-day ECG checks for QT prolongation on therapy. Notifying for a QT under 500 unnecessarily delays therapy.',
+    concept: "Methadone QT < 500",
+    rationale: "A QT interval of 470 msec is below the 500 msec discontinuation threshold — methadone can be administered. ECGs are required at baseline, 30 days, and annually thereafter.",
+    deepExplanation: "Methadone is contraindicated/discontinued only if QT exceeds 500 msec. Below that, the drug can be started with monitoring. The 30-day ECG checks for QT prolongation on therapy. Notifying for a QT under 500 unnecessarily delays therapy.",
     others: {
-      0: '470 msec is below the action threshold — no need to hold.',
-      2: 'Dose reduction is not standard for QT under 500.',
-      3: 'Repeating an ECG to confirm an in-range value is unnecessary.'
+      "0": "470 msec is below the action threshold — no need to hold.",
+      "2": "Dose reduction is not standard for QT under 500.",
+      "3": "Repeating an ECG to confirm an in-range value is unnecessary."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'A patient using a 5% lidocaine patch for postherpetic neuralgia tells the nurse "I leave it on 24 hours a day for better pain relief." What is the priority response?',
+    type: "standard",
+    stem: "A nurse is using the Pasero Opioid-induced Sedation Scale (POSS) to assess a postoperative patient on IV hydromorphone. The patient is \"frequently drowsy, arousable, drifts off to sleep during conversation\" (POSS 3). The next dose of hydromorphone is due in 30 minutes. The nurse's priority action is:",
     options: [
-      '"Try increasing it to 2 patches for 24 hours each day."',
-      '"This regimen sounds appropriate — keep doing what works."',
-      '"You should apply it 12 hours on, then 12 hours off."',
-      '"Switch to a stronger 10% patch for continuous use."'
+      "Administer the dose on schedule — POSS 3 is acceptable for pain control",
+      "Hold the next opioid dose, notify provider, monitor RR and SpO2 closely",
+      "Switch the route from IV to PO to reduce sedation effects",
+      "Add a stimulant medication to counteract the sedation"
+    ],
+    answer: 1,
+    concept: "POSS sedation scale — opioid hold trigger",
+    rationale: "POSS scale: 1=awake/alert, 2=slightly drowsy/easily aroused, 3=frequently drowsy/arousable but drifts off (UNACCEPTABLE — hold opioid), 4=somnolent/minimal arousal (NALOXONE NEEDED). Sedation precedes respiratory depression — the \"S\" warning before \"RR drops.\"",
+    deepExplanation: "POSS is more sensitive than respiratory rate alone for detecting opioid toxicity. Sedation always precedes respiratory depression by minutes-hours. POSS 3 means the patient is at risk for crossing into respiratory depression with the next dose. The right interventions: hold opioid, notify provider, monitor closely, consider opioid rotation or non-opioid adjuncts. Adding stimulants is NOT standard — the issue is too much opioid, not \"needs caffeine.\"",
+    others: {
+      "0": "POSS 3 is the threshold to HOLD the opioid, not continue dosing.",
+      "2": "PO has slower onset but same total opioid effect — does not address current sedation.",
+      "3": "Stimulants are not part of standard opioid sedation management."
+    }
+  },
+  {
+    topic: "Pain",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient on oxymorphone tells the nurse \"I always take it with breakfast so I remember.\" What is the priority teaching?",
+    options: [
+      "\"That's a great way to ensure consistency with dosing.\"",
+      "\"Switch to taking it just before lunch for better effect.\"",
+      "\"You can crush the tablet to make it easier with food.\"",
+      "\"Oxymorphone must be taken on an empty stomach.\""
+    ],
+    answer: 3,
+    concept: "Oxymorphone empty stomach",
+    rationale: "Oxymorphone must be taken on an empty stomach — food significantly affects absorption and can cause unpredictable peak levels.",
+    deepExplanation: "Patients should take oxymorphone at least 1 hour before or 2 hours after meals. Extended-release forms are abuse-deterrent and must be swallowed whole — never crushed, chewed, or split. Crushing destroys the controlled-release mechanism and can cause fatal overdose.",
+    others: {
+      "0": "Taking with food alters absorption — not consistent.",
+      "1": "Lunch is still food — empty stomach is required.",
+      "2": "NEVER crush extended-release formulations."
+    }
+  },
+  {
+    topic: "Pain",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient on a fentanyl 100 mcg/hr transdermal patch (Day 2 of 3) is admitted with influenza, T 102.8°F, and chills. RR is now 10 and patient is increasingly drowsy. The nurse anticipates:",
+    options: [
+      "Add a second fentanyl patch for the chills",
+      "Remove the fentanyl patch — fever increases drug release; prepare naloxone",
+      "Continue current patch and treat fever with acetaminophen only",
+      "Apply heating pad to the patch site to maintain absorption"
+    ],
+    answer: 1,
+    concept: "Fentanyl patch + fever danger",
+    rationale: "Fever and external heat (heating pads, hot baths, saunas) increase fentanyl release from the patch by up to one-third, causing potentially fatal overdose. Remove the patch, monitor closely, prepare naloxone, watch for fentanyl skin reservoir effects after removal.",
+    deepExplanation: "The fentanyl patch is a passive diffusion system — it relies on stable skin temperature for predictable absorption. Fever increases dermal blood flow and patch permeability. Even with the patch removed, fentanyl continues releasing from the skin reservoir for 12-24 hours. Naloxone may need re-dosing. This is why patient teaching specifically warns against ALL heat sources: heating pads, electric blankets, saunas, hot tubs, sunbathing, hot baths.",
+    others: {
+      "0": "Adding a second patch worsens the overdose.",
+      "2": "Continuing the patch with fever risks fatal overdose.",
+      "3": "Heat application is the cause of the danger, not the solution."
+    }
+  },
+  {
+    topic: "Pain",
+    confirmed: false,
+    type: "standard",
+    stem: "A nurse is caring for a patient who took methadone for opioid detoxification 6 months ago. The patient now asks about pain management for an injury. What is the priority concern?",
+    options: [
+      "The patient may be at risk for relapse on opioid therapy",
+      "The patient may have developed a new methadone allergy",
+      "The patient may not need any pain medication at all",
+      "The patient may have ongoing QT prolongation effects"
+    ],
+    answer: 0,
+    concept: "Opioid use disorder + new opioids",
+    rationale: "A patient who completed methadone detox is at risk for relapse if started on opioid therapy — non-opioid alternatives should be prioritized when possible, with multidisciplinary support.",
+    deepExplanation: "Patients in recovery often benefit from multimodal pain management: APAP, NSAIDs, regional blocks, and non-pharmacologic approaches. If opioids are necessary, they should be carefully managed with the patient's recovery team. Methadone for opioid use disorder differs from methadone for severe pain.",
+    others: {
+      "1": "Allergy is not the primary concern post-detox.",
+      "2": "Pain still needs management — but with extra care.",
+      "3": "QT effects from past methadone use don't typically persist 6 months later."
+    }
+  },
+  {
+    topic: "Pain",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient with a head injury and altered mental status arrives in the ED reporting severe pain. The provider considers ordering morphine. What is the nurse's priority concern?",
+    options: [
+      "Morphine is contraindicated in head trauma with LOC",
+      "Morphine should be given via the IV route only",
+      "Morphine requires a higher dose for head injury",
+      "Morphine is the first-line drug for head trauma pain"
+    ],
+    answer: 0,
+    concept: "Opioids in head trauma",
+    rationale: "Opioids are contraindicated in head trauma with loss of consciousness — they mask neurologic changes (level of consciousness, pupillary response) and can increase intracranial pressure.",
+    deepExplanation: "Other opioid contraindications: respiratory depression, paralytic ileus, pregnancy/lactation (caution). Patients with head injuries need clean neuro checks for assessment of evolving brain injury. Alternative analgesics or a careful provider decision may be needed.",
+    others: {
+      "1": "Route doesn't address the contraindication.",
+      "2": "Higher dose worsens the masking effect.",
+      "3": "Opioids are NOT first-line for head trauma."
+    }
+  },
+  {
+    topic: "Pain",
+    confirmed: false,
+    type: "sata",
+    stem: "A patient is being educated about safe disposal of a fentanyl patch at home. Which teaching points are correct? Select all that apply.",
+    options: [
+      "Fold the patch in half with sticky sides together",
+      "Flush the folded patch down the toilet",
+      "Save used patches for disposal at the next clinic visit",
+      "Used patches still contain enough drug to harm a child or pet",
+      "Wash hands after handling the patch",
+      "Burn used patches in a metal trash can"
+    ],
+    answerArr: [0,1,3,4],
+    concept: "Fentanyl patch disposal SATA",
+    rationale: "Correct: fold sticky sides together, flush down the toilet, used patches still contain dangerous amounts of drug, and wash hands after handling. Saving for clinic and burning are both inappropriate.",
+    others: {
+      "2": "Saving for clinic risks accidental exposure at home.",
+      "5": "Burning is not an FDA-recommended disposal method."
+    }
+  },
+  {
+    topic: "Pain",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient with chronic methadone use is brought to the ED unresponsive after suspected overdose, RR 6. IV naloxone 0.4 mg is given and the patient becomes alert with RR 14. 30 minutes later, the patient becomes drowsy again with RR 8. The nurse's priority action is:",
+    options: [
+      "Document improvement and discharge home — naloxone worked",
+      "Wait 1 hour to see if respiratory depression resolves on its own",
+      "Re-administer naloxone, continuous monitoring, anticipate naloxone drip",
+      "Give activated charcoal to absorb remaining methadone"
     ],
     answer: 2,
-    concept: 'Lidocaine 12 on/12 off teaching',
-    rationale: 'Lidocaine patches must be applied 12 hours on, then 12 hours off — continuous use causes systemic lidocaine toxicity (cardiac dysrhythmias, neurotoxicity, seizures).',
-    deepExplanation: 'The 12-hour off period allows lidocaine levels to drop and prevents accumulation. The 5% RX patch allows up to 3 patches per application in adults, and they can be cut to fit. The OTC 4% patch allows 1 per application for ages 12 and up.',
+    concept: "Naloxone half-life trap with long-acting opioids",
+    rationale: "Naloxone half-life is ~30-90 min; methadone half-life is 8-59 hours. Naloxone wears off long before methadone, causing re-narcotization. Re-administer naloxone (or start naloxone drip), monitor continuously, do NOT discharge.",
+    deepExplanation: "This pattern is classic for any long-acting opioid OD — methadone, ER morphine, ER oxycodone, fentanyl patch, buprenorphine. The patient appears \"fine\" after one naloxone dose, then crashes again. Standard approach: continuous monitoring 4-6+ hours minimum after the LAST naloxone dose. For methadone specifically, often 24+ hour observation. A naloxone drip (0.25-6.25 mg/hr titrated to RR) may be needed. Charcoal is useless once the drug is already in circulation.",
     others: {
-      0: 'Adding more patches with continuous use compounds the toxicity risk.',
-      1: 'Continuous wear is unsafe.',
-      3: 'Lidocaine patches don\'t come in 10% — and continuous use is the issue.'
+      "0": "Discharging now will cause death from re-narcotization.",
+      "1": "Waiting allows respiratory arrest as naloxone wears off.",
+      "3": "Charcoal does not work for systemically absorbed drug."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'A patient on oxymorphone tells the nurse "I always take it with breakfast so I remember." What is the priority teaching?',
+    type: "standard",
+    stem: "A patient on chronic opioid therapy is being discharged. Which discharge teaching statement requires correction?",
     options: [
-      '"That\'s a great way to ensure consistency with dosing."',
-      '"Switch to taking it just before lunch for better effect."',
-      '"You can crush the tablet to make it easier with food."',
-      '"Oxymorphone must be taken on an empty stomach."'
-    ],
-    answer: 3,
-    concept: 'Oxymorphone empty stomach',
-    rationale: 'Oxymorphone must be taken on an empty stomach — food significantly affects absorption and can cause unpredictable peak levels.',
-    deepExplanation: 'Patients should take oxymorphone at least 1 hour before or 2 hours after meals. Extended-release forms are abuse-deterrent and must be swallowed whole — never crushed, chewed, or split. Crushing destroys the controlled-release mechanism and can cause fatal overdose.',
-    others: {
-      0: 'Taking with food alters absorption — not consistent.',
-      1: 'Lunch is still food — empty stomach is required.',
-      2: 'NEVER crush extended-release formulations.'
-    }
-  },
-  {
-    topic: 'Pain',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A patient on a fentanyl patch is being admitted for elective surgery. The patient asks if they can keep the patch during the procedure. What is the nurse\'s best response?',
-    options: [
-      'The team will evaluate the patch — surgical heat affects absorption',
-      'Just leave it on — surgery and patches don\'t interact at all',
-      'Cut the patch in half during surgery to reduce the dose',
-      'Apply a second patch right before the surgery starts'
-    ],
-    answer: 0,
-    concept: 'Fentanyl patch + surgery',
-    rationale: 'The surgical team should evaluate the patch — surgical heat (warming devices, OR temperature, lights), positioning, and intraoperative opioids can all interact dangerously.',
-    deepExplanation: 'Direct heat increases fentanyl absorption to fatal levels. Patches near the surgical field may need removal. Anesthesia teams typically manage opioid dosing intraoperatively. Cutting a patch is NEVER appropriate. Doubling up during surgery is dangerous.',
-    others: {
-      1: 'Surgery DOES interact with patches due to heat and positioning.',
-      2: 'NEVER cut a fentanyl patch.',
-      3: 'Adding a second patch could cause fatal overdose.'
-    }
-  },
-  {
-    topic: 'Pain',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A nurse is caring for a patient who took methadone for opioid detoxification 6 months ago. The patient now asks about pain management for an injury. What is the priority concern?',
-    options: [
-      'The patient may not need any pain medication at all',
-      'The patient may have developed a new methadone allergy',
-      'The patient may be at risk for relapse on opioid therapy',
-      'The patient may have ongoing QT prolongation effects'
+      "\"I will take docusate and senna routinely while on opioids.\"",
+      "\"I will avoid driving while feeling drowsy from the opioid.\"",
+      "\"I can drink a beer or two with my morphine ER.\"",
+      "\"I will keep my opioids in a locked safe at home.\""
     ],
     answer: 2,
-    concept: 'Opioid use disorder + new opioids',
-    rationale: 'A patient who completed methadone detox is at risk for relapse if started on opioid therapy — non-opioid alternatives should be prioritized when possible, with multidisciplinary support.',
-    deepExplanation: 'Patients in recovery often benefit from multimodal pain management: APAP, NSAIDs, regional blocks, and non-pharmacologic approaches. If opioids are necessary, they should be carefully managed with the patient\'s recovery team. Methadone for opioid use disorder differs from methadone for severe pain.',
+    concept: "Wrong opioid teaching",
+    rationale: "Morphine ER + alcohol carries a BBW for fatal overdose — alcohol disrupts the extended-release mechanism. The patient must avoid alcohol entirely.",
+    deepExplanation: "The other statements show correct understanding: bowel regimen (constipation persists), driving safety (sedation), and opioid security (preventing diversion). Alcohol with any opioid is dangerous, but specifically with ER formulations it's a BBW for fatal dose dumping.",
     others: {
-      0: 'Pain still needs management — but with extra care.',
-      1: 'Allergy is not the primary concern post-detox.',
-      3: 'QT effects from past methadone use don\'t typically persist 6 months later.'
+      "0": "Bowel regimen is correct teaching.",
+      "1": "Driving precaution is correct.",
+      "3": "Locked storage prevents diversion."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'A patient with a head injury and altered mental status arrives in the ED reporting severe pain. The provider considers ordering morphine. What is the nurse\'s priority concern?',
+    type: "standard",
+    stem: "A nurse is reviewing methadone monitoring schedules for several patients. Which patient needs an ECG TODAY?",
     options: [
-      'Morphine is contraindicated in head trauma with LOC',
-      'Morphine should be given via the IV route only',
-      'Morphine requires a higher dose for head injury',
-      'Morphine is the first-line drug for head trauma pain'
-    ],
-    answer: 0,
-    concept: 'Opioids in head trauma',
-    rationale: 'Opioids are contraindicated in head trauma with loss of consciousness — they mask neurologic changes (level of consciousness, pupillary response) and can increase intracranial pressure.',
-    deepExplanation: 'Other opioid contraindications: respiratory depression, paralytic ileus, pregnancy/lactation (caution). Patients with head injuries need clean neuro checks for assessment of evolving brain injury. Alternative analgesics or a careful provider decision may be needed.',
-    others: {
-      1: 'Route doesn\'t address the contraindication.',
-      2: 'Higher dose worsens the masking effect.',
-      3: 'Opioids are NOT first-line for head trauma.'
-    }
-  },
-  {
-    topic: 'Pain',
-    confirmed: false,
-    type: 'sata',
-    stem: 'A patient is being educated about safe disposal of a fentanyl patch at home. Which teaching points are correct? Select all that apply.',
-    options: [
-      'Fold the patch in half with sticky sides together',
-      'Flush the folded patch down the toilet',
-      'Save used patches for disposal at the next clinic visit',
-      'Used patches still contain enough drug to harm a child or pet',
-      'Wash hands after handling the patch',
-      'Burn used patches in a metal trash can'
-    ],
-    answerArr: [0, 1, 3, 4],
-    concept: 'Fentanyl patch disposal SATA',
-    rationale: 'Correct: fold sticky sides together, flush down the toilet, used patches still contain dangerous amounts of drug, and wash hands after handling. Saving for clinic and burning are both inappropriate.',
-    perOptionExplanations: {
-      0: '<strong>Fold sticky sides together</strong> — prevents accidental skin contact.',
-      1: '<strong>Flush down the toilet</strong> — FDA-recommended disposal for fentanyl.',
-      3: '<strong>Used patches contain dangerous drug amounts</strong> — children and pets can have fatal exposure.',
-      4: '<strong>Wash hands after handling</strong> — prevents accidental absorption.'
-    },
-    others: {
-      2: 'Saving for clinic risks accidental exposure at home.',
-      5: 'Burning is not an FDA-recommended disposal method.'
-    }
-  },
-  {
-    topic: 'Pain',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A nurse gives morphine to a postoperative patient. 10 minutes later, the patient has RR of 6 and is unresponsive. What is the priority action?',
-    options: [
-      'Administer naloxone and provide ventilation support',
-      'Wait 30 minutes to see if it resolves on its own',
-      'Give a second dose of morphine for sedation',
-      'Discontinue all monitoring and reassess in 1 hour'
-    ],
-    answer: 0,
-    concept: 'Opioid OD reversal',
-    rationale: 'RR of 6 and unresponsiveness indicate severe opioid-induced respiratory depression — naloxone administration with ventilation support is the priority intervention.',
-    deepExplanation: 'Naloxone is the opioid antagonist used to reverse opioid overdose. Continuous monitoring is essential because naloxone has a shorter half-life than most opioids — repeat dosing may be needed. The patient should be transferred to higher level monitoring.',
-    others: {
-      1: 'Waiting could be fatal.',
-      2: 'Adding more opioid worsens the overdose.',
-      3: 'Discontinuing monitoring is the opposite of what\'s needed.'
-    }
-  },
-  {
-    topic: 'Pain',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A patient on chronic opioid therapy is being discharged. Which discharge teaching statement requires correction?',
-    options: [
-      '"I will take docusate and senna routinely while on opioids."',
-      '"I can drink a beer or two with my morphine ER."',
-      '"I will avoid driving while feeling drowsy from the opioid."',
-      '"I will keep my opioids in a locked safe at home."'
+      "Patient A who started methadone yesterday and had baseline ECG",
+      "Patient B on methadone for 30 days with last ECG at baseline",
+      "Patient C on methadone for 5 months with ECG at baseline and 30 days",
+      "Patient D on methadone for 2 weeks with ECG at baseline"
     ],
     answer: 1,
-    concept: 'Wrong opioid teaching',
-    rationale: 'Morphine ER + alcohol carries a BBW for fatal overdose — alcohol disrupts the extended-release mechanism. The patient must avoid alcohol entirely.',
-    deepExplanation: 'The other statements show correct understanding: bowel regimen (constipation persists), driving safety (sedation), and opioid security (preventing diversion). Alcohol with any opioid is dangerous, but specifically with ER formulations it\'s a BBW for fatal dose dumping.',
+    concept: "Methadone ECG schedule application",
+    rationale: "Patient B is at the 30-day mark — the next ECG is required at this point per the methadone monitoring schedule (baseline, 30 days, annually).",
+    deepExplanation: "Methadone ECG schedule: prior to starting (baseline), at 30 days on therapy (to detect QT prolongation), and annually thereafter. Patient A had baseline yesterday — too early. Patient C at 5 months has no annual ECG due yet. Patient D at 2 weeks is between scheduled ECGs.",
     others: {
-      0: 'Bowel regimen is correct teaching.',
-      2: 'Driving precaution is correct.',
-      3: 'Locked storage prevents diversion.'
+      "0": "Started yesterday — baseline already done; next ECG at 30 days.",
+      "2": "5 months — annual ECG would be due closer to 12 months.",
+      "3": "2 weeks — between baseline and 30-day check."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'A nurse is reviewing methadone monitoring schedules for several patients. Which patient needs an ECG TODAY?',
+    type: "standard",
+    stem: "A patient on chronic oral morphine 60 mg every 4 hours is being switched to IV morphine for postoperative pain management. Standard equianalgesic ratio: oral morphine to IV morphine is 3:1. What is the equivalent IV morphine dose every 4 hours?",
     options: [
-      'Patient A who started methadone yesterday and had baseline ECG',
-      'Patient B on methadone for 30 days with last ECG at baseline',
-      'Patient C on methadone for 5 months with ECG at baseline and 30 days',
-      'Patient D on methadone for 2 weeks with ECG at baseline'
-    ],
-    answer: 1,
-    concept: 'Methadone ECG schedule application',
-    rationale: 'Patient B is at the 30-day mark — the next ECG is required at this point per the methadone monitoring schedule (baseline, 30 days, annually).',
-    deepExplanation: 'Methadone ECG schedule: prior to starting (baseline), at 30 days on therapy (to detect QT prolongation), and annually thereafter. Patient A had baseline yesterday — too early. Patient C at 5 months has no annual ECG due yet. Patient D at 2 weeks is between scheduled ECGs.',
-    others: {
-      0: 'Started yesterday — baseline already done; next ECG at 30 days.',
-      2: '5 months — annual ECG would be due closer to 12 months.',
-      3: '2 weeks — between baseline and 30-day check.'
-    }
-  },
-  {
-    topic: 'Pain',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A patient asks about the difference between "physical dependence" and "tolerance" while on opioids. Which statement is most accurate?',
-    options: [
-      '"Tolerance and dependence mean exactly the same thing."',
-      '"Tolerance means needing larger doses to achieve the same effect."',
-      '"Tolerance only happens to addicts who abuse opioids."',
-      '"Tolerance occurs only after years of opioid therapy."'
-    ],
-    answer: 1,
-    concept: 'Tolerance definition',
-    rationale: 'Tolerance is the need for larger doses to achieve the same effect — it develops to analgesia, sedation, euphoria, and respiratory depression but NOT to constipation or miosis.',
-    deepExplanation: 'Physical dependence is different — it\'s the body\'s adaptation, manifested by withdrawal symptoms when the drug is stopped or reduced. Both are physiological and can occur in any patient on chronic opioids, regardless of intent. Addiction is yet another distinct concept (compulsive use despite harm).',
-    others: {
-      0: 'Tolerance ≠ dependence.',
-      2: 'Tolerance is physiological, not just behavioral.',
-      3: 'Tolerance can occur within days to weeks.'
-    }
-  },
-  {
-    topic: 'Pain',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A 14-year-old with influenza and headache asks the nurse if she can take aspirin. What is the priority response?',
-    options: [
-      '"Aspirin is fine for teenagers — go ahead and take some."',
-      '"Take half the adult dose since you are still growing."',
-      '"Use acetaminophen or ibuprofen — aspirin risks Reye\'s syndrome."',
-      '"Try a hot compress instead of any pain medication."'
+      "180 mg IV every 4 hours",
+      "60 mg IV every 4 hours",
+      "20 mg IV every 4 hours",
+      "10 mg IV every 4 hours"
     ],
     answer: 2,
-    concept: 'Pediatric ASA + viral illness',
-    rationale: 'Aspirin is contraindicated in pediatric viral illness (including influenza) due to risk of Reye\'s syndrome — APAP or ibuprofen should be used instead.',
-    deepExplanation: 'Reye\'s syndrome is a rare but life-threatening condition affecting the liver and brain in children with viral infections who take aspirin. The contraindication applies through adolescence. Acetaminophen and ibuprofen are safe and effective alternatives.',
+    concept: "Equianalgesic conversion (PO → IV morphine)",
+    rationale: "Oral morphine to IV morphine equianalgesic ratio is 3:1 (PO is one-third as potent as IV due to first-pass metabolism). 60 mg PO ÷ 3 = 20 mg IV. Always reduce by additional 25-50% when rotating opioids for incomplete cross-tolerance.",
+    deepExplanation: "Common equianalgesic ratios to memorize: morphine PO:IV = 3:1, hydromorphone PO:IV = 5:1, oxycodone PO:morphine PO = 2:3 (rough). When converting between DIFFERENT opioids (rotation), reduce dose by 25-50% on top of the conversion to account for incomplete cross-tolerance. Example: switching morphine to hydromorphone, calculate equianalgesic dose then drop another 25-50%. For breakthrough pain dosing: 10-20% of total daily opioid dose, usually as immediate-release form.",
     others: {
-      0: 'Aspirin is contraindicated in pediatric viral illness.',
-      1: 'Half-dose aspirin still has Reye\'s risk.',
-      3: 'Hot compresses don\'t address the contraindication question.'
+      "0": "180 mg IV would be 9× the actual equianalgesic dose — fatal overdose.",
+      "1": "60 mg IV is the same dose without conversion — would be 3× too much.",
+      "3": "10 mg IV is half the equianalgesic dose — likely undertreats severe pain."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'A nurse is reviewing the opioid order for a patient with a paralytic ileus. The provider has ordered morphine for postoperative pain. What is the nurse\'s priority action?',
+    type: "standard",
+    stem: "A 14-year-old with influenza and headache asks the nurse if she can take aspirin. What is the priority response?",
     options: [
-      'Administer the morphine as ordered now',
-      'Reduce the morphine dose by 25 percent',
-      'Give the morphine via the rectal route',
-      'Question the order — morphine is contraindicated in ileus'
-    ],
-    answer: 3,
-    concept: 'Opioids + paralytic ileus',
-    rationale: 'Opioids are contraindicated in paralytic ileus — they decrease GI motility, worsening the ileus. The order must be questioned with the provider.',
-    deepExplanation: 'Other opioid contraindications: respiratory depression, head trauma/LOC, pregnancy/lactation (caution). The patient needs alternative pain management until the ileus resolves. Non-opioid analgesics (APAP, ketorolac if not contraindicated) and non-pharmacologic approaches may be options.',
-    others: {
-      0: 'Administering would worsen the ileus.',
-      1: 'Dose reduction doesn\'t address the underlying contraindication.',
-      2: 'Route change doesn\'t prevent decreased GI motility.'
-    }
-  },
-  {
-    topic: 'Pain',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A nurse is teaching a patient about a new lidocaine patch prescription. The patient asks "Can I cut it to fit a smaller area?" What is the most accurate response?',
-    options: [
-      '"No — cutting any pain patch is always dangerous."',
-      '"You can cut the lidocaine patch to fit if needed."',
-      '"You must apply 3 patches at once for it to work."',
-      '"You must purchase a smaller patch from the pharmacy."'
-    ],
-    answer: 1,
-    concept: 'Lidocaine patches can be cut',
-    rationale: 'Lidocaine patches CAN be cut to fit the affected area — they don\'t have an extended-release mechanism that would be disrupted (unlike fentanyl patches).',
-    deepExplanation: 'Important contrast: fentanyl patches must NEVER be cut (cutting disrupts the extended-release mechanism and can cause fatal overdose), but lidocaine patches can be cut. The 5% RX patch allows up to 3 patches per application in adults; the 4% OTC patch allows 1 per application for ages 12+.',
-    others: {
-      0: 'Fentanyl patches can\'t be cut — but lidocaine patches CAN.',
-      2: 'Three patches isn\'t a requirement — it\'s a maximum for the 5% RX.',
-      3: 'Cutting to fit is acceptable.'
-    }
-  },
-  {
-    topic: 'Pain',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A patient who had a fentanyl patch removed 6 hours ago reports persistent drowsiness and slowed breathing. What is the most accurate explanation?',
-    options: [
-      'The patient must be allergic to fentanyl now',
-      'These symptoms are expected for several weeks',
-      'The patient developed a separate viral illness',
-      'Fentanyl absorption continues from skin reservoirs'
-    ],
-    answer: 3,
-    concept: 'Fentanyl skin reservoir',
-    rationale: 'Fentanyl creates a skin depot during patch wear — drug continues being absorbed from the skin reservoir even after patch removal, causing prolonged effects.',
-    deepExplanation: 'This is why patches require careful monitoring after removal, especially when transitioning to other opioids. The skin reservoir can release fentanyl for many hours after the patch is off. Always remove the old patch before applying a new one — but recognize the post-removal window.',
-    others: {
-      0: 'Symptoms are not allergic — they reflect drug pharmacokinetics.',
-      1: 'These symptoms shouldn\'t persist for weeks.',
-      2: 'Symptoms are clearly drug-related, not viral.'
-    }
-  },
-  {
-    topic: 'Pain',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A patient on chronic opioids develops constipation despite using docusate. What is the most appropriate next step?',
-    options: [
-      'Stop the docusate — it\'s clearly not effective',
-      'Reduce fluid intake to firm up the stools',
-      'Switch to a different chronic opioid medication',
-      'Add a stimulant laxative like senna to the regimen'
-    ],
-    answer: 3,
-    concept: 'Opioid bowel regimen escalation',
-    rationale: 'Docusate alone often isn\'t enough for opioid-induced constipation — adding a stimulant laxative (senna) addresses the slowed motility directly.',
-    deepExplanation: 'Standard approach: docusate (stool softener) + senna (stimulant laxative) for chronic opioid users. If that fails, escalate to osmotic agents (PEG, lactulose), then stimulants, then peripherally-acting mu antagonists (methylnaltrexone, naloxegol). Tolerance never develops to constipation, so the regimen continues throughout therapy.',
-    others: {
-      0: 'Stopping docusate doesn\'t help — adding more is the answer.',
-      1: 'Reducing fluid worsens constipation.',
-      2: 'All opioids cause constipation — switching doesn\'t solve it.'
-    }
-  },
-  {
-    topic: 'Pain',
-    confirmed: false,
-    type: 'standard',
-    stem: 'A patient with chronic pain is prescribed methadone. The patient asks "What does this drug do besides pain?" What is the most accurate response?',
-    options: [
-      '"Methadone is also used for severe pain or detoxification."',
-      '"Methadone reverses other opioid overdoses."',
-      '"Methadone treats viral and bacterial infections."',
-      '"Methadone has no other uses besides chronic pain."'
+      "\"Use acetaminophen or ibuprofen — aspirin risks Reye's syndrome.\"",
+      "\"Take half the adult dose since you are still growing.\"",
+      "\"Aspirin is fine for teenagers — go ahead and take some.\"",
+      "\"Try a hot compress instead of any pain medication.\""
     ],
     answer: 0,
-    concept: 'Methadone uses application',
-    rationale: 'Methadone is used for severe pain AND opioid detoxification (medication-assisted treatment for opioid use disorder).',
-    deepExplanation: 'Its long half-life makes it useful for stable analgesia and addiction treatment alike. The QT prolongation BBW applies to both indications. Patients should know they may receive methadone in different contexts and the same monitoring rules apply.',
+    concept: "Pediatric ASA + viral illness",
+    rationale: "Aspirin is contraindicated in pediatric viral illness (including influenza) due to risk of Reye's syndrome — APAP or ibuprofen should be used instead.",
+    deepExplanation: "Reye's syndrome is a rare but life-threatening condition affecting the liver and brain in children with viral infections who take aspirin. The contraindication applies through adolescence. Acetaminophen and ibuprofen are safe and effective alternatives.",
     others: {
-      1: 'Naloxone reverses overdoses, not methadone.',
-      2: 'Methadone doesn\'t treat infections.',
-      3: 'Methadone has multiple uses.'
+      "1": "Half-dose aspirin still has Reye's risk.",
+      "2": "Aspirin is contraindicated in pediatric viral illness.",
+      "3": "Hot compresses don't address the contraindication question."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'A nurse is supervising a student preparing to apply a fentanyl patch. Which student action requires correction?',
+    type: "standard",
+    stem: "A nurse is reviewing the opioid order for a patient with a paralytic ileus. The provider has ordered morphine for postoperative pain. What is the nurse's priority action?",
     options: [
-      'Cleansing the upper torso application site with water only',
-      'Removing the previous patch from the patient\'s back',
-      'Cutting the patch in half to reduce the daily dose',
-      'Washing hands thoroughly before and after handling'
+      "Administer the morphine as ordered now",
+      "Reduce the morphine dose by 25 percent",
+      "Give the morphine via the rectal route",
+      "Question the order — morphine is contraindicated in ileus"
+    ],
+    answer: 3,
+    concept: "Opioids + paralytic ileus",
+    rationale: "Opioids are contraindicated in paralytic ileus — they decrease GI motility, worsening the ileus. The order must be questioned with the provider.",
+    deepExplanation: "Other opioid contraindications: respiratory depression, head trauma/LOC, pregnancy/lactation (caution). The patient needs alternative pain management until the ileus resolves. Non-opioid analgesics (APAP, ketorolac if not contraindicated) and non-pharmacologic approaches may be options.",
+    others: {
+      "0": "Administering would worsen the ileus.",
+      "1": "Dose reduction doesn't address the underlying contraindication.",
+      "2": "Route change doesn't prevent decreased GI motility."
+    }
+  },
+  {
+    topic: "Pain",
+    confirmed: false,
+    type: "standard",
+    stem: "A nurse caring for a newborn delivered to a mother on chronic opioid therapy notes the infant has high-pitched continuous cry, hyperactive Moro reflex, increased muscle tone, frequent yawning, sneezing, loose stools, and difficulty feeding. These findings most likely indicate:",
+    options: [
+      "Normal newborn behavior in the first 24 hours of life",
+      "Neonatal abstinence syndrome (NAS) — opioid withdrawal",
+      "Acute neonatal sepsis with signs of bacterial infection",
+      "Hypoglycemia from delayed feeding initiation"
+    ],
+    answer: 1,
+    concept: "Neonatal abstinence syndrome recognition",
+    rationale: "Neonatal abstinence syndrome (NAS) presents with CNS hyperexcitability (high-pitched cry, hyperactive reflexes, tremor), GI symptoms (loose stools, vomiting, poor feeding), and autonomic signs (yawning, sneezing, sweating, tachypnea). Onset varies by maternal opioid: heroin/short-acting = within 24-72 hr; methadone = 24 hr-2 weeks.",
+    deepExplanation: "Scored using the Finnegan Neonatal Abstinence Scoring Tool (more recently the ESC: Eat, Sleep, Console approach). High scores indicate need for pharmacologic treatment (oral morphine or methadone is standard). Non-pharm interventions are ALWAYS first-line: low stimulus environment (dim lights, quiet), swaddling, frequent small feedings, skin-to-skin contact, breastfeeding (if not contraindicated). The specific symptom cluster differs from sepsis (sepsis is HYPOactive/lethargic, not hyperactive) and hypoglycemia (jittery but not the autonomic cluster).",
+    others: {
+      "0": "Not normal — high-pitched cry and hyperreflexia are abnormal.",
+      "2": "Sepsis presents with lethargy, hypotonia, temperature instability — opposite findings.",
+      "3": "Hypoglycemia causes jitteriness but not the autonomic cluster (yawning, sneezing, loose stools)."
+    }
+  },
+  {
+    topic: "Pain",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient who had a fentanyl patch removed 6 hours ago reports persistent drowsiness and slowed breathing. What is the most accurate explanation?",
+    options: [
+      "The patient must be allergic to fentanyl now",
+      "These symptoms are expected for several weeks",
+      "The patient developed a separate viral illness",
+      "Fentanyl absorption continues from skin reservoirs"
+    ],
+    answer: 3,
+    concept: "Fentanyl skin reservoir",
+    rationale: "Fentanyl creates a skin depot during patch wear — drug continues being absorbed from the skin reservoir even after patch removal, causing prolonged effects.",
+    deepExplanation: "This is why patches require careful monitoring after removal, especially when transitioning to other opioids. The skin reservoir can release fentanyl for many hours after the patch is off. Always remove the old patch before applying a new one — but recognize the post-removal window.",
+    others: {
+      "0": "Symptoms are not allergic — they reflect drug pharmacokinetics.",
+      "1": "These symptoms shouldn't persist for weeks.",
+      "2": "Symptoms are clearly drug-related, not viral."
+    }
+  },
+  {
+    topic: "Pain",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient on chronic opioids develops constipation despite using docusate. What is the most appropriate next step?",
+    options: [
+      "Stop the docusate — it's clearly not effective",
+      "Reduce fluid intake to firm up the stools",
+      "Switch to a different chronic opioid medication",
+      "Add a stimulant laxative like senna to the regimen"
+    ],
+    answer: 3,
+    concept: "Opioid bowel regimen escalation",
+    rationale: "Docusate alone often isn't enough for opioid-induced constipation — adding a stimulant laxative (senna) addresses the slowed motility directly.",
+    deepExplanation: "Standard approach: docusate (stool softener) + senna (stimulant laxative) for chronic opioid users. If that fails, escalate to osmotic agents (PEG, lactulose), then stimulants, then peripherally-acting mu antagonists (methylnaltrexone, naloxegol). Tolerance never develops to constipation, so the regimen continues throughout therapy.",
+    others: {
+      "0": "Stopping docusate doesn't help — adding more is the answer.",
+      "1": "Reducing fluid worsens constipation.",
+      "2": "All opioids cause constipation — switching doesn't solve it."
+    }
+  },
+  {
+    topic: "Pain",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient is in the ED 18 hours after his last drink. He has T 100.4°F, BP 168/98, HR 118, tremors, and reports seeing \"bugs crawling on the wall.\" Another patient, 24 hours after his last short-acting opioid dose, has BP 136/84, HR 102, lacrimation, runny nose, yawning, muscle aches, and goosebumps. Which assessment most reliably differentiates which condition is more dangerous?",
+    options: [
+      "The presence of pupil changes between the two patients",
+      "Muscle aches and goosebumps are unique to alcohol withdrawal",
+      "Alcohol withdrawal can cause seizures and death; opioid withdrawal is rarely fatal",
+      "Both withdrawals carry equal mortality risk and need ICU care"
     ],
     answer: 2,
-    concept: 'Fentanyl patch never cut',
-    rationale: 'Fentanyl patches must NEVER be cut — cutting disrupts the extended-release mechanism and can cause fatal overdose from rapid absorption.',
-    deepExplanation: 'The other actions are correct: cleansing with water only (no soaps, lotions that affect adhesion or absorption), always remove the old patch first, and proper hand hygiene prevents accidental drug exposure. Cutting fentanyl is among the most dangerous patch errors.',
+    concept: "Withdrawal differentiation: alcohol vs opioid mortality",
+    rationale: "Alcohol/benzo withdrawal can be FATAL (seizures, delirium tremens, cardiovascular collapse). Opioid withdrawal is miserable but rarely fatal in healthy adults. The first patient (alcohol withdrawal with hallucinations + tachycardia + tremors + low-grade fever) is at risk for DTs and needs urgent benzo treatment.",
+    deepExplanation: "CIWA scoring guides alcohol withdrawal management — scores >15 require benzodiazepines (lorazepam, diazepam) to prevent progression to DTs (mortality 5-15% untreated). DTs onset 48-96 hr after last drink: severe autonomic instability, profound confusion, hallucinations, seizures. Opioid withdrawal (COWS scoring): rhinorrhea, lacrimation, yawning, piloerection, muscle aches, GI upset, mydriasis — uncomfortable but self-limiting. Treated with clonidine, antiemetics, supportive care; methadone or buprenorphine for opioid use disorder. The key teaching: STOPPING alcohol abruptly can kill; stopping opioids feels like death but rarely is.",
     others: {
-      0: 'Water-only cleansing is correct technique.',
-      1: 'Removing old before applying new is correct.',
-      3: 'Hand hygiene is essential.'
+      "0": "Pupil changes are present in both but not the differentiator for danger.",
+      "1": "Muscle aches and goosebumps are typical of OPIOID withdrawal, not alcohol.",
+      "3": "Risk is NOT equal — alcohol withdrawal is far more dangerous."
+    }
+  },
+  {
+    topic: "Pain",
+    confirmed: false,
+    type: "standard",
+    stem: "A nurse is supervising a student preparing to apply a fentanyl patch. Which student action requires correction?",
+    options: [
+      "Cleansing the upper torso application site with water only",
+      "Removing the previous patch from the patient's back",
+      "Cutting the patch in half to reduce the daily dose",
+      "Washing hands thoroughly before and after handling"
+    ],
+    answer: 2,
+    concept: "Fentanyl patch never cut",
+    rationale: "Fentanyl patches must NEVER be cut — cutting disrupts the extended-release mechanism and can cause fatal overdose from rapid absorption.",
+    deepExplanation: "The other actions are correct: cleansing with water only (no soaps, lotions that affect adhesion or absorption), always remove the old patch first, and proper hand hygiene prevents accidental drug exposure. Cutting fentanyl is among the most dangerous patch errors.",
+    others: {
+      "0": "Water-only cleansing is correct technique.",
+      "1": "Removing old before applying new is correct.",
+      "3": "Hand hygiene is essential."
     }
   }
 ];
