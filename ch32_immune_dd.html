@@ -146,388 +146,388 @@
 <script>
 const questions = [
   {
-    topic: 'Immune',
-    type: 'standard',
-    stem: 'A patient with HIV has a CD4+ count of 145 and is admitted with productive cough, fever, and dyspnea. Chest X-ray shows bilateral infiltrates. Which infection does the nurse most likely suspect?',
+    topic: "Immune",
+    type: "standard",
+    stem: "A patient with AIDS and a CD4+ count of 75 (normal 500-1500) presents with new-onset headaches, fever, confusion, and right-sided weakness. CT shows multiple ring-enhancing lesions in the brain. Which opportunistic infection does the nurse most likely suspect?",
     options: [
-      'Allergic rhinitis from seasonal pollens',
-      'Pneumocystis pneumonia (PCP)',
-      'Common cold caused by rhinovirus',
-      'Acute bronchitis from a routine virus'
+      "Cerebral toxoplasmosis from reactivation of latent infection",
+      "Bacterial meningitis from a routine respiratory infection",
+      "Migraine headache exacerbated by anti-retroviral therapy",
+      "Stroke unrelated to immunosuppression and HIV status"
     ],
-    answer: 1,
-    concept: 'PCP Recognition',
-    rationale: 'CD4+ <200 + productive cough + bilateral infiltrates classically suggests Pneumocystis pneumonia (PCP). It is one of the most common opportunistic infections in AIDS.',
+    answer: 0,
+    concept: "Cerebral Toxoplasmosis",
+    rationale: "Toxoplasmosis (Toxoplasma gondii) is the most common cause of focal CNS lesions in AIDS patients with CD4 <100. Classic presentation: headache, fever, focal neurologic deficits, and ring-enhancing lesions on CT/MRI. Most cases represent reactivation of latent infection acquired earlier (often from cat exposure or undercooked meat). Treatment: pyrimethamine + sulfadiazine + leucovorin. Prophylaxis with TMP-SMX is given when CD4 <100 and toxo IgG positive.",
     others: {
-      0: 'Allergic rhinitis does not present this way.',
-      2: 'Common cold does not produce bilateral infiltrates.',
-      3: 'Acute bronchitis is not classically associated with AIDS.'
+      "1": "Bacterial meningitis presents with diffuse meningismus, not focal ring-enhancing lesions.",
+      "2": "Migraine does not cause ring-enhancing CT lesions or focal weakness.",
+      "3": "Strokes do not typically show multiple ring-enhancing lesions; pattern fits mass lesions."
     }
   },
   {
-    topic: 'Immune',
-    type: 'standard',
-    stem: 'A nurse is teaching a patient newly diagnosed with HIV about HAART. Which patient statement requires further teaching?',
+    topic: "Immune",
+    type: "standard",
+    stem: "A patient had a high-risk HIV exposure 5 days ago and tested negative on a 4th-generation HIV antigen/antibody test today. The patient asks, \"Does this mean I am in the clear?\" What is the BEST nursing response?",
     options: [
-      '"I will take all of my medications exactly as prescribed every day."',
-      '"I understand that missing doses can lead to drug resistance."',
-      '"I will continue ART for the rest of my life unless told otherwise."',
-      '"I will stop my meds once my viral load becomes undetectable."'
+      "\"Yes, the test is negative — you can stop worrying about it now.\"",
+      "\"The test cannot detect early infection. Repeat testing at 4-6 weeks and 3 months is recommended.\"",
+      "\"Negative tests are always reliable. No further testing is needed at any time.\"",
+      "\"You will need to wait 1 year to retest because of the long window period.\""
+    ],
+    answer: 1,
+    concept: "HIV Testing Window Period",
+    rationale: "HIV tests have a \"window period\" — the time from infection to test detection. 4th-generation Ag/Ab tests detect infection as early as 2-3 weeks but can miss very early infection. CDC recommends repeat testing at 4-6 weeks and 3 months after exposure to definitively rule out HIV. PEP should also be considered if exposure was within 72 hours.",
+    others: {
+      "0": "Reassurance at 5 days post-exposure is dangerously misleading.",
+      "2": "Tests at this stage may miss seroconversion in process.",
+      "3": "4th-gen tests have a 3-month window, not 1 year (older antibody-only tests had 6-month window)."
+    }
+  },
+  {
+    topic: "Immune",
+    type: "standard",
+    stem: "A nurse is caring for a patient with AIDS and a CD4+ count of 75 (normal 500-1500). Which precautions are most appropriate?",
+    options: [
+      "Standard precautions only with no isolation needed",
+      "Contact precautions to prevent skin transmission",
+      "Neutropenic precautions to protect the patient from infection",
+      "Airborne precautions to protect staff from the virus"
+    ],
+    answer: 2,
+    concept: "Neutropenic Precautions",
+    rationale: "A patient with severe immune deficiency (CD4+ <100) needs neutropenic precautions to protect THEM from infection — no fresh flowers, no fresh fruits/raw vegetables, no sick visitors, strict hand hygiene.",
+    others: {
+      "0": "Standard precautions alone are not enough for severe immunocompromise.",
+      "1": "Contact precautions are for infection containment, not for protecting the patient.",
+      "3": "Airborne precautions are for active TB or similar, not routine HIV care."
+    }
+  },
+  {
+    topic: "Immune",
+    type: "standard",
+    stem: "A patient with HIV reports white plaques on the tongue that scrape off easily, leaving a red base. The nurse anticipates which order?",
+    options: [
+      "IV vancomycin for bacterial infection treatment",
+      "IV acyclovir for viral infection treatment",
+      "Antihistamine such as diphenhydramine for allergy",
+      "Antifungal medication such as nystatin oral suspension"
     ],
     answer: 3,
-    concept: 'Lifelong ART',
-    rationale: 'ART is lifelong. Even when viral load is undetectable, the virus remains in the body. Stopping treatment causes the virus to rebound, leading to disease progression and resistance.',
+    concept: "Thrush Treatment",
+    rationale: "White plaques on the tongue that scrape off (oral candidiasis / thrush) are caused by Candida fungus. Treatment is antifungal — nystatin oral suspension is commonly prescribed. Patients swish and swallow.",
     others: {
-      0: 'Taking meds exactly as prescribed is correct.',
-      1: 'Understanding that missing doses leads to resistance is correct.',
-      2: 'Lifelong ART is correct teaching.'
+      "0": "Vancomycin is for bacterial infection, not fungal.",
+      "1": "Acyclovir is for herpes viruses, not candida.",
+      "2": "Antihistamines are for allergies, not fungal infections."
     }
   },
   {
-    topic: 'Immune',
-    type: 'standard',
-    stem: 'A nurse is caring for a patient with AIDS and a CD4+ count of 75. Which precautions are most appropriate?',
+    topic: "Immune",
+    type: "standard",
+    stem: "A patient on ART for 2 years admits to taking medications \"most days, but not every day.\" Recent labs: CD4+ dropped from 580 to 320, viral load increased from <50 to 8,500. Which interpretation is correct?",
     options: [
-      'Standard precautions only with no isolation needed',
-      'Contact precautions to prevent skin transmission',
-      'Neutropenic precautions to protect the patient from infection',
-      'Airborne precautions to protect staff from the virus'
-    ],
-    answer: 2,
-    concept: 'Neutropenic Precautions',
-    rationale: 'A patient with severe immune deficiency (CD4+ <100) needs neutropenic precautions to protect THEM from infection — no fresh flowers, no fresh fruits/raw vegetables, no sick visitors, strict hand hygiene.',
-    others: {
-      0: 'Standard precautions alone are not enough for severe immunocompromise.',
-      1: 'Contact precautions are for infection containment, not for protecting the patient.',
-      3: 'Airborne precautions are for active TB or similar, not routine HIV care.'
-    }
-  },
-  {
-    topic: 'Immune',
-    type: 'standard',
-    stem: 'A patient with HIV reports white plaques on the tongue that scrape off easily, leaving a red base. The nurse anticipates which order?',
-    options: [
-      'IV vancomycin for bacterial infection treatment',
-      'IV acyclovir for viral infection treatment',
-      'Antihistamine such as diphenhydramine for allergy',
-      'Antifungal medication such as nystatin oral suspension'
+      "Lab error — the patient is taking medications and these are normal fluctuations",
+      "The patient should double doses on the days they remember to catch up",
+      "These results are expected on long-term ART without intervention needed",
+      "Drug resistance is developing from inconsistent adherence; resistance testing is needed"
     ],
     answer: 3,
-    concept: 'Thrush Treatment',
-    rationale: 'White plaques on the tongue that scrape off (oral candidiasis / thrush) are caused by Candida fungus. Treatment is antifungal — nystatin oral suspension is commonly prescribed. Patients swish and swallow.',
+    concept: "ART Resistance from Poor Adherence",
+    rationale: "Inconsistent ART adherence allows the virus to replicate intermittently, creating opportunities for resistance mutations. Rising viral load + falling CD4 in a patient who has been suppressed signals treatment failure, often from resistance. Genotype resistance testing identifies which mutations are present so a new effective regimen can be selected. Doubling doses does not work and increases toxicity.",
     others: {
-      0: 'Vancomycin is for bacterial infection, not fungal.',
-      1: 'Acyclovir is for herpes viruses, not candida.',
-      2: 'Antihistamines are for allergies, not fungal infections.'
+      "0": "Both CD4 drop and viral load rise are too significant for lab error.",
+      "1": "Doubling doses does not overcome resistance and increases adverse effects.",
+      "2": "Effective ART maintains undetectable viral load; this pattern is treatment failure."
     }
   },
   {
-    topic: 'Immune',
-    type: 'standard',
-    stem: 'A pregnant patient is HIV-positive with an undetectable viral load on ART. Which counseling statement is the BEST?',
+    topic: "Immune",
+    type: "standard",
+    stem: "A patient on long-term ART (5 years) reports increased fat around the abdomen and back of the neck, but thinning in the face, arms, and legs. Recent labs: triglycerides 480 (normal <150), glucose 168 fasting (normal 70-110). Which complication does the nurse recognize?",
     options: [
-      '"Continuing ART through pregnancy can dramatically reduce transmission to your baby."',
-      '"You should stop ART immediately to protect your baby from the medications."',
-      '"There is nothing you can do to reduce the risk of giving HIV to your baby."',
-      '"Breastfeeding is the safest way to protect your newborn from infection."'
-    ],
-    answer: 0,
-    concept: 'Perinatal HIV Prevention',
-    rationale: 'Continuing ART during pregnancy with undetectable viral load dramatically reduces perinatal HIV transmission. ART is continued throughout pregnancy and the newborn typically receives prophylactic ART.',
-    others: {
-      1: 'Stopping ART risks viral rebound and increases transmission risk.',
-      2: 'There IS something to do — continue ART to suppress the virus.',
-      3: 'Breastfeeding is generally NOT recommended in HIV+ mothers in countries with safe formula access.'
-    }
-  },
-  {
-    topic: 'Immune',
-    type: 'standard',
-    stem: 'A nurse is providing infection prevention education to a patient with AIDS and CD4+ 80. Which teaching is appropriate?',
-    options: [
-      'Avoid fresh flowers, raw fruits, and undercooked meats at home',
-      'Eat ample raw vegetables and unpasteurized dairy products daily',
-      'Spend time in crowded indoor venues to build up immunity slowly',
-      'Stop washing hands so frequently to support normal skin flora'
-    ],
-    answer: 0,
-    concept: 'AIDS Infection Prevention',
-    rationale: 'Patients with severe immune deficiency must avoid fresh flowers (fungal spores), raw fruits/vegetables (bacterial contamination), and undercooked meats (foodborne pathogens). Strict hand hygiene and avoiding crowds are essential.',
-    others: {
-      1: 'Raw vegetables and unpasteurized dairy are unsafe.',
-      2: 'Crowded venues increase exposure risk.',
-      3: 'Frequent handwashing is essential, not optional.'
-    }
-  },
-  {
-    topic: 'Immune',
-    type: 'standard',
-    stem: 'A patient with HIV asks why CD4+ count and viral load are checked regularly. Which response is BEST?',
-    options: [
-      '"They tell us if you are eating enough nutritious food at every meal."',
-      '"They show how strong your immune system is and how well your meds are working."',
-      '"They are required hospital procedures with no clinical purpose at all."',
-      '"They only matter if you start having symptoms of any new illnesses."'
+      "Normal aging changes unrelated to medications",
+      "Lipodystrophy with metabolic syndrome from long-term ART",
+      "Cushing syndrome from prednisone given for OI",
+      "New-onset cancer requiring immediate workup"
     ],
     answer: 1,
-    concept: 'CD4 Viral Load Monitoring',
-    rationale: 'CD4+ count reflects immune system strength; viral load reflects how well ART is suppressing the virus. Both are monitored together to track disease progression and treatment effectiveness.',
+    concept: "ART Lipodystrophy + Metabolic Syndrome",
+    rationale: "Lipodystrophy is a known long-term complication of ART (especially older PIs and NRTIs) — characterized by central fat accumulation (abdomen, dorsocervical \"buffalo hump\") with peripheral fat loss (face, arms, legs). Often accompanied by metabolic abnormalities: hypertriglyceridemia, insulin resistance, T2DM, increased CV risk. Management: regimen modification when possible, lipid/glucose management, lifestyle modification. Newer ART has lower lipodystrophy risk.",
     others: {
-      0: 'These labs are not nutrition tracking.',
-      2: 'They have specific clinical purpose.',
-      3: 'They matter even when asymptomatic.'
+      "0": "The pattern is too specific (central gain + peripheral loss + metabolic labs) for normal aging.",
+      "2": "Cushing presents with moon face and central obesity but doesn't cause peripheral fat LOSS.",
+      "3": "Cancer would not produce this specific lipodystrophy pattern."
     }
   },
   {
-    topic: 'Immune',
-    type: 'standard',
-    stem: 'A nurse is reviewing labs on a patient with HIV. The CD4+ count has improved from 180 to 410 and viral load decreased from 50,000 to <50 (undetectable). The nurse interprets these results as:',
+    topic: "Immune",
+    type: "standard",
+    stem: "A patient on a NRTI-based ART regimen presents with new fatigue, nausea, abdominal pain, and rapid breathing. Labs: pH 7.28 (normal 7.35-7.45), bicarbonate 14 (normal 22-26), lactate 6.2 (normal 0.5-2.2), AST/ALT elevated. Which complication does the nurse suspect?",
     options: [
-      'Treatment failure requiring an immediate medication change',
-      'Effective treatment response — continue current ART',
-      'Worsening disease progression toward Stage 3 AIDS',
-      'A laboratory error that should be drawn again right away'
+      "Acute pancreatitis from dietary triggers",
+      "Lactic acidosis with hepatic steatosis — a NRTI complication",
+      "Diabetic ketoacidosis from undiagnosed type 1 diabetes",
+      "Common viral gastroenteritis with mild dehydration"
     ],
     answer: 1,
-    concept: 'Effective ART',
-    rationale: 'CD4+ rising and viral load becoming undetectable indicate effective ART. The patient should continue the current regimen. This is the goal of HIV treatment.',
+    concept: "NRTI Lactic Acidosis",
+    rationale: "Lactic acidosis with hepatic steatosis is a rare but life-threatening NRTI side effect (especially older drugs like stavudine, didanosine, but also seen with newer ones). Caused by mitochondrial toxicity. Signs: nonspecific GI symptoms, fatigue, dyspnea/Kussmaul breathing, anion-gap metabolic acidosis with elevated lactate, elevated transaminases. Mortality is high if not recognized early. Treatment: stop NRTI immediately, supportive care.",
     others: {
-      0: 'These results show treatment success, not failure.',
-      2: 'CD4+ rising indicates improvement, not progression.',
-      3: 'These trends are consistent and not lab errors.'
+      "0": "Pancreatitis would have characteristic abdominal pain pattern and elevated lipase, not lactic acidosis.",
+      "2": "DKA has hyperglycemia and ketones; lactic acidosis here is from mitochondrial toxicity.",
+      "3": "Gastroenteritis doesn't cause severe acidosis with elevated lactate and transaminases."
     }
   },
   {
-    topic: 'Immune',
-    type: 'standard',
-    stem: 'A 19-year-old patient is being tested for HIV after potential exposure. They are anxious and ask, "How accurate is this test?" Which response is BEST?',
+    topic: "Immune",
+    type: "standard",
+    stem: "A nurse is reviewing labs on a patient with HIV. The CD4+ count has improved from 180 to 410 and viral load decreased from 50,000 to <50 (undetectable). The nurse interprets these results as:",
     options: [
-      '"You should not worry about the result and just go home for now."',
-      '"Modern HIV testing is very accurate, and we will discuss your result with you."',
-      '"The test is right about 50 percent of the time at most centers."',
-      '"You will need to test 50 times before getting a reliable result."'
+      "Treatment failure requiring an immediate medication change",
+      "Effective treatment response — continue current ART",
+      "Worsening disease progression toward Stage 3 AIDS",
+      "A laboratory error that should be drawn again right away"
     ],
     answer: 1,
-    concept: 'Therapeutic Communication',
-    rationale: 'Modern HIV testing (4th gen antigen/antibody combo, RNA testing) is very accurate. The nurse should reassure the patient about test accuracy and offer to discuss results compassionately when available.',
+    concept: "Effective ART",
+    rationale: "CD4+ rising and viral load becoming undetectable indicate effective ART. The patient should continue the current regimen. This is the goal of HIV treatment.",
     others: {
-      0: 'Dismissing concerns is not therapeutic.',
-      2: '50% accuracy is incorrect.',
-      3: '50 tests is not realistic.'
+      "0": "These results show treatment success, not failure.",
+      "2": "CD4+ rising indicates improvement, not progression.",
+      "3": "These trends are consistent and not lab errors."
     }
   },
   {
-    topic: 'Immune',
-    type: 'standard',
-    stem: 'Which patient with HIV is at HIGHEST risk for opportunistic infections?',
+    topic: "Immune",
+    type: "standard",
+    stem: "An HIV-negative patient with multiple sexual partners and inconsistent condom use asks the nurse about preventing HIV infection. The nurse anticipates the provider will discuss which preventive option?",
     options: [
-      'A patient with CD4+ 650, undetectable viral load, on ART',
-      'A patient with CD4+ 480, viral load 5,000, taking ART daily',
-      'A patient with CD4+ 60, viral load 250,000, not taking ART',
-      'A patient with CD4+ 720, undetectable viral load, on ART'
-    ],
-    answer: 2,
-    concept: 'Highest Risk Patient',
-    rationale: 'CD4+ 60 with high viral load and no ART is the highest risk profile. This patient is in advanced AIDS and severely immunocompromised, making them vulnerable to many opportunistic infections.',
-    others: {
-      0: 'CD4+ 650 with undetectable viral load is well-controlled.',
-      1: 'CD4+ 480 is Stage 2 with intermediate risk.',
-      3: 'CD4+ 720 with undetectable viral load is well-controlled.'
-    }
-  },
-  {
-    topic: 'Immune',
-    type: 'standard',
-    stem: 'A patient with AIDS develops a new dry cough, fever, and shortness of breath. Their CD4+ is 110. The nurse suspects PCP. Which medication does the nurse anticipate the provider to order?',
-    options: [
-      'Trimethoprim-sulfamethoxazole (Bactrim)',
-      'Ciprofloxacin for routine respiratory infection',
-      'Amoxicillin for suspected bacterial pneumonia',
-      'Acyclovir for suspected viral pneumonia'
-    ],
-    answer: 0,
-    concept: 'PCP Treatment',
-    rationale: 'Trimethoprim-sulfamethoxazole (Bactrim, TMP-SMX) is first-line treatment for PCP. It is also used for prophylaxis in HIV patients with CD4+ <200.',
-    others: {
-      1: 'Cipro is for bacterial respiratory infections, not PCP.',
-      2: 'Amoxicillin is for typical bacterial infections.',
-      3: 'Acyclovir is for herpesviruses, not PCP.'
-    }
-  },
-  {
-    topic: 'Immune',
-    type: 'standard',
-    stem: 'A patient with HIV reports significant nausea and fatigue with their ART regimen. They state, "I just want to skip a few doses to feel better." What is the BEST nursing response?',
-    options: [
-      '"Skipping doses is fine if it helps you feel better in the short term."',
-      '"You should call your provider — there may be ways to manage side effects without skipping."',
-      '"You can stop the meds completely if the side effects are bothersome."',
-      '"Take double doses on alternate days to keep the medication effective."'
-    ],
-    answer: 1,
-    concept: 'Side Effect Management',
-    rationale: 'Side effects are common with ART but skipping doses leads to drug resistance. The provider can adjust the regimen, add anti-nausea meds, or suggest other strategies. The patient should never skip doses without provider guidance.',
-    others: {
-      0: 'Skipping is never safe.',
-      2: 'Stopping completely is dangerous.',
-      3: 'Doubling doses on alternate days is unsafe.'
-    }
-  },
-  {
-    topic: 'Immune',
-    type: 'standard',
-    stem: 'A nurse is caring for an HIV-positive patient who has a needlestick injury. Which protocol does the nurse follow for the injured employee?',
-    options: [
-      'Wash the area, report the injury, begin post-exposure prophylaxis',
-      'Wash the area only, no further action is needed at this time',
-      'Wait for symptoms before reporting the needlestick injury',
-      'Treat with antibiotics if any signs of infection develop later'
-    ],
-    answer: 0,
-    concept: 'PEP Protocol',
-    rationale: 'After a needlestick from an HIV+ source, the employee must wash the area thoroughly, immediately report the exposure, and begin post-exposure prophylaxis (PEP) within hours. PEP is most effective when started quickly.',
-    others: {
-      1: 'Wash alone is insufficient.',
-      2: 'Waiting for symptoms is too late.',
-      3: 'Antibiotics do not treat HIV exposure.'
-    }
-  },
-  {
-    topic: 'Immune',
-    type: 'standard',
-    stem: 'A patient with HIV is concerned about disclosing their status. Which response by the nurse is BEST?',
-    options: [
-      '"You must tell everyone in your life to ensure they stay safe from infection."',
-      '"You should tell only your healthcare providers and any sexual partners."',
-      '"Disclosure is your choice, though sexual partners and providers should know."',
-      '"You should never disclose because it could harm your social relationships."'
-    ],
-    answer: 2,
-    concept: 'HIV Disclosure',
-    rationale: 'Disclosure is largely the patient choice, though sexual partners and healthcare providers must know to make informed decisions. Many states have legal requirements about disclosing to sexual partners, and confidentiality laws protect the patient otherwise.',
-    others: {
-      0: 'Telling everyone is not required.',
-      1: 'Disclosure framing is more nuanced than "only" providers and partners.',
-      3: 'Never disclosing is not appropriate either.'
-    }
-  },
-  {
-    topic: 'Immune',
-    type: 'standard',
-    stem: 'A patient with AIDS develops painless purplish lesions on their face and chest. The nurse identifies these as:',
-    options: [
-      'Petechiae from active platelet destruction',
-      'Splinter hemorrhages from endocarditis',
-      'Tinea versicolor fungal skin patches',
-      'Kaposi sarcoma lesions on the skin'
+      "Daily multivitamin to boost immune function as primary prevention",
+      "Antibiotic prophylaxis monthly to prevent any STI exposure",
+      "Annual influenza vaccination as the primary HIV prevention",
+      "Daily PrEP (pre-exposure prophylaxis) with tenofovir/emtricitabine"
     ],
     answer: 3,
-    concept: 'Kaposi Sarcoma',
-    rationale: 'Painless purplish lesions on the face, chest, or other areas are classic Kaposi sarcoma — a vascular cancer that is an AIDS-defining illness. It is associated with HHV-8 infection in immunocompromised hosts.',
+    concept: "PrEP for HIV Prevention",
+    rationale: "PrEP (pre-exposure prophylaxis) — daily oral tenofovir/emtricitabine (Truvada or Descovy) — reduces HIV acquisition risk by >90% with consistent use. Indicated for HIV-negative individuals at substantial risk: multiple partners, inconsistent condom use, IV drug use, partner with HIV. Requires confirmed HIV-negative status before starting (PrEP doses are not adequate to treat HIV) and quarterly testing while on therapy. Long-acting injectable cabotegravir is also available.",
     others: {
-      0: 'Petechiae are tiny red dots, not purplish lesions.',
-      1: 'Splinter hemorrhages appear under nails.',
-      2: 'Tinea versicolor presents as discolored patches, not painless purplish lesions.'
+      "0": "Multivitamins do not prevent HIV transmission.",
+      "1": "Antibiotics do not prevent viral infections like HIV.",
+      "2": "Influenza vaccine is unrelated to HIV prevention."
     }
   },
   {
-    topic: 'Immune',
-    type: 'standard',
-    stem: 'A patient with HIV is being prescribed prophylactic medication for opportunistic infections. The nurse anticipates an order at which CD4+ threshold?',
+    topic: "Immune",
+    type: "standard",
+    stem: "Which patient with HIV is at HIGHEST risk for opportunistic infections?",
     options: [
-      'CD4+ count above 700',
-      'CD4+ count between 500 and 700',
-      'CD4+ count below 200',
-      'CD4+ count above 1500'
+      "A patient with CD4+ 650, undetectable viral load, on ART",
+      "A patient with CD4+ 480, viral load 5,000, taking ART daily",
+      "A patient with CD4+ 60, viral load 250,000, not taking ART",
+      "A patient with CD4+ 720, undetectable viral load, on ART"
     ],
     answer: 2,
-    concept: 'OI Prophylaxis Threshold',
-    rationale: 'When CD4+ drops below 200, the patient is at high risk for opportunistic infections like PCP. TMP-SMX (Bactrim) prophylaxis is typically started at this threshold.',
+    concept: "Highest Risk Patient",
+    rationale: "CD4+ 60 with high viral load and no ART is the highest risk profile. This patient is in advanced AIDS and severely immunocompromised, making them vulnerable to many opportunistic infections.",
     others: {
-      0: 'CD4+ >700 is healthy and does not warrant OI prophylaxis.',
-      1: 'CD4+ 500-700 is too high for OI prophylaxis.',
-      3: 'CD4+ >1500 is well above the threshold.'
+      "0": "CD4+ 650 with undetectable viral load is well-controlled.",
+      "1": "CD4+ 480 is Stage 2 with intermediate risk.",
+      "3": "CD4+ 720 with undetectable viral load is well-controlled."
     }
   },
   {
-    topic: 'Immune',
-    type: 'standard',
-    stem: 'A patient who recently tested positive for HIV asks why they need to start ART even though they feel fine. Which response is BEST?',
+    topic: "Immune",
+    type: "standard",
+    stem: "A patient with AIDS develops a new dry cough, fever, and shortness of breath. Their CD4+ is 110 (normal 500-1500). The nurse suspects PCP. Which medication does the nurse anticipate the provider to order?",
     options: [
-      '"ART started early prevents disease progression and protects your CD4+ count."',
-      '"You should wait until you start having symptoms before beginning treatment."',
-      '"ART is only useful once your CD4+ count drops below 200 mg/dL."',
-      '"You can choose to skip treatment and start later if you change your mind."'
+      "Trimethoprim-sulfamethoxazole (Bactrim)",
+      "Ciprofloxacin for routine respiratory infection",
+      "Amoxicillin for suspected bacterial pneumonia",
+      "Acyclovir for suspected viral pneumonia"
     ],
     answer: 0,
-    concept: 'Early ART Initiation',
-    rationale: 'Current guidelines recommend starting ART as soon as HIV is diagnosed, regardless of CD4+ count. Early treatment prevents CD4+ decline, suppresses viral load, and reduces transmission risk.',
+    concept: "PCP Treatment",
+    rationale: "Trimethoprim-sulfamethoxazole (Bactrim, TMP-SMX) is first-line treatment for PCP. It is also used for prophylaxis in HIV patients with CD4+ <200.",
     others: {
-      1: 'Waiting for symptoms allows disease progression.',
-      2: 'ART starts at diagnosis, not at CD4+ <200.',
-      3: 'Delaying treatment is not recommended.'
+      "1": "Cipro is for bacterial respiratory infections, not PCP.",
+      "2": "Amoxicillin is for typical bacterial infections.",
+      "3": "Acyclovir is for herpesviruses, not PCP."
     }
   },
   {
-    topic: 'Immune',
-    type: 'standard',
-    stem: 'A nurse is caring for a patient with AIDS who is severely immunocompromised. Which task is appropriate to delegate to the unlicensed assistive personnel (UAP)?',
+    topic: "Immune",
+    type: "standard",
+    stem: "A patient with AIDS (CD4 50) was started on ART 3 weeks ago. The patient now presents with high fever, worsening lymphadenopathy, and worsening pulmonary symptoms — but viral load is decreasing and CD4 has risen to 95. Which complication does the nurse recognize?",
     options: [
-      'Initial admission assessment of the patient and family',
-      'Patient teaching about ART medications and side effects',
-      'Vital signs and bathing using protective equipment',
-      'IV medication administration and dose adjustment'
+      "Immune Reconstitution Inflammatory Syndrome (IRIS)",
+      "Treatment failure with worsening AIDS-defining illness",
+      "Adverse drug reaction requiring ART discontinuation",
+      "New unrelated bacterial infection requiring antibiotics"
+    ],
+    answer: 0,
+    concept: "IRIS Recognition",
+    rationale: "IRIS occurs when ART rapidly reconstitutes the immune system in a patient with very low CD4 — the recovering immune system mounts an inflammatory response against latent or treated infections (TB, MAC, CMV, cryptococcus, PCP). Patient appears to \"worsen\" while ART is actually working (CD4 rising, viral load falling). Treatment: continue ART, treat the unmasked OI, sometimes corticosteroids for severe inflammatory response. Most common in patients starting ART with CD4 <50.",
+    others: {
+      "1": "Rising CD4 + falling viral load is treatment SUCCESS, not failure.",
+      "2": "ADR would not show CD4 improvement; the inflammation is from immune recovery.",
+      "3": "IRIS is the recognized syndrome here, not a separate new infection."
+    }
+  },
+  {
+    topic: "Immune",
+    type: "standard",
+    stem: "A nurse is caring for an HIV-positive patient who has a needlestick injury. Which protocol does the nurse follow for the injured employee?",
+    options: [
+      "Wash the area, report the injury, begin post-exposure prophylaxis",
+      "Wash the area only, no further action is needed at this time",
+      "Wait for symptoms before reporting the needlestick injury",
+      "Treat with antibiotics if any signs of infection develop later"
+    ],
+    answer: 0,
+    concept: "PEP Protocol",
+    rationale: "After a needlestick from an HIV+ source, the employee must wash the area thoroughly, immediately report the exposure, and begin post-exposure prophylaxis (PEP) within hours. PEP is most effective when started quickly.",
+    others: {
+      "1": "Wash alone is insufficient.",
+      "2": "Waiting for symptoms is too late.",
+      "3": "Antibiotics do not treat HIV exposure."
+    }
+  },
+  {
+    topic: "Immune",
+    type: "standard",
+    stem: "A patient with HIV is concerned about disclosing their status. Which response by the nurse is BEST?",
+    options: [
+      "\"You must tell everyone in your life to ensure they stay safe from infection.\"",
+      "\"You should tell only your healthcare providers and any sexual partners.\"",
+      "\"Disclosure is your choice, though sexual partners and providers should know.\"",
+      "\"You should never disclose because it could harm your social relationships.\""
     ],
     answer: 2,
-    concept: 'AIDS Delegation',
-    rationale: 'Vital signs, bathing, and routine ADL care with appropriate protective equipment are within UAP scope. Initial assessment, teaching, and medication administration are RN-only tasks.',
+    concept: "HIV Disclosure",
+    rationale: "Disclosure is largely the patient choice, though sexual partners and healthcare providers must know to make informed decisions. Many states have legal requirements about disclosing to sexual partners, and confidentiality laws protect the patient otherwise.",
     others: {
-      0: 'Initial assessment is RN responsibility.',
-      1: 'Patient teaching is RN responsibility.',
-      3: 'IV med administration is RN responsibility.'
+      "0": "Telling everyone is not required.",
+      "1": "Disclosure framing is more nuanced than \"only\" providers and partners.",
+      "3": "Never disclosing is not appropriate either."
     }
   },
   {
-    topic: 'Immune',
-    type: 'standard',
-    stem: 'A patient with HIV in Stage 1 is asymptomatic. They tell the nurse, "I do not need to take medication because I feel fine." What is the BEST nursing response?',
+    topic: "Immune",
+    type: "standard",
+    stem: "A patient with AIDS develops painless purplish lesions on their face and chest. The nurse identifies these as:",
     options: [
-      '"That is reasonable since the virus is not affecting your body yet."',
-      '"You can wait until you start feeling sick to begin medication therapy."',
-      '"Most patients delay treatment for years without negative consequences."',
-      '"Even though you feel fine, treatment is essential to keep CD4+ above 500."'
+      "Petechiae from active platelet destruction",
+      "Splinter hemorrhages from endocarditis",
+      "Tinea versicolor fungal skin patches",
+      "Kaposi sarcoma lesions on the skin"
     ],
     answer: 3,
-    concept: 'Asymptomatic Treatment',
-    rationale: 'Even in asymptomatic Stage 1, ART is essential. The goal is to keep CD4+ count above 500 and viral load undetectable, preventing progression and reducing transmission to others.',
+    concept: "Kaposi Sarcoma",
+    rationale: "Painless purplish lesions on the face, chest, or other areas are classic Kaposi sarcoma — a vascular cancer that is an AIDS-defining illness. It is associated with HHV-8 infection in immunocompromised hosts.",
     others: {
-      0: 'The virus IS affecting the body even when asymptomatic.',
-      1: 'Waiting for symptoms allows damage to occur.',
-      2: 'Delaying treatment has consequences.'
+      "0": "Petechiae are tiny red dots, not purplish lesions.",
+      "1": "Splinter hemorrhages appear under nails.",
+      "2": "Tinea versicolor presents as discolored patches, not painless purplish lesions."
     }
   },
   {
-    topic: 'Immune',
-    type: 'standard',
-    stem: 'A patient with HIV asks the nurse about safer practices to prevent transmission. Which teaching is the MOST appropriate?',
+    topic: "Immune",
+    type: "standard",
+    stem: "A patient newly diagnosed with HIV is also found to be Hepatitis B surface antigen positive. The provider plans to start ART. Which consideration is most important?",
     options: [
-      'Use barrier protection during all sexual activity and avoid sharing needles',
-      'Avoid all close contact with friends and family at home',
-      'Wear gloves whenever shaking hands or hugging anyone',
-      'Use disposable utensils and dishes for every meal at home'
+      "HIV and HBV require completely separate treatment regimens",
+      "Hepatitis B does not affect HIV treatment selection at all",
+      "Hepatitis B treatment must be completed first before HIV treatment can begin",
+      "ART should include drugs active against BOTH (e.g., tenofovir + emtricitabine)"
+    ],
+    answer: 3,
+    concept: "HIV/HBV Coinfection Management",
+    rationale: "In HIV/HBV coinfection, the ART regimen should include two drugs with activity against both viruses — typically tenofovir + emtricitabine (or lamivudine). Treating with only HBV-monoactive drugs (lamivudine alone) leads to HBV resistance. Stopping these drugs causes HBV flare and possible liver failure. Coinfected patients also have accelerated liver disease progression and need closer hepatic monitoring.",
+    others: {
+      "0": "Combined regimens with dual-active drugs are the standard, not separate treatments.",
+      "1": "HBV status critically affects ART regimen choice.",
+      "2": "Both should be treated concurrently; sequential treatment isn't standard."
+    }
+  },
+  {
+    topic: "Immune",
+    type: "standard",
+    stem: "A patient on ART for 3 years previously had viral load <50 (undetectable) on every test. The most recent test shows viral load 2,400. The patient reports taking medications consistently. What is the most appropriate next step?",
+    options: [
+      "Repeat the test soon — viral blips can occur but sustained rebound needs workup",
+      "Reassure the patient because all viral loads above zero are clinically insignificant",
+      "Stop ART immediately to reset the immune system",
+      "Switch to a completely new regimen without further testing"
     ],
     answer: 0,
-    concept: 'HIV Transmission Prevention',
-    rationale: 'HIV is transmitted through blood, sexual contact, sharing needles, and perinatally. Barrier protection during sex and avoiding shared needles are the most important transmission prevention strategies.',
+    concept: "Viral Rebound vs Blip",
+    rationale: "Viral \"blips\" — transient, low-level viral load detection (often <500-1000) — can occur in patients with otherwise good control and may not indicate treatment failure. However, a viral load this high (2,400) is concerning for true viral rebound. The next step is to repeat testing to confirm, assess adherence carefully (sometimes patients underreport gaps), and consider resistance testing if confirmed rebound. Stopping ART or switching regimens without confirming the trend is premature.",
     others: {
-      1: 'HIV is not spread through casual contact.',
-      2: 'Gloves for handshaking are unnecessary — HIV is not casually transmitted.',
-      3: 'Disposable utensils are unnecessary — HIV is not foodborne.'
+      "1": "A viral load of 2,400 is clinically significant; minimizing it is wrong.",
+      "2": "Stopping ART causes rapid viral rebound and CD4 decline — the opposite of what is needed.",
+      "3": "Switching without confirmation/resistance testing leads to ineffective regimens."
+    }
+  },
+  {
+    topic: "Immune",
+    type: "standard",
+    stem: "A nurse is caring for a patient with AIDS who is severely immunocompromised. Which task is appropriate to delegate to the unlicensed assistive personnel (UAP)?",
+    options: [
+      "Initial admission assessment of the patient and family",
+      "Patient teaching about ART medications and side effects",
+      "Vital signs and bathing using protective equipment",
+      "IV medication administration and dose adjustment"
+    ],
+    answer: 2,
+    concept: "AIDS Delegation",
+    rationale: "Vital signs, bathing, and routine ADL care with appropriate protective equipment are within UAP scope. Initial assessment, teaching, and medication administration are RN-only tasks.",
+    others: {
+      "0": "Initial assessment is RN responsibility.",
+      "1": "Patient teaching is RN responsibility.",
+      "3": "IV med administration is RN responsibility."
+    }
+  },
+  {
+    topic: "Immune",
+    type: "standard",
+    stem: "A patient with HIV (CD4 380, undetectable viral load on ART) is scheduled for elective hip arthroscopy. Which preoperative consideration is most appropriate?",
+    options: [
+      "Cancel the surgery — no elective procedures should be performed on HIV-positive patients",
+      "Require all OR staff to wear N95 masks and double gloves during the case",
+      "Place the patient in airborne isolation throughout the entire perioperative period",
+      "Use standard precautions and proceed — HIV status alone does not change surgical care for staff or patient"
+    ],
+    answer: 3,
+    concept: "HIV and Standard Precautions",
+    rationale: "Standard precautions assume ALL patients may carry bloodborne pathogens — they protect staff regardless of known HIV status. Treating HIV-positive patients differently (extra isolation, different PPE) is not evidence-based, stigmatizing, and not recommended. The well-controlled HIV patient (CD4 >200, undetectable VL) tolerates surgery similarly to HIV-negative patients. Patients with low CD4 may need OI prophylaxis review and infection precautions, but not isolation for HIV alone.",
+    others: {
+      "0": "HIV alone does not contraindicate elective surgery in well-controlled disease.",
+      "1": "Universal/standard precautions already include appropriate PPE; \"extra\" PPE for HIV is unnecessary.",
+      "2": "Airborne isolation is for TB, measles, varicella — not HIV."
+    }
+  },
+  {
+    topic: "Immune",
+    type: "standard",
+    stem: "A patient on ART with sustained undetectable viral load for the past 18 months asks the nurse about the risk of transmitting HIV to their HIV-negative partner during sex. What is the BEST nursing response?",
+    options: [
+      "Even with undetectable viral load, HIV is highly transmissible during sex",
+      "Sustained undetectable viral load means effectively no risk of sexual transmission (U=U)",
+      "You should never have sex again to protect your partner from any possible risk",
+      "Your partner needs daily prophylactic antibiotics indefinitely starting today"
+    ],
+    answer: 1,
+    concept: "U=U (Undetectable = Untransmittable)",
+    rationale: "U=U is now established science: a person with HIV who maintains an undetectable viral load (typically defined as <200 copies/mL for 6+ months) on ART has effectively NO risk of sexually transmitting HIV. This is supported by major studies (PARTNER, PARTNER2, Opposites Attract). U=U has transformed HIV care and reduced stigma. Patients still need to maintain ART adherence to keep viral load suppressed. Note: U=U applies to sexual transmission specifically; perinatal and IV drug use risks differ.",
+    others: {
+      "0": "Outdated information; U=U is well-established.",
+      "2": "Inaccurate and harmful — patient autonomy and accurate science matter.",
+      "3": "Antibiotics do not prevent HIV; PrEP (antiretrovirals) is the prevention option."
     }
   }
 ];
 
-// === QUIZ ENGINE ===
+        // === QUIZ ENGINE ===
 let currentQ = 0;
 let score = 0;
 let totalPoints = 0;
