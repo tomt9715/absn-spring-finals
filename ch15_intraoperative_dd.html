@@ -697,6 +697,7 @@ function nextQuestion() {
     showResults();
   } else {
     renderQuestion();
+    window.scrollTo({ top: 0, behavior: 'instant' });
   }
 }
 

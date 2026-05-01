@@ -1704,6 +1704,7 @@ function nextQuestion() {
   currentQ++;
   selectedIdx = q_type_is_sata() ? [] : null;
   showQuestion();
+  window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 function showResults() {

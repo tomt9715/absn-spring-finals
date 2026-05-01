@@ -682,8 +682,9 @@ function submitAnswer() {
 
 function nextQuestion() {
   currentQ++;
-  if (currentQ >= questions.length) showResults();
-  else renderQuestion();
+  if (currentQ >= questions.length) { showResults(); return; }
+  renderQuestion();
+  window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
 function showResults() {
