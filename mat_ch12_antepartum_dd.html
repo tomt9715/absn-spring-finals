@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 12 Antepartum Assessment — Deep Drill</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-soft: #14b8a6;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+      --partial: #d97706;
+      --partial-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--purple); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .start-stat { text-align: center; padding: 18px 12px; background: var(--purple-pale); border-radius: 8px; border: 1px solid var(--line); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--purple); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer; background: var(--purple); color: white; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .lab-strip { margin-bottom: 18px; padding: 12px 14px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; border-left: 3px solid var(--teal); }
+    .lab-strip-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+    .lab-row { display: flex; flex-wrap: wrap; gap: 12px 18px; }
+    .lab-item { display: flex; flex-direction: column; gap: 2px; min-width: 90px; }
+    .lab-name { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.04em; }
+    .lab-value { font-size: 14px; color: var(--ink); font-weight: 600; }
+    .lab-value-unit { font-weight: 400; color: var(--muted); font-size: 11px; }
+    .lab-range { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 1px; }
+    .btn-row.sticky-row { position: sticky; bottom: 12px; background: var(--card); padding-top: 12px; padding-bottom: 4px; margin-top: 18px; z-index: 10; border-top: 1px solid transparent; }
+    .btn-row.sticky-row.has-rationale { border-top-color: var(--line); padding-top: 14px; }
+
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--purple); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--purple); background: var(--purple-pale); }
+    .option.selected { border-color: var(--purple); background: var(--purple-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--purple); color: white; border-color: var(--purple); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--purple-pale); border-left: 3px solid var(--purple); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--purple); color: white; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .deep-block { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); font-size: 13px; line-height: 1.6; color: var(--ink-soft); }
+    .deep-block strong { color: var(--navy); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--purple); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Deep Drill · Chapter 12</div>
+  <h1>Antepartum Assessment</h1>
+  <p class="tagline">Application scenarios: complex GTPAL coding, NST interpretation and follow-up, Rhogam decision-making, and prioritizing care for high-risk antepartum patients. NCLEX-Next-Gen difficulty.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">15</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">App</span><span class="start-stat-label">Level</span></div>
+      <div class="start-stat"><span class="start-stat-num">Deep</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">Each question requires applying knowledge to a clinical scenario. Rationales include both the why and the underlying mechanism.</p>
+    <button class="btn" onclick="begin()">Begin Drill</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 15</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row sticky-row" id="action-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Deep Drill</div>
+    <h1>Antepartum Assessment</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 15 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Drill</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: "GTPAL",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient is currently 30 weeks pregnant. She had a son at 38 weeks (alive), twin daughters at 34 weeks (one alive, one died at 6 months from SIDS), and a miscarriage at 8 weeks. What is her CURRENT GTPAL?",
+    options: [
+      "G4 T1 P1 A1 L2",
+      "G4 T1 P1 A1 L3",
+      "G3 T1 P2 A1 L2",
+      "G4 T2 P1 A0 L2"
+    ],
+    answer: 0,
+    concept: "Complex GTPAL Calculation",
+    rationale: "G4 = current pregnancy + 3 prior (term, twin preterm, miscarriage). T1 = 38-week singleton. P1 = twin preterm pregnancy (twins = ONE pregnancy). A1 = miscarriage <20 weeks. L2 = currently living children: the son (alive) + the surviving twin = 2. The deceased twin is NOT included in L because L counts CURRENTLY living.",
+    deepExplanation: "Common GTPAL trap: counting twins as 2 in P (it is 1 pregnancy), and counting deceased children in L (only currently living count). G includes the current pregnancy. Mortality after birth removes the child from L but does not change T or P (those are pregnancy outcomes, not current life status).",
+    others: {
+      "1": "L should be 2 (twin who died is not currently living).",
+      "2": "Twins are ONE pregnancy in P; should be P1.",
+      "3": "34-week birth is preterm, not term; T should be 1, not 2."
+    }
+  },
+  {
+    topic: "NST Interpretation",
+    confirmed: false,
+    type: "standard",
+    stem: "A 32-week pregnant patient with gestational diabetes is having an NST. After 30 minutes, only one acceleration of 12 beats above baseline lasting 10 seconds is observed. The nurse interprets this as:",
+    options: [
+      "Reactive — fetal well-being confirmed, schedule routine follow-up",
+      "Nonreactive — notify provider for further testing (BPP or CST)",
+      "Equivocal — wait one hour and repeat the NST",
+      "Inconclusive — the result is meaningless and should be ignored"
+    ],
+    answer: 1,
+    concept: "Nonreactive NST Action",
+    rationale: "This is NONREACTIVE: criteria require 2 accelerations of ≥15 beats lasting ≥15 seconds within 20 minutes. One acceleration of 12 beats for 10 seconds does not meet criteria. The nurse should notify the provider for further testing — typically a biophysical profile (BPP) or contraction stress test (CST).",
+    deepExplanation: "Nonreactive does not necessarily mean fetal compromise — fetus may be sleeping, mom may need to eat or drink to stimulate movement. But it does require follow-up. Vibroacoustic stimulation may be tried first. If still nonreactive, BPP (assesses 5 parameters: NST + amniotic fluid + breathing + tone + movement) is next.",
+    others: {
+      "0": "Criteria for reactive are not met.",
+      "2": "Equivocal is not a standard NST term; nonreactive results require timely follow-up, not a 1-hour wait.",
+      "3": "The result is meaningful — it requires action, not dismissal."
+    }
+  },
+  {
+    topic: "NST Stimulation",
+    confirmed: false,
+    type: "standard",
+    stem: "A pregnant patient is undergoing an NST. After 15 minutes, the fetus has not produced any accelerations. Which nursing intervention is appropriate FIRST?",
+    options: [
+      "Discontinue the NST and reschedule for next week",
+      "Place the patient in deep Trendelenburg position",
+      "Notify the provider of fetal demise",
+      "Offer the patient juice or a snack and continue monitoring"
+    ],
+    answer: 3,
+    concept: "NST Stimulation Maneuvers",
+    rationale: "If a fetus is not producing accelerations during an NST, the fetus may be in a sleep cycle. Offering juice (or food) raises maternal glucose, which often stimulates fetal movement and accelerations. Vibroacoustic stimulation may also be used.",
+    deepExplanation: "Fetal sleep cycles last 20–40 minutes typically. Common stimulation maneuvers: oral glucose intake (juice, snack), gentle abdominal manipulation, vibroacoustic stimulation (a small buzzer placed over the fundus). If stimulation does not produce accelerations after extended monitoring, escalate to BPP or CST.",
+    others: {
+      "0": "Discontinuing without trying stimulation misses the opportunity to confirm reactivity.",
+      "1": "Deep Trendelenburg is not appropriate and is uncomfortable for a pregnant patient.",
+      "2": "Lack of accelerations is NOT fetal demise — a Doppler heartbeat would still be present."
+    }
+  },
+  {
+    topic: "Rhogam Decision",
+    confirmed: false,
+    type: "standard",
+    stem: "An Rh-negative patient at 12 weeks gestation has a confirmed spontaneous abortion. Which is the priority nursing action regarding Rhogam?",
+    options: [
+      "Withhold Rhogam because the pregnancy ended early",
+      "Administer Rhogam regardless of fetal Rh status",
+      "Wait until 28 weeks of her next pregnancy to give Rhogam",
+      "Confirm fetal Rh type from products of conception before deciding"
+    ],
+    answer: 1,
+    concept: "Rhogam After Pregnancy Loss",
+    rationale: "Rhogam is administered to Rh-negative patients after ANY pregnancy loss regardless of gestational age, because fetal blood may have entered maternal circulation. Fetal Rh status often cannot be determined from products of conception, so Rhogam is given prophylactically.",
+    deepExplanation: "Indications for Rhogam in an Rh-negative patient: routine 28-week dose, within 72 hours of birth of an Rh+ baby, after spontaneous or elective abortion (any gestation), ectopic pregnancy, abdominal trauma, vaginal bleeding, amniocentesis, chorionic villus sampling, and external cephalic version. Each event risks maternal-fetal blood mixing.",
+    others: {
+      "0": "Pregnancy loss at any gestation is an indication for Rhogam in Rh-negative patients.",
+      "2": "Waiting risks maternal sensitization that would affect future pregnancies.",
+      "3": "Fetal Rh determination from POC is not standard; Rhogam is given prophylactically."
+    }
+  },
+  {
+    topic: "NST Timing",
+    confirmed: false,
+    type: "standard",
+    stem: "A nurse is reviewing the chart of a 26-week pregnant patient with poorly controlled gestational diabetes. The provider has ordered NSTs starting now. Which is the BEST nursing response?",
+    options: [
+      "Schedule the NST for today and twice weekly going forward",
+      "Document the order and proceed with monitoring as written",
+      "Clarify the order — NSTs are typically initiated AFTER 28 weeks gestation",
+      "Recommend cancelling the order because she is too high-risk"
+    ],
+    answer: 2,
+    concept: "NST Gestational Age Threshold",
+    rationale: "NSTs are typically initiated AFTER 28 weeks because the fetal autonomic nervous system must be mature enough to produce reliable accelerations. Before 28 weeks, NSTs are unreliable and often nonreactive due to immaturity, not pathology. The nurse should clarify the order with the provider.",
+    deepExplanation: "Fetal heart rate accelerations require autonomic nervous system maturation, which occurs around 28 weeks. Before this, even healthy fetuses may not meet reactive criteria. For patients <28 weeks at high risk, alternative monitoring (umbilical artery Doppler, BPP modified for gestational age) may be considered.",
+    others: {
+      "0": "Proceeding with an NST at 26 weeks risks misinterpretation and unnecessary intervention.",
+      "1": "A nurse should not proceed with an order that is clinically inappropriate.",
+      "3": "High-risk patients NEED monitoring — just not via NST until 28 weeks."
+    }
+  },
+  {
+    topic: "Rhogam Trauma",
+    confirmed: false,
+    type: "standard",
+    stem: "An Rh-negative patient at 22 weeks gestation is brought to the ED after an MVC with abdominal bruising. She has no vaginal bleeding. The provider orders Rhogam. The nurse understands this is appropriate because:",
+    options: [
+      "Trauma can cause maternal-fetal blood mixing even without visible bleeding",
+      "Rhogam is given to all pregnant patients after any trauma",
+      "Rhogam protects the fetus from being injured by the trauma",
+      "Rhogam is required because she missed her 28-week routine dose"
+    ],
+    answer: 0,
+    concept: "Rhogam After Abdominal Trauma",
+    rationale: "Abdominal trauma can cause fetomaternal hemorrhage even without visible vaginal bleeding. The placenta may be partially disrupted (subclinical abruption) and small amounts of fetal blood can enter maternal circulation, risking sensitization. Rhogam is indicated.",
+    deepExplanation: "Kleihauer-Betke (KB) testing measures the volume of fetal blood in maternal circulation and helps determine if a single Rhogam dose is sufficient or if additional doses are needed. Standard Rhogam dose covers up to 30 mL of fetal whole blood; larger fetomaternal hemorrhages require additional doses.",
+    others: {
+      "1": "Rhogam is given to RH-NEGATIVE patients after trauma, not all patients.",
+      "2": "Rhogam protects the MOTHER from forming antibodies; it does not protect the fetus from impact injury.",
+      "3": "Rhogam is given for the trauma event itself; the 28-week dose is separate."
+    }
+  },
+  {
+    topic: "GTPAL Coding",
+    confirmed: false,
+    type: "standard",
+    stem: "A primigravida at 24 weeks has not yet given birth. The nurse documents her GTPAL. Which is correct?",
+    options: [
+      "G1 T0 P0 A0 L0",
+      "G0 T0 P0 A0 L0",
+      "G1 T1 P0 A0 L0",
+      "G2 T0 P0 A0 L1"
+    ],
+    answer: 0,
+    concept: "Primigravida GTPAL",
+    rationale: "Primigravida = first pregnancy. G1 = currently pregnant for the first time (G includes the current pregnancy). T0, P0, A0, L0 because she has had no prior births, preterm births, abortions, or living children.",
+    deepExplanation: "G is incremented at the start of each pregnancy and is never reset. T, P, A, L are updated when each pregnancy ENDS. While she is currently pregnant for the first time, G1 reflects that. After delivery at term, she would be G1 P1 A0 (or G1 T1 A0 in GTPAL) L1.",
+    others: {
+      "1": "G0 means never been pregnant; she IS currently pregnant.",
+      "2": "T1 means a term birth occurred; she has not yet delivered.",
+      "3": "G2 implies a prior pregnancy; she is primigravida."
+    }
+  },
+  {
+    topic: "NST + GDM",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient with gestational diabetes has had three nonreactive NSTs in the past two weeks. The provider orders a biophysical profile (BPP). The patient asks the nurse, \"What does a BPP test?\" The BEST response is:",
+    options: [
+      "It only measures fetal heart tones with a Doppler machine in the office",
+      "It measures only contraction frequency to predict the start of labor",
+      "Ultrasound assessment of fetal breathing, movement, tone, and fluid plus NST",
+      "It is a blood test that measures fetal hormones in the maternal blood"
+    ],
+    answer: 2,
+    concept: "BPP Components",
+    rationale: "A biophysical profile evaluates 5 parameters: NST (or modified NST), fetal breathing movements, gross body movements, fetal tone, and amniotic fluid volume. Each parameter is scored 0 or 2 points (max 10). A score of 8–10 is reassuring.",
+    deepExplanation: "BPP scoring: 8–10 = reassuring (continue routine monitoring); 6 = equivocal (consider delivery if term, repeat in 24h if preterm); ≤4 = abnormal (delivery often indicated). Modified BPP combines NST with amniotic fluid index (AFI) only and is faster.",
+    others: {
+      "0": "BPP is much more comprehensive than just Doppler heart tones.",
+      "1": "BPP does not assess uterine contractions — that is a CST.",
+      "3": "BPP is not a blood test."
+    }
+  },
+  {
+    topic: "Rhogam Antepartum",
+    confirmed: false,
+    type: "standard",
+    stem: "An Rh-negative patient at 28 weeks gestation comes to the prenatal clinic. The nurse anticipates which intervention?",
+    options: [
+      "Confirm fetal Rh status by amniocentesis before any intervention",
+      "Administer Rhogam only if the patient has bleeding or trauma",
+      "Wait until labor onset to determine the need for Rhogam",
+      "Administer the antepartum Rhogam dose now"
+    ],
+    answer: 3,
+    concept: "28-Week Routine Rhogam",
+    rationale: "All Rh-negative pregnant patients receive a routine antepartum Rhogam dose at 28 weeks. The timing is chosen because the highest risk of antepartum sensitization occurs in the third trimester. Fetal Rh status is unknown at this point and is not required for the antepartum dose.",
+    deepExplanation: "Without antepartum prophylaxis, ~1% of Rh-negative women become sensitized antepartum. With the 28-week dose, this drops to ~0.1%. The postpartum dose covers most of the remaining risk. Rhogam is a passive immunoglobulin — it gives temporary antibodies that prevent active maternal antibody formation.",
+    others: {
+      "0": "Amniocentesis is invasive and not done to determine the need for routine 28-week Rhogam.",
+      "1": "Routine 28-week dose is given regardless of bleeding/trauma history.",
+      "2": "Waiting until labor misses the protective window."
+    }
+  },
+  {
+    topic: "GTPAL Sequence",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient currently pregnant says, \"I had two miscarriages before this one, and I have a 3-year-old son who was born at 36 weeks.\" The nurse documents her GTPAL as:",
+    options: [
+      "G3 T0 P1 A2 L1",
+      "G4 T0 P1 A2 L1",
+      "G4 T1 P0 A2 L1",
+      "G3 T1 P0 A2 L1"
+    ],
+    answer: 1,
+    concept: "GTPAL with Multiple Losses",
+    rationale: "G4 = current pregnancy + 1 son + 2 miscarriages = 4 total pregnancies. T0 = no term births (36 weeks is preterm). P1 = one preterm birth (the son at 36 weeks). A2 = two miscarriages. L1 = one living child.",
+    deepExplanation: "Common error: forgetting to include the current pregnancy in G. Another common error: classifying 36 weeks as term (it is preterm — term begins at 37 weeks). The 36-week birth produced a living child, so L = 1 even though it is a preterm birth.",
+    others: {
+      "0": "G should include the current pregnancy: G4, not G3.",
+      "2": "36 weeks is preterm, not term; T should be 0 and P should be 1.",
+      "3": "Same error — 36 weeks is preterm, plus G should be 4."
+    }
+  },
+  {
+    topic: "Rhogam Mistake",
+    confirmed: false,
+    type: "standard",
+    stem: "An Rh-negative patient delivered an Rh-positive baby 96 hours ago and was just transferred from another facility. Records show Rhogam was not administered. The MOST appropriate nursing action is:",
+    options: [
+      "Withhold Rhogam because the 72-hour window has passed",
+      "Schedule Rhogam for the next pregnancy instead",
+      "Administer a double dose to compensate for the delay",
+      "Administer Rhogam now — it may still provide some protection beyond 72 hours"
+    ],
+    answer: 3,
+    concept: "Late Rhogam Administration",
+    rationale: "Although the optimal window is within 72 hours after delivery, Rhogam may still provide partial protection if given up to 28 days after exposure. Current evidence supports administering Rhogam late rather than withholding it entirely.",
+    deepExplanation: "The 72-hour window is the optimal time, not an absolute cutoff. Some sensitization may have begun, but late administration can still reduce antibody formation. Document the delay and reasoning. The next pregnancy should also include sensitization screening (indirect Coombs).",
+    others: {
+      "0": "Withholding Rhogam after the window misses an opportunity for partial protection.",
+      "1": "The next pregnancy is too late — sensitization may already affect it.",
+      "2": "Doubling the dose is not standard practice for delayed administration."
+    }
+  },
+  {
+    topic: "NST Education",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient with chronic hypertension is being taught about her twice-weekly NSTs. Which patient statement indicates correct understanding?",
+    options: [
+      "If the test is nonreactive, the baby has died",
+      "I should expect to lie still during the test for at least one hour",
+      "The test monitors my baby’s heart rate response to its own movements",
+      "I will not feel anything during the test because it is internal"
+    ],
+    answer: 2,
+    concept: "NST Patient Teaching",
+    rationale: "An NST monitors fetal heart rate in response to fetal movement. Reactive results (2 accelerations of ≥15 beats lasting ≥15 seconds in 20 minutes) indicate fetal well-being. The patient correctly understands the test’s purpose.",
+    deepExplanation: "Patients are typically asked to press a button when they feel fetal movement — this helps correlate movements with heart rate accelerations. The test is external (tocodynamometer + ultrasound transducer on the abdomen), non-invasive, and usually 20–40 minutes.",
+    others: {
+      "0": "Nonreactive does not mean fetal demise — it requires further testing.",
+      "1": "NSTs typically take 20–40 minutes, not an hour.",
+      "3": "NSTs are external; the patient may feel the transducer pressure but nothing internal."
+    }
+  },
+  {
+    topic: "Rhogam Sensitized",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient is told she is already sensitized to Rh-positive blood (positive indirect Coombs test). Which statement reflects correct nursing knowledge?",
+    options: [
+      "Rhogam will reverse the sensitization with one injection",
+      "The next pregnancy will not be affected because Rhogam works retroactively",
+      "Rhogam should be given immediately to prevent further antibody formation",
+      "Rhogam is not effective once sensitization has occurred"
+    ],
+    answer: 3,
+    concept: "Rhogam Limitation",
+    rationale: "Once a patient is sensitized (already producing anti-Rh antibodies), Rhogam is ineffective. It works by PREVENTING antibody formation, not by reversing existing antibodies. Sensitized patients require monitoring of titers and fetal anemia in subsequent pregnancies.",
+    deepExplanation: "Once sensitized, future Rh-positive pregnancies are at risk for hemolytic disease of the newborn (HDN/erythroblastosis fetalis). Management: serial maternal antibody titers, middle cerebral artery (MCA) Doppler to detect fetal anemia, possible intrauterine transfusion, early delivery considerations. Hence the importance of preventing sensitization in the FIRST place.",
+    others: {
+      "0": "Rhogam does not reverse existing sensitization.",
+      "1": "Future pregnancies WILL be affected; Rhogam is not retroactive.",
+      "2": "Once sensitized, Rhogam will not help."
+    }
+  },
+  {
+    topic: "GTPAL + Twins",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient is in labor at 38 weeks with her first pregnancy, which is twins. Both will be delivered by cesarean shortly. After delivery, what will her GTPAL be?",
+    options: [
+      "G1 T1 P0 A0 L2",
+      "G1 T2 P0 A0 L2",
+      "G2 T1 P0 A0 L2",
+      "G1 T1 P1 A0 L2"
+    ],
+    answer: 0,
+    concept: "GTPAL Twin Delivery",
+    rationale: "Twins = ONE pregnancy. G1 (first pregnancy). T1 (one term pregnancy at 38 weeks; twins still count as 1 pregnancy ending at term). P0 (no preterm). A0 (no abortions). L2 (two living children, since both babies are alive).",
+    deepExplanation: "G, T, P, A all count PREGNANCIES, not babies. L counts CHILDREN. So twins delivered at term = G1, T1, but L2. This is a frequent NCLEX trick. The same logic applies to triplets: would still be one count in T, but L could be 3.",
+    others: {
+      "1": "T2 would imply two term pregnancies; this is one pregnancy.",
+      "2": "G2 implies two pregnancies; this is one pregnancy with twins.",
+      "3": "P1 is incorrect — 38 weeks is term, not preterm."
+    }
+  },
+  {
+    topic: "Rhogam Verification",
+    confirmed: false,
+    type: "standard",
+    stem: "Before administering Rhogam, the nurse should verify which of the following?",
+    options: [
+      "The patient’s last menstrual period date and contraceptive history",
+      "The patient’s blood type, Rh status, and informed consent",
+      "The patient’s pre-pregnancy weight and dietary intake",
+      "The patient’s current cervical dilation and effacement"
+    ],
+    answer: 1,
+    concept: "Rhogam Verification",
+    rationale: "Before administering Rhogam, the nurse must verify the patient is Rh-NEGATIVE (Rhogam is unnecessary and contraindicated for Rh-positive patients), confirm the patient understands the purpose of Rhogam, and obtain informed consent (Rhogam is a blood product).",
+    deepExplanation: "Rhogam is derived from human plasma. Standard pre-administration: verify blood type/Rh, indirect Coombs (sensitization status), informed consent (blood product), check for prior reactions. Standard dose is 300 mcg IM (covers up to 30 mL fetal whole blood). Larger fetomaternal hemorrhage may require additional doses.",
+    others: {
+      "0": "LMP and contraceptive history are not relevant to Rhogam administration.",
+      "2": "Weight and dietary intake do not affect Rhogam dosing.",
+      "3": "Cervical exam is not relevant to Rhogam decision."
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let score = 0;
+let totalPoints = 0;
+let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_mat_ch12_deepdrill';
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+
+function extractLabs(stem) {
+  const labs = [];
+  const seen = new Set();
+
+  // Each pattern: { re, name, unit (or unitFromMatch index), rangeFromMatch (optional) }
+  const patterns = [
+    { re: /\bBP\s+(\d{2,3}\/\d{2,3})(?:\s*\((?:baseline|normal)\s+([\d\/<>≥≤\-–\s]+)\))?/gi, name: 'BP', unit: 'mmHg', rangeIdx: 2, ranglePrefix: 'baseline ' },
+    { re: /\bHR\s+(\d{2,3})\b/gi, name: 'HR', unit: 'bpm' },
+    { re: /\bpulse\s+(\d{2,3})\b/gi, name: 'Pulse', unit: 'bpm' },
+    { re: /\b(?:temperature|temp)[\s:]+(\d{2,3}(?:\.\d)?)\s*°?\s*([CF])\b/gi, name: 'Temp', unitIdx: 2, unitPrefix: '°' },
+    { re: /\b(?:respiratory rate|RR)\s+(\d{1,3})(?:\/min)?(?:\s*\(was\s+(\d+)\/?(?:min)?\))?\b/gi, name: 'RR', unit: '/min', rangeIdx: 2, ranglePrefix: 'was ' },
+    { re: /\b(?:urine output|UOP)\s+(\d{1,3})\s*mL\/hr(?:\s*\(was\s+(\d+)\s*mL\/hr\))?\b/gi, name: 'UOP', unit: 'mL/hr', rangeIdx: 2, ranglePrefix: 'was ' },
+    { re: /\b(?:bedside\s+)?(?:blood\s+)?glucose(?:\s+is|\s+at\s+\d+\s+(?:hour|min)\w*)?\s+(?:is\s+)?(\d{1,3})\s*mg\/dL(?:\s*\((?:normal[^)]*?|cutoff[^)]*?)\))?/gi, name: 'Glucose', unit: 'mg/dL' },
+    { re: /\b(?:hematocrit|HCT)\s+of\s+(\d{2,3})%(?:\s*\(normal[^)]*?\))?/gi, name: 'HCT', unit: '%' },
+    { re: /\bplatelets\s+([\d,]+)\s*\/?mm\u00b3?(?:\s*\(normal[^)]*?\))?/gi, name: 'Platelets', unit: '/mm³' },
+    { re: /\bAST\s+(\d{1,4})\s*U\/L(?:\s*\(normal[^)]*?\))?/gi, name: 'AST', unit: 'U/L' },
+    { re: /(?:\u03b2-hCG|beta-hCG|hCG)(?:\s+(?:is|of))?\s+([\d,]+)\s*mIU\/mL/gi, name: 'β-hCG', unit: 'mIU/mL' },
+    { re: /\bfundal height\s+of\s+(\d{1,3})\s*cm(?:\s*\((?:expected|normal)\s*~?\s*(\d{1,3})\s*cm\))?/gi, name: 'Fundal Ht', unit: 'cm', rangeIdx: 2, ranglePrefix: 'expected ~' },
+    { re: /\bAFI\s+(\d{1,3})\s*cm/gi, name: 'AFI', unit: 'cm' },
+    { re: /\b1-hour\b[^.]*?(\d{2,3})\s*mg\/dL/gi, name: '1-hr GCT', unit: 'mg/dL' },
+    { re: /(?:weighing|weighs|estimated at|EFW)\s+(\d{3,4})\s*g\b/gi, name: 'Weight', unit: 'g' }
+  ];
+
+  for (const pat of patterns) {
+    const re = new RegExp(pat.re.source, pat.re.flags);
+    let m;
+    while ((m = re.exec(stem)) !== null) {
+      const val = m[1];
+      const key = pat.name + ':' + val;
+      if (seen.has(key)) continue;
+      seen.add(key);
+
+      let unit = pat.unit || '';
+      if (pat.unitIdx && m[pat.unitIdx]) {
+        unit = (pat.unitPrefix || '') + m[pat.unitIdx];
+      }
+
+      let range = '';
+      if (pat.rangeIdx && m[pat.rangeIdx]) {
+        range = (pat.ranglePrefix || '') + m[pat.rangeIdx];
+      }
+
+      // First, check if m[0] itself contains a parenthetical (greedy patterns consume it)
+      if (!range) {
+        const innerParen = m[0].match(/\(([^)]+)\)/);
+        if (innerParen && /normal|baseline|expected|cutoff|target|was/i.test(innerParen[1])) {
+          range = innerParen[1].trim();
+        }
+      }
+
+      // Otherwise look ahead in the full stem
+      if (!range) {
+        const afterIdx = m.index + m[0].length;
+        const tail = stem.slice(afterIdx, afterIdx + 80);
+        const parenMatch = tail.match(/^\s*\(([^)]+)\)/);
+        if (parenMatch && /normal|baseline|expected|cutoff|target|was/i.test(parenMatch[1])) {
+          range = parenMatch[1].trim();
+        }
+      }
+
+      labs.push({ name: pat.name, value: val, unit, range });
+    }
+  }
+
+  return labs;
+}
+
+function renderLabStrip(labs) {
+  if (!labs || labs.length === 0) return '';
+  const items = labs.map(function(l) {
+    const range = l.range ? '<div class="lab-range">' + escapeStemHTML(l.range) + '</div>' : '';
+    const unit = l.unit ? ' <span class="lab-value-unit">' + escapeStemHTML(l.unit) + '</span>' : '';
+    return '<div class="lab-item"><div class="lab-name">' + escapeStemHTML(l.name) + '</div><div class="lab-value">' + escapeStemHTML(l.value) + unit + '</div>' + range + '</div>';
+  }).join('');
+  return '<div class="lab-strip"><div class="lab-strip-label">Clinical Data</div><div class="lab-row">' + items + '</div></div>';
+}
+
+function escapeStemHTML(s) {
+  const div = document.createElement('div');
+  div.textContent = String(s);
+  return div.innerHTML;
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  const labs = q.labs || extractLabs(q.stem);
+  const labStrip = renderLabStrip(labs);
+  document.getElementById('q-stem').innerHTML = labStrip + '<div>' + escapeStemHTML(q.stem) + '</div>';
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('action-row').classList.remove('has-rationale');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  document.getElementById('action-row').classList.add('has-rationale');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.deepExplanation) {
+    html += `<div class="deep-block"><strong>Deeper:</strong> ${q.deepExplanation}</div>`;
+  }
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong application of antepartum assessment. You are ready for this material on the final.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed scenarios below before moving on.';
+  else if (pct >= 60) msg = 'Below pass threshold. Review the missed items, retry, then re-confirm with the Knowledge Check.';
+  else msg = 'Heavy review needed. Re-read Ch 12, work through the missed items below, and try again before the final.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>

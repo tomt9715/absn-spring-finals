@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 20 High-Risk Pregnancy — Deep Drill</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-soft: #14b8a6;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+      --partial: #d97706;
+      --partial-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--purple); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .start-stat { text-align: center; padding: 18px 12px; background: var(--purple-pale); border-radius: 8px; border: 1px solid var(--line); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--purple); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer; background: var(--purple); color: white; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .lab-strip { margin-bottom: 18px; padding: 12px 14px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; border-left: 3px solid var(--teal); }
+    .lab-strip-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+    .lab-row { display: flex; flex-wrap: wrap; gap: 12px 18px; }
+    .lab-item { display: flex; flex-direction: column; gap: 2px; min-width: 90px; }
+    .lab-name { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.04em; }
+    .lab-value { font-size: 14px; color: var(--ink); font-weight: 600; }
+    .lab-value-unit { font-weight: 400; color: var(--muted); font-size: 11px; }
+    .lab-range { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 1px; }
+    .btn-row.sticky-row { position: sticky; bottom: 12px; background: var(--card); padding-top: 12px; padding-bottom: 4px; margin-top: 18px; z-index: 10; border-top: 1px solid transparent; }
+    .btn-row.sticky-row.has-rationale { border-top-color: var(--line); padding-top: 14px; }
+
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--purple); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--purple); background: var(--purple-pale); }
+    .option.selected { border-color: var(--purple); background: var(--purple-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--purple); color: white; border-color: var(--purple); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--purple-pale); border-left: 3px solid var(--purple); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--purple); color: white; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .deep-block { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); font-size: 13px; line-height: 1.6; color: var(--ink-soft); }
+    .deep-block strong { color: var(--navy); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--purple); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Deep Drill · Chapter 20</div>
+  <h1>High-Risk Pregnancy</h1>
+  <p class="tagline">Application scenarios: managing GDM and IDM newborns, GBS protocols, differentiating early-pregnancy bleeding causes, recognizing severe preeclampsia/HELLP, and managing magnesium sulfate. NCLEX-Next-Gen difficulty.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">20</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">App</span><span class="start-stat-label">Level</span></div>
+      <div class="start-stat"><span class="start-stat-num">Deep</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">Each question requires applying knowledge to a clinical scenario. Rationales include both the why and the underlying mechanism.</p>
+    <button class="btn" onclick="begin()">Begin Drill</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 20</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row sticky-row" id="action-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Deep Drill</div>
+    <h1>High-Risk Pregnancy</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 20 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Drill</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: "GDM Newborn",
+    confirmed: false,
+    type: "standard",
+    stem: "A newborn delivered to a mother with poorly controlled GDM weighs 4500 g. Bedside glucose at 30 minutes is 28 mg/dL (normal newborn ≥40–45 mg/dL). The newborn is jittery and feeding poorly. Which is the priority intervention?",
+    options: [
+      "Continue routine observation since these are normal newborn findings",
+      "Bathe the infant in warm water to stimulate metabolism",
+      "Initiate feeding (breast or formula) and recheck glucose; IV dextrose if symptomatic",
+      "Begin IV insulin to control hyperglycemia immediately"
+    ],
+    answer: 2,
+    concept: "IDM Hypoglycemia Treatment",
+    rationale: "An IDM with macrosomia (4500 g) and bedside glucose 28 mg/dL is HYPOGLYCEMIC and SYMPTOMATIC (jittery, poor feeding). Priority: initiate FEEDING (breast or formula) and recheck. If unable to feed or glucose remains low, give IV dextrose (D10W bolus + infusion).",
+    deepExplanation: "IDM glucose pathophysiology: Maternal hyperglycemia → fetal hyperglycemia → fetal pancreas hypertrophies → hyperinsulinemia. After delivery, maternal glucose supply stops, but fetal insulin remains high, causing hypoglycemia within hours. Glucose checks at 30 min, then before each feed for first 12 hours. Hypoglycemia threshold: <40 mg/dL first 24h, <45 mg/dL after 24h.",
+    others: {
+      "0": "Glucose 28 with symptoms is NOT routine — it requires intervention.",
+      "1": "Bathing causes cold stress and worsens hypoglycemia.",
+      "3": "IV insulin is contraindicated — makes hypoglycemia worse."
+    }
+  },
+  {
+    topic: "Preeclampsia Severe",
+    confirmed: false,
+    type: "standard",
+    stem: "A 32-week pregnant patient is admitted with BP 168/108 (baseline 110/70), 3+ proteinuria, severe headache not responding to medication, and blurred vision. Which intervention does the nurse anticipate FIRST?",
+    options: [
+      "Discharge home with strict bedrest and follow-up in 24 hours",
+      "Outpatient nutrition counseling",
+      "Oral acetaminophen for the headache",
+      "Magnesium sulfate IV for seizure prophylaxis"
+    ],
+    answer: 3,
+    concept: "Severe Preeclampsia Action",
+    rationale: "Severe preeclampsia (BP ≥160/110, severe HA not responding to meds, visual changes) requires IMMEDIATE MAGNESIUM SULFATE for seizure prophylaxis and IV antihypertensives (labetalol, hydralazine) for BP control. Delivery is the definitive treatment.",
+    deepExplanation: "Mag sulfate dosing: 4–6 g loading dose IV over 15–20 min, then 2 g/hr maintenance infusion. Therapeutic level: 4–7 mEq/L. Toxic level: >8 mEq/L. Antidote: 1 g calcium gluconate IV. Continue mag through 24 hr postpartum. Betamethasone for fetal lung maturity if <34 weeks.",
+    others: {
+      "0": "Severe preeclampsia is not managed at home.",
+      "1": "Nutrition counseling is not the priority.",
+      "2": "Acetaminophen alone is inadequate; the headache reflects severe disease."
+    }
+  },
+  {
+    topic: "GBS Intrapartum",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient who is GBS-POSITIVE (screen done at 36 weeks) presents in active labor at 7 cm dilation. Penicillin G IV is started. Which timing is MOST important to communicate to the team?",
+    options: [
+      "Antibiotics need at least 4 hours before delivery for adequate prophylaxis",
+      "Antibiotics should be discontinued once labor is active",
+      "Penicillin G has no role in GBS prophylaxis",
+      "Antibiotics should be given orally to avoid IV access"
+    ],
+    answer: 0,
+    concept: "GBS Antibiotic Timing",
+    rationale: "GBS prophylaxis requires AT LEAST 2 DOSES of penicillin G (or ampicillin) given AT LEAST 4 HOURS apart BEFORE delivery for adequate protection. If delivery occurs before 4 hours after the first dose, the newborn is considered inadequately treated and may need observation/blood work.",
+    deepExplanation: "Newborn approach if mom inadequately treated: observe for 36–48 hr; obtain CBC and blood culture; if symptomatic, treat empirically. With adequate prophylaxis (≥2 doses, ≥4 hr before delivery), early-onset GBS sepsis is rare. Late-onset GBS (after 7 days) is unaffected by intrapartum prophylaxis.",
+    others: {
+      "1": "Antibiotics CONTINUE through delivery, not stopped at active labor.",
+      "2": "Penicillin G IS the standard for GBS prophylaxis.",
+      "3": "IV is required — oral does not provide adequate fetal serum levels."
+    }
+  },
+  {
+    topic: "Mag Sulfate Toxicity",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient on magnesium sulfate IV infusion has the following findings: deep tendon reflexes 1+ (was 2+), respiratory rate 10/min, urine output 15 mL/hr (was 60 mL/hr). The MOST appropriate FIRST action is:",
+    options: [
+      "Stop the infusion and prepare to administer calcium gluconate IV",
+      "Continue the infusion at the current rate",
+      "Decrease the rate by 25% and recheck in 1 hour",
+      "Notify the provider in 30 minutes after lab draw"
+    ],
+    answer: 0,
+    concept: "Mag Toxicity Action",
+    rationale: "Decreased DTRs (1+), respiratory depression (RR 10), and decreased urine output (<30 mL/hr) all indicate MAGNESIUM TOXICITY. STOP the infusion IMMEDIATELY and prepare calcium gluconate (the antidote). Notify the provider while preparing.",
+    deepExplanation: "Mag toxicity progression: loss of DTRs (early) → respiratory depression → oliguria (mag is renally excreted, low UOP → accumulation) → cardiac arrest. Calcium gluconate (1 g IV over 3 minutes) reverses neuromuscular effects. Continuous monitoring of DTRs, RR, UOP is required hourly. Therapeutic mag: 4–7 mEq/L; toxicity: >8.",
+    others: {
+      "1": "Continuing risks cardiac arrest.",
+      "2": "Decreased rate is insufficient — stop completely.",
+      "3": "30-minute delay risks death."
+    }
+  },
+  {
+    topic: "Early Bleeding Differentiation",
+    confirmed: false,
+    type: "standard",
+    stem: "A 9-week pregnant patient presents with sharp right lower quadrant pain, light vaginal bleeding, and a positive pregnancy test. β-hCG is 2200 mIU/mL with no intrauterine pregnancy on transvaginal ultrasound. Which condition does the nurse suspect?",
+    options: [
+      "Normal early intrauterine pregnancy",
+      "Complete spontaneous abortion",
+      "Ectopic pregnancy",
+      "Hyperemesis gravidarum"
+    ],
+    answer: 2,
+    concept: "Ectopic Pregnancy",
+    rationale: "ECTOPIC PREGNANCY: positive pregnancy test, abdominal/pelvic pain (often unilateral), light vaginal bleeding, and β-hCG above the discriminatory zone (1500–2000 mIU/mL) WITHOUT intrauterine pregnancy on TVUS. This is an emergency — risk of tubal rupture and life-threatening hemorrhage.",
+    deepExplanation: "Ectopic management: methotrexate (medical, if stable, hCG <5000, no rupture) or surgical (laparoscopic salpingostomy/salpingectomy, especially if ruptured). Risk factors: prior ectopic, PID, tubal surgery, IUD, ART, smoking. Discriminatory hCG zone: gestational sac should be visible on TVUS at hCG 1500–2000.",
+    others: {
+      "0": "Normal IUP would show on TVUS at this hCG level.",
+      "1": "Complete abortion would have hCG falling and resolved bleeding/pain.",
+      "3": "Hyperemesis presents with severe nausea/vomiting, not pain + bleeding."
+    }
+  },
+  {
+    topic: "GDM Diagnosis",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient at 26 weeks has a 1-hour 50-g glucose challenge test result of 165 mg/dL (cutoff typically 130–140). Which is the next step?",
+    options: [
+      "Diagnose GDM and start insulin immediately",
+      "Repeat the 1-hour test in 4 weeks",
+      "Schedule a 3-hour 100-g oral glucose tolerance test (OGTT)",
+      "No further testing needed; result is within normal limits"
+    ],
+    answer: 2,
+    concept: "GDM Diagnostic Pathway",
+    rationale: "An elevated 1-hour glucose challenge test requires confirmation with the 3-HOUR 100-g OGTT. The 1-hour test is a SCREEN, not a diagnostic. Two or more abnormal values on the 3-hour OGTT confirm GDM diagnosis.",
+    deepExplanation: "3-hour 100-g OGTT criteria: fasting >95, 1-hr >180, 2-hr >155, 3-hr >140. Two or more abnormal = GDM diagnosis. If diagnosed: start with diet/exercise, add insulin or metformin if glucose remains uncontrolled. Self-monitoring of fasting and post-meal glucose is essential.",
+    others: {
+      "0": "Single abnormal screen does not confirm GDM.",
+      "1": "GDM diagnosis cannot wait 4 weeks.",
+      "3": "165 is above the cutoff and requires follow-up."
+    }
+  },
+  {
+    topic: "Preeclampsia HELLP",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient with preeclampsia has the following labs: AST 220 U/L (normal <40), platelets 78,000/mm³ (normal 150,000–400,000), and elevated LDH. The nurse recognizes this as:",
+    options: [
+      "HELLP syndrome",
+      "Mild preeclampsia",
+      "Normal pregnancy variant",
+      "Pregnancy-induced cholestasis"
+    ],
+    answer: 0,
+    concept: "HELLP Recognition",
+    rationale: "HELLP syndrome: HEMOLYSIS (elevated LDH), ELEVATED LIVER ENZYMES (AST 220), LOW PLATELETS (<100,000). It is a severe form of preeclampsia and requires immediate delivery. Maternal and fetal mortality risk is high.",
+    deepExplanation: "HELLP labs: LDH >600, AST >70, platelets <100,000, hemolysis on smear (schistocytes). Symptoms: RUQ pain, nausea, vomiting, headache, vision changes. Treatment: delivery (definitive), magnesium sulfate, BP control, possible platelet transfusion if <50,000 + bleeding. Postpartum, labs typically improve over 24–72 hr.",
+    others: {
+      "1": "Mild preeclampsia does not have these severe lab abnormalities.",
+      "2": "These labs are clearly abnormal.",
+      "3": "Cholestasis presents with elevated bile acids and pruritus, not platelet/AST changes like this."
+    }
+  },
+  {
+    topic: "CMV Prevention",
+    confirmed: false,
+    type: "standard",
+    stem: "A pregnant patient at 14 weeks is a daycare worker. Which education BEST helps her prevent CMV exposure?",
+    options: [
+      "Take prophylactic antibiotics during work shifts at the daycare",
+      "Wash hands after diaper changes; avoid contact with child saliva",
+      "Stop working at the daycare until after delivery of the baby",
+      "Get vaccinated against CMV before continuing daycare work shifts"
+    ],
+    answer: 1,
+    concept: "CMV Prevention",
+    rationale: "CMV prevention focuses on HAND HYGIENE and AVOIDING CONTACT WITH BODILY FLUIDS (especially saliva and urine of young children). Daycare workers and parents of toddlers are at high risk. Hand washing after diaper changes, not sharing food/utensils with children, and avoiding kissing children on the mouth.",
+    deepExplanation: "There is no CMV vaccine currently. Antibiotics do not prevent viral CMV. Most CMV in adults is asymptomatic, but primary maternal infection in pregnancy is the main risk for severe fetal disease. CMV testing in pregnancy is not routine in most countries; prevention is the focus.",
+    others: {
+      "0": "Antibiotics do not prevent viral infections.",
+      "2": "Stopping work entirely is not feasible or evidence-based.",
+      "3": "There is no CMV vaccine."
+    }
+  },
+  {
+    topic: "GBS Newborn Workup",
+    confirmed: false,
+    type: "standard",
+    stem: "A GBS-positive mother delivered her baby 3 hours after the FIRST dose of penicillin G (no second dose given). The newborn is now 30 min old, asymptomatic. Which intervention is MOST appropriate?",
+    options: [
+      "Discharge as routine; intrapartum prophylaxis was adequate",
+      "Observe in nursery 36–48 hours; consider CBC and blood culture per protocol",
+      "Begin IV penicillin in the newborn immediately as standard",
+      "Withhold breastfeeding due to risk of infection transmission"
+    ],
+    answer: 1,
+    concept: "Inadequate GBS Coverage",
+    rationale: "Inadequate GBS prophylaxis = first dose given <4 hours before delivery OR less than 2 doses. The asymptomatic newborn should be OBSERVED in the nursery for 36–48 hours; CBC and blood culture may be obtained per institutional protocol. If symptomatic, empirical antibiotics are started.",
+    deepExplanation: "Adequate prophylaxis: ≥2 doses given ≥4 hr before delivery. Inadequate: <4 hr or fewer doses. Even adequate prophylaxis prevents only EARLY-onset GBS (within first week). Late-onset (after 7 days) is unaffected. Newborn risk for early-onset GBS sepsis: pneumonia, meningitis, sepsis — high mortality.",
+    others: {
+      "0": "Inadequate prophylaxis requires extended observation.",
+      "2": "Empirical antibiotics are reserved for symptomatic newborns.",
+      "3": "Breastfeeding is encouraged — GBS does not transmit through breast milk."
+    }
+  },
+  {
+    topic: "Placenta Previa vs. Abruption",
+    confirmed: false,
+    type: "standard",
+    stem: "A 32-week pregnant patient presents with bright red, painless vaginal bleeding. The uterus is soft and non-tender. Which condition does the nurse suspect?",
+    options: [
+      "Placental abruption",
+      "Eclampsia",
+      "Spontaneous abortion",
+      "Placenta previa"
+    ],
+    answer: 3,
+    concept: "Placenta Previa",
+    rationale: "PLACENTA PREVIA = PAINLESS, BRIGHT RED bleeding, soft non-tender uterus. The placenta covers or is near the cervix. NO vaginal exams allowed (can cause hemorrhage). Diagnosed by transvaginal ultrasound. Cesarean delivery if persists into labor.",
+    deepExplanation: "Previa vs. abruption: previa = painless bright red bleeding, soft uterus; abruption = painful bleeding (or concealed), rigid tender uterus. Both can cause significant blood loss. Risk factors for previa: prior cesarean, prior previa, multiparity, advanced maternal age. Risk factors for abruption: HTN, trauma, cocaine use, smoking.",
+    others: {
+      "0": "Abruption is PAINFUL with rigid uterus.",
+      "1": "Eclampsia is seizures, not painless bleeding.",
+      "2": "Spontaneous abortion at 32 weeks would be preterm labor/stillbirth, not described this way."
+    }
+  },
+  {
+    topic: "Placental Abruption",
+    confirmed: false,
+    type: "standard",
+    stem: "A 36-week patient with chronic HTN reports SUDDEN severe abdominal pain, dark red vaginal bleeding, and a board-like rigid abdomen. FHR shows late decelerations. The nurse suspects:",
+    options: [
+      "Placenta previa",
+      "Placental abruption",
+      "Normal early labor",
+      "Polyhydramnios"
+    ],
+    answer: 1,
+    concept: "Placental Abruption",
+    rationale: "PLACENTAL ABRUPTION classic: SUDDEN severe abdominal pain, DARK red bleeding (or concealed), RIGID/BOARD-LIKE uterus, late decelerations or fetal distress. Risk factors: HTN, trauma, cocaine use, smoking, prior abruption. Emergency — immediate delivery.",
+    deepExplanation: "Abruption can be partial (some bleeding) or complete (massive hemorrhage). Up to 20% are concealed (no vaginal bleeding visible) but the patient still has pain and rigid uterus. DIC can develop in severe abruption. Treatment: emergency cesarean (most cases), aggressive resuscitation, blood products as needed.",
+    others: {
+      "0": "Previa is painless and bright red.",
+      "2": "Normal labor does not have rigid uterus and late decels.",
+      "3": "Polyhydramnios is excess fluid, not bleeding/pain."
+    }
+  },
+  {
+    topic: "GDM + Insulin",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient with GDM is on insulin. She reports skipping breakfast and now has tremors, sweating, and dizziness. Glucose is 52 mg/dL. The MOST appropriate FIRST action is:",
+    options: [
+      "Hold all insulin and continue fasting until glucose normalizes",
+      "Administer glucagon IM immediately as the first intervention",
+      "Inject regular insulin to balance the next scheduled meal",
+      "Give 15 g of fast-acting carbohydrate, recheck in 15 minutes"
+    ],
+    answer: 3,
+    concept: "Hypoglycemia 15-15 Rule",
+    rationale: "Hypoglycemia in pregnancy is treated with the 15-15 RULE: 15 g fast-acting carbohydrate (4 oz juice, 1 tbsp sugar, 4 glucose tabs), recheck in 15 minutes. Repeat if still <70 mg/dL. Glucagon is reserved for unconscious patients.",
+    deepExplanation: "After resolution of hypoglycemia (>70 mg/dL), patient should eat a complex carbohydrate snack with protein to prevent recurrence. Insulin doses may need adjustment. Skipping meals while on insulin is a common cause of hypoglycemia. Pregnancy hypoglycemia threshold: <70 mg/dL.",
+    others: {
+      "0": "Holding food worsens hypoglycemia.",
+      "1": "Glucagon is for unconscious or unable to swallow patients.",
+      "2": "Insulin worsens hypoglycemia."
+    }
+  },
+  {
+    topic: "Spontaneous Abortion Types",
+    confirmed: false,
+    type: "standard",
+    stem: "A 10-week pregnant patient has vaginal bleeding with closed cervix and viable fetus on ultrasound. The condition is BEST classified as:",
+    options: [
+      "Threatened abortion",
+      "Inevitable abortion",
+      "Incomplete abortion",
+      "Complete abortion"
+    ],
+    answer: 0,
+    concept: "Threatened Abortion",
+    rationale: "THREATENED ABORTION: vaginal bleeding before 20 weeks with CLOSED cervix and VIABLE fetus. About 50% of threatened abortions continue to viable pregnancy. Bedrest is no longer routinely recommended; pelvic rest may be. Serial monitoring with ultrasound and hCG.",
+    deepExplanation: "Abortion classification: THREATENED — closed cervix, viable; INEVITABLE — open cervix, products in canal; INCOMPLETE — some products passed, some retained; COMPLETE — all products passed; MISSED — fetal demise without expulsion. Each requires different management (expectant, medical with misoprostol, or surgical with D&C).",
+    others: {
+      "1": "Inevitable: cervix is open.",
+      "2": "Incomplete: products partially passed.",
+      "3": "Complete: products all passed."
+    }
+  },
+  {
+    topic: "Preeclampsia Postpartum",
+    confirmed: false,
+    type: "standard",
+    stem: "A patient with preeclampsia delivered yesterday and is on day 1 postpartum. BP is 160/100. Which is the MOST important nursing consideration?",
+    options: [
+      "Preeclampsia resolves immediately after delivery, so this BP is unrelated",
+      "Discharge the patient since delivery is complete",
+      "Postpartum preeclampsia continues to require BP control and seizure prophylaxis",
+      "Mag sulfate is contraindicated postpartum"
+    ],
+    answer: 2,
+    concept: "Postpartum Preeclampsia",
+    rationale: "Preeclampsia does NOT resolve immediately. Postpartum BP can remain elevated for 4 weeks to 3 months. Mag sulfate is typically continued through 24 HR POSTPARTUM for seizure prophylaxis. BP medications continue until normalized.",
+    deepExplanation: "Postpartum eclampsia (seizures after delivery) can occur up to 6 weeks after birth. Patients need close monitoring. New-onset HA, BP elevations, or visual changes postpartum require prompt evaluation. Postpartum hospital readmission for preeclampsia is not uncommon.",
+    others: {
+      "0": "Preeclampsia continues postpartum until resolved.",
+      "1": "Discharge is premature with severe BP.",
+      "3": "Mag sulfate is given for 24 hr postpartum, not contraindicated."
+    }
+  },
+  {
+    topic: "GDM Risk Factors",
+    confirmed: false,
+    type: "standard",
+    stem: "Which patient is at HIGHEST risk for GDM?",
+    options: [
+      "23-year-old, BMI 22, no family history of diabetes",
+      "First-time mother, age 19, with normal pregnancy weight gain",
+      "Patient with previous infant weighing 4500 g, BMI 33, family history of T2DM",
+      "Second pregnancy with previous normal glucose tolerance"
+    ],
+    answer: 2,
+    concept: "GDM Risk Stratification",
+    rationale: "Highest GDM risk: prior macrosomic infant (>4000 g), obesity (BMI >30), family history of T2DM, prior GDM, advanced maternal age, certain ethnicities (Hispanic, African American, Asian, Native American), and PCOS.",
+    deepExplanation: "Highest-risk patients should be screened EARLIER (at first prenatal visit) rather than waiting for 24–28 weeks. If early screen normal, repeat at 24–28 weeks per standard protocol. Postpartum: 50% of GDM patients develop T2DM within 10 years — lifestyle modification and follow-up testing are critical.",
+    others: {
+      "0": "Low-risk profile.",
+      "1": "Young primips with normal BMI are lower risk.",
+      "3": "Prior normal glucose tolerance is reassuring."
+    }
+  },
+  {
+    topic: "Mag Sulfate Education",
+    confirmed: false,
+    type: "standard",
+    stem: "The nurse is preparing to start magnesium sulfate IV. Which equipment is essential to have at the bedside?",
+    options: [
+      "Calcium gluconate, oxygen, suction, intubation supplies",
+      "Insulin and dextrose 50% for glucose management",
+      "Vitamin K and naloxone for emergency reversal",
+      "Heparin and vitamin C for clotting management"
+    ],
+    answer: 0,
+    concept: "Mag Sulfate Bedside Setup",
+    rationale: "When starting magnesium sulfate, ESSENTIAL bedside equipment includes: CALCIUM GLUCONATE (the antidote), oxygen, suction, and intubation/airway supplies in case of toxicity-induced respiratory depression. Continuous monitoring of DTRs, RR, UOP, and mag levels is needed.",
+    deepExplanation: "Mag toxicity escalation: lost DTRs → respiratory depression → cardiac dysfunction → arrest. Calcium gluconate (1g IV) reverses the neuromuscular blockade. Mag is renally excreted, so renal impairment + low UOP cause accumulation. Foley catheter is often placed for hourly UOP monitoring.",
+    others: {
+      "1": "Insulin/dextrose are not the antidote.",
+      "2": "Vitamin K and naloxone are unrelated.",
+      "3": "Heparin and vitamin C are unrelated."
+    }
+  },
+  {
+    topic: "Antepartum Bleeding Workup",
+    confirmed: false,
+    type: "standard",
+    stem: "A 30-week pregnant patient calls reporting bright red vaginal bleeding without pain. The nurse instructs her to:",
+    options: [
+      "Insert a tampon and call back if bleeding worsens",
+      "Take a warm bath to relieve any cramping",
+      "Wait 24 hours to see if bleeding stops",
+      "Come to L&D immediately and avoid any vaginal exam"
+    ],
+    answer: 3,
+    concept: "Painless Antepartum Bleeding",
+    rationale: "Painless bright red vaginal bleeding in late pregnancy = possible placenta previa. Patient should COME TO L&D IMMEDIATELY. NO vaginal exams (can rupture the placenta and cause life-threatening hemorrhage). Diagnose with transvaginal ultrasound.",
+    deepExplanation: "Always rule out placenta previa BEFORE doing any vaginal exam in a pregnant patient with bleeding. Standard workup: hemoglobin, type and screen, fetal monitoring, transvaginal ultrasound. Bedrest and pelvic rest if confirmed previa. Cesarean delivery typically planned at 36–37 weeks if previa persists.",
+    others: {
+      "0": "Tampons should NEVER be used during pregnancy bleeding.",
+      "1": "Warm bath does not address the cause.",
+      "2": "Waiting 24 hours risks significant blood loss."
+    }
+  },
+  {
+    topic: "GDM Glucose Monitoring",
+    confirmed: false,
+    type: "standard",
+    stem: "Which blood glucose monitoring schedule is appropriate for a patient with GDM on diet therapy?",
+    options: [
+      "Once a week before breakfast",
+      "Fasting and 1 or 2 hours after each main meal",
+      "Once a month at the prenatal visit",
+      "Only when symptomatic for hypoglycemia"
+    ],
+    answer: 1,
+    concept: "GDM Self-Monitoring",
+    rationale: "GDM patients monitor glucose: FASTING (target <95 mg/dL) and 1 OR 2 HOURS AFTER EACH MAIN MEAL (1-hr target <140; 2-hr target <120). Frequent monitoring identifies which patients need pharmacologic therapy beyond diet.",
+    deepExplanation: "GDM glucose targets: fasting <95, 1-hr postprandial <140, 2-hr postprandial <120. Persistent values above targets = consider insulin or metformin. Patients should keep a log to share with provider. HbA1c is less reliable in late pregnancy due to red cell turnover changes.",
+    others: {
+      "0": "Weekly is too infrequent.",
+      "2": "Monthly is far too infrequent.",
+      "3": "Symptom-driven monitoring misses asymptomatic hyperglycemia."
+    }
+  },
+  {
+    topic: "Preeclampsia Bed",
+    confirmed: false,
+    type: "standard",
+    stem: "When caring for a patient on magnesium sulfate, which environmental setup is BEST for safety?",
+    options: [
+      "Bright lights and frequent visitors to keep her alert",
+      "Quiet dim room with seizure precautions and side rails up/padded",
+      "Encourage independent ambulation each hour",
+      "Allow loud music to mask any monitor alarms"
+    ],
+    answer: 1,
+    concept: "Preeclampsia Environment",
+    rationale: "Patients with severe preeclampsia and on magnesium sulfate are kept in a QUIET, DIM room with SEIZURE PRECAUTIONS (side rails up and padded, suction equipment ready, calcium gluconate available). Stimuli can precipitate seizures.",
+    deepExplanation: "Seizure precautions: O2 and suction at bedside, padded side rails, IV access maintained, oral airway available, fall risk interventions. Limit visitors. Minimize unnecessary noise/light. Patient should remain on bedrest. Continuous fetal monitoring during mag infusion.",
+    others: {
+      "0": "Bright lights and visitors can trigger seizures.",
+      "2": "Ambulation is unsafe for preeclampsia/mag patient.",
+      "3": "Loud music masking alarms is dangerous."
+    }
+  },
+  {
+    topic: "Newborn IDM Workup",
+    confirmed: false,
+    type: "standard",
+    stem: "Which assessment is MOST critical for a newborn of a mother with poorly controlled diabetes during the FIRST hour of life?",
+    options: [
+      "Auditory brainstem response (ABR) testing in the first hour",
+      "Genetic counseling consultation in the immediate newborn period",
+      "Bilirubin level by transcutaneous device measurement only",
+      "Bedside glucose check, respiratory assessment, hypocalcemia signs"
+    ],
+    answer: 3,
+    concept: "IDM First Hour Priorities",
+    rationale: "First hour priorities for IDM: BEDSIDE BLOOD GLUCOSE CHECK (within 30 min), RESPIRATORY ASSESSMENT (RDS risk), and monitoring for HYPOCALCEMIA, HYPOTHERMIA, and macrosomia-related birth injuries (clavicle fracture, brachial plexus injury).",
+    deepExplanation: "IDM newborn complications cluster: macrosomia, hypoglycemia, RDS (delayed surfactant production), hyperbilirubinemia, hypocalcemia, hypomagnesemia, polycythemia, increased risk of cardiac defects, sacral agenesis. Glucose checks q30 min for first 2 hours, then before each feed for first 12 hours typically.",
+    others: {
+      "0": "Hearing screen is later, not first hour.",
+      "1": "Genetic counseling is not first-hour priority.",
+      "2": "Bilirubin can wait beyond first hour."
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let score = 0;
+let totalPoints = 0;
+let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_mat_ch20_deepdrill';
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+
+function extractLabs(stem) {
+  const labs = [];
+  const seen = new Set();
+
+  // Each pattern: { re, name, unit (or unitFromMatch index), rangeFromMatch (optional) }
+  const patterns = [
+    { re: /\bBP\s+(\d{2,3}\/\d{2,3})(?:\s*\((?:baseline|normal)\s+([\d\/<>≥≤\-–\s]+)\))?/gi, name: 'BP', unit: 'mmHg', rangeIdx: 2, ranglePrefix: 'baseline ' },
+    { re: /\bHR\s+(\d{2,3})\b/gi, name: 'HR', unit: 'bpm' },
+    { re: /\bpulse\s+(\d{2,3})\b/gi, name: 'Pulse', unit: 'bpm' },
+    { re: /\b(?:temperature|temp)[\s:]+(\d{2,3}(?:\.\d)?)\s*°?\s*([CF])\b/gi, name: 'Temp', unitIdx: 2, unitPrefix: '°' },
+    { re: /\b(?:respiratory rate|RR)\s+(\d{1,3})(?:\/min)?(?:\s*\(was\s+(\d+)\/?(?:min)?\))?\b/gi, name: 'RR', unit: '/min', rangeIdx: 2, ranglePrefix: 'was ' },
+    { re: /\b(?:urine output|UOP)\s+(\d{1,3})\s*mL\/hr(?:\s*\(was\s+(\d+)\s*mL\/hr\))?\b/gi, name: 'UOP', unit: 'mL/hr', rangeIdx: 2, ranglePrefix: 'was ' },
+    { re: /\b(?:bedside\s+)?(?:blood\s+)?glucose(?:\s+is|\s+at\s+\d+\s+(?:hour|min)\w*)?\s+(?:is\s+)?(\d{1,3})\s*mg\/dL(?:\s*\((?:normal[^)]*?|cutoff[^)]*?)\))?/gi, name: 'Glucose', unit: 'mg/dL' },
+    { re: /\b(?:hematocrit|HCT)\s+of\s+(\d{2,3})%(?:\s*\(normal[^)]*?\))?/gi, name: 'HCT', unit: '%' },
+    { re: /\bplatelets\s+([\d,]+)\s*\/?mm\u00b3?(?:\s*\(normal[^)]*?\))?/gi, name: 'Platelets', unit: '/mm³' },
+    { re: /\bAST\s+(\d{1,4})\s*U\/L(?:\s*\(normal[^)]*?\))?/gi, name: 'AST', unit: 'U/L' },
+    { re: /(?:\u03b2-hCG|beta-hCG|hCG)(?:\s+(?:is|of))?\s+([\d,]+)\s*mIU\/mL/gi, name: 'β-hCG', unit: 'mIU/mL' },
+    { re: /\bfundal height\s+of\s+(\d{1,3})\s*cm(?:\s*\((?:expected|normal)\s*~?\s*(\d{1,3})\s*cm\))?/gi, name: 'Fundal Ht', unit: 'cm', rangeIdx: 2, ranglePrefix: 'expected ~' },
+    { re: /\bAFI\s+(\d{1,3})\s*cm/gi, name: 'AFI', unit: 'cm' },
+    { re: /\b1-hour\b[^.]*?(\d{2,3})\s*mg\/dL/gi, name: '1-hr GCT', unit: 'mg/dL' },
+    { re: /(?:weighing|weighs|estimated at|EFW)\s+(\d{3,4})\s*g\b/gi, name: 'Weight', unit: 'g' }
+  ];
+
+  for (const pat of patterns) {
+    const re = new RegExp(pat.re.source, pat.re.flags);
+    let m;
+    while ((m = re.exec(stem)) !== null) {
+      const val = m[1];
+      const key = pat.name + ':' + val;
+      if (seen.has(key)) continue;
+      seen.add(key);
+
+      let unit = pat.unit || '';
+      if (pat.unitIdx && m[pat.unitIdx]) {
+        unit = (pat.unitPrefix || '') + m[pat.unitIdx];
+      }
+
+      let range = '';
+      if (pat.rangeIdx && m[pat.rangeIdx]) {
+        range = (pat.ranglePrefix || '') + m[pat.rangeIdx];
+      }
+
+      // First, check if m[0] itself contains a parenthetical (greedy patterns consume it)
+      if (!range) {
+        const innerParen = m[0].match(/\(([^)]+)\)/);
+        if (innerParen && /normal|baseline|expected|cutoff|target|was/i.test(innerParen[1])) {
+          range = innerParen[1].trim();
+        }
+      }
+
+      // Otherwise look ahead in the full stem
+      if (!range) {
+        const afterIdx = m.index + m[0].length;
+        const tail = stem.slice(afterIdx, afterIdx + 80);
+        const parenMatch = tail.match(/^\s*\(([^)]+)\)/);
+        if (parenMatch && /normal|baseline|expected|cutoff|target|was/i.test(parenMatch[1])) {
+          range = parenMatch[1].trim();
+        }
+      }
+
+      labs.push({ name: pat.name, value: val, unit, range });
+    }
+  }
+
+  return labs;
+}
+
+function renderLabStrip(labs) {
+  if (!labs || labs.length === 0) return '';
+  const items = labs.map(function(l) {
+    const range = l.range ? '<div class="lab-range">' + escapeStemHTML(l.range) + '</div>' : '';
+    const unit = l.unit ? ' <span class="lab-value-unit">' + escapeStemHTML(l.unit) + '</span>' : '';
+    return '<div class="lab-item"><div class="lab-name">' + escapeStemHTML(l.name) + '</div><div class="lab-value">' + escapeStemHTML(l.value) + unit + '</div>' + range + '</div>';
+  }).join('');
+  return '<div class="lab-strip"><div class="lab-strip-label">Clinical Data</div><div class="lab-row">' + items + '</div></div>';
+}
+
+function escapeStemHTML(s) {
+  const div = document.createElement('div');
+  div.textContent = String(s);
+  return div.innerHTML;
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  const labs = q.labs || extractLabs(q.stem);
+  const labStrip = renderLabStrip(labs);
+  document.getElementById('q-stem').innerHTML = labStrip + '<div>' + escapeStemHTML(q.stem) + '</div>';
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('action-row').classList.remove('has-rationale');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  document.getElementById('action-row').classList.add('has-rationale');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.deepExplanation) {
+    html += `<div class="deep-block"><strong>Deeper:</strong> ${q.deepExplanation}</div>`;
+  }
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong application of high-risk pregnancy. You are ready for this material on the final.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed scenarios below before moving on.';
+  else if (pct >= 60) msg = 'Below pass threshold. Review the missed items, retry, then re-confirm with the Knowledge Check.';
+  else msg = 'Heavy review needed. Re-read Ch 20, work through the missed items below, and try again before the final.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>

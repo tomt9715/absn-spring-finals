@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 50 Behavioral/Cognitive — Knowledge Check</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-soft: #14b8a6;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+      --partial: #d97706;
+      --partial-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .start-stat { text-align: center; padding: 18px 12px; background: var(--teal-pale); border-radius: 8px; border: 1px solid var(--line); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--teal); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer; background: var(--teal); color: white; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .lab-strip { margin-bottom: 18px; padding: 12px 14px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; border-left: 3px solid var(--teal); }
+    .lab-strip-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+    .lab-row { display: flex; flex-wrap: wrap; gap: 12px 18px; }
+    .lab-item { display: flex; flex-direction: column; gap: 2px; min-width: 90px; }
+    .lab-name { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.04em; }
+    .lab-value { font-size: 14px; color: var(--ink); font-weight: 600; }
+    .lab-value-unit { font-weight: 400; color: var(--muted); font-size: 11px; }
+    .lab-range { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 1px; }
+    .btn-row.sticky-row { position: sticky; bottom: 12px; background: var(--card); padding-top: 12px; padding-bottom: 4px; margin-top: 18px; z-index: 10; border-top: 1px solid transparent; }
+    .btn-row.sticky-row.has-rationale { border-top-color: var(--line); padding-top: 14px; }
+
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--teal); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--teal-soft); background: var(--teal-pale); }
+    .option.selected { border-color: var(--teal); background: var(--teal-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--teal); color: white; border-color: var(--teal); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--teal-pale); border-left: 3px solid var(--teal); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--teal); color: white; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--teal); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Knowledge Check · Chapter 50</div>
+  <h1>Behavioral/Cognitive Disorders</h1>
+  <p class="tagline">Direct recall: autism, anorexia/bulimia, intellectual disability, ADHD, depression/SSRIs, suicide assessment, and therapies.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">25</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">MC</span><span class="start-stat-label">Format</span></div>
+      <div class="start-stat"><span class="start-stat-num">Yes</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">Each question is direct recall from your review guide. Answer, get instant rationale, move on.</p>
+    <button class="btn" onclick="begin()">Begin</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 25</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row sticky-row" id="action-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Knowledge Check</div>
+    <h1>Behavioral/Cognitive Disorders</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 25 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Quiz</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: "Autism Definition",
+    confirmed: false,
+    type: "standard",
+    stem: "Autism Spectrum Disorder (ASD) is BEST defined as:",
+    options: [
+      "A neurodevelopmental disorder with social/communication deficits and restricted/repetitive behaviors",
+      "An acute viral illness causing transient developmental regression",
+      "An autoimmune disorder causing inflammation in pediatric brain tissues",
+      "A psychiatric disorder with hallucinations and delusions in children"
+    ],
+    answer: 0,
+    concept: "ASD Definition",
+    rationale: "ASD = NEURODEVELOPMENTAL disorder with two core features: (1) PERSISTENT DEFICITS in SOCIAL COMMUNICATION and INTERACTION; (2) RESTRICTED, REPETITIVE patterns of behavior, interests, or activities. Onset in early developmental period. Severity ranges along a spectrum.",
+    others: {
+      "1": "Not viral or transient.",
+      "2": "Not autoimmune.",
+      "3": "Not psychotic disorder."
+    }
+  },
+  {
+    topic: "Autism Early Signs",
+    confirmed: false,
+    type: "standard",
+    stem: "Which is an early sign of ASD in a toddler?",
+    options: [
+      "Strong eye contact and social smiling at parents",
+      "Frequent imitation of parent activities and games",
+      "Lack of eye contact, delayed speech, repetitive behaviors",
+      "Vocabulary explosion at 18 months and varied play"
+    ],
+    answer: 2,
+    concept: "ASD Early Signs",
+    rationale: "Early ASD signs: LACK OF EYE CONTACT, DELAYED SPEECH (or no babbling by 12 mo, no words by 16 mo, no phrases by 24 mo), REPETITIVE BEHAVIORS (hand flapping, rocking, lining up toys), lack of joint attention (not pointing/sharing interest), regression of skills, no smiling, doesn’t respond to name.",
+    others: {
+      "0": "Strong eye contact is reassuring (not autism).",
+      "1": "Imitation is age-appropriate.",
+      "3": "Vocabulary explosion at 18 mo is normal development."
+    }
+  },
+  {
+    topic: "Autism Sensory",
+    confirmed: false,
+    type: "standard",
+    stem: "Which sensory finding is COMMON in ASD?",
+    options: [
+      "No reaction to any sensory stimuli at all",
+      "Loss of all touch sensation in all body parts",
+      "Heightened taste with normal other sensations",
+      "Hyper- or hypo-sensitivity to sounds, lights, textures"
+    ],
+    answer: 3,
+    concept: "ASD Sensory Issues",
+    rationale: "ASD sensory differences: HYPER-sensitivity (overstimulation from sounds, lights, textures, tags in clothing) OR HYPO-sensitivity (high pain tolerance, seeking proprioceptive input). Often combined. Triggers: loud noises, fluorescent lights, crowded spaces, certain food textures. Plan environment to reduce sensory overload.",
+    others: {
+      "0": "ASD has altered sensory processing, not absent.",
+      "1": "Touch sensation is intact (often heightened or diminished).",
+      "2": "Sensory issues are widespread, not just taste."
+    }
+  },
+  {
+    topic: "Autism Care",
+    confirmed: false,
+    type: "standard",
+    stem: "Which is the BEST nursing approach for a child with ASD during a hospital admission?",
+    options: [
+      "Frequent unpredictable changes to keep routine fresh",
+      "Maintain consistent routines, reduce sensory stimuli, use visual aids",
+      "Loud, lively atmosphere with bright lights and music",
+      "Multiple caregivers rotating to expose child to many people"
+    ],
+    answer: 1,
+    concept: "ASD Hospital Care",
+    rationale: "Hospital care for ASD child: MAINTAIN CONSISTENT ROUTINES, REDUCE SENSORY STIMULI (dim lights, quiet, minimize noise), USE VISUAL AIDS (picture schedules, social stories), engage parents in care, allow comfort items from home, prepare for procedures with concrete language, minimize transitions.",
+    others: {
+      "0": "Unpredictable changes worsen distress.",
+      "2": "Sensory overload causes meltdowns.",
+      "3": "Multiple new caregivers add stress."
+    }
+  },
+  {
+    topic: "Anorexia Definition",
+    confirmed: false,
+    type: "standard",
+    stem: "Anorexia nervosa is BEST defined as:",
+    options: [
+      "Restriction of food, low body weight, distorted body image",
+      "Loss of appetite from infectious illness in children",
+      "Excessive eating with binge-purge cycles in adolescents",
+      "Pica disorder with eating non-food items at any age"
+    ],
+    answer: 0,
+    concept: "Anorexia Definition",
+    rationale: "ANOREXIA NERVOSA: RESTRICTION of energy intake → SIGNIFICANTLY LOW BODY WEIGHT, intense FEAR of GAINING WEIGHT, DISTURBED BODY IMAGE (sees self as fat despite being underweight). Restricting type vs. binge-purge subtype. Highest mortality of any mental health disorder.",
+    others: {
+      "1": "Decreased appetite from illness is not anorexia nervosa.",
+      "2": "Binge-purge is bulimia (or AN binge-purge subtype).",
+      "3": "Pica is eating non-food items."
+    }
+  },
+  {
+    topic: "Anorexia Signs",
+    confirmed: false,
+    type: "standard",
+    stem: "Which physical findings suggest anorexia nervosa in an adolescent?",
+    options: [
+      "Bradycardia, hypotension, lanugo, amenorrhea, low BMI",
+      "Tachycardia, hypertension, normal weight, normal menses",
+      "Obesity, hypertension, hirsutism, normal heart rate",
+      "Normal BMI, polyuria, weight stability over time"
+    ],
+    answer: 0,
+    concept: "Anorexia Physical",
+    rationale: "Anorexia physical signs: BRADYCARDIA (HR <60), HYPOTENSION, ORTHOSTASIS, HYPOTHERMIA, LANUGO (fine body hair), AMENORRHEA (loss of periods), DRY SKIN, brittle nails/hair, low BMI (often <17.5), constipation, electrolyte abnormalities, osteoporosis.",
+    others: {
+      "1": "Tachycardia/hypertension are NOT anorexia features.",
+      "2": "Obesity is opposite of anorexia.",
+      "3": "Polyuria with normal weight isn’t anorexia."
+    }
+  },
+  {
+    topic: "Refeeding Syndrome",
+    confirmed: false,
+    type: "standard",
+    stem: "Which is the MOST important consideration when refeeding a severely malnourished anorexic patient?",
+    options: [
+      "Rapid increase in calories to gain weight quickly",
+      "High-protein diet exclusively for muscle building",
+      "Slow refeeding with electrolyte monitoring (refeeding syndrome risk)",
+      "Ad-lib eating with no monitoring or restriction"
+    ],
+    answer: 2,
+    concept: "Refeeding Syndrome",
+    rationale: "REFEEDING SYNDROME: rapid refeeding causes massive INSULIN release → cells take up phosphate, potassium, magnesium → SEVERE HYPOPHOSPHATEMIA, hypokalemia, hypomagnesemia → cardiac arrhythmias, heart failure, respiratory failure, death. Prevention: SLOW caloric increase, MONITOR ELECTROLYTES (especially phosphorus), supplement thiamine.",
+    deepExplanation: "Refeeding syndrome physiology: prolonged starvation → cellular depletion of phosphate, potassium, magnesium, thiamine; the body shifts to using fat/protein for energy. With sudden carbs, insulin surges → cells uptake nutrients → plasma levels drop dangerously. Start at 1000–1500 kcal/day, advance slowly. Daily electrolytes especially first week. Cardiac monitoring during refeeding.",
+    others: {
+      "0": "Rapid feeding causes refeeding syndrome.",
+      "1": "Need balanced macronutrients, not protein only.",
+      "3": "Ad-lib without monitoring is unsafe."
+    }
+  },
+  {
+    topic: "Bulimia Definition",
+    confirmed: false,
+    type: "standard",
+    stem: "Bulimia nervosa is BEST defined as:",
+    options: [
+      "Severe restriction of food with low body weight in children",
+      "Refusal to eat any solid foods at all in childhood",
+      "Eating non-food items repeatedly throughout life span",
+      "Binge eating with compensatory behaviors (purging, fasting)"
+    ],
+    answer: 3,
+    concept: "Bulimia Definition",
+    rationale: "BULIMIA NERVOSA: BINGE EATING (large amounts in short time with loss of control) followed by COMPENSATORY BEHAVIORS (vomiting, laxatives, diuretics, fasting, excessive exercise). Often NORMAL OR ABOVE NORMAL WEIGHT (vs. anorexia low weight). Self-evaluation heavily influenced by body shape/weight.",
+    others: {
+      "0": "Severe restriction with low weight = anorexia nervosa.",
+      "1": "Refusing solids isn’t bulimia.",
+      "2": "Eating non-food = pica."
+    }
+  },
+  {
+    topic: "Bulimia Signs",
+    confirmed: false,
+    type: "standard",
+    stem: "Which physical sign is characteristic of bulimia nervosa from frequent vomiting?",
+    options: [
+      "Hyperpigmentation of all skin areas with darkening",
+      "Russell sign (knuckle calluses), dental erosion, parotid swelling",
+      "Hypertrichosis with thick body hair throughout body",
+      "Severe edema and persistent lower extremity weakness"
+    ],
+    answer: 1,
+    concept: "Bulimia Physical Signs",
+    rationale: "Bulimia physical signs from frequent vomiting: RUSSELL SIGN (calluses/scars on knuckles from self-induced vomiting), DENTAL EROSION (acid damages enamel), PAROTID GLAND SWELLING (“chipmunk cheeks”), electrolyte abnormalities (hypokalemia, metabolic alkalosis), esophageal tears, dehydration.",
+    others: {
+      "0": "Hyperpigmentation isn’t bulimia.",
+      "2": "Hypertrichosis isn’t bulimia.",
+      "3": "Edema isn’t bulimia-specific."
+    }
+  },
+  {
+    topic: "Bulimia Labs",
+    confirmed: false,
+    type: "standard",
+    stem: "Which lab abnormality is MOST common in bulimia nervosa from purging?",
+    options: [
+      "Hyperglycemia and metabolic acidosis",
+      "Hypokalemia and metabolic alkalosis",
+      "Hyperkalemia and respiratory acidosis",
+      "Hypernatremia and respiratory alkalosis"
+    ],
+    answer: 1,
+    concept: "Bulimia Labs",
+    rationale: "Bulimia labs from VOMITING: HYPOKALEMIA (loss of K in vomit), METABOLIC ALKALOSIS (loss of HCl from stomach), hypochloremia, dehydration. Severe hypokalemia → cardiac arrhythmias (life-threatening). LAXATIVE abuse: hypokalemia + metabolic ACIDOSIS (loss of bicarb in stool).",
+    others: {
+      "0": "Hyperglycemia isn’t typical.",
+      "2": "Hyperkalemia + acidosis is opposite of vomiting.",
+      "3": "Hypernatremia isn’t typical of bulimia."
+    }
+  },
+  {
+    topic: "Intellectual Disability",
+    confirmed: false,
+    type: "standard",
+    stem: "Intellectual disability is generally classified by IQ ranges. Mild ID is approximately:",
+    options: [
+      "IQ 50–70",
+      "IQ 35–49",
+      "IQ 20–34",
+      "IQ <20"
+    ],
+    answer: 0,
+    concept: "Mild ID Range",
+    rationale: "Intellectual disability IQ ranges (approximate): MILD = 50–70 (most common, ~85% of ID; can live semi-independently with support); MODERATE = 35–49 (need substantial support); SEVERE = 20–34; PROFOUND = <20. Modern classification emphasizes ADAPTIVE FUNCTIONING in conceptual, social, and practical domains.",
+    others: {
+      "1": "35–49 is moderate.",
+      "2": "20–34 is severe.",
+      "3": "<20 is profound."
+    }
+  },
+  {
+    topic: "ADHD Definition",
+    confirmed: false,
+    type: "standard",
+    stem: "ADHD (attention deficit hyperactivity disorder) is BEST defined as:",
+    options: [
+      "Pattern of inattention or hyperactivity-impulsivity affecting function",
+      "Acute behavioral change from medication side effect onset",
+      "Brief attention difficulty due to fatigue or transient stress",
+      "Acute autoimmune attack on cognitive function temporarily"
+    ],
+    answer: 0,
+    concept: "ADHD Definition",
+    rationale: "ADHD = persistent pattern of INATTENTION (difficulty sustaining attention, careless mistakes, easily distracted) and/or HYPERACTIVITY-IMPULSIVITY (fidgeting, talking excessively, blurting out, difficulty waiting turn) that AFFECTS FUNCTION. Symptoms before age 12, present in multiple settings (home, school).",
+    others: {
+      "1": "Not medication-induced.",
+      "2": "Brief difficulty isn’t ADHD.",
+      "3": "Not autoimmune."
+    }
+  },
+  {
+    topic: "ADHD Stimulants",
+    confirmed: false,
+    type: "standard",
+    stem: "Which medication class is FIRST-LINE for ADHD treatment?",
+    options: [
+      "Selective serotonin reuptake inhibitors (SSRIs)",
+      "Benzodiazepines (lorazepam, diazepam)",
+      "Antipsychotics (risperidone, aripiprazole)",
+      "Stimulants (methylphenidate, amphetamines)"
+    ],
+    answer: 3,
+    concept: "Stimulants First-Line",
+    rationale: "ADHD first-line: STIMULANTS — METHYLPHENIDATE (Ritalin, Concerta), AMPHETAMINE (Adderall, Vyvanse). Increase dopamine/norepinephrine to improve attention/focus. Side effects: decreased appetite, weight loss, insomnia, mild growth slowing, increased HR/BP, mood changes. Take in morning to avoid insomnia.",
+    others: {
+      "0": "SSRIs are for depression/anxiety, not ADHD first-line.",
+      "1": "Benzodiazepines aren’t for ADHD.",
+      "2": "Antipsychotics aren’t first-line for ADHD."
+    }
+  },
+  {
+    topic: "Stimulant Side Effects",
+    confirmed: false,
+    type: "standard",
+    stem: "Which side effect should the nurse monitor in a child on stimulant medication for ADHD?",
+    options: [
+      "Excessive weight gain and increased hunger",
+      "Severe lethargy and excessive sleeping",
+      "Decreased appetite, weight loss, insomnia, growth slowing",
+      "Bradycardia and severe hypotension"
+    ],
+    answer: 2,
+    concept: "Stimulant Side Effects",
+    rationale: "Stimulant side effects: DECREASED APPETITE (give meds AFTER meals or schedule snacks), WEIGHT LOSS (monitor growth curves), INSOMNIA (give in morning, avoid afternoon doses), mild GROWTH SLOWING, increased heart rate/BP, headaches, irritability when wearing off (“rebound”), tics may worsen.",
+    others: {
+      "0": "Stimulants DECREASE appetite.",
+      "1": "Stimulants cause INSOMNIA, not excess sleeping.",
+      "3": "Stimulants INCREASE HR/BP, not bradycardia."
+    }
+  },
+  {
+    topic: "Non-Stimulant ADHD",
+    confirmed: false,
+    type: "standard",
+    stem: "Which non-stimulant medication may be used for ADHD?",
+    options: [
+      "Atomoxetine (Strattera) or guanfacine (Intuniv)",
+      "Levothyroxine for cognitive support",
+      "Insulin glargine for behavior modulation",
+      "Phenylalanine restriction in the diet"
+    ],
+    answer: 0,
+    concept: "Non-Stimulant ADHD",
+    rationale: "Non-stimulant ADHD medications: ATOMOXETINE (Strattera, NE reuptake inhibitor), GUANFACINE (Intuniv, alpha-2 agonist), CLONIDINE (alpha-2 agonist). Used when stimulants ineffective, contraindicated, or have intolerable side effects. Slower onset (weeks for full effect vs hours for stimulants).",
+    others: {
+      "1": "Levothyroxine is for hypothyroidism.",
+      "2": "Insulin is for diabetes.",
+      "3": "Phenylalanine restriction is for PKU."
+    }
+  },
+  {
+    topic: "Adolescent Depression",
+    confirmed: false,
+    type: "standard",
+    stem: "Which is a sign of MAJOR depression in an adolescent?",
+    options: [
+      "Persistent happy mood with strong appetite and good sleep",
+      "Sad/irritable mood, anhedonia, sleep changes, suicidal ideation",
+      "Increased social engagement and excellent grades at school",
+      "Decreased substance use and good self-care habits at home"
+    ],
+    answer: 1,
+    concept: "Adolescent Depression",
+    rationale: "Adolescent depression signs: persistent SAD or IRRITABLE MOOD (irritability often the predominant adolescent presentation), ANHEDONIA (loss of pleasure), CHANGES IN SLEEP/APPETITE/WEIGHT, fatigue, worthlessness/guilt, difficulty concentrating, declining grades, social withdrawal, SUICIDAL IDEATION. May present with somatic symptoms (headaches, GI complaints).",
+    others: {
+      "0": "Happy mood + strong appetite = no depression.",
+      "2": "Increased engagement + good grades = no depression.",
+      "3": "Good self-care = no depression."
+    }
+  },
+  {
+    topic: "SSRI Black Box",
+    confirmed: false,
+    type: "standard",
+    stem: "Which is a CRITICAL teaching about SSRIs in adolescents with depression?",
+    options: [
+      "SSRIs work immediately within 24 hours of starting them",
+      "SSRIs are addictive and should never be used in adolescents",
+      "Black box warning: increased pediatric suicidality risk",
+      "Withdraw the SSRI abruptly when feeling better and improved"
+    ],
+    answer: 2,
+    concept: "SSRI Black Box Warning",
+    rationale: "SSRIs in pediatrics: BLACK BOX WARNING for INCREASED SUICIDALITY (especially first weeks). Close monitoring (weekly initially, then biweekly), family education on warning signs (worsening mood, agitation, akathisia, suicidal thoughts/behaviors), do NOT abruptly discontinue (taper). Fluoxetine (Prozac) and escitalopram (Lexapro) are FDA-approved for pediatric depression.",
+    deepExplanation: "SSRI mechanism: blocks serotonin reuptake → more serotonin in synaptic cleft. Onset: 4–6 weeks for full effect (improvement may begin in 2–4 weeks). Paradoxical activation phase early in treatment may increase agitation/suicidality before mood lifts — hence black box warning. Discontinuation syndrome (dizziness, GI, electric shock sensations) if stopped abruptly — must taper.",
+    others: {
+      "0": "SSRIs take 4–6 weeks for full effect.",
+      "1": "SSRIs are not addictive but discontinuation requires taper.",
+      "3": "Abrupt discontinuation causes withdrawal symptoms."
+    }
+  },
+  {
+    topic: "Suicide Risk Factors",
+    confirmed: false,
+    type: "standard",
+    stem: "Which is a HIGH-risk factor for adolescent suicide?",
+    options: [
+      "Strong family connections and active social life",
+      "Active engagement in sports and academics",
+      "Multiple supportive friendships at school",
+      "Previous suicide attempt, mental illness, substance use"
+    ],
+    answer: 3,
+    concept: "Suicide Risk Factors",
+    rationale: "High-risk suicide factors: PREVIOUS SUICIDE ATTEMPT (strongest predictor), mental illness (depression, bipolar, anxiety, conduct disorder), SUBSTANCE USE, family history of suicide, recent loss/trauma, access to lethal means (firearms), social isolation, LGBTQ+ youth without support, bullying victims, chronic illness or pain.",
+    others: {
+      "0": "Family connections are PROTECTIVE.",
+      "1": "Active engagement is PROTECTIVE.",
+      "2": "Friendships are PROTECTIVE."
+    }
+  },
+  {
+    topic: "Suicide Warning Signs",
+    confirmed: false,
+    type: "standard",
+    stem: "Which is a WARNING SIGN that a teen may be planning suicide?",
+    options: [
+      "Increased social engagement and active future planning",
+      "Improved grades and stable mood over weeks of follow-up",
+      "Giving away possessions, saying goodbye, sudden calmness",
+      "Active participation in sports and ongoing school activities"
+    ],
+    answer: 2,
+    concept: "Suicide Warning Signs",
+    rationale: "Acute suicide warning signs: GIVING AWAY VALUED POSSESSIONS, saying GOODBYE to people, SUDDEN CALMNESS after depression (decision made, perceived peace), talking about death/suicide, looking up methods online, acquiring lethal means (firearms, pills), drastic behavior changes, withdrawal, hopelessness statements (\"They’d be better off without me\").",
+    others: {
+      "0": "Future planning is protective.",
+      "1": "Improved grades and stable mood are reassuring.",
+      "3": "Active engagement is protective."
+    }
+  },
+  {
+    topic: "Suicide Direct Question",
+    confirmed: false,
+    type: "standard",
+    stem: "When assessing a depressed teen for suicide, the BEST approach is to:",
+    options: [
+      "Avoid asking about suicide to prevent giving them ideas",
+      "Ask DIRECTLY: \"Are you thinking about killing yourself?\"",
+      "Ask only the parent about suicidal ideation",
+      "Wait for the teen to bring it up themselves"
+    ],
+    answer: 1,
+    concept: "Direct Suicide Assessment",
+    rationale: "ALWAYS ASK DIRECTLY about suicide: \"Are you thinking about killing yourself?\" or \"Are you having thoughts of suicide?\" — asking does NOT plant ideas; it OPENS the conversation and assesses risk. Specific questions: ideation, plan, means, intent, timeline. Use validated tools (Columbia Protocol, ASQ).",
+    others: {
+      "0": "Asking does NOT cause suicide — it helps assess.",
+      "2": "Adolescent must be asked directly.",
+      "3": "Waiting can lead to crisis."
+    }
+  },
+  {
+    topic: "CBT",
+    confirmed: false,
+    type: "standard",
+    stem: "Which therapy is FIRST-LINE for adolescent depression and anxiety?",
+    options: [
+      "Electroconvulsive therapy (ECT)",
+      "Insulin shock therapy treatment",
+      "Prefrontal lobotomy procedure",
+      "Cognitive behavioral therapy (CBT)"
+    ],
+    answer: 3,
+    concept: "CBT First-Line",
+    rationale: "COGNITIVE BEHAVIORAL THERAPY (CBT) is first-line evidence-based therapy for adolescent depression and anxiety. Identifies negative thought patterns and replaces with healthier thoughts/behaviors. Often combined with medication for moderate-severe depression. Other effective therapies: IPT (interpersonal therapy), DBT (dialectical behavior therapy for self-harm).",
+    others: {
+      "0": "ECT is for severe treatment-resistant depression, not first-line.",
+      "1": "Insulin shock therapy is no longer used.",
+      "2": "Lobotomy is no longer used."
+    }
+  },
+  {
+    topic: "Family Therapy",
+    confirmed: false,
+    type: "standard",
+    stem: "Which therapy is particularly effective for adolescent eating disorders (especially anorexia nervosa)?",
+    options: [
+      "Individual psychoanalysis",
+      "Group therapy with adults only",
+      "Family-based treatment (Maudsley approach)",
+      "Hypnotherapy as the sole intervention"
+    ],
+    answer: 2,
+    concept: "FBT/Maudsley Anorexia",
+    rationale: "FAMILY-BASED TREATMENT (FBT, Maudsley approach) is first-line for adolescent anorexia nervosa. Parents take control of refeeding initially, gradually returning autonomy to adolescent as recovery progresses. Strong evidence for outcomes. Combines with medical monitoring, individual therapy, dietitian.",
+    others: {
+      "0": "Individual psychoanalysis isn’t first-line.",
+      "1": "Group therapy alone insufficient.",
+      "3": "Hypnotherapy isn’t evidence-based for AN."
+    }
+  },
+  {
+    topic: "Autism Diagnosis",
+    confirmed: false,
+    type: "standard",
+    stem: "Which is the DSM-5 core criterion for ASD diagnosis?",
+    options: [
+      "Severe psychotic features with hallucinations and delusions",
+      "Social communication deficits + restricted/repetitive behaviors",
+      "Episodic mood swings between mania and severe depression",
+      "Severe persistent sadness for over 2 years duration confirmed"
+    ],
+    answer: 1,
+    concept: "DSM-5 ASD Criteria",
+    rationale: "DSM-5 ASD criteria: (1) PERSISTENT DEFICITS in social communication/interaction (deficits in social-emotional reciprocity, nonverbal communication, developing/maintaining relationships); (2) RESTRICTED, REPETITIVE patterns of behavior, interests, activities (stereotyped movements, insistence on sameness, restricted interests, sensory issues). Onset in early developmental period; impairs function.",
+    others: {
+      "0": "Psychosis is not autism criteria.",
+      "2": "Mood swings are bipolar.",
+      "3": "Persistent sadness is depression."
+    }
+  },
+  {
+    topic: "Anorexia Mortality",
+    confirmed: false,
+    type: "standard",
+    stem: "Anorexia nervosa has the HIGHEST mortality of any mental health disorder. The MOST common causes of death are:",
+    options: [
+      "Bacterial infection from food contamination or poisoning",
+      "Liver failure from prolonged hunger and severe starvation",
+      "Stroke from carotid artery stenosis early in disease course",
+      "Cardiac arrhythmia from electrolyte imbalance, and suicide"
+    ],
+    answer: 3,
+    concept: "Anorexia Mortality Causes",
+    rationale: "Anorexia nervosa has the HIGHEST MORTALITY of any psychiatric disorder (5–10% over decades). Most common causes of death: CARDIAC COMPLICATIONS (arrhythmia from electrolyte imbalance, especially hypokalemia and prolonged QT) and SUICIDE. Other complications: refeeding syndrome, hypothermia, organ failure.",
+    others: {
+      "0": "Bacterial infection isn’t the most common cause.",
+      "1": "Liver failure can occur but isn’t most common cause of death.",
+      "2": "Stroke isn’t typical of anorexia."
+    }
+  },
+  {
+    topic: "Therapeutic Milieu",
+    confirmed: false,
+    type: "standard",
+    stem: "A nurse on a pediatric psychiatric unit is creating a therapeutic milieu. Which feature is MOST important?",
+    options: [
+      "Unstructured time with no consistent rules or expectations",
+      "Safe environment, consistent rules, structured activities, supportive staff",
+      "Strict isolation of patients from each other at all times",
+      "Frequent shift changes among the staff to expose to many people"
+    ],
+    answer: 1,
+    concept: "Therapeutic Milieu",
+    rationale: "THERAPEUTIC MILIEU = safe, structured environment that promotes healing. Key features: SAFE ENVIRONMENT (no harm to self/others, locked unit if needed), CONSISTENT RULES and expectations, STRUCTURED ACTIVITIES (groups, school, recreation, therapy), SUPPORTIVE STAFF (consistent caregivers, therapeutic relationships), peer interaction promoting prosocial behavior.",
+    others: {
+      "0": "Lack of structure worsens behavioral issues.",
+      "2": "Total isolation isn’t therapeutic.",
+      "3": "Frequent staff turnover impedes therapeutic relationships."
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let score = 0;
+let totalPoints = 0;
+let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_peds_ch50_knowledge';
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+
+function extractLabs(stem) {
+  const labs = [];
+  const seen = new Set();
+
+  // Each pattern: { re, name, unit (or unitFromMatch index), rangeFromMatch (optional) }
+  const patterns = [
+    { re: /\bBP\s+(\d{2,3}\/\d{2,3})(?:\s*\((?:baseline|normal)\s+([\d\/<>≥≤\-–\s]+)\))?/gi, name: 'BP', unit: 'mmHg', rangeIdx: 2, ranglePrefix: 'baseline ' },
+    { re: /\bHR\s+(\d{2,3})\b/gi, name: 'HR', unit: 'bpm' },
+    { re: /\bpulse\s+(\d{2,3})\b/gi, name: 'Pulse', unit: 'bpm' },
+    { re: /\b(?:temperature|temp)[\s:]+(\d{2,3}(?:\.\d)?)\s*°?\s*([CF])\b/gi, name: 'Temp', unitIdx: 2, unitPrefix: '°' },
+    { re: /\b(?:respiratory rate|RR)\s+(\d{1,3})(?:\/min)?(?:\s*\(was\s+(\d+)\/?(?:min)?\))?\b/gi, name: 'RR', unit: '/min', rangeIdx: 2, ranglePrefix: 'was ' },
+    { re: /\b(?:urine output|UOP)\s+(\d{1,3})\s*mL\/hr(?:\s*\(was\s+(\d+)\s*mL\/hr\))?\b/gi, name: 'UOP', unit: 'mL/hr', rangeIdx: 2, ranglePrefix: 'was ' },
+    { re: /\b(?:bedside\s+)?(?:blood\s+)?glucose(?:\s+is|\s+at\s+\d+\s+(?:hour|min)\w*)?\s+(?:is\s+)?(\d{1,3})\s*mg\/dL(?:\s*\((?:normal[^)]*?|cutoff[^)]*?)\))?/gi, name: 'Glucose', unit: 'mg/dL' },
+    { re: /\b(?:hematocrit|HCT)\s+of\s+(\d{2,3})%(?:\s*\(normal[^)]*?\))?/gi, name: 'HCT', unit: '%' },
+    { re: /\bplatelets\s+([\d,]+)\s*\/?mm\u00b3?(?:\s*\(normal[^)]*?\))?/gi, name: 'Platelets', unit: '/mm³' },
+    { re: /\bAST\s+(\d{1,4})\s*U\/L(?:\s*\(normal[^)]*?\))?/gi, name: 'AST', unit: 'U/L' },
+    { re: /(?:\u03b2-hCG|beta-hCG|hCG)(?:\s+(?:is|of))?\s+([\d,]+)\s*mIU\/mL/gi, name: 'β-hCG', unit: 'mIU/mL' },
+    { re: /\bfundal height\s+of\s+(\d{1,3})\s*cm(?:\s*\((?:expected|normal)\s*~?\s*(\d{1,3})\s*cm\))?/gi, name: 'Fundal Ht', unit: 'cm', rangeIdx: 2, ranglePrefix: 'expected ~' },
+    { re: /\bAFI\s+(\d{1,3})\s*cm/gi, name: 'AFI', unit: 'cm' },
+    { re: /\b1-hour\b[^.]*?(\d{2,3})\s*mg\/dL/gi, name: '1-hr GCT', unit: 'mg/dL' },
+    { re: /(?:weighing|weighs|estimated at|EFW)\s+(\d{3,4})\s*g\b/gi, name: 'Weight', unit: 'g' }
+  ];
+
+  for (const pat of patterns) {
+    const re = new RegExp(pat.re.source, pat.re.flags);
+    let m;
+    while ((m = re.exec(stem)) !== null) {
+      const val = m[1];
+      const key = pat.name + ':' + val;
+      if (seen.has(key)) continue;
+      seen.add(key);
+
+      let unit = pat.unit || '';
+      if (pat.unitIdx && m[pat.unitIdx]) {
+        unit = (pat.unitPrefix || '') + m[pat.unitIdx];
+      }
+
+      let range = '';
+      if (pat.rangeIdx && m[pat.rangeIdx]) {
+        range = (pat.ranglePrefix || '') + m[pat.rangeIdx];
+      }
+
+      // First, check if m[0] itself contains a parenthetical (greedy patterns consume it)
+      if (!range) {
+        const innerParen = m[0].match(/\(([^)]+)\)/);
+        if (innerParen && /normal|baseline|expected|cutoff|target|was/i.test(innerParen[1])) {
+          range = innerParen[1].trim();
+        }
+      }
+
+      // Otherwise look ahead in the full stem
+      if (!range) {
+        const afterIdx = m.index + m[0].length;
+        const tail = stem.slice(afterIdx, afterIdx + 80);
+        const parenMatch = tail.match(/^\s*\(([^)]+)\)/);
+        if (parenMatch && /normal|baseline|expected|cutoff|target|was/i.test(parenMatch[1])) {
+          range = parenMatch[1].trim();
+        }
+      }
+
+      labs.push({ name: pat.name, value: val, unit, range });
+    }
+  }
+
+  return labs;
+}
+
+function renderLabStrip(labs) {
+  if (!labs || labs.length === 0) return '';
+  const items = labs.map(function(l) {
+    const range = l.range ? '<div class="lab-range">' + escapeStemHTML(l.range) + '</div>' : '';
+    const unit = l.unit ? ' <span class="lab-value-unit">' + escapeStemHTML(l.unit) + '</span>' : '';
+    return '<div class="lab-item"><div class="lab-name">' + escapeStemHTML(l.name) + '</div><div class="lab-value">' + escapeStemHTML(l.value) + unit + '</div>' + range + '</div>';
+  }).join('');
+  return '<div class="lab-strip"><div class="lab-strip-label">Clinical Data</div><div class="lab-row">' + items + '</div></div>';
+}
+
+function escapeStemHTML(s) {
+  const div = document.createElement('div');
+  div.textContent = String(s);
+  return div.innerHTML;
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  const labs = q.labs || extractLabs(q.stem);
+  const labStrip = renderLabStrip(labs);
+  document.getElementById('q-stem').innerHTML = labStrip + '<div>' + escapeStemHTML(q.stem) + '</div>';
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('action-row').classList.remove('has-rationale');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  document.getElementById('action-row').classList.add('has-rationale');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong recall on behavioral/cognitive disorders. Move on to the Deep Drill for clinical scenarios.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed concepts below before moving to the Deep Drill.';
+  else if (pct >= 60) msg = 'Below pass threshold. Re-read Ch 50, retry, then move to the Deep Drill.';
+  else msg = 'Lots of room to grow. Re-study autism, eating disorders, ADHD, SSRIs, suicide assessment, and therapies — then run this again.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>

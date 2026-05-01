@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 47 Pediatric Immune Disorders — Deep Drill</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-soft: #14b8a6;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+      --partial: #d97706;
+      --partial-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--purple); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .start-stat { text-align: center; padding: 18px 12px; background: var(--purple-pale); border-radius: 8px; border: 1px solid var(--line); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--purple); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer; background: var(--purple); color: white; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .lab-strip { margin-bottom: 18px; padding: 12px 14px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; border-left: 3px solid var(--teal); }
+    .lab-strip-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+    .lab-row { display: flex; flex-wrap: wrap; gap: 12px 18px; }
+    .lab-item { display: flex; flex-direction: column; gap: 2px; min-width: 90px; }
+    .lab-name { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.04em; }
+    .lab-value { font-size: 14px; color: var(--ink); font-weight: 600; }
+    .lab-value-unit { font-weight: 400; color: var(--muted); font-size: 11px; }
+    .lab-range { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 1px; }
+    .btn-row.sticky-row { position: sticky; bottom: 12px; background: var(--card); padding-top: 12px; padding-bottom: 4px; margin-top: 18px; z-index: 10; border-top: 1px solid transparent; }
+    .btn-row.sticky-row.has-rationale { border-top-color: var(--line); padding-top: 14px; }
+
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--purple); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--purple); background: var(--purple-pale); }
+    .option.selected { border-color: var(--purple); background: var(--purple-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--purple); color: white; border-color: var(--purple); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--purple-pale); border-left: 3px solid var(--purple); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--purple); color: white; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .deep-block { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); font-size: 13px; line-height: 1.6; color: var(--ink-soft); }
+    .deep-block strong { color: var(--navy); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--purple); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Deep Drill · Chapter 47</div>
+  <h1>Pediatric Immune Disorders</h1>
+  <p class="tagline">Application scenarios: prioritizing anaphylaxis, recognizing JIA/SLE complications, IVIG management, perinatal HIV care, and vaccine decisions in immunocompromised. NCLEX-Next-Gen difficulty.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">25</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">App</span><span class="start-stat-label">Level</span></div>
+      <div class="start-stat"><span class="start-stat-num">Deep</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">Each question requires applying knowledge to a clinical scenario. Rationales include both the why and the underlying mechanism.</p>
+    <button class="btn" onclick="begin()">Begin Drill</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 25</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row sticky-row" id="action-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Deep Drill</div>
+    <h1>Pediatric Immune Disorders</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 25 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Drill</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: "Anaphylaxis Priority",
+    confirmed: false,
+    type: "standard",
+    stem: "A 7-year-old eats a peanut butter cookie at school and within 5 minutes develops swelling of the lips, audible stridor, hives, and is wheezing. The school nurse’s FIRST action is:",
+    options: [
+      "Inject IM epinephrine 0.15 mg in the lateral thigh and call 911",
+      "Administer oral diphenhydramine immediately",
+      "Wait 10 minutes to see if symptoms self-resolve before acting",
+      "Have the child drink milk to dilute any allergen ingested"
+    ],
+    answer: 0,
+    concept: "Anaphylaxis First Action",
+    rationale: "Anaphylaxis (multi-system: stridor, lip swelling, wheezing, hives) requires IMMEDIATE IM EPINEPHRINE in the LATERAL THIGH. Pediatric dose: 0.01 mg/kg of 1:1000 (typical autoinjector dose 0.15 mg for 15–30 kg child, 0.3 mg for >30 kg). Call 911. Repeat epi every 5–15 min if no improvement.",
+    deepExplanation: "Why epinephrine first: epinephrine works on alpha-1 (vasoconstriction → reverses hypotension/swelling), beta-1 (cardiac stimulation), beta-2 (bronchodilation). Antihistamines and steroids are ADJUNCTS that take longer to work and don’t address airway/circulatory collapse. Biphasic reactions (recurrence 4–8 hr later) are why ER observation is required even if first dose works.",
+    others: {
+      "1": "Antihistamine alone is inadequate for anaphylaxis.",
+      "2": "Waiting risks airway loss and shock.",
+      "3": "Drinking milk does not address systemic anaphylaxis."
+    }
+  },
+  {
+    topic: "EpiPen After Use",
+    confirmed: false,
+    type: "standard",
+    stem: "After using an EpiPen on her child for anaphylaxis, the parent calls the nurse. The child’s symptoms improved dramatically. What is the BEST guidance?",
+    options: [
+      "Stay home and observe for 30 minutes; no further care needed",
+      "Wait 12 hours before doing anything else for the child",
+      "Take the child to the ER immediately even though symptoms improved",
+      "Give a second dose of EpiPen now even if symptoms have resolved"
+    ],
+    answer: 2,
+    concept: "Biphasic Risk Post-EpiPen",
+    rationale: "Even if symptoms improve after EpiPen, the child MUST be taken to the ER for monitoring. BIPHASIC reactions (return of symptoms 4–12 hours later) occur in 5–20% of anaphylaxis cases and can be life-threatening. ER monitoring for 4–6 hours typically required.",
+    deepExplanation: "Biphasic anaphylaxis: secondary reaction without re-exposure to allergen, more common with severe initial reaction or delayed epinephrine. Children may need second dose of epinephrine in the ER, IV fluids, possible H1/H2 antihistamines, steroids, and observation. Never assume a single epinephrine dose is sufficient management.",
+    others: {
+      "0": "Home observation alone is inadequate — biphasic reaction risk.",
+      "1": "12-hour delay is unsafe.",
+      "3": "Second EpiPen if symptoms have resolved is not standard; ER evaluation is."
+    }
+  },
+  {
+    topic: "JIA Eye Screening",
+    confirmed: false,
+    type: "standard",
+    stem: "A 4-year-old has been diagnosed with oligoarticular JIA, ANA-positive. Which screening test should be done EVERY 3–6 MONTHS?",
+    options: [
+      "Hearing screen with audiometry annually",
+      "Brain MRI for neurologic complications",
+      "Echocardiogram for cardiac function",
+      "Slit lamp eye exam by ophthalmology"
+    ],
+    answer: 3,
+    concept: "JIA Uveitis Screening",
+    rationale: "Oligoarticular JIA + ANA-positive = HIGHEST RISK for ASYMPTOMATIC chronic anterior uveitis. SLIT LAMP EXAM by ophthalmology every 3–6 months is essential to detect uveitis early before vision loss. Untreated uveitis can cause blindness.",
+    deepExplanation: "Uveitis screening intervals: ANA+ JIA in children <7 years = every 3 months; older children or ANA-negative = every 6–12 months. Treatment if detected: topical steroids, methotrexate, biologics. Many children require biologics (e.g., adalimumab) to prevent vision loss. Routine eye exams are insufficient — must be slit lamp.",
+    others: {
+      "0": "Hearing screening is not standard for JIA.",
+      "1": "Brain MRI is not routine.",
+      "2": "Echo is not part of routine JIA screening."
+    }
+  },
+  {
+    topic: "Maternal HIV + Newborn",
+    confirmed: false,
+    type: "standard",
+    stem: "An infant is born to an HIV-positive mother whose viral load was undetectable at delivery. Which is the BEST plan for the infant?",
+    options: [
+      "Newborn ART prophylaxis (e.g., zidovudine) and HIV PCR testing",
+      "No prophylaxis or testing needed since mother had undetectable load",
+      "Wait until 2 years to do any HIV testing",
+      "Routine immunizations only without HIV-specific testing"
+    ],
+    answer: 0,
+    concept: "Newborn HIV Prophylaxis",
+    rationale: "Even with undetectable maternal viral load, newborn receives PROPHYLACTIC ART (zidovudine for 4–6 weeks) and serial HIV PCR TESTING (at birth, 2-4 weeks, 1-2 months, 4-6 months). Definitive HIV-negative status confirmed by 2 negative PCRs after 1 month + negative antibody at 18–24 months.",
+    deepExplanation: "Newborn HIV testing schedule: virologic testing (PCR) at birth or first few days, 2-4 weeks, 1-2 months, 4-6 months. Antibody tests not useful until 18–24 months due to maternal antibodies. Prophylaxis duration depends on transmission risk (4 weeks if low risk, 6 weeks combination ART if higher risk). Avoid breastfeeding in resource-rich settings; provide formula.",
+    others: {
+      "1": "Even undetectable load does not eliminate transmission risk entirely.",
+      "2": "Waiting 2 years is too late for early diagnosis.",
+      "3": "HIV-specific testing is essential for early identification."
+    }
+  },
+  {
+    topic: "IVIG Reaction",
+    confirmed: false,
+    type: "standard",
+    stem: "A 3-year-old is receiving IVIG for Kawasaki disease. Within 30 minutes, the child develops fever, chills, headache, and back pain. The nurse should:",
+    options: [
+      "Discontinue IVIG and not resume the medication ever",
+      "Slow the infusion rate, give acetaminophen + diphenhydramine, monitor closely",
+      "Give IM epinephrine immediately for severe reaction",
+      "Increase the rate to push through reaction quickly"
+    ],
+    answer: 1,
+    concept: "IVIG Mild Reaction",
+    rationale: "Mild IVIG reactions (fever, chills, headache, back pain) are common and managed by SLOWING THE INFUSION, giving ACETAMINOPHEN + DIPHENHYDRAMINE (often pre-medicated already), and monitoring. Once symptoms improve, infusion can resume at a slower rate.",
+    deepExplanation: "IVIG reactions spectrum: mild (rate-related, common) → moderate (require additional intervention) → severe anaphylaxis (rare, especially in IgA-deficient patients with anti-IgA antibodies). Severe reactions: stop infusion, give epinephrine, supportive care. Mild reactions almost never warrant permanent discontinuation — they can be managed with rate adjustment and pre-medication.",
+    others: {
+      "0": "Permanent discontinuation is not warranted for mild reaction.",
+      "2": "Mild reaction is not anaphylaxis.",
+      "3": "Faster rate worsens reactions."
+    }
+  },
+  {
+    topic: "SLE Photosensitivity",
+    confirmed: false,
+    type: "standard",
+    stem: "A 14-year-old with SLE develops worsening rash and joint pain after a beach trip. Which education is MOST important?",
+    options: [
+      "Sun exposure does not affect SLE in adolescents",
+      "Recommend tanning beds for safer UV exposure than sun",
+      "Strict sun protection (SPF 50+, hats, long sleeves) is essential",
+      "Avoid the beach permanently with no sun exposure ever"
+    ],
+    answer: 2,
+    concept: "SLE Sun Protection",
+    rationale: "SLE is highly PHOTOSENSITIVE — UV light triggers flares (rash, joint pain, fatigue). Education: STRICT SUN PROTECTION (broad-spectrum SPF 50+, reapplied frequently), wide-brim hats, long sleeves, sun avoidance during peak hours (10am–4pm). Patients can still enjoy outdoor activities with proper protection.",
+    deepExplanation: "UV (especially UVB and UVA) triggers SLE flares by causing apoptosis of skin cells and exposing self-antigens to the immune system. Photosensitive rash worsens after sun exposure within hours to days. Hydroxychloroquine helps reduce photosensitivity over time. Sunscreen should be physical/mineral (zinc oxide, titanium dioxide) for best protection.",
+    others: {
+      "0": "Sun exposure absolutely affects SLE.",
+      "1": "Tanning beds are even worse — concentrated UV.",
+      "3": "Permanent avoidance of sun is unrealistic and unnecessary with proper protection."
+    }
+  },
+  {
+    topic: "Live Vaccine + Chemo",
+    confirmed: false,
+    type: "standard",
+    stem: "A 6-year-old undergoing chemotherapy for leukemia is due for routine MMR and varicella vaccines. The MOST appropriate action is:",
+    options: [
+      "Give both vaccines as scheduled to maintain immunity",
+      "Defer live vaccines until at least 3 months after chemo completion",
+      "Give MMR but not varicella for safety reasons",
+      "Give half the normal dose to reduce risk during chemotherapy"
+    ],
+    answer: 1,
+    concept: "Defer Live Vaccines During Chemo",
+    rationale: "Live vaccines (MMR, varicella) are CONTRAINDICATED during active chemotherapy and severe immunosuppression. DEFER until at least 3 MONTHS after chemo completion (and immune reconstitution). Inactivated vaccines (DTaP, Hib, PCV, IPV, Hep B, flu IM) can typically be given but immune response may be reduced.",
+    deepExplanation: "Immunization in immunocompromised: live vaccines avoided due to risk of disseminated disease from vaccine strain. Inactivated vaccines safe but may have reduced immune response — may need post-chemo revaccination to ensure protection. Household contacts SHOULD be vaccinated (cocoon strategy). Consultation with infectious disease/immunology often helpful.",
+    others: {
+      "0": "Live vaccines during chemo can cause disseminated disease.",
+      "2": "MMR is also contraindicated, not just varicella.",
+      "3": "Half-dose live vaccines do not reduce risk."
+    }
+  },
+  {
+    topic: "JIA + Methotrexate",
+    confirmed: false,
+    type: "standard",
+    stem: "A child with polyarticular JIA is started on methotrexate. Which lab/medication monitoring is essential?",
+    options: [
+      "Cardiac troponin and ECG monitoring weekly",
+      "Frequent eye exams for cataract development",
+      "Continuous fetal monitoring during treatment",
+      "CBC, LFTs, and folic acid supplementation"
+    ],
+    answer: 3,
+    concept: "Methotrexate Monitoring",
+    rationale: "Methotrexate monitoring: CBC (myelosuppression risk), LFTs (hepatotoxicity), CREATININE (renal). FOLIC ACID supplementation reduces side effects (mucositis, GI symptoms, hepatotoxicity). Avoid alcohol. Pregnancy is contraindicated (teratogenic). Live vaccines often avoided while on methotrexate.",
+    deepExplanation: "Methotrexate side effects: GI (nausea, mucositis), hepatotoxicity, myelosuppression, pneumonitis (rare but serious), teratogenic. Monitoring: CBC + LFTs + creatinine every 4–8 weeks initially, then every 2–3 months when stable. Folic acid 1 mg daily reduces side effects without reducing efficacy. Discontinue if significant lab abnormalities or infection risk.",
+    others: {
+      "0": "Cardiac troponin/ECG is not standard methotrexate monitoring.",
+      "1": "Cataracts are a steroid side effect, not methotrexate-specific.",
+      "2": "Fetal monitoring applies only in pregnancy."
+    }
+  },
+  {
+    topic: "SLE Renal Workup",
+    confirmed: false,
+    type: "standard",
+    stem: "A 16-year-old with SLE has a urinalysis showing 2+ protein and RBC casts. Which is the MOST appropriate next step?",
+    options: [
+      "Refer to nephrology for renal biopsy and lupus nephritis evaluation",
+      "Reassure that this is normal in SLE during a flare",
+      "Discontinue all immunosuppressants and observe over time",
+      "Increase salt intake to support kidney function and pressure"
+    ],
+    answer: 0,
+    concept: "Lupus Nephritis Workup",
+    rationale: "Proteinuria + RBC casts in SLE = LUPUS NEPHRITIS. Refer to nephrology. RENAL BIOPSY classifies the lesion (Class I-VI), which guides treatment. Aggressive immunosuppression (high-dose steroids + mycophenolate or cyclophosphamide) is needed for proliferative classes (III, IV).",
+    deepExplanation: "Lupus nephritis classes (ISN/RPS): I (minimal mesangial), II (mesangial proliferative), III (focal proliferative), IV (diffuse proliferative — worst), V (membranous), VI (advanced sclerosing). Class III and IV require aggressive treatment. Class V can have nephrotic-range proteinuria. Renal biopsy guides treatment choice and monitors response. Long-term follow-up essential.",
+    others: {
+      "1": "Proteinuria + RBC casts are pathologic, not normal.",
+      "2": "Discontinuing immunosuppression worsens lupus.",
+      "3": "Increasing salt does not help renal disease."
+    }
+  },
+  {
+    topic: "Kawasaki Diagnosis",
+    confirmed: false,
+    type: "standard",
+    stem: "A 4-year-old presents with 5 days of high fever, bilateral conjunctivitis (no exudate), strawberry tongue, peeling hands/feet, and erythematous polymorphous rash. The MOST likely diagnosis is:",
+    options: [
+      "Streptococcal pharyngitis from group A strep",
+      "Kawasaki disease",
+      "Measles infection",
+      "Lyme disease from tick exposure"
+    ],
+    answer: 1,
+    concept: "Kawasaki Recognition",
+    rationale: "KAWASAKI DISEASE: classic features (need fever ≥5 days + 4 of 5): bilateral conjunctivitis (no exudate), oral changes (strawberry tongue, cracked red lips), polymorphous rash, hand/foot changes (peeling, swelling), cervical lymphadenopathy. Treatment: IVIG within 10 days + aspirin to prevent coronary artery aneurysms.",
+    deepExplanation: "Kawasaki criteria (CRASH-Burn mnemonic): Conjunctivitis (bilateral, non-purulent), Rash (polymorphous), Adenopathy (cervical, unilateral), Strawberry tongue/cracked lips, Hand/foot changes (swelling, peeling), Burn (high fever ≥5 days). Echocardiogram to assess for coronary aneurysms. IVIG 2 g/kg + aspirin within 10 days. Most patients recover fully with treatment.",
+    others: {
+      "0": "Strep pharyngitis has exudate, no extraskin features described.",
+      "2": "Measles has Koplik spots, but typically not this multi-organ pattern.",
+      "3": "Lyme has erythema migrans rash."
+    }
+  },
+  {
+    topic: "Pediatric HIV Adherence",
+    confirmed: false,
+    type: "standard",
+    stem: "A 12-year-old with HIV has been non-adherent to ART. Viral load has risen and CD4 has dropped. Which intervention is MOST important?",
+    options: [
+      "Switch to a single new antiretroviral medication",
+      "Discontinue ART until the child agrees to be compliant",
+      "Address adherence barriers, possibly switch to less complex regimen",
+      "Refer to social services and discontinue all medical care"
+    ],
+    answer: 2,
+    concept: "HIV Adherence",
+    rationale: "ART non-adherence in adolescents/children is common. Address ADHERENCE BARRIERS (pill burden, side effects, mental health, family dynamics, school schedules) and consider SIMPLER REGIMENS (once-daily, single-tablet). Adherence counseling, peer support, and pillboxes/reminders. Abrupt discontinuation risks resistance.",
+    deepExplanation: "Adolescent HIV adherence challenges: perceived stigma, pill fatigue, depression, peer/family disclosure issues. Resistance develops with non-adherence — once present, treatment options narrow. Counseling, mental health support, and engagement with adolescent-friendly clinics improve outcomes. Long-acting injectable ART now an option for some patients.",
+    others: {
+      "0": "Single new agent without resistance testing is inappropriate.",
+      "1": "Discontinuation is dangerous.",
+      "3": "Discontinuing care is unethical and harmful."
+    }
+  },
+  {
+    topic: "Anaphylaxis Position",
+    confirmed: false,
+    type: "standard",
+    stem: "After IM epinephrine for anaphylaxis with hypotension, which position is BEST for the patient?",
+    options: [
+      "Sitting upright in a chair to ease breathing",
+      "Prone (face down) for airway protection",
+      "Trendelenburg with legs elevated above the head",
+      "Supine with legs elevated"
+    ],
+    answer: 3,
+    concept: "Anaphylaxis Position",
+    rationale: "Anaphylaxis with hypotension: SUPINE WITH LEGS ELEVATED to improve venous return and circulation to vital organs. Avoid sitting up (worsens hypotension). If vomiting, position on side. If respiratory distress dominant, semi-fowler’s may be better tolerated.",
+    deepExplanation: "Cardiac arrest in anaphylaxis often follows sitting/standing position changes due to empty ventricle syndrome — the venoconstriction has reduced preload, and standing further drops cardiac return. Supine with legs elevated maximizes preload and is the standard position. Epinephrine itself stabilizes vascular tone over minutes.",
+    others: {
+      "0": "Sitting up worsens hypotension and risks empty ventricle.",
+      "1": "Prone is unsafe for airway management.",
+      "2": "Strict Trendelenburg can worsen breathing."
+    }
+  },
+  {
+    topic: "JIA Family Education",
+    confirmed: false,
+    type: "standard",
+    stem: "A new diagnosis of JIA is made in a 5-year-old. Which education is MOST important for the parents?",
+    options: [
+      "JIA is a temporary illness that resolves in days without treatment",
+      "Long-term medication adherence + ophthalmology follow-up + activity",
+      "Strict bedrest and avoidance of all physical activities forever",
+      "Surgical joint replacement is the standard treatment for JIA"
+    ],
+    answer: 1,
+    concept: "JIA Family Teaching",
+    rationale: "JIA family teaching: it is a CHRONIC condition requiring LONG-TERM MEDICATION ADHERENCE, regular OPHTHALMOLOGY FOLLOW-UP for uveitis screening, encourage REGULAR PHYSICAL ACTIVITY (PT, low-impact exercise like swimming) to maintain joint mobility, attend school normally, manage flares with provider.",
+    deepExplanation: "Activity recommendations: encourage range-of-motion exercises, swimming, biking; avoid contact sports during flares. Regular school attendance with accommodations as needed (rest periods, reduced PE during flares). Mental health support is important (chronic illness adjustment, peer issues). Most children with JIA achieve remission as adults with proper treatment.",
+    others: {
+      "0": "JIA is chronic, not temporary.",
+      "2": "Strict inactivity worsens joint health.",
+      "3": "Surgery is rare; medications are mainstay."
+    }
+  },
+  {
+    topic: "Kawasaki Cardiac",
+    confirmed: false,
+    type: "standard",
+    stem: "Why is IVIG given within 10 days of Kawasaki disease symptom onset?",
+    options: [
+      "To prevent coronary artery aneurysms",
+      "To prevent the spread of infection to other patients",
+      "To shorten hospital stay duration",
+      "To improve appearance of skin rash"
+    ],
+    answer: 0,
+    concept: "IVIG Coronary Prevention",
+    rationale: "IVIG within 10 days of Kawasaki symptom onset PREVENTS CORONARY ARTERY ANEURYSMS — the most serious complication of Kawasaki disease. Without treatment, ~25% develop coronary aneurysms; with timely IVIG + aspirin, this drops to <5%. Coronary aneurysms can lead to MI, sudden death.",
+    deepExplanation: "Kawasaki long-term: most children fully recover with IVIG + aspirin. Echocardiograms at diagnosis, 2 weeks, 6–8 weeks. Children with coronary aneurysms need long-term anticoagulation, exercise restrictions, and pediatric cardiology follow-up. Rare cases require thrombolysis, bypass, or transplantation. Always treat within 10 days regardless of presentation severity.",
+    others: {
+      "1": "Kawasaki is not infectious in the traditional sense.",
+      "2": "Hospital stay is secondary to coronary protection.",
+      "3": "Rash improves but is not the goal of IVIG."
+    }
+  },
+  {
+    topic: "Bee Sting Allergy",
+    confirmed: false,
+    type: "standard",
+    stem: "A 9-year-old who has had previous severe bee sting reactions is being assessed for outdoor camping. Which education is BEST?",
+    options: [
+      "There is no need to worry as bee stings rarely cause severe reactions",
+      "Allergy is permanent and child should never go outdoors",
+      "Carry two EpiPens, wear medical ID, avoid bright colors and perfumes",
+      "Take diphenhydramine before going outside as the only precaution"
+    ],
+    answer: 2,
+    concept: "Bee Sting Allergy Plan",
+    rationale: "Bee sting allergy with prior severe reaction: CARRY TWO EpiPens (in case of biphasic reaction), wear MEDICAL ID jewelry, avoid bright colors and perfumes (attract bees), wear shoes outside, brush off insects (don’t swat), discuss venom immunotherapy with allergist (can desensitize over years).",
+    deepExplanation: "Venom immunotherapy: 3–5 year course of subcutaneous venom injections, gradually increasing dose, can desensitize patient to a clinically tolerable level in ~95% of patients. Annual follow-up. Long-term risk of severe reactions decreases substantially. Two EpiPens recommended (back-up + biphasic potential). Anaphylaxis action plan should be shared with school, camp, and family.",
+    others: {
+      "0": "Severe bee sting reactions can be fatal.",
+      "1": "Avoiding outdoors entirely is unrealistic and unnecessary.",
+      "3": "Diphenhydramine alone is inadequate prophylaxis."
+    }
+  },
+  {
+    topic: "Live Vaccines + HIV",
+    confirmed: false,
+    type: "standard",
+    stem: "A 4-year-old with HIV has a CD4 count of 18% and is doing well on ART. Which vaccines can be given safely?",
+    options: [
+      "All routine vaccines including all live vaccines without restriction",
+      "Only DTaP and no other vaccines for the child for safety",
+      "No vaccines until HIV is fully cured medically and undetectable",
+      "Inactivated vaccines and MMR/varicella (in HIV with adequate CD4)"
+    ],
+    answer: 3,
+    concept: "HIV + Vaccines",
+    rationale: "HIV with ADEQUATE CD4% (≥15% in children 1-5 years) and undetectable viral load: most live vaccines (MMR, varicella) are safe along with all inactivated vaccines. CONTRAINDICATIONS: severe immunosuppression (CD4% <15%) — then live vaccines are deferred. BCG and live oral typhoid generally avoided.",
+    deepExplanation: "HIV CD4% thresholds: severely immunosuppressed = <15% (or <200 cells/mm³ in older children/adults). MMR and varicella vaccines are SAFE in HIV with adequate CD4%. Live vaccines NOT given if severely immunosuppressed. Pneumococcal (PCV13 and PPSV23), influenza yearly, all routine inactivated vaccines should be given. Annual review of vaccination status.",
+    others: {
+      "0": "Some live vaccines are still contraindicated in severe immunosuppression.",
+      "1": "Multiple vaccines beyond DTaP are needed.",
+      "2": "HIV does not need to be cured for vaccinations."
+    }
+  },
+  {
+    topic: "SLE Stress",
+    confirmed: false,
+    type: "standard",
+    stem: "A teenager with SLE asks about how stress affects their condition. The BEST response is:",
+    options: [
+      "Stress has no effect on autoimmune disease",
+      "Stress can trigger flares; stress management is important",
+      "Severe stress is required to make SLE active",
+      "Mental health and SLE are completely unrelated"
+    ],
+    answer: 1,
+    concept: "SLE + Stress",
+    rationale: "STRESS can trigger SLE FLARES via cortisol/inflammatory cascades. Stress management techniques (mindfulness, therapy, exercise within limits, regular sleep) help reduce flares. Mental health support is important — SLE patients have higher rates of depression and anxiety, and stress worsens both.",
+    deepExplanation: "SLE triggers: stress, infection, sun exposure, certain medications (sulfa, hydralazine), pregnancy/postpartum, poor sleep. Counseling and adolescent rheumatology clinics often address mental health. Cognitive symptoms in SLE (brain fog, mood changes) can be from disease itself or steroids. Address both medical and emotional aspects of chronic illness.",
+    others: {
+      "0": "Stress affects autoimmune disease.",
+      "2": "Even mild-moderate stress can contribute.",
+      "3": "Mental health is interconnected with SLE."
+    }
+  },
+  {
+    topic: "JIA Steroid Use",
+    confirmed: false,
+    type: "standard",
+    stem: "A child with JIA has been on prednisone 20 mg daily for 6 months. Which long-term complication should the nurse monitor for?",
+    options: [
+      "Hyperthyroidism with weight loss and tremor",
+      "Growth suppression, osteoporosis, weight gain, immunosuppression",
+      "Premature puberty with rapid skeletal growth",
+      "Hyperactivity and decreased need for sleep"
+    ],
+    answer: 1,
+    concept: "Chronic Steroid Effects",
+    rationale: "Chronic high-dose steroids cause: GROWTH SUPPRESSION (children fall off growth curve), OSTEOPOROSIS (bone density loss), WEIGHT GAIN (cushingoid appearance), IMMUNOSUPPRESSION (infection risk), cataracts, glaucoma, hyperglycemia, mood/behavior changes, adrenal suppression.",
+    deepExplanation: "Steroid-sparing strategies in JIA: methotrexate, biologics (TNF inhibitors), intra-articular steroid injections (avoid systemic exposure). Tapering: never stop steroids abruptly after prolonged use — risk of adrenal crisis. Calcium + vitamin D supplementation for bone protection. Bone density (DEXA) monitoring for prolonged use. Address weight, glucose, mood throughout treatment.",
+    others: {
+      "0": "Hyperthyroidism is not a steroid side effect.",
+      "2": "Steroids actually delay growth and puberty, not accelerate.",
+      "3": "Steroids cause mood swings but not increased energy."
+    }
+  },
+  {
+    topic: "Anaphylaxis School",
+    confirmed: false,
+    type: "standard",
+    stem: "A school has a 5-year-old with severe peanut allergy. Which is the BEST anaphylaxis preparedness plan?",
+    options: [
+      "All school staff trained on EpiPen, two EpiPens at school, action plan",
+      "Designate one person who can administer EpiPen during school hours",
+      "Have the child eat lunch alone in a separate room daily",
+      "Avoid peanut-containing snacks only on the child’s birthday"
+    ],
+    answer: 0,
+    concept: "School Anaphylaxis Plan",
+    rationale: "School anaphylaxis preparedness: ALL STAFF (teachers, aides, cafeteria, bus drivers) trained on epinephrine autoinjector use, TWO EPIPENS at school (in case of biphasic or first device failure), written ANAPHYLAXIS ACTION PLAN with photo, stock epinephrine if available, school-wide allergy management plan.",
+    deepExplanation: "Anaphylaxis action plans (AAP) specify: known allergens, symptoms, when to administer epi (any signs of anaphylaxis), how to use device, who to contact, emergency contacts. Federal law (Family Asthma and Allergy Bill of Rights) protects children with allergies in schools. Avoid restrictive isolation; instead promote education and inclusion with proper protocols.",
+    others: {
+      "1": "Single trained person is inadequate — they may not be present.",
+      "2": "Isolating the child is socially harmful.",
+      "3": "Peanut should be avoided constantly, not just on birthdays."
+    }
+  },
+  {
+    topic: "JIA Activity",
+    confirmed: false,
+    type: "standard",
+    stem: "A child with polyarticular JIA in active flare asks about activities. Which is the BEST recommendation?",
+    options: [
+      "Strict bedrest until all joint pain resolves completely",
+      "High-impact sports daily (running, contact sports) for fitness",
+      "Encourage low-impact exercise (swimming, biking) and PT/OT",
+      "No physical activity ever again to prevent joint damage"
+    ],
+    answer: 2,
+    concept: "JIA Activity Plan",
+    rationale: "JIA activity recommendations: LOW-IMPACT EXERCISE (swimming, biking, walking) maintains joint mobility, builds muscle strength to support joints, prevents stiffness. PT and OT are essential. Avoid HIGH-IMPACT or contact sports during flares. Stretching warm-up, ice after activity if needed.",
+    deepExplanation: "Movement helps JIA: prevents joint contracture, maintains range of motion, builds muscle to support joints. PT focuses on joint protection, energy conservation, exercise. OT helps with adaptive equipment for daily activities. Hydrotherapy is excellent (warm water relaxes muscles, water buoyancy reduces joint stress). Adapt school PE participation as needed.",
+    others: {
+      "0": "Strict bedrest worsens contractures and stiffness.",
+      "1": "High-impact sports during flare worsen joint damage.",
+      "3": "Total inactivity is harmful."
+    }
+  },
+  {
+    topic: "Pediatric HIV Family",
+    confirmed: false,
+    type: "standard",
+    stem: "An 8-year-old has been newly diagnosed with HIV. Which approach to disclosure is MOST appropriate?",
+    options: [
+      "Tell the child immediately the full diagnosis without preparation",
+      "Wait until adulthood to disclose any information about the diagnosis",
+      "Never tell the child about HIV diagnosis to avoid emotional trauma",
+      "Age-appropriate, gradual disclosure with mental health support"
+    ],
+    answer: 3,
+    concept: "HIV Disclosure",
+    rationale: "Pediatric HIV disclosure: AGE-APPROPRIATE, GRADUAL approach with MENTAL HEALTH SUPPORT. Younger children: \"medicine to keep you healthy.\" Older children: explanation of chronic illness, importance of medicines. Adolescents: full disclosure with support for adherence, relationships, sexuality, future planning. Family-centered approach.",
+    deepExplanation: "Disclosure stages: pre-school (\"medicine for staying healthy\"), school-age (chronic illness understanding), adolescence (full understanding with sexuality counseling). Mental health support helps with stigma, identity, relationships. WHO recommends disclosure by 12 years if not earlier. Disclosure improves adherence, identity formation, and self-management. Done with multidisciplinary team support.",
+    others: {
+      "0": "Sudden full disclosure without preparation is harmful.",
+      "1": "Waiting until adulthood is far too late.",
+      "2": "Never disclosing leaves the child without understanding their care."
+    }
+  },
+  {
+    topic: "SLE Pregnancy",
+    confirmed: false,
+    type: "standard",
+    stem: "A 17-year-old with SLE asks about future pregnancy. Which counseling is BEST?",
+    options: [
+      "SLE patients cannot ever become pregnant safely with disease",
+      "Pregnancy is possible; plan with rheumatologist for stable disease",
+      "Discontinue all SLE medications before trying to conceive in pregnancy",
+      "Pregnancy will cure SLE in young women diagnosed in adolescence"
+    ],
+    answer: 1,
+    concept: "SLE Pregnancy Planning",
+    rationale: "SLE pregnancy: PLAN with rheumatologist; aim for STABLE DISEASE for at least 6 months before conception. Switch teratogenic medications (mycophenolate, methotrexate, cyclophosphamide) to pregnancy-compatible options (hydroxychloroquine, azathioprine). Hydroxychloroquine continued (reduces flares, prevents neonatal lupus). Close monitoring throughout pregnancy.",
+    deepExplanation: "SLE in pregnancy: increased risk of flares (especially renal), pre-eclampsia, preterm birth, IUGR, neonatal lupus (anti-Ro/La antibodies), congenital heart block. Hydroxychloroquine is the key safe medication. Steroids can be used at lowest effective dose. Close OB and rheumatology coordination. Pre-pregnancy planning is essential. Most pregnancies have good outcomes with proper management.",
+    others: {
+      "0": "Pregnancy is possible with planning.",
+      "2": "Stopping all medications causes flares.",
+      "3": "Pregnancy does not cure SLE."
+    }
+  },
+  {
+    topic: "Allergy Testing",
+    confirmed: false,
+    type: "standard",
+    stem: "A child has had two anaphylactic reactions. Which testing is BEST to identify specific allergens?",
+    options: [
+      "Random food avoidance trial without testing",
+      "Hair analysis at home for allergen identification",
+      "Genetic karyotype testing for allergy inheritance",
+      "Skin prick testing and/or specific IgE blood testing by allergist"
+    ],
+    answer: 3,
+    concept: "Allergy Identification",
+    rationale: "Allergy identification: SKIN PRICK TESTING (most sensitive) or SPECIFIC IgE BLOOD TESTING (RAST or ImmunoCAP — useful when skin testing not feasible like severe eczema, on antihistamines, history of severe anaphylaxis). Done by allergist. ORAL FOOD CHALLENGE may be needed for definitive diagnosis (under medical supervision).",
+    deepExplanation: "Allergy testing pearls: skin prick is preferred for environmental and food allergies. Avoid antihistamines for 5–7 days before. Specific IgE blood test useful when skin testing not feasible. Component-resolved testing helps differentiate true peanut allergy (Ara h 2) from cross-reactivity. Oral food challenge in supervised setting is gold standard. Total IgE alone is not diagnostic.",
+    others: {
+      "0": "Random avoidance is unreliable and may miss triggers.",
+      "1": "Hair analysis is not validated for allergy testing.",
+      "2": "Karyotype is genetic, not allergy-specific."
+    }
+  },
+  {
+    topic: "JIA Iron",
+    confirmed: false,
+    type: "standard",
+    stem: "A child with active JIA has hemoglobin 9.5 g/dL (normal 11.5–15.5) and microcytic indices. Which is the MOST likely cause?",
+    options: [
+      "Anemia of chronic disease from systemic inflammation",
+      "Acute blood loss from joint hemorrhage requiring transfusion",
+      "Iron-deficiency from poor diet alone",
+      "Hemolytic anemia from autoimmune destruction"
+    ],
+    answer: 0,
+    concept: "JIA Anemia of Chronic Disease",
+    rationale: "ANEMIA OF CHRONIC DISEASE is common in JIA — systemic inflammation impairs iron utilization. Labs: low iron, low TIBC, NORMAL/HIGH FERRITIN (vs. low ferritin in iron deficiency). Treatment: control underlying inflammation; iron supplementation alone is often ineffective.",
+    deepExplanation: "Anemia of chronic disease (ACD) vs iron deficiency: ACD has low serum iron + low TIBC + high ferritin (storage normal/elevated, but unable to mobilize); iron deficiency has low iron + high TIBC + low ferritin. JIA, IBD, infections, malignancy all cause ACD via hepcidin upregulation (blocks iron release from macrophages). Treatment of underlying inflammation usually resolves ACD over time.",
+    others: {
+      "1": "JIA does not cause acute joint hemorrhage typically.",
+      "2": "Iron deficiency from diet is possible but ACD is more common in inflammatory disease.",
+      "3": "Hemolytic anemia is uncommon in JIA."
+    }
+  },
+  {
+    topic: "Live Vaccine + Steroids",
+    confirmed: false,
+    type: "standard",
+    stem: "A 5-year-old has been on prednisone 1 mg/kg/day (around 15 mg) for 7 days for an asthma exacerbation. Which is true about live vaccines?",
+    options: [
+      "Live vaccines are absolutely contraindicated for the next year",
+      "Live vaccines should never be given to anyone on steroids ever",
+      "Short-course low-dose steroids do not contraindicate live vaccines",
+      "Steroid duration does not affect vaccine recommendations at all"
+    ],
+    answer: 2,
+    concept: "Steroid Threshold for Live Vaccines",
+    rationale: "Short courses (<14 days) of high-dose steroids OR low-dose long-term steroids do NOT contraindicate live vaccines. CONTRAINDICATION: high-dose corticosteroids (prednisone ≥2 mg/kg/day OR ≥20 mg/day) for 14 OR MORE DAYS. Defer live vaccines for 1 month after stopping high-dose steroids.",
+    deepExplanation: "Steroid thresholds for live vaccines: short course (<14 days) = no contraindication regardless of dose; long-term low-dose (<2 mg/kg/day or <20 mg/day prednisone equivalent) = no contraindication; long-term high-dose (≥2 mg/kg/day or ≥20 mg/day for >14 days) = defer live vaccines until 1 month after stopping. Inhaled, topical, intra-articular steroids do NOT contraindicate live vaccines.",
+    others: {
+      "0": "Short-course steroids do not contraindicate vaccines for a year.",
+      "1": "Steroid type, dose, and duration matter — not all preclude vaccines.",
+      "3": "Duration absolutely affects vaccine timing."
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let score = 0;
+let totalPoints = 0;
+let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_peds_ch47_deepdrill';
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+
+function extractLabs(stem) {
+  const labs = [];
+  const seen = new Set();
+
+  // Each pattern: { re, name, unit (or unitFromMatch index), rangeFromMatch (optional) }
+  const patterns = [
+    { re: /\bBP\s+(\d{2,3}\/\d{2,3})(?:\s*\((?:baseline|normal)\s+([\d\/<>≥≤\-–\s]+)\))?/gi, name: 'BP', unit: 'mmHg', rangeIdx: 2, ranglePrefix: 'baseline ' },
+    { re: /\bHR\s+(\d{2,3})\b/gi, name: 'HR', unit: 'bpm' },
+    { re: /\bpulse\s+(\d{2,3})\b/gi, name: 'Pulse', unit: 'bpm' },
+    { re: /\b(?:temperature|temp)[\s:]+(\d{2,3}(?:\.\d)?)\s*°?\s*([CF])\b/gi, name: 'Temp', unitIdx: 2, unitPrefix: '°' },
+    { re: /\b(?:respiratory rate|RR)\s+(\d{1,3})(?:\/min)?(?:\s*\(was\s+(\d+)\/?(?:min)?\))?\b/gi, name: 'RR', unit: '/min', rangeIdx: 2, ranglePrefix: 'was ' },
+    { re: /\b(?:urine output|UOP)\s+(\d{1,3})\s*mL\/hr(?:\s*\(was\s+(\d+)\s*mL\/hr\))?\b/gi, name: 'UOP', unit: 'mL/hr', rangeIdx: 2, ranglePrefix: 'was ' },
+    { re: /\b(?:bedside\s+)?(?:blood\s+)?glucose(?:\s+is|\s+at\s+\d+\s+(?:hour|min)\w*)?\s+(?:is\s+)?(\d{1,3})\s*mg\/dL(?:\s*\((?:normal[^)]*?|cutoff[^)]*?)\))?/gi, name: 'Glucose', unit: 'mg/dL' },
+    { re: /\b(?:hematocrit|HCT)\s+of\s+(\d{2,3})%(?:\s*\(normal[^)]*?\))?/gi, name: 'HCT', unit: '%' },
+    { re: /\bplatelets\s+([\d,]+)\s*\/?mm\u00b3?(?:\s*\(normal[^)]*?\))?/gi, name: 'Platelets', unit: '/mm³' },
+    { re: /\bAST\s+(\d{1,4})\s*U\/L(?:\s*\(normal[^)]*?\))?/gi, name: 'AST', unit: 'U/L' },
+    { re: /(?:\u03b2-hCG|beta-hCG|hCG)(?:\s+(?:is|of))?\s+([\d,]+)\s*mIU\/mL/gi, name: 'β-hCG', unit: 'mIU/mL' },
+    { re: /\bfundal height\s+of\s+(\d{1,3})\s*cm(?:\s*\((?:expected|normal)\s*~?\s*(\d{1,3})\s*cm\))?/gi, name: 'Fundal Ht', unit: 'cm', rangeIdx: 2, ranglePrefix: 'expected ~' },
+    { re: /\bAFI\s+(\d{1,3})\s*cm/gi, name: 'AFI', unit: 'cm' },
+    { re: /\b1-hour\b[^.]*?(\d{2,3})\s*mg\/dL/gi, name: '1-hr GCT', unit: 'mg/dL' },
+    { re: /(?:weighing|weighs|estimated at|EFW)\s+(\d{3,4})\s*g\b/gi, name: 'Weight', unit: 'g' }
+  ];
+
+  for (const pat of patterns) {
+    const re = new RegExp(pat.re.source, pat.re.flags);
+    let m;
+    while ((m = re.exec(stem)) !== null) {
+      const val = m[1];
+      const key = pat.name + ':' + val;
+      if (seen.has(key)) continue;
+      seen.add(key);
+
+      let unit = pat.unit || '';
+      if (pat.unitIdx && m[pat.unitIdx]) {
+        unit = (pat.unitPrefix || '') + m[pat.unitIdx];
+      }
+
+      let range = '';
+      if (pat.rangeIdx && m[pat.rangeIdx]) {
+        range = (pat.ranglePrefix || '') + m[pat.rangeIdx];
+      }
+
+      // First, check if m[0] itself contains a parenthetical (greedy patterns consume it)
+      if (!range) {
+        const innerParen = m[0].match(/\(([^)]+)\)/);
+        if (innerParen && /normal|baseline|expected|cutoff|target|was/i.test(innerParen[1])) {
+          range = innerParen[1].trim();
+        }
+      }
+
+      // Otherwise look ahead in the full stem
+      if (!range) {
+        const afterIdx = m.index + m[0].length;
+        const tail = stem.slice(afterIdx, afterIdx + 80);
+        const parenMatch = tail.match(/^\s*\(([^)]+)\)/);
+        if (parenMatch && /normal|baseline|expected|cutoff|target|was/i.test(parenMatch[1])) {
+          range = parenMatch[1].trim();
+        }
+      }
+
+      labs.push({ name: pat.name, value: val, unit, range });
+    }
+  }
+
+  return labs;
+}
+
+function renderLabStrip(labs) {
+  if (!labs || labs.length === 0) return '';
+  const items = labs.map(function(l) {
+    const range = l.range ? '<div class="lab-range">' + escapeStemHTML(l.range) + '</div>' : '';
+    const unit = l.unit ? ' <span class="lab-value-unit">' + escapeStemHTML(l.unit) + '</span>' : '';
+    return '<div class="lab-item"><div class="lab-name">' + escapeStemHTML(l.name) + '</div><div class="lab-value">' + escapeStemHTML(l.value) + unit + '</div>' + range + '</div>';
+  }).join('');
+  return '<div class="lab-strip"><div class="lab-strip-label">Clinical Data</div><div class="lab-row">' + items + '</div></div>';
+}
+
+function escapeStemHTML(s) {
+  const div = document.createElement('div');
+  div.textContent = String(s);
+  return div.innerHTML;
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  const labs = q.labs || extractLabs(q.stem);
+  const labStrip = renderLabStrip(labs);
+  document.getElementById('q-stem').innerHTML = labStrip + '<div>' + escapeStemHTML(q.stem) + '</div>';
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('action-row').classList.remove('has-rationale');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  document.getElementById('action-row').classList.add('has-rationale');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.deepExplanation) {
+    html += `<div class="deep-block"><strong>Deeper:</strong> ${q.deepExplanation}</div>`;
+  }
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong application of pediatric immune disorders. You are ready for this material on the final.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed scenarios below before moving on.';
+  else if (pct >= 60) msg = 'Below pass threshold. Review the missed items, retry, then re-confirm with the Knowledge Check.';
+  else msg = 'Heavy review needed. Re-read Ch 47, work through the missed items below, and try again before the final.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>

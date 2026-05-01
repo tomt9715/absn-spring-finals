@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 49 Genetic Disorders — Deep Drill</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-soft: #14b8a6;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+      --partial: #d97706;
+      --partial-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--purple); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .start-stat { text-align: center; padding: 18px 12px; background: var(--purple-pale); border-radius: 8px; border: 1px solid var(--line); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--purple); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer; background: var(--purple); color: white; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .lab-strip { margin-bottom: 18px; padding: 12px 14px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; border-left: 3px solid var(--teal); }
+    .lab-strip-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+    .lab-row { display: flex; flex-wrap: wrap; gap: 12px 18px; }
+    .lab-item { display: flex; flex-direction: column; gap: 2px; min-width: 90px; }
+    .lab-name { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.04em; }
+    .lab-value { font-size: 14px; color: var(--ink); font-weight: 600; }
+    .lab-value-unit { font-weight: 400; color: var(--muted); font-size: 11px; }
+    .lab-range { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 1px; }
+    .btn-row.sticky-row { position: sticky; bottom: 12px; background: var(--card); padding-top: 12px; padding-bottom: 4px; margin-top: 18px; z-index: 10; border-top: 1px solid transparent; }
+    .btn-row.sticky-row.has-rationale { border-top-color: var(--line); padding-top: 14px; }
+
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--purple); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--purple); background: var(--purple-pale); }
+    .option.selected { border-color: var(--purple); background: var(--purple-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--purple); color: white; border-color: var(--purple); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--purple-pale); border-left: 3px solid var(--purple); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--purple); color: white; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .deep-block { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); font-size: 13px; line-height: 1.6; color: var(--ink-soft); }
+    .deep-block strong { color: var(--navy); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--purple); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Deep Drill · Chapter 49</div>
+  <h1>Pediatric Genetic Disorders</h1>
+  <p class="tagline">Application scenarios: PKU dietary teaching, identifying NF1 in clinic, recognizing Klinefelter and Turner features. NCLEX-Next-Gen difficulty.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">12</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">App</span><span class="start-stat-label">Level</span></div>
+      <div class="start-stat"><span class="start-stat-num">Deep</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">Each question requires applying knowledge to a clinical scenario. Rationales include both the why and the underlying mechanism.</p>
+    <button class="btn" onclick="begin()">Begin Drill</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 12</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row sticky-row" id="action-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Deep Drill</div>
+    <h1>Pediatric Genetic Disorders</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 12 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Drill</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: "PKU Diet Teaching",
+    confirmed: false,
+    type: "standard",
+    stem: "A 5-year-old with PKU is being seen for routine follow-up. The mother reports the child loves diet soda and chewing sugar-free gum. The MOST important teaching is:",
+    options: [
+      "Avoid aspartame (NutraSweet, Equal); it metabolizes to phenylalanine",
+      "Diet soda and sugar-free products are safe for all children",
+      "Limit dairy products to one serving per day for the child",
+      "Encourage protein supplements for muscle development daily"
+    ],
+    answer: 0,
+    concept: "PKU + Aspartame",
+    rationale: "Aspartame (NutraSweet, Equal — found in diet soda, sugar-free gum, sugar-free yogurt, etc.) METABOLIZES TO PHENYLALANINE — STRICTLY AVOID in PKU. Read all labels for \"phenylalanine\" warnings. Use other sweeteners (sucralose/Splenda, stevia) which do not contain phenylalanine.",
+    deepExplanation: "PKU lifelong dietary management: avoid HIGH-PROTEIN foods (meat, fish, eggs, dairy, nuts, beans, soy), avoid ASPARTAME, use special PKU formulas/medical foods for protein, monitor phe levels regularly. Maternal PKU: women with PKU must maintain strict diet during pregnancy to prevent fetal damage (microcephaly, intellectual disability, congenital heart defects in offspring — even if fetus does not have PKU).",
+    others: {
+      "1": "Diet soda contains aspartame — unsafe for PKU.",
+      "2": "Dairy is high in phe — also restricted, but aspartame is the immediate concern here.",
+      "3": "Standard protein supplements are high in phe — contraindicated."
+    }
+  },
+  {
+    topic: "PKU Newborn",
+    confirmed: false,
+    type: "standard",
+    stem: "A newborn screen returns positive for PKU at 5 days of life. The MOST appropriate next step is:",
+    options: [
+      "Wait until 6 months and recheck the screening test only",
+      "Begin a high-protein diet to support growth in this newborn",
+      "Repeat confirmatory labs and start specialized PKU formula immediately",
+      "Reassure the parents and recommend routine follow-up appointments"
+    ],
+    answer: 2,
+    concept: "PKU NB Screening Action",
+    rationale: "Positive PKU screen: REPEAT confirmatory labs (quantitative phenylalanine), then START SPECIALIZED PKU FORMULA (low-phenylalanine medical food) immediately upon confirmation. Early dietary management = NORMAL cognitive development. Refer to metabolic specialist and dietitian.",
+    deepExplanation: "PKU formulas: Phenex, Lofenalac, etc. — provide protein with minimal/no phenylalanine plus tyrosine supplementation. Some breastfeeding may be allowed in carefully measured amounts (breast milk has lower phe than cow milk). Frequent phe monitoring (target 2–6 mg/dL in childhood). Family education and support critical. Lifelong management.",
+    others: {
+      "0": "Waiting causes permanent brain damage.",
+      "1": "High-protein worsens PKU.",
+      "3": "Positive screen requires urgent action."
+    }
+  },
+  {
+    topic: "PKU Reproductive",
+    confirmed: false,
+    type: "standard",
+    stem: "An 18-year-old woman with PKU plans to start a family. Which teaching is MOST critical?",
+    options: [
+      "PKU has no effect on pregnancy or fetal development",
+      "PKU is automatically passed to all children of a PKU mother",
+      "Discontinue PKU diet during pregnancy for fetal nutrition",
+      "Strict low-phe diet before and during pregnancy to prevent fetal damage"
+    ],
+    answer: 3,
+    concept: "Maternal PKU Syndrome",
+    rationale: "MATERNAL PKU SYNDROME: high maternal phenylalanine during pregnancy crosses placenta and damages fetal brain (causing microcephaly, intellectual disability, congenital heart defects) EVEN IF FETUS DOES NOT HAVE PKU. Women with PKU MUST maintain strict low-phe diet BEFORE conception and throughout pregnancy. Target phe 2–6 mg/dL.",
+    deepExplanation: "PKU is autosomal recessive: child gets PKU only if both parents are carriers (and child inherits two PKU alleles — 25% chance per pregnancy if both parents heterozygous). However, even if fetus doesn’t inherit PKU, exposure to high maternal phe in utero is teratogenic. Pre-pregnancy planning, strict diet, frequent monitoring, multidisciplinary team (metabolic specialist, OB, dietitian) all essential.",
+    others: {
+      "0": "Maternal PKU has profound fetal effects.",
+      "1": "PKU inheritance depends on partner’s carrier status.",
+      "2": "Discontinuing diet is teratogenic."
+    }
+  },
+  {
+    topic: "NF1 Recognition",
+    confirmed: false,
+    type: "standard",
+    stem: "A 7-year-old has 8 cafe-au-lait spots (each >5 mm), axillary freckling, and 3 small soft skin nodules. His father has similar findings. The MOST likely diagnosis is:",
+    options: [
+      "PKU diagnosed late in childhood",
+      "Neurofibromatosis type 1 (NF1)",
+      "Klinefelter syndrome",
+      "Turner syndrome with mosaic pattern"
+    ],
+    answer: 1,
+    concept: "NF1 Recognition",
+    rationale: "Multiple cafe-au-lait spots (≥6, each ≥5 mm) + axillary freckling + neurofibromas (skin nodules) + family history = NF1 (autosomal dominant). Confirmation: genetic testing for NF1 mutation. Comprehensive workup: ophthalmology (Lisch nodules, optic glioma), MRI brain (optic glioma), spinal exam (scoliosis), BP monitoring (renal artery stenosis, pheochromocytoma).",
+    deepExplanation: "NF1 management: routine surveillance for tumors (cutaneous, plexiform neurofibromas, optic glioma, MPNST malignant peripheral nerve sheath tumor), scoliosis monitoring, blood pressure monitoring, learning disability screening, genetic counseling. Most live full lives but increased risk for malignancy and complications. Plexiform neurofibromas can be disfiguring or compress vital structures.",
+    others: {
+      "0": "PKU presents with developmental delay, not cafe-au-lait.",
+      "2": "Klinefelter is XXY males, not cafe-au-lait.",
+      "3": "Turner is XO females, not cafe-au-lait."
+    }
+  },
+  {
+    topic: "NF1 Surveillance",
+    confirmed: false,
+    type: "standard",
+    stem: "A child diagnosed with NF1 should have routine surveillance for which of the following?",
+    options: [
+      "Optic glioma, scoliosis, learning disability, hypertension",
+      "Annual cardiac catheterization for cardiac function check",
+      "Annual liver biopsy for tumor surveillance program",
+      "Quarterly bone marrow biopsies for leukemia screening test"
+    ],
+    answer: 0,
+    concept: "NF1 Surveillance",
+    rationale: "NF1 surveillance: OPTIC GLIOMA (annual ophthalmology, screen vision), SCOLIOSIS (spinal exam), LEARNING DISABILITIES (school assessment), HYPERTENSION (renal artery stenosis or pheochromocytoma). Plexiform neurofibroma growth, MPNST development. Multidisciplinary team: pediatrician, neurology, ophthalmology, oncology, orthopedics.",
+    deepExplanation: "NF1 inheritance counseling: 50% chance of passing to each child. Fertility is normal. Penetrance is 100% but expressivity is variable (severity differs even within same family). Genetic testing available for prenatal diagnosis. Many have mild phenotype; some have severe complications. Annual physical exam and surveillance is critical.",
+    others: {
+      "1": "Cardiac catheterization isn’t routine for NF1.",
+      "2": "Liver biopsy isn’t routine.",
+      "3": "Bone marrow biopsy isn’t routine."
+    }
+  },
+  {
+    topic: "NF1 + Headaches",
+    confirmed: false,
+    type: "standard",
+    stem: "A 9-year-old with NF1 develops new-onset severe headaches and visual changes. Which evaluation is MOST appropriate?",
+    options: [
+      "Reassurance and OTC analgesics until headaches resolve",
+      "Urgent MRI of brain and orbits, ophthalmology evaluation",
+      "Antibiotics for presumed sinus infection without imaging",
+      "Allergy testing for environmental triggers of headaches"
+    ],
+    answer: 1,
+    concept: "NF1 + Optic Glioma",
+    rationale: "New headaches + visual changes in NF1 = HIGH SUSPICION for OPTIC GLIOMA or other CNS tumor. Urgent MRI brain/orbits, ophthalmology evaluation. Optic gliomas occur in ~15% of NF1 patients, often in early childhood. May affect vision, optic nerve, hypothalamic function. Treatment varies: observation if asymptomatic, chemotherapy if growing/symptomatic.",
+    deepExplanation: "NF1-related CNS tumors: optic pathway gliomas, brain stem gliomas, schwannomas, plexiform neurofibromas, MPNST (malignant peripheral nerve sheath tumor — may transform from existing plexiform). Sudden growth, pain, or new neurologic findings warrant urgent imaging. Treatment varies: observation, chemotherapy, surgery, or radiation depending on tumor and location.",
+    others: {
+      "0": "New neurologic symptoms in NF1 require workup.",
+      "2": "Antibiotics don’t address brain tumor.",
+      "3": "Allergy testing inadequate for these symptoms."
+    }
+  },
+  {
+    topic: "Klinefelter Recognition",
+    confirmed: false,
+    type: "standard",
+    stem: "A 16-year-old male presents with tall stature, gynecomastia, small firm testes, and sparse facial hair. Karyotype is 47,XXY. Which is the MOST likely diagnosis?",
+    options: [
+      "Turner syndrome with mosaic pattern in male",
+      "Marfan syndrome with cardiovascular features",
+      "Klinefelter syndrome",
+      "Acromegaly from growth hormone excess"
+    ],
+    answer: 2,
+    concept: "Klinefelter Diagnosis",
+    rationale: "47,XXY karyotype + tall stature + small firm testes + gynecomastia + sparse facial hair = KLINEFELTER SYNDROME. Most common sex chromosome aneuploidy. Often diagnosed during workup for delayed puberty, infertility, or learning issues. Treatment: testosterone replacement at puberty.",
+    deepExplanation: "Klinefelter management: testosterone replacement therapy (often starts at age 11–12, induces secondary sex characteristics, supports bone density, mood, energy). Fertility: most are infertile (azoospermia), some success with TESE (testicular sperm extraction) + IVF/ICSI. Educational support for learning differences. Screen for: osteoporosis, type 2 diabetes, autoimmune disease, breast cancer (slightly increased risk), psychological support.",
+    others: {
+      "0": "Turner is females (45,XO), not 47,XXY males.",
+      "1": "Marfan has cardiovascular and skeletal features, not karyotype findings.",
+      "3": "Acromegaly is GH excess, not karyotype finding."
+    }
+  },
+  {
+    topic: "Klinefelter Treatment",
+    confirmed: false,
+    type: "standard",
+    stem: "A 12-year-old boy with Klinefelter syndrome is starting puberty. Which treatment is MOST common?",
+    options: [
+      "Estrogen replacement therapy daily",
+      "Phenylalanine restriction in the diet",
+      "Levothyroxine for thyroid support daily",
+      "Testosterone replacement therapy"
+    ],
+    answer: 3,
+    concept: "Testosterone in Klinefelter",
+    rationale: "Klinefelter treatment: TESTOSTERONE REPLACEMENT (starts at puberty ~age 11–12). Induces secondary sex characteristics (deeper voice, facial/body hair, muscle development), supports bone density, energy, mood, sexual function. Forms: IM injections, transdermal gel/patch, oral. Lifelong therapy.",
+    deepExplanation: "Testosterone replacement timing and forms: starts at age 11–12 with low doses, gradually increased to adult replacement. Long-term: monitor PSA, hematocrit (testosterone can cause polycythemia), lipids. Fertility: testosterone alone does not restore fertility — may need referral to reproductive endocrinology. Some men with Klinefelter find success with TESE + IVF.",
+    others: {
+      "0": "Estrogen would worsen feminization.",
+      "1": "Phenylalanine restriction is for PKU.",
+      "2": "Levothyroxine is for hypothyroidism (separate condition)."
+    }
+  },
+  {
+    topic: "Turner Recognition",
+    confirmed: false,
+    type: "standard",
+    stem: "A 14-year-old female has not started menstruation, has short stature (well below 3rd percentile), webbed neck, and a heart murmur. Which condition is MOST likely?",
+    options: [
+      "Turner syndrome",
+      "Klinefelter syndrome with mosaic pattern in female",
+      "Marfan syndrome with cardiovascular features",
+      "PKU diagnosed late in adolescence"
+    ],
+    answer: 0,
+    concept: "Turner Diagnosis",
+    rationale: "Short stature + primary amenorrhea + webbed neck + heart murmur in adolescent female = TURNER SYNDROME (45,XO). Heart murmur from cardiac defects (coarctation of aorta, bicuspid aortic valve common). Karyotype confirms diagnosis. Cardiac echo essential.",
+    deepExplanation: "Turner syndrome workup: karyotype, cardiac echocardiogram (coarctation, bicuspid valve), renal ultrasound (horseshoe kidney), hearing evaluation, eye exam, thyroid function (autoimmune thyroiditis common), osteoporosis screening. Multidisciplinary team: endocrine, cardiology, gynecology, genetics. Lifelong management.",
+    others: {
+      "1": "Klinefelter is males (47,XXY).",
+      "2": "Marfan has tall stature, not short.",
+      "3": "PKU presents in newborn period via screening."
+    }
+  },
+  {
+    topic: "Turner Cardiac",
+    confirmed: false,
+    type: "standard",
+    stem: "Which cardiac defect is MOST commonly associated with Turner syndrome?",
+    options: [
+      "Tetralogy of Fallot with cyanosis at birth",
+      "Coarctation of aorta and bicuspid aortic valve",
+      "Patent ductus arteriosus with persistent murmur",
+      "Hypoplastic left heart syndrome at birth"
+    ],
+    answer: 1,
+    concept: "Turner Cardiac Defects",
+    rationale: "TURNER syndrome cardiac defects: COARCTATION OF AORTA, BICUSPID AORTIC VALVE (most common, ~30–50%), aortic dissection risk, mitral valve issues. Echocardiogram essential at diagnosis. Lifelong cardiac monitoring. Aortic dissection is a serious complication, especially in pregnancy.",
+    deepExplanation: "Turner cardiac surveillance: baseline echo at diagnosis, repeat every few years, and during/after pregnancy. Cardiac MRI may be more sensitive for aortic dilation. Hypertension is also common (renal artery and structural causes). Endocarditis prophylaxis if structural defects. Pregnancy is high-risk — aortic dissection mortality elevated.",
+    others: {
+      "0": "Tetralogy of Fallot is cyanotic, not Turner-specific.",
+      "2": "PDA is not Turner-specific.",
+      "3": "HLHS is severe but not Turner-specific."
+    }
+  },
+  {
+    topic: "Turner Treatment",
+    confirmed: false,
+    type: "standard",
+    stem: "A 6-year-old with Turner syndrome is being followed by endocrinology. Which treatment is MOST appropriate at this age?",
+    options: [
+      "Testosterone replacement therapy at this age",
+      "Methimazole for thyroid suppression starting now",
+      "Growth hormone (somatropin) to maximize adult height",
+      "Phenylalanine restriction for cognitive support"
+    ],
+    answer: 2,
+    concept: "GH for Turner",
+    rationale: "Turner syndrome childhood treatment: GROWTH HORMONE (somatropin) starts in early childhood (around 4–6 years or when growth velocity drops below norms) to MAXIMIZE ADULT HEIGHT. Estrogen replacement starts later (~age 12–13) to induce secondary sex characteristics. GH continues until adult height achieved.",
+    deepExplanation: "Turner treatment timeline: childhood = GH for height, monitor for autoimmune thyroiditis, screen for hearing loss/middle ear infections; adolescence = estrogen replacement to induce puberty (gradual escalation over 2–3 years), then add progesterone for menstrual cycling; adulthood = ongoing hormone replacement until natural menopause age (≈50). Fertility = most need egg donation; some natural pregnancies possible in mosaic Turner.",
+    others: {
+      "0": "Testosterone is for males.",
+      "1": "Methimazole is for hyperthyroidism.",
+      "3": "Phenylalanine restriction is for PKU."
+    }
+  },
+  {
+    topic: "Turner Estrogen",
+    confirmed: false,
+    type: "standard",
+    stem: "A 13-year-old with Turner syndrome is being started on estrogen replacement. The MAIN purpose is to:",
+    options: [
+      "Treat hypertension and cardiac complications",
+      "Restore natural fertility from ovarian function",
+      "Improve cognitive learning ability",
+      "Induce secondary sex characteristics and prevent osteoporosis"
+    ],
+    answer: 3,
+    concept: "Estrogen Replacement Goals",
+    rationale: "Estrogen replacement in Turner: INDUCE SECONDARY SEX CHARACTERISTICS (breast development, female body habitus, growth completion), PREVENT OSTEOPOROSIS (estrogen needed for bone health), normalize menstrual function (later when progesterone added). Started ~age 12–13 with gradual escalation over 2–3 years.",
+    deepExplanation: "Turner estrogen regimen: low-dose transdermal estrogen patches initially, gradually increased over 2–3 years. Add cyclic progesterone after breakthrough bleeding (typically after 18–24 months estrogen). Continue lifelong hormone replacement until natural menopause age (≈50). Forms: transdermal preferred (less hepatic exposure than oral), oral, or vaginal. Fertility — most women with Turner need egg donation for pregnancy.",
+    others: {
+      "0": "Estrogen does not directly treat hypertension.",
+      "1": "Estrogen does not restore ovarian function (streak ovaries cannot make eggs).",
+      "2": "Estrogen does not enhance cognition specifically."
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let score = 0;
+let totalPoints = 0;
+let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_peds_ch49_deepdrill';
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+
+function extractLabs(stem) {
+  const labs = [];
+  const seen = new Set();
+
+  // Each pattern: { re, name, unit (or unitFromMatch index), rangeFromMatch (optional) }
+  const patterns = [
+    { re: /\bBP\s+(\d{2,3}\/\d{2,3})(?:\s*\((?:baseline|normal)\s+([\d\/<>≥≤\-–\s]+)\))?/gi, name: 'BP', unit: 'mmHg', rangeIdx: 2, ranglePrefix: 'baseline ' },
+    { re: /\bHR\s+(\d{2,3})\b/gi, name: 'HR', unit: 'bpm' },
+    { re: /\bpulse\s+(\d{2,3})\b/gi, name: 'Pulse', unit: 'bpm' },
+    { re: /\b(?:temperature|temp)[\s:]+(\d{2,3}(?:\.\d)?)\s*°?\s*([CF])\b/gi, name: 'Temp', unitIdx: 2, unitPrefix: '°' },
+    { re: /\b(?:respiratory rate|RR)\s+(\d{1,3})(?:\/min)?(?:\s*\(was\s+(\d+)\/?(?:min)?\))?\b/gi, name: 'RR', unit: '/min', rangeIdx: 2, ranglePrefix: 'was ' },
+    { re: /\b(?:urine output|UOP)\s+(\d{1,3})\s*mL\/hr(?:\s*\(was\s+(\d+)\s*mL\/hr\))?\b/gi, name: 'UOP', unit: 'mL/hr', rangeIdx: 2, ranglePrefix: 'was ' },
+    { re: /\b(?:bedside\s+)?(?:blood\s+)?glucose(?:\s+is|\s+at\s+\d+\s+(?:hour|min)\w*)?\s+(?:is\s+)?(\d{1,3})\s*mg\/dL(?:\s*\((?:normal[^)]*?|cutoff[^)]*?)\))?/gi, name: 'Glucose', unit: 'mg/dL' },
+    { re: /\b(?:hematocrit|HCT)\s+of\s+(\d{2,3})%(?:\s*\(normal[^)]*?\))?/gi, name: 'HCT', unit: '%' },
+    { re: /\bplatelets\s+([\d,]+)\s*\/?mm\u00b3?(?:\s*\(normal[^)]*?\))?/gi, name: 'Platelets', unit: '/mm³' },
+    { re: /\bAST\s+(\d{1,4})\s*U\/L(?:\s*\(normal[^)]*?\))?/gi, name: 'AST', unit: 'U/L' },
+    { re: /(?:\u03b2-hCG|beta-hCG|hCG)(?:\s+(?:is|of))?\s+([\d,]+)\s*mIU\/mL/gi, name: 'β-hCG', unit: 'mIU/mL' },
+    { re: /\bfundal height\s+of\s+(\d{1,3})\s*cm(?:\s*\((?:expected|normal)\s*~?\s*(\d{1,3})\s*cm\))?/gi, name: 'Fundal Ht', unit: 'cm', rangeIdx: 2, ranglePrefix: 'expected ~' },
+    { re: /\bAFI\s+(\d{1,3})\s*cm/gi, name: 'AFI', unit: 'cm' },
+    { re: /\b1-hour\b[^.]*?(\d{2,3})\s*mg\/dL/gi, name: '1-hr GCT', unit: 'mg/dL' },
+    { re: /(?:weighing|weighs|estimated at|EFW)\s+(\d{3,4})\s*g\b/gi, name: 'Weight', unit: 'g' }
+  ];
+
+  for (const pat of patterns) {
+    const re = new RegExp(pat.re.source, pat.re.flags);
+    let m;
+    while ((m = re.exec(stem)) !== null) {
+      const val = m[1];
+      const key = pat.name + ':' + val;
+      if (seen.has(key)) continue;
+      seen.add(key);
+
+      let unit = pat.unit || '';
+      if (pat.unitIdx && m[pat.unitIdx]) {
+        unit = (pat.unitPrefix || '') + m[pat.unitIdx];
+      }
+
+      let range = '';
+      if (pat.rangeIdx && m[pat.rangeIdx]) {
+        range = (pat.ranglePrefix || '') + m[pat.rangeIdx];
+      }
+
+      // First, check if m[0] itself contains a parenthetical (greedy patterns consume it)
+      if (!range) {
+        const innerParen = m[0].match(/\(([^)]+)\)/);
+        if (innerParen && /normal|baseline|expected|cutoff|target|was/i.test(innerParen[1])) {
+          range = innerParen[1].trim();
+        }
+      }
+
+      // Otherwise look ahead in the full stem
+      if (!range) {
+        const afterIdx = m.index + m[0].length;
+        const tail = stem.slice(afterIdx, afterIdx + 80);
+        const parenMatch = tail.match(/^\s*\(([^)]+)\)/);
+        if (parenMatch && /normal|baseline|expected|cutoff|target|was/i.test(parenMatch[1])) {
+          range = parenMatch[1].trim();
+        }
+      }
+
+      labs.push({ name: pat.name, value: val, unit, range });
+    }
+  }
+
+  return labs;
+}
+
+function renderLabStrip(labs) {
+  if (!labs || labs.length === 0) return '';
+  const items = labs.map(function(l) {
+    const range = l.range ? '<div class="lab-range">' + escapeStemHTML(l.range) + '</div>' : '';
+    const unit = l.unit ? ' <span class="lab-value-unit">' + escapeStemHTML(l.unit) + '</span>' : '';
+    return '<div class="lab-item"><div class="lab-name">' + escapeStemHTML(l.name) + '</div><div class="lab-value">' + escapeStemHTML(l.value) + unit + '</div>' + range + '</div>';
+  }).join('');
+  return '<div class="lab-strip"><div class="lab-strip-label">Clinical Data</div><div class="lab-row">' + items + '</div></div>';
+}
+
+function escapeStemHTML(s) {
+  const div = document.createElement('div');
+  div.textContent = String(s);
+  return div.innerHTML;
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  const labs = q.labs || extractLabs(q.stem);
+  const labStrip = renderLabStrip(labs);
+  document.getElementById('q-stem').innerHTML = labStrip + '<div>' + escapeStemHTML(q.stem) + '</div>';
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('action-row').classList.remove('has-rationale');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  document.getElementById('action-row').classList.add('has-rationale');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.deepExplanation) {
+    html += `<div class="deep-block"><strong>Deeper:</strong> ${q.deepExplanation}</div>`;
+  }
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong application of genetic disorders. You are ready for this material on the final.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed scenarios below before moving on.';
+  else if (pct >= 60) msg = 'Below pass threshold. Review the missed items, retry, then re-confirm with the Knowledge Check.';
+  else msg = 'Heavy review needed. Re-read Ch 49, work through the missed items below, and try again before the final.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 24 Acquired Newborn Disorders — Deep Drill</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-soft: #14b8a6;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+      --partial: #d97706;
+      --partial-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--purple); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .start-stat { text-align: center; padding: 18px 12px; background: var(--purple-pale); border-radius: 8px; border: 1px solid var(--line); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--purple); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer; background: var(--purple); color: white; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .lab-strip { margin-bottom: 18px; padding: 12px 14px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; border-left: 3px solid var(--teal); }
+    .lab-strip-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+    .lab-row { display: flex; flex-wrap: wrap; gap: 12px 18px; }
+    .lab-item { display: flex; flex-direction: column; gap: 2px; min-width: 90px; }
+    .lab-name { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.04em; }
+    .lab-value { font-size: 14px; color: var(--ink); font-weight: 600; }
+    .lab-value-unit { font-weight: 400; color: var(--muted); font-size: 11px; }
+    .lab-range { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 1px; }
+    .btn-row.sticky-row { position: sticky; bottom: 12px; background: var(--card); padding-top: 12px; padding-bottom: 4px; margin-top: 18px; z-index: 10; border-top: 1px solid transparent; }
+    .btn-row.sticky-row.has-rationale { border-top-color: var(--line); padding-top: 14px; }
+
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--purple); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--purple); background: var(--purple-pale); }
+    .option.selected { border-color: var(--purple); background: var(--purple-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--purple); color: white; border-color: var(--purple); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--purple-pale); border-left: 3px solid var(--purple); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--purple); color: white; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .deep-block { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); font-size: 13px; line-height: 1.6; color: var(--ink-soft); }
+    .deep-block strong { color: var(--navy); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--purple); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Deep Drill · Chapter 24</div>
+  <h1>Acquired Newborn Disorders</h1>
+  <p class="tagline">Application scenarios: prioritizing care for EA, recognizing sepsis early, managing RDS and MAS, and identifying NEC progression. NCLEX-Next-Gen difficulty.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">20</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">App</span><span class="start-stat-label">Level</span></div>
+      <div class="start-stat"><span class="start-stat-num">Deep</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">Each question requires applying knowledge to a clinical scenario. Rationales include both the why and the underlying mechanism.</p>
+    <button class="btn" onclick="begin()">Begin Drill</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 20</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row sticky-row" id="action-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Deep Drill</div>
+    <h1>Acquired Newborn Disorders</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 20 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Drill</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: "EA First Feed",
+    confirmed: false,
+    type: "standard",
+    stem: "A newborn is delivered after a pregnancy with polyhydramnios. After first attempted feed, the infant develops excessive frothy saliva, coughing, and cyanosis. The MOST appropriate FIRST nursing action is to:",
+    options: [
+      "Stop the feed, position upright, suction the airway, and notify the provider",
+      "Continue the feeding to encourage suck-swallow coordination",
+      "Place infant supine with legs elevated for easier swallowing",
+      "Begin formula feeding instead of breastmilk for better tolerance"
+    ],
+    answer: 0,
+    concept: "EA First Action",
+    rationale: "Frothy saliva + coughing/choking/cyanosis with first feed = SUSPECTED EA. STOP THE FEED IMMEDIATELY, position upright (HOB elevated 30–45°), SUCTION the airway to prevent aspiration, NOTIFY the provider. Maintain NPO. Confirm with NG tube placement attempt and X-ray.",
+    deepExplanation: "EA classic presentation: polyhydramnios in pregnancy (fetus could not swallow amniotic fluid), then 3 Cs at first feed — coughing, choking, cyanosis. Inability to pass NG tube confirms diagnosis. Pre-op care: NPO, Replogle suction of upper pouch, IV fluids, HOB elevated. Definitive treatment is surgical repair (often staged if very preterm or with other anomalies).",
+    others: {
+      "1": "Continuing the feed risks aspiration and respiratory failure.",
+      "2": "Supine + legs elevated worsens aspiration risk.",
+      "3": "Formula vs. breastmilk does not address the structural defect."
+    }
+  },
+  {
+    topic: "EA + TEF",
+    confirmed: false,
+    type: "standard",
+    stem: "An infant has been diagnosed with EA + tracheoesophageal fistula (TEF). Which complication is the GREATEST risk before surgical repair?",
+    options: [
+      "Hyperbilirubinemia from delayed feeding",
+      "Severe constipation from inability to swallow saliva",
+      "Hyperthermia from infection in the upper esophagus",
+      "Aspiration pneumonia from gastric contents through the fistula"
+    ],
+    answer: 3,
+    concept: "TEF + Aspiration Risk",
+    rationale: "EA + TEF: ASPIRATION PNEUMONIA from gastric acid passing through the fistula into the lungs is the greatest pre-op risk. Prevention: NPO, continuous suction of upper pouch (Replogle tube), HOB elevated 30–45°, prone or right-side-down position to keep gastric contents away from the fistula.",
+    deepExplanation: "Most common type of TEF (85%): proximal esophagus ends in blind pouch + distal esophagus connects to trachea. Air enters stomach with breaths (often abdominal distension), and gastric acid refluxes into lungs. Surgical repair: thoracotomy with TEF closure and esophageal anastomosis. Complications: anastomotic leak, stricture, GERD, dysmotility.",
+    others: {
+      "0": "Hyperbilirubinemia is not the greatest pre-op risk.",
+      "1": "Constipation is not the major pre-op risk.",
+      "2": "Hyperthermia from local infection is not the primary concern."
+    }
+  },
+  {
+    topic: "Sepsis Recognition",
+    confirmed: false,
+    type: "standard",
+    stem: "A 36-hour-old newborn (born to a GBS-positive mother who received only 1 dose of penicillin G 2 hours before delivery) develops temperature 36.0°C, lethargy, poor feeding, and tachypnea. The MOST appropriate next step is:",
+    options: [
+      "Routine observation since vital signs may stabilize",
+      "Discharge home with close pediatrician follow-up appointments",
+      "Sepsis workup (CBC, blood culture, possible LP) and start empirical antibiotics",
+      "Increase feeding frequency to support hydration of newborn"
+    ],
+    answer: 2,
+    concept: "Inadequate GBS + Sepsis Workup",
+    rationale: "Inadequate GBS prophylaxis (<2 doses or <4 hr before delivery) + symptomatic newborn (temp instability, lethargy, poor feeding, tachypnea) = SUSPECTED EARLY-ONSET SEPSIS. Initiate sepsis workup (CBC, blood culture, possibly LP if meningitis suspected) and start EMPIRICAL ANTIBIOTICS (ampicillin + gentamicin) while cultures pending.",
+    deepExplanation: "Inadequate GBS coverage (<2 doses given >4 hr before delivery): observe in nursery 36–48 hours, obtain CBC and blood culture, treat empirically if symptomatic. Adequate prophylaxis: ≥2 doses given ≥4 hr before delivery. Even with adequate coverage, late-onset GBS (>7 days) is unaffected. Maternal CBC and CRP/PCT can support workup but cultures are gold standard.",
+    others: {
+      "0": "Routine observation alone with these signs is unsafe.",
+      "1": "Discharge with these signs is unsafe.",
+      "3": "Increasing feedings does not address sepsis."
+    }
+  },
+  {
+    topic: "RDS Recognition",
+    confirmed: false,
+    type: "standard",
+    stem: "A 31-week preterm newborn at 2 hours of life shows tachypnea (RR 75), grunting, nasal flaring, and intercostal retractions. SpO2 is 84% on room air. The BEST initial intervention is:",
+    options: [
+      "Provide CPAP and prepare for surfactant administration via ETT",
+      "Continue room air observation since RDS resolves spontaneously",
+      "Wait 4 hours to see if symptoms improve without intervention",
+      "Begin oral antibiotics for suspected bacterial pneumonia infection"
+    ],
+    answer: 0,
+    concept: "Preterm RDS Initial Mgmt",
+    rationale: "Tachypnea + grunting + nasal flaring + retractions + low SpO2 in preterm = RDS. Initial management: SUPPLEMENTAL O2, CPAP (continuous positive airway pressure), and prepare for SURFACTANT ADMINISTRATION via endotracheal tube. CPAP often avoids the need for intubation.",
+    deepExplanation: "Antenatal steroids (betamethasone <34 weeks) accelerate fetal surfactant production and reduce RDS severity. Postnatal exogenous surfactant (Survanta, Curosurf, Infasurf) coats the alveoli and reduces surface tension. Goals: maintain SpO2 90–95%, avoid hyperoxia (ROP risk), wean to lower support as soon as tolerated.",
+    others: {
+      "1": "Room air with low SpO2 and distress is inadequate.",
+      "2": "Waiting risks worsening hypoxia.",
+      "3": "Antibiotics may be considered but not the first intervention."
+    }
+  },
+  {
+    topic: "MAS Resuscitation",
+    confirmed: false,
+    type: "standard",
+    stem: "A postterm newborn is delivered through thick meconium-stained amniotic fluid. The newborn is depressed (poor tone, weak cry, gasping). The MOST appropriate immediate action is:",
+    options: [
+      "Routine warming and drying without any other intervention",
+      "Initiate positive pressure ventilation per NRP and consider intubation",
+      "Stimulate vigorously and observe with no other intervention",
+      "Skin-to-skin contact with mother and delayed assessment for one hour"
+    ],
+    answer: 1,
+    concept: "MAS NRP Action",
+    rationale: "Depressed (non-vigorous) newborn through meconium = HIGH MAS RISK. Per current NRP guidelines: do NOT routinely intubate — INITIATE POSITIVE PRESSURE VENTILATION (PPV) per standard NRP, intubation only if PPV is ineffective or specifically indicated.",
+    deepExplanation: "NRP changed in 2015: routine intubation/suction of meconium is no longer recommended even if non-vigorous. Standard resuscitation steps apply: warming, drying, stimulation, PPV if needed, intubation if PPV ineffective. Vigorous newborn (good tone, strong cry, HR >100): no special meconium intervention needed beyond standard care.",
+    others: {
+      "0": "Routine warming alone is insufficient for a depressed newborn.",
+      "2": "Stimulation alone is insufficient.",
+      "3": "Skin-to-skin without resuscitation risks deterioration."
+    }
+  },
+  {
+    topic: "NEC Recognition",
+    confirmed: false,
+    type: "standard",
+    stem: "A 30-week preterm infant on day 7 of life develops abdominal distension, bloody stools, and bilious vomiting. Vital signs: temperature 36.0°C, HR 180, BP 60/35. The MOST appropriate FIRST intervention is:",
+    options: [
+      "Increase feeding volume to support nutritional intake",
+      "Bath the infant in warm water to relax bowel function",
+      "Continue feeds and monitor for additional symptoms only",
+      "NPO, NG/OG decompression, IV fluids, and broad-spectrum antibiotics"
+    ],
+    answer: 3,
+    concept: "NEC Recognition + Mgmt",
+    rationale: "Preterm + abdominal distension + bloody stools + bilious vomiting + tachycardia + hypothermia = NEC. First management: NPO (gut rest), NG/OG TUBE for decompression, IV FLUIDS for resuscitation and nutrition, BROAD-SPECTRUM ANTIBIOTICS (often ampicillin + gentamicin + clindamycin/metronidazole), surgical consult for perforation.",
+    deepExplanation: "NEC stages (modified Bell’s): Stage I = suspected NEC; Stage II = definite NEC (pneumatosis intestinalis on X-ray); Stage III = advanced NEC (intestinal perforation, requires surgery). Mortality up to 30%. Prevention: human breast milk (donor or maternal), slow advance of feeds, careful management of preterm comorbidities.",
+    others: {
+      "0": "Feeding worsens NEC.",
+      "1": "Bathing worsens cold stress.",
+      "2": "Continuing feeds is harmful."
+    }
+  },
+  {
+    topic: "Sepsis vs. Cold Stress",
+    confirmed: false,
+    type: "standard",
+    stem: "A newborn at 2 days of life has temperature 36.0°C and is lethargic with poor feeding. The mother had GBS prophylaxis adequate (2 doses, >4 hr before delivery). What is the MOST appropriate next step?",
+    options: [
+      "Discharge home with reassurance about normal newborn variations",
+      "Sepsis workup despite adequate GBS prophylaxis given symptoms",
+      "Bath the infant in warm water to raise core body temperature",
+      "Increase room temperature without other clinical assessment"
+    ],
+    answer: 1,
+    concept: "Sepsis Despite Adequate Prophylaxis",
+    rationale: "Even with adequate GBS prophylaxis, the newborn can still have sepsis (other organisms, late-onset, etc.). Symptomatic newborn (temp instability, lethargy, poor feeding) requires SEPSIS WORKUP and empirical antibiotics. Adequate GBS prophylaxis only prevents EARLY-onset GBS sepsis specifically.",
+    deepExplanation: "GBS prophylaxis success: adequate prophylaxis (≥2 doses, ≥4 hr before delivery) reduces but does NOT eliminate early-onset GBS sepsis. Other early-onset sepsis pathogens (E. coli, Listeria) are not affected by penicillin/ampicillin prophylaxis. Late-onset sepsis (>7 days) is not affected by intrapartum prophylaxis at all. Always evaluate symptomatic newborns regardless of prophylaxis.",
+    others: {
+      "0": "Symptomatic newborn cannot be discharged with reassurance.",
+      "2": "Bathing causes cold stress.",
+      "3": "Room temperature alone does not address sepsis."
+    }
+  },
+  {
+    topic: "Surfactant Administration",
+    confirmed: false,
+    type: "standard",
+    stem: "A nurse is preparing to assist with surfactant administration in a preterm infant on mechanical ventilation. Which positioning is correct after the surfactant dose?",
+    options: [
+      "Position infant flat on the back without support throughout",
+      "Position infant in different positions (right then left) to spread surfactant",
+      "Avoid suctioning for at least 1–2 hours after surfactant administration",
+      "Discontinue mechanical ventilation immediately after surfactant given"
+    ],
+    answer: 2,
+    concept: "Surfactant Post-Care",
+    rationale: "After surfactant administration: AVOID SUCTIONING for AT LEAST 1–2 HOURS to allow surfactant to spread and adhere to alveoli. Position changes are typical during dosing to distribute surfactant. Maintain ventilator settings; expect rapid improvement in oxygenation requiring weaning of FiO2 and mean airway pressure.",
+    deepExplanation: "Surfactant types: natural (animal-derived: Survanta, Curosurf, Infasurf) and synthetic. Dose: typically 4 mL/kg via ETT in divided doses (typically 4 aliquots with position changes). Side effects during administration: bradycardia, desaturation, blocked ETT, pulmonary hemorrhage. Monitor closely. Multiple doses may be given over 6–12 hours if needed.",
+    others: {
+      "0": "Position changes during dosing help distribution.",
+      "1": "Position changes are during dosing, not just one position after.",
+      "3": "Ventilator continues post-surfactant; weaned as patient improves."
+    }
+  },
+  {
+    topic: "MAS Long-term",
+    confirmed: false,
+    type: "standard",
+    stem: "An infant survived MAS but now has persistent hypoxemia and a loud second heart sound (S2). The nurse suspects which complication?",
+    options: [
+      "Persistent pulmonary hypertension of the newborn (PPHN)",
+      "Patent ductus arteriosus from preterm physiology",
+      "Ventricular septal defect from congenital cardiac formation",
+      "Cyanotic heart disease from cardiac structural defect"
+    ],
+    answer: 0,
+    concept: "MAS + PPHN",
+    rationale: "MAS can cause PERSISTENT PULMONARY HYPERTENSION OF THE NEWBORN (PPHN) due to chemical pneumonitis, hypoxia, and pulmonary vasoconstriction. Signs: persistent hypoxemia disproportionate to lung disease, loud S2, right-to-left shunting (lower SpO2 in lower extremities than right hand). Treatment: oxygenation, sometimes inhaled nitric oxide.",
+    deepExplanation: "PPHN pathophysiology: failure of normal transition from fetal to neonatal circulation. Pulmonary vascular resistance remains high, blood shunts right-to-left through PFO and PDA. Causes: MAS, sepsis, RDS, congenital diaphragmatic hernia, pulmonary hypoplasia. Treatment: oxygenation (sometimes with iNO), supportive care, ECMO in severe cases.",
+    others: {
+      "1": "PDA is more associated with prematurity.",
+      "2": "VSD is structural, not specific to MAS.",
+      "3": "Cyanotic heart disease is congenital structural."
+    }
+  },
+  {
+    topic: "NEC Imaging Finding",
+    confirmed: false,
+    type: "standard",
+    stem: "A 28-week preterm infant has abdominal distension and bloody stools. Abdominal X-ray shows pneumatosis intestinalis. Which is the MOST appropriate next step?",
+    options: [
+      "Continue full feedings with close monitoring of stool patterns",
+      "Bath the infant in warm water to soothe abdominal cramping",
+      "Send infant home with close pediatrician follow-up of feeding",
+      "NPO, IV fluids, broad-spectrum antibiotics, and surgical consult"
+    ],
+    answer: 3,
+    concept: "Pneumatosis = Definite NEC",
+    rationale: "PNEUMATOSIS INTESTINALIS = definite NEC (Stage II by Bell’s). Management: NPO (stop feeds completely), IV FLUIDS (for hydration and TPN), BROAD-SPECTRUM ANTIBIOTICS, SURGICAL CONSULT for possible perforation or progression. Serial X-rays monitor for progression to free air (perforation = surgery indicated).",
+    deepExplanation: "Modified Bell’s staging: Stage I (suspected) = systemic signs + GI signs without imaging confirmation. Stage II (definite) = pneumatosis intestinalis on X-ray. Stage III (advanced) = severe systemic illness, perforation. Surgical indications: pneumoperitoneum (free air), worsening despite medical management, palpable mass. Long-term complications: short bowel syndrome, strictures, neurodevelopmental delays.",
+    others: {
+      "0": "Feedings are immediately stopped in confirmed NEC.",
+      "1": "Bathing does not treat NEC.",
+      "2": "Discharge is unsafe with confirmed NEC."
+    }
+  },
+  {
+    topic: "EA Operative",
+    confirmed: false,
+    type: "standard",
+    stem: "After surgical repair of EA + TEF, which post-op nursing intervention is MOST appropriate?",
+    options: [
+      "Begin oral feedings 4 hours after surgery for nutrition",
+      "Position prone and place infant on standard formula immediately",
+      "Maintain HOB elevated, avoid deep suctioning beyond marked depth",
+      "Discontinue all monitoring and discharge within 12 hours postoperatively"
+    ],
+    answer: 2,
+    concept: "Post-op EA Care",
+    rationale: "Post-op EA/TEF repair: HEAD OF BED ELEVATED (reduce reflux), AVOID DEEP SUCTIONING beyond a marked depth (to protect anastomosis), gastrostomy or NPO until anastomosis heals, IV fluids/TPN initially, advance feeds slowly per surgeon order, monitor for anastomotic leak (sudden temp, distress, drainage).",
+    deepExplanation: "Post-op complications: ANASTOMOTIC LEAK (most serious), STRICTURE (most common late complication, requires dilation), TEF recurrence, GERD, esophageal dysmotility. Long-term feeding therapy may be needed. Suctioning depth must be measured to avoid disrupting the surgical site — marked on suction catheter to indicate maximum safe insertion.",
+    others: {
+      "0": "Oral feedings start later, after anastomosis heals.",
+      "1": "Standard formula immediately is not appropriate.",
+      "3": "Monitoring continues; discharge is much later."
+    }
+  },
+  {
+    topic: "Late-Onset Sepsis",
+    confirmed: false,
+    type: "standard",
+    stem: "A 14-day-old preterm infant in the NICU with a central line develops temperature instability and lethargy. Which type of sepsis is MOST likely?",
+    options: [
+      "Early-onset GBS sepsis from intrapartum exposure",
+      "Tetanus from environmental contact at birth",
+      "Listeria sepsis from maternal contamination",
+      "Late-onset sepsis (likely CoNS or hospital-acquired pathogen)"
+    ],
+    answer: 3,
+    concept: "Late-Onset Sepsis",
+    rationale: "Sepsis at 14 days = LATE-ONSET (>7 days). With a central line, COAGULASE-NEGATIVE STAPHYLOCOCCUS (CoNS) is a common cause along with Staph aureus, gram-negative organisms, and Candida. Empirical coverage often includes vancomycin (for CoNS, MRSA) + gentamicin (gram-negatives).",
+    deepExplanation: "Late-onset sepsis: nosocomial infections common in NICU. Risk factors: central lines, prolonged ventilation, surgery, prematurity. Common organisms: CoNS (>50% of late-onset sepsis with central lines), S. aureus, gram-negatives (E. coli, Klebsiella), Candida (especially in very preterm infants). Empirical antibiotics: vanc + gentamicin (or other gram-negative coverage) until cultures return.",
+    others: {
+      "0": "Early-onset GBS occurs <7 days.",
+      "1": "Tetanus is rare in developed countries.",
+      "2": "Listeria is more associated with early-onset."
+    }
+  },
+  {
+    topic: "RDS Differentiate",
+    confirmed: false,
+    type: "standard",
+    stem: "A late-preterm (35 weeks) newborn has tachypnea, mild grunting, and SpO2 92% on room air. Symptoms started within first hour. Which condition is MOST likely (vs. RDS)?",
+    options: [
+      "RDS — surfactant deficiency requiring intubation immediately",
+      "Transient tachypnea of the newborn (TTN) — reabsorption of fetal lung fluid",
+      "Congenital pneumonia from maternal infection in late pregnancy",
+      "Severe meconium aspiration despite clear amniotic fluid present"
+    ],
+    answer: 1,
+    concept: "TTN vs. RDS",
+    rationale: "TRANSIENT TACHYPNEA OF THE NEWBORN (TTN) presents in late preterm or term infants with mild tachypnea, often after cesarean delivery (less compression to clear lung fluid). Caused by delayed reabsorption of fetal lung fluid. Self-limiting, resolves in 24–72 hours. Management: O2 if needed, monitoring.",
+    deepExplanation: "TTN vs. RDS: TTN is in late preterm/term, mild distress, resolves in 24–72 hr; RDS is in preterm (<32–34 wk), severe progressive distress, surfactant deficiency, treated with surfactant + ventilation. CXR helps differentiate: TTN shows fluid in fissures, hyperinflation; RDS shows ground-glass appearance, reticulogranular pattern.",
+    others: {
+      "0": "RDS in late preterm is less common; symptoms here are mild.",
+      "2": "Pneumonia would have other infection signs.",
+      "3": "MAS requires meconium-stained fluid."
+    }
+  },
+  {
+    topic: "MAS PPHN Rx",
+    confirmed: false,
+    type: "standard",
+    stem: "A newborn with MAS has persistent hypoxemia despite high FiO2 and mechanical ventilation. The infant has a SpO2 difference of 12% between right hand and lower extremity. Which treatment is MOST appropriate?",
+    options: [
+      "Inhaled nitric oxide (iNO) for pulmonary vasodilation in PPHN",
+      "Discontinue mechanical ventilation and use only nasal cannula",
+      "Diuretics to reduce pulmonary edema in newborn lungs",
+      "Switch to oral medications and discontinue all IV access"
+    ],
+    answer: 0,
+    concept: "iNO for PPHN",
+    rationale: "Persistent hypoxemia + pre/post-ductal SpO2 difference = PPHN (right-to-left shunting through PDA). INHALED NITRIC OXIDE (iNO) is a SELECTIVE PULMONARY VASODILATOR that improves oxygenation in PPHN. Severe cases may require ECMO.",
+    deepExplanation: "iNO mechanism: stimulates guanylate cyclase → cGMP → smooth muscle relaxation in pulmonary vasculature. Highly selective for pulmonary circulation (rapidly inactivated by hemoglobin). Dose: typically 20 ppm initially, weaned as tolerated. Monitor methemoglobin levels. Long-term outcomes vary with severity of underlying disease.",
+    others: {
+      "1": "Discontinuing ventilation worsens hypoxia.",
+      "2": "Diuretics do not address pulmonary hypertension.",
+      "3": "IV access is essential in critically ill newborn."
+    }
+  },
+  {
+    topic: "NEC Stages",
+    confirmed: false,
+    type: "standard",
+    stem: "A 26-week preterm infant has worsening abdominal distension, hypotension requiring vasopressors, and free air on abdominal X-ray (pneumoperitoneum). The MOST appropriate next step is:",
+    options: [
+      "Continue medical management with NPO and IV antibiotics only",
+      "Increase feedings to stimulate gut motility for the infant",
+      "Emergency surgical exploration for bowel perforation",
+      "Discharge home with close pediatric surgery follow-up scheduled"
+    ],
+    answer: 2,
+    concept: "NEC Stage III Surgery",
+    rationale: "Free air on abdominal X-ray (pneumoperitoneum) = BOWEL PERFORATION = STAGE III NEC. Indication for EMERGENCY SURGERY (laparotomy with resection of necrotic bowel, possible ostomy creation). Hemodynamic instability from peritonitis and sepsis adds urgency.",
+    deepExplanation: "Surgical NEC outcomes: ostomy with later reanastomosis is common; primary anastomosis if minimal bowel involvement. Long-term complications: short bowel syndrome (extensive resection), strictures, malabsorption, growth failure, neurodevelopmental delays. Survival improving but mortality still 20–30% for surgical NEC. TPN may be required for months.",
+    others: {
+      "0": "Medical management alone is inadequate for perforation.",
+      "1": "Feedings are absolutely contraindicated.",
+      "3": "Discharge is unsafe in critical illness."
+    }
+  },
+  {
+    topic: "Sepsis Evaluation",
+    confirmed: false,
+    type: "standard",
+    stem: "A nurse is performing a sepsis evaluation on a newborn. Which lab finding is MOST consistent with newborn sepsis?",
+    options: [
+      "Normal platelets and stable WBC counts on routine CBC",
+      "Elevated CRP, elevated immature-to-total neutrophil ratio (I:T)",
+      "Decreased liver enzymes and stable kidney function tests",
+      "Elevated bilirubin only without other CBC changes"
+    ],
+    answer: 1,
+    concept: "Sepsis Lab Workup",
+    rationale: "Sepsis lab findings: ELEVATED CRP, elevated PROCALCITONIN, ELEVATED IMMATURE-TO-TOTAL NEUTROPHIL RATIO (I:T ≥0.2 supports sepsis), abnormal WBC (high or low), thrombocytopenia, possible metabolic acidosis. Blood cultures are gold standard but may take 24–48 hr.",
+    deepExplanation: "Sepsis biomarkers: CBC with diff (look for neutropenia, immature forms, low platelets), CRP (rises within hours, peaks 24–48 hr), procalcitonin (rises faster than CRP, more specific for bacterial), blood culture (gold standard). Newborn sepsis screens have variable reliability — a normal screen does not rule out sepsis. Empirical antibiotics started while cultures pending.",
+    others: {
+      "0": "Normal labs do not support sepsis diagnosis.",
+      "2": "Decreased liver enzymes are not specific.",
+      "3": "Elevated bilirubin alone is not specific to sepsis."
+    }
+  },
+  {
+    topic: "EA Polyhydramnios",
+    confirmed: false,
+    type: "standard",
+    stem: "A pregnancy is complicated by polyhydramnios (AFI 28 cm). The fetus is found to have a small or absent gastric bubble on ultrasound. Which condition should be considered?",
+    options: [
+      "Renal agenesis (Potter syndrome) at birth time",
+      "Severe pre-eclampsia in the third trimester",
+      "Trisomy 21 with cardiac and GI anomaly cluster",
+      "Esophageal atresia (impaired fetal swallowing)"
+    ],
+    answer: 3,
+    concept: "EA Prenatal Signs",
+    rationale: "Polyhydramnios + small/absent gastric bubble on prenatal ultrasound = SUSPECTED ESOPHAGEAL ATRESIA. The fetus cannot swallow amniotic fluid due to the obstruction, leading to polyhydramnios. The stomach is small or empty because no fluid reaches it.",
+    deepExplanation: "Prenatal EA diagnosis: only ~50% of cases identified prenatally. Ultrasound findings: polyhydramnios (excess amniotic fluid — fetus cannot swallow), absent or small fetal stomach bubble. Fetal MRI can sometimes confirm. Postnatal diagnosis: NG tube cannot pass to stomach, X-ray shows tube coiled in upper pouch, abdominal distension if TEF present.",
+    others: {
+      "0": "Renal agenesis causes OLIGOhydramnios (not polyhydramnios).",
+      "1": "Pre-eclampsia is a maternal condition, not a fetal anomaly.",
+      "2": "Trisomy 21 has multiple findings, not specifically this picture."
+    }
+  },
+  {
+    topic: "RDS Long-term",
+    confirmed: false,
+    type: "standard",
+    stem: "A 24-week preterm infant required mechanical ventilation for 8 weeks. At 36 weeks corrected age, the infant still requires supplemental oxygen 30%. Which complication is MOST likely?",
+    options: [
+      "Resolved RDS with normal lung function expected at delivery",
+      "Bronchopulmonary dysplasia (BPD)",
+      "Cystic fibrosis confirmed by genetic testing performed",
+      "Asthma with reactive airway disease confirmed already"
+    ],
+    answer: 1,
+    concept: "BPD from Prolonged Vent",
+    rationale: "Preterm + prolonged ventilation + supplemental O2 NEEDED at 36 weeks corrected age = BRONCHOPULMONARY DYSPLASIA (BPD). Chronic lung disease of prematurity. Long-term: increased respiratory infections, asthma-like symptoms, possible home oxygen, neurodevelopmental concerns.",
+    deepExplanation: "BPD risk factors: prematurity (especially <28 weeks), prolonged mechanical ventilation, high FiO2, infection, PDA, fluid overload. Pathophysiology: alveolar simplification + arrested lung development. Long-term complications: pulmonary HTN, RSV bronchiolitis severity, exercise intolerance, asthma-like symptoms in childhood. Neurodevelopmental delays are also more common.",
+    others: {
+      "0": "Need for O2 at 36 weeks corrected age is incomplete resolution.",
+      "2": "CF is genetic, unrelated to prematurity.",
+      "3": "Asthma is a separate reactive airway condition."
+    }
+  },
+  {
+    topic: "MAS Pulmonary",
+    confirmed: false,
+    type: "standard",
+    stem: "Which mechanism explains the lung damage in MAS?",
+    options: [
+      "Mechanical airway obstruction, chemical pneumonitis, surfactant inactivation",
+      "Allergic reaction to amniotic fluid components in the lungs",
+      "Bacterial pneumonia from contaminated amniotic fluid only",
+      "Direct trauma to alveoli from forceful first cry at delivery"
+    ],
+    answer: 0,
+    concept: "MAS Pathophysiology",
+    rationale: "MAS lung damage mechanisms: (1) MECHANICAL AIRWAY OBSTRUCTION from meconium plugs (causes air trapping, atelectasis); (2) CHEMICAL PNEUMONITIS from inflammatory response to meconium; (3) SURFACTANT INACTIVATION (meconium destroys/inactivates surfactant); (4) PPHN from pulmonary vasoconstriction.",
+    deepExplanation: "MAS spectrum: mild (clear, observation only) to severe (PPHN, ECMO needed). Treatment: airway management, supportive care (O2, ventilation, sometimes surfactant), iNO for PPHN, ECMO for severe refractory cases. Outcomes: most full recovery; severe cases may have chronic lung disease or neurodevelopmental sequelae.",
+    others: {
+      "1": "Not an allergic reaction.",
+      "2": "Bacterial pneumonia is a secondary issue, not the primary mechanism.",
+      "3": "Trauma from first cry is not the cause."
+    }
+  },
+  {
+    topic: "EA Family Education",
+    confirmed: false,
+    type: "standard",
+    stem: "A parent of an infant with repaired EA + TEF asks about long-term complications. The nurse correctly explains:",
+    options: [
+      "There are no long-term complications after surgical repair",
+      "The infant will outgrow all symptoms within 6 months postoperatively",
+      "Risk of stricture, GERD, esophageal dysmotility, and feeding difficulties",
+      "There is high risk of full lung disease and cardiac structural defects"
+    ],
+    answer: 2,
+    concept: "EA Long-Term",
+    rationale: "Long-term EA/TEF complications: ANASTOMOTIC STRICTURE (most common late complication, may require dilation), GERD (very common, often requires PPI long-term), esophageal DYSMOTILITY (food/fluid get stuck), recurrent TEF, feeding difficulties, scoliosis from thoracotomy.",
+    deepExplanation: "EA/TEF children are usually followed by pediatric surgery, GI, and pulmonology long-term. Feeding therapy is often needed. Most can lead normal lives but require attention to chronic GERD and avoidance of foods that may stick (dry meats, bread). Adolescent and adult outcomes are generally good but quality of life may be affected by GI symptoms.",
+    others: {
+      "0": "Long-term complications are common.",
+      "1": "Most do not outgrow all symptoms in 6 months.",
+      "3": "Lung and cardiac defects are not directly linked unless VACTERL association."
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let score = 0;
+let totalPoints = 0;
+let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_mat_ch24_deepdrill';
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+
+function extractLabs(stem) {
+  const labs = [];
+  const seen = new Set();
+
+  // Each pattern: { re, name, unit (or unitFromMatch index), rangeFromMatch (optional) }
+  const patterns = [
+    { re: /\bBP\s+(\d{2,3}\/\d{2,3})(?:\s*\((?:baseline|normal)\s+([\d\/<>≥≤\-–\s]+)\))?/gi, name: 'BP', unit: 'mmHg', rangeIdx: 2, ranglePrefix: 'baseline ' },
+    { re: /\bHR\s+(\d{2,3})\b/gi, name: 'HR', unit: 'bpm' },
+    { re: /\bpulse\s+(\d{2,3})\b/gi, name: 'Pulse', unit: 'bpm' },
+    { re: /\b(?:temperature|temp)[\s:]+(\d{2,3}(?:\.\d)?)\s*°?\s*([CF])\b/gi, name: 'Temp', unitIdx: 2, unitPrefix: '°' },
+    { re: /\b(?:respiratory rate|RR)\s+(\d{1,3})(?:\/min)?(?:\s*\(was\s+(\d+)\/?(?:min)?\))?\b/gi, name: 'RR', unit: '/min', rangeIdx: 2, ranglePrefix: 'was ' },
+    { re: /\b(?:urine output|UOP)\s+(\d{1,3})\s*mL\/hr(?:\s*\(was\s+(\d+)\s*mL\/hr\))?\b/gi, name: 'UOP', unit: 'mL/hr', rangeIdx: 2, ranglePrefix: 'was ' },
+    { re: /\b(?:bedside\s+)?(?:blood\s+)?glucose(?:\s+is|\s+at\s+\d+\s+(?:hour|min)\w*)?\s+(?:is\s+)?(\d{1,3})\s*mg\/dL(?:\s*\((?:normal[^)]*?|cutoff[^)]*?)\))?/gi, name: 'Glucose', unit: 'mg/dL' },
+    { re: /\b(?:hematocrit|HCT)\s+of\s+(\d{2,3})%(?:\s*\(normal[^)]*?\))?/gi, name: 'HCT', unit: '%' },
+    { re: /\bplatelets\s+([\d,]+)\s*\/?mm\u00b3?(?:\s*\(normal[^)]*?\))?/gi, name: 'Platelets', unit: '/mm³' },
+    { re: /\bAST\s+(\d{1,4})\s*U\/L(?:\s*\(normal[^)]*?\))?/gi, name: 'AST', unit: 'U/L' },
+    { re: /(?:\u03b2-hCG|beta-hCG|hCG)(?:\s+(?:is|of))?\s+([\d,]+)\s*mIU\/mL/gi, name: 'β-hCG', unit: 'mIU/mL' },
+    { re: /\bfundal height\s+of\s+(\d{1,3})\s*cm(?:\s*\((?:expected|normal)\s*~?\s*(\d{1,3})\s*cm\))?/gi, name: 'Fundal Ht', unit: 'cm', rangeIdx: 2, ranglePrefix: 'expected ~' },
+    { re: /\bAFI\s+(\d{1,3})\s*cm/gi, name: 'AFI', unit: 'cm' },
+    { re: /\b1-hour\b[^.]*?(\d{2,3})\s*mg\/dL/gi, name: '1-hr GCT', unit: 'mg/dL' },
+    { re: /(?:weighing|weighs|estimated at|EFW)\s+(\d{3,4})\s*g\b/gi, name: 'Weight', unit: 'g' }
+  ];
+
+  for (const pat of patterns) {
+    const re = new RegExp(pat.re.source, pat.re.flags);
+    let m;
+    while ((m = re.exec(stem)) !== null) {
+      const val = m[1];
+      const key = pat.name + ':' + val;
+      if (seen.has(key)) continue;
+      seen.add(key);
+
+      let unit = pat.unit || '';
+      if (pat.unitIdx && m[pat.unitIdx]) {
+        unit = (pat.unitPrefix || '') + m[pat.unitIdx];
+      }
+
+      let range = '';
+      if (pat.rangeIdx && m[pat.rangeIdx]) {
+        range = (pat.ranglePrefix || '') + m[pat.rangeIdx];
+      }
+
+      // First, check if m[0] itself contains a parenthetical (greedy patterns consume it)
+      if (!range) {
+        const innerParen = m[0].match(/\(([^)]+)\)/);
+        if (innerParen && /normal|baseline|expected|cutoff|target|was/i.test(innerParen[1])) {
+          range = innerParen[1].trim();
+        }
+      }
+
+      // Otherwise look ahead in the full stem
+      if (!range) {
+        const afterIdx = m.index + m[0].length;
+        const tail = stem.slice(afterIdx, afterIdx + 80);
+        const parenMatch = tail.match(/^\s*\(([^)]+)\)/);
+        if (parenMatch && /normal|baseline|expected|cutoff|target|was/i.test(parenMatch[1])) {
+          range = parenMatch[1].trim();
+        }
+      }
+
+      labs.push({ name: pat.name, value: val, unit, range });
+    }
+  }
+
+  return labs;
+}
+
+function renderLabStrip(labs) {
+  if (!labs || labs.length === 0) return '';
+  const items = labs.map(function(l) {
+    const range = l.range ? '<div class="lab-range">' + escapeStemHTML(l.range) + '</div>' : '';
+    const unit = l.unit ? ' <span class="lab-value-unit">' + escapeStemHTML(l.unit) + '</span>' : '';
+    return '<div class="lab-item"><div class="lab-name">' + escapeStemHTML(l.name) + '</div><div class="lab-value">' + escapeStemHTML(l.value) + unit + '</div>' + range + '</div>';
+  }).join('');
+  return '<div class="lab-strip"><div class="lab-strip-label">Clinical Data</div><div class="lab-row">' + items + '</div></div>';
+}
+
+function escapeStemHTML(s) {
+  const div = document.createElement('div');
+  div.textContent = String(s);
+  return div.innerHTML;
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  const labs = q.labs || extractLabs(q.stem);
+  const labStrip = renderLabStrip(labs);
+  document.getElementById('q-stem').innerHTML = labStrip + '<div>' + escapeStemHTML(q.stem) + '</div>';
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('action-row').classList.remove('has-rationale');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  document.getElementById('action-row').classList.add('has-rationale');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.deepExplanation) {
+    html += `<div class="deep-block"><strong>Deeper:</strong> ${q.deepExplanation}</div>`;
+  }
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong application of acquired newborn disorders. You are ready for this material on the final.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed scenarios below before moving on.';
+  else if (pct >= 60) msg = 'Below pass threshold. Review the missed items, retry, then re-confirm with the Knowledge Check.';
+  else msg = 'Heavy review needed. Re-read Ch 24, work through the missed items below, and try again before the final.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>

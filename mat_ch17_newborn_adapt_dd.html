@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 17 Newborn Adaptation — Deep Drill</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-soft: #14b8a6;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+      --partial: #d97706;
+      --partial-bg: #fffbeb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--purple); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 32px; margin-bottom: 20px; }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+    .start-stat { text-align: center; padding: 18px 12px; background: var(--purple-pale); border-radius: 8px; border: 1px solid var(--line); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--purple); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing: 0.05em; text-transform: uppercase; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500; padding: 12px 28px; border-radius: 100px; border: none; cursor: pointer; background: var(--purple); color: white; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: var(--muted); cursor: not-allowed; opacity: 0.5; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .lab-strip { margin-bottom: 18px; padding: 12px 14px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; border-left: 3px solid var(--teal); }
+    .lab-strip-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+    .lab-row { display: flex; flex-wrap: wrap; gap: 12px 18px; }
+    .lab-item { display: flex; flex-direction: column; gap: 2px; min-width: 90px; }
+    .lab-name { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.04em; }
+    .lab-value { font-size: 14px; color: var(--ink); font-weight: 600; }
+    .lab-value-unit { font-weight: 400; color: var(--muted); font-size: 11px; }
+    .lab-range { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 1px; }
+    .btn-row.sticky-row { position: sticky; bottom: 12px; background: var(--card); padding-top: 12px; padding-bottom: 4px; margin-top: 18px; z-index: 10; border-top: 1px solid transparent; }
+    .btn-row.sticky-row.has-rationale { border-top-color: var(--line); padding-top: 14px; }
+
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--purple); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--purple); background: var(--purple-pale); }
+    .option.selected { border-color: var(--purple); background: var(--purple-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--purple); color: white; border-color: var(--purple); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--purple-pale); border-left: 3px solid var(--purple); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--purple); color: white; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .deep-block { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); font-size: 13px; line-height: 1.6; color: var(--ink-soft); }
+    .deep-block strong { color: var(--navy); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--purple); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
+<div class="container">
+
+<div id="start-screen">
+  <div class="eyebrow">Deep Drill · Chapter 17</div>
+  <h1>Newborn Adaptation</h1>
+  <p class="tagline">Application scenarios: identifying heat loss mechanisms in real situations, prioritizing care during the golden hour, recognizing abnormal vital signs, calculating Apgar scores, and supporting extrauterine transition. NCLEX-Next-Gen difficulty.</p>
+  <div class="start-card">
+    <div class="start-stats">
+      <div class="start-stat"><span class="start-stat-num">15</span><span class="start-stat-label">Questions</span></div>
+      <div class="start-stat"><span class="start-stat-num">App</span><span class="start-stat-label">Level</span></div>
+      <div class="start-stat"><span class="start-stat-num">Deep</span><span class="start-stat-label">Rationale</span></div>
+    </div>
+    <p style="margin-bottom: 20px; color: var(--ink-soft);">Each question requires applying knowledge to a clinical scenario. Rationales include both the why and the underlying mechanism.</p>
+    <button class="btn" onclick="begin()">Begin Drill</button>
+  </div>
+</div>
+
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 15</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row sticky-row" id="action-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Deep Drill</div>
+    <h1>Newborn Adaptation</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 15 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Drill</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    topic: "Heat Loss Prevention",
+    confirmed: false,
+    type: "standard",
+    stem: "Immediately after birth, a newborn is wet, the delivery room is cool, and the metal scale is at room temperature. Which is the FIRST nursing intervention to prevent heat loss?",
+    options: [
+      "Place the newborn directly on the cold scale to obtain weight",
+      "Dry the newborn thoroughly with warm towels and remove wet linens",
+      "Wait until the cord is clamped before any drying or warming",
+      "Bathe the newborn immediately in warm water to clean off blood"
+    ],
+    answer: 1,
+    concept: "First Heat Loss Action",
+    rationale: "The FIRST action to prevent heat loss is to DRY the newborn thoroughly with warm towels and remove wet linens. This addresses EVAPORATIVE heat loss — the largest immediate threat. Drying takes priority over weighing or bathing.",
+    deepExplanation: "Standard newborn warming sequence: (1) dry thoroughly + remove wet linens, (2) skin-to-skin with mother (or radiant warmer if separated), (3) warm hat, (4) warm scale/equipment before contact, (5) keep room warm and avoid drafts. The first 30 minutes is when newborns are most vulnerable to cold stress.",
+    others: {
+      "0": "Cold scale = conductive heat loss. Drying comes first; warm the scale before use.",
+      "2": "Drying is done immediately; cord clamping is separate.",
+      "3": "Bath is delayed (often 24+ hours); never the first intervention."
+    }
+  },
+  {
+    topic: "Heat Loss ID",
+    confirmed: false,
+    type: "standard",
+    stem: "A nurse moves a newborn’s crib next to a cool exterior wall. Within 30 minutes, the newborn’s temperature drops to 36.2°C (97.2°F). Which heat loss mechanism PRIMARILY caused this drop?",
+    options: [
+      "Conduction — from direct contact with the cold wall",
+      "Convection — from circulating cool air around the crib",
+      "Radiation — from heat loss to the cool wall surface",
+      "Evaporation — from moist skin surface"
+    ],
+    answer: 2,
+    concept: "Radiation Identification",
+    rationale: "RADIATION is heat loss to a cooler nearby surface NOT in direct contact. The cool exterior wall absorbs heat from the newborn across the airspace, even though they are not touching. Move the crib away from cool walls and windows to prevent.",
+    deepExplanation: "Radiation differs from conduction: conduction REQUIRES direct contact (e.g., baby on cold scale). Radiation does NOT — it works through space (e.g., baby near cold window). Both cool wall and cool window are common radiation sources in maternity rooms.",
+    others: {
+      "0": "Conduction requires the newborn to be touching the wall.",
+      "1": "Convection requires moving air; this scenario describes a stationary cool surface.",
+      "3": "Evaporation requires liquid → vapor; the temperature drop here is not from moisture."
+    }
+  },
+  {
+    topic: "Heat Loss + Drying",
+    confirmed: false,
+    type: "standard",
+    stem: "After birth, a newborn is left wet for 5 minutes while the staff manages the placenta. The infant’s temperature drops from 37.0°C to 36.0°C. Which mechanism caused this rapid loss?",
+    options: [
+      "Convection from the air conditioning",
+      "Radiation from the cool walls",
+      "Conduction from the warming bed surface",
+      "Evaporation as amniotic fluid converts to vapor"
+    ],
+    answer: 3,
+    concept: "Evaporation Cause",
+    rationale: "EVAPORATION (liquid → vapor) is the dominant heat loss mechanism for a wet newborn. Even on a warm surface, a wet newborn loses heat rapidly as amniotic fluid evaporates. Drying immediately at birth is the most effective single intervention.",
+    deepExplanation: "Evaporation requires energy (heat) to convert liquid to vapor. That energy comes from the baby’s body. The wetter the baby and the drier the air, the more rapid the heat loss. For preterms with thin skin and limited brown fat, evaporative loss is even more dangerous and can rapidly cause cold stress.",
+    others: {
+      "0": "Convection is real but not the dominant loss with a wet newborn.",
+      "1": "Radiation alone wouldn’t drop temperature this rapidly.",
+      "2": "Conduction from a warming bed would actually GAIN heat for the newborn."
+    }
+  },
+  {
+    topic: "Apgar Calculation",
+    confirmed: false,
+    type: "standard",
+    stem: "At 1 minute, a newborn shows: HR 130 bpm, strong cry, active flexion of all extremities, vigorous cough with suctioning, and bluish hands and feet with pink trunk. What is the 1-minute Apgar score?",
+    options: [
+      "5 — moderate depression requiring intervention",
+      "7 — reassuring within the normal score range",
+      "10 — perfect score with no abnormalities",
+      "9 — reassuring with minor finding"
+    ],
+    answer: 3,
+    concept: "Apgar Calculation Practice",
+    rationale: "Scoring: Appearance (acrocyanosis = pink trunk, blue extremities) = 1; Pulse (>100) = 2; Grimace (vigorous cough with stimulation) = 2; Activity (active flexion) = 2; Respiratory (strong cry) = 2. Total = 1+2+2+2+2 = 9. Reassuring with the only minor finding being acrocyanosis (normal in the first 24–48 hours).",
+    deepExplanation: "Apgar scoring rubric: Appearance — 0 blue/pale, 1 acrocyanosis, 2 fully pink. Pulse — 0 absent, 1 <100, 2 >100. Grimace — 0 no response, 1 grimace, 2 vigorous cry/cough/sneeze. Activity — 0 limp, 1 some flexion, 2 active motion. Respiratory — 0 absent, 1 weak/irregular cry, 2 strong cry. Score 7–10 = reassuring, 4–6 = moderately depressed, 0–3 = severely depressed.",
+    others: {
+      "0": "Score of 5 would require significant depression in multiple parameters.",
+      "1": "Score of 7 would require deeper depression than this scenario shows.",
+      "2": "Perfect score of 10 requires fully pink — acrocyanosis brings this down to 9."
+    }
+  },
+  {
+    topic: "5-Minute Apgar",
+    confirmed: false,
+    type: "standard",
+    stem: "A newborn has a 5-minute Apgar score of 5. The MOST appropriate nursing action is to:",
+    options: [
+      "Document and continue routine care",
+      "Prepare the baby for routine discharge with mom",
+      "Notify family that the baby is unlikely to survive",
+      "Continue resuscitation efforts and reassess at 10 minutes"
+    ],
+    answer: 3,
+    concept: "5-Min Apgar <7 Action",
+    rationale: "If the 5-minute Apgar is <7, continued resuscitation efforts and reassessment at 10 minutes are required. A score of 5 indicates moderate depression. Most newborns improve with the standard support (warmth, drying, stimulation, suctioning, oxygen if needed).",
+    deepExplanation: "Apgar <7 at 5 minutes triggers continued assessment until the score reaches 7+. Persistently low scores correlate with adverse outcomes but a single low Apgar does not predict long-term outcome. Apgars are a snapshot of response to extrauterine transition.",
+    others: {
+      "0": "Apgar 5 is not normal — cannot be routine care.",
+      "1": "Cannot discharge a newborn with depressed Apgar.",
+      "2": "A 5-minute Apgar of 5 does not predict death; many recover with support."
+    }
+  },
+  {
+    topic: "Newborn VS Abnormal",
+    confirmed: false,
+    type: "standard",
+    stem: "A 12-hour-old newborn at rest has the following vital signs: T 36.2°C (97.2°F), HR 130, RR 72, BP 60/35. Which finding is MOST concerning?",
+    options: [
+      "Temperature 36.2°C — mild hypothermia, not most concerning",
+      "Heart rate 130 — within normal range for an infant of this age",
+      "Respiratory rate 72 at rest — tachypnea suggesting distress",
+      "Blood pressure 60/35 — within normal range for newborn"
+    ],
+    answer: 2,
+    concept: "Tachypnea Recognition",
+    rationale: "Respiratory rate 72 at rest is TACHYPNEA (normal 30–60 at rest). This is the most concerning finding because it suggests respiratory distress — possible transient tachypnea of the newborn (TTN), respiratory distress syndrome, infection, or congenital cardiac disease. The other VS are mildly off but RR 72 demands evaluation.",
+    deepExplanation: "Other respiratory distress signs: nasal flaring, retractions (intercostal, subcostal, sternal), grunting, cyanosis, and silverman score elements. Persistent RR >60 at rest beyond the first 1–2 hours = pathologic. Common cause: TTN from retained fetal lung fluid, especially after C-section. Workup: pulse oximetry, blood gas, CXR.",
+    others: {
+      "0": "Temperature 36.2°C is mildly low but not the most concerning.",
+      "1": "HR 130 is normal.",
+      "3": "BP 60/35 is normal for a newborn."
+    }
+  },
+  {
+    topic: "Cold Stress",
+    confirmed: false,
+    type: "standard",
+    stem: "A newborn with a temperature of 35.8°C (96.4°F) is at risk for which complication of COLD STRESS?",
+    options: [
+      "Hypoglycemia",
+      "Hypertension",
+      "Hyperglycemia",
+      "Hyperthermia"
+    ],
+    answer: 0,
+    concept: "Cold Stress → Hypoglycemia",
+    rationale: "Cold stress causes the newborn to use brown fat and glucose to generate heat (non-shivering thermogenesis). This rapidly depletes glucose stores, leading to HYPOGLYCEMIA. It also increases oxygen demand (causing respiratory distress) and can cause metabolic acidosis.",
+    deepExplanation: "Newborn glucose threshold: <40–45 mg/dL is hypoglycemia in the first 24 hours. Cold stress + sepsis + maternal diabetes are top causes of hypoglycemia. Signs: jitteriness, lethargy, poor feeding, hypotonia, apnea, seizures. Treatment: warming, early feeding, IV dextrose if symptomatic or persistently low.",
+    others: {
+      "1": "Cold stress does not cause hypertension.",
+      "2": "Cold stress depletes glucose, leading to hypo, not hyperglycemia.",
+      "3": "Cold stress causes hypothermia, not hyperthermia."
+    }
+  },
+  {
+    topic: "Skin-to-Skin",
+    confirmed: false,
+    type: "standard",
+    stem: "Which evidence-based intervention BEST supports the four extrauterine transitions during the golden hour?",
+    options: [
+      "Immediate routine bath in warm water and a pacifier",
+      "Skin-to-skin contact with the mother and early breastfeeding",
+      "Vigorous suctioning of the airway and oral cavity",
+      "Routine separation from the mother for assessment in the nursery"
+    ],
+    answer: 1,
+    concept: "Skin-to-Skin Benefits",
+    rationale: "SKIN-TO-SKIN contact with the mother during the golden hour supports thermoregulation (mother’s skin warms baby), respiratory transition (baby breathes more easily), glucose stability (early breastfeeding releases colostrum), and bonding/breastfeeding initiation. This is the gold standard.",
+    deepExplanation: "Skin-to-skin (kangaroo care): warmer baby (less cold stress), more stable glucose, less crying, better breastfeeding latch, decreased maternal anxiety, and earlier onset of breastfeeding. Recommended for ALL stable newborns immediately after birth and continued through the golden hour and beyond.",
+    others: {
+      "0": "Bathing is delayed; pacifiers are not first-line and can interfere with breastfeeding.",
+      "2": "Routine vigorous suction is not recommended in healthy newborns.",
+      "3": "Routine separation is contrary to evidence-based golden-hour care."
+    }
+  },
+  {
+    topic: "Heat Conservation Mistake",
+    confirmed: false,
+    type: "standard",
+    stem: "A nurse is bathing a stable 30-minute-old newborn under a radiant warmer. Which is the BIGGEST concern with this practice?",
+    options: [
+      "Bathing should be delayed — wait until temperature is stable and ideally 24+ hours",
+      "Bathing should be done in cool water to stimulate the newborn’s respirations",
+      "Bathing should always be done in the parent’s arms for safety reasons",
+      "Bathing immediately after birth supports thermoregulation transition"
+    ],
+    answer: 0,
+    concept: "Bath Timing",
+    rationale: "Bathing should NOT be done immediately after birth. Current best practice is to delay bathing until the newborn’s temperature is stable AND ideally 24+ hours after birth. Early bathing causes rapid heat loss (evaporation), and the vernix caseosa provides protective benefits.",
+    deepExplanation: "Delayed bathing benefits: thermal stability, preserved vernix (antimicrobial, hydrating), better breastfeeding initiation, reduced hypothermia risk. WHO recommends waiting at least 24 hours unless contraindicated (e.g., HIV-positive mother, blood-borne pathogen exposure where partial wipe-down is appropriate).",
+    others: {
+      "1": "Cool water is dangerous — worsens hypothermia.",
+      "2": "Bathing in arms is not standard; bath is delayed altogether.",
+      "3": "Bathing UNDERMINES thermoregulation in the immediate postpartum period."
+    }
+  },
+  {
+    topic: "Glucose Stability",
+    confirmed: false,
+    type: "standard",
+    stem: "A newborn shows jitteriness, weak cry, and poor feeding. Blood glucose is 32 mg/dL (normal ≥40–45 mg/dL in newborns). Which is the priority intervention?",
+    options: [
+      "Wait one hour and recheck the glucose without any intervention",
+      "Initiate feeding now and recheck glucose; IV dextrose if needed",
+      "Provide a bath in warm water to stimulate the newborn’s metabolism",
+      "Administer regular insulin subcutaneously to stabilize glucose levels"
+    ],
+    answer: 1,
+    concept: "Hypoglycemia Treatment",
+    rationale: "Newborn hypoglycemia (<40–45 mg/dL with symptoms) is treated with FEEDING first. Initiate breastfeeding or formula, then recheck. If unable to feed orally OR if symptomatic and persistently low, give IV dextrose (D10W bolus and infusion). Recheck within 30–60 minutes.",
+    deepExplanation: "Newborn glucose thresholds: <40 mg/dL (first 24h) or <45 mg/dL (after 24h) is hypoglycemia. Symptomatic hypoglycemia is more urgent than asymptomatic. Top causes: cold stress, IDM (infant of diabetic mother), sepsis, prematurity, IUGR. Standard glucose check protocol for at-risk infants: 30 min after first feed, then before each feed for first 12 hours.",
+    others: {
+      "0": "Waiting an hour with hypoglycemic symptoms is unsafe.",
+      "2": "Bathing worsens cold stress and depletes glucose further.",
+      "3": "Insulin is contraindicated — it would make hypoglycemia worse."
+    }
+  },
+  {
+    topic: "Respiratory Transition",
+    confirmed: false,
+    type: "standard",
+    stem: "A 2-hour-old newborn shows nasal flaring, intercostal retractions, grunting, and RR 78. Which interpretation is correct?",
+    options: [
+      "Normal newborn breathing patterns — continue routine care",
+      "Signs of respiratory distress — escalate care",
+      "Expected hyperventilation after birth — will resolve",
+      "Mild fatigue from feeding — reassess later"
+    ],
+    answer: 1,
+    concept: "Respiratory Distress Signs",
+    rationale: "Nasal flaring, intercostal retractions, grunting, and tachypnea (RR >60 at rest) are classic signs of NEWBORN RESPIRATORY DISTRESS. These require immediate escalation: pulse oximetry, blood gas, oxygen, CXR, and provider notification.",
+    deepExplanation: "Common causes: TTN (transient tachypnea of newborn from retained fetal lung fluid — most common), RDS (respiratory distress syndrome — surfactant deficiency, more common in preterms), MAS (meconium aspiration syndrome), pneumonia, congenital heart disease. Silverman score quantifies retractions, grunting, etc.",
+    others: {
+      "0": "These are NOT normal breathing patterns.",
+      "2": "Hyperventilation is not expected at 2 hours; transition should be smoother.",
+      "3": "Feeding fatigue does not produce nasal flaring + retractions + grunting."
+    }
+  },
+  {
+    topic: "Acrocyanosis",
+    confirmed: false,
+    type: "standard",
+    stem: "A newborn at 30 minutes of life shows a pink trunk and bluish hands/feet (acrocyanosis). The MOST appropriate nursing action is:",
+    options: [
+      "Notify the provider — cyanosis indicates respiratory failure",
+      "Treat with supplemental oxygen via nasal cannula immediately",
+      "Give epinephrine to improve peripheral circulation",
+      "Continue routine assessment — acrocyanosis is normal in the first 24–48 hours"
+    ],
+    answer: 3,
+    concept: "Acrocyanosis Normal",
+    rationale: "ACROCYANOSIS (blue hands/feet with pink trunk) is NORMAL in the first 24–48 hours of life and reflects immature peripheral circulation. It is NOT central cyanosis. Routine assessment is sufficient; oxygen, epinephrine, or escalation are inappropriate.",
+    deepExplanation: "Acrocyanosis vs. central cyanosis: acrocyanosis = peripheral (extremities) only; central cyanosis = lips, tongue, mucous membranes — ALWAYS abnormal and requires immediate evaluation. Apgar Appearance scoring: 0 = blue/pale all over, 1 = acrocyanosis (pink body, blue extremities), 2 = completely pink.",
+    others: {
+      "0": "Acrocyanosis is not respiratory failure; central cyanosis is.",
+      "1": "Oxygen is not warranted for normal acrocyanosis.",
+      "2": "Epinephrine is for life-threatening situations, not normal newborn findings."
+    }
+  },
+  {
+    topic: "Heat Loss Comparison",
+    confirmed: false,
+    type: "standard",
+    stem: "A nurse compares two newborns. Newborn A: bathed at 30 minutes of life. Newborn B: dried, wrapped, skin-to-skin. Which is at GREATER risk of cold stress, and why?",
+    options: [
+      "Newborn A — evaporation from bath water rapidly cools an immature infant",
+      "Newborn B — skin-to-skin doesn’t adequately maintain temperature stability",
+      "Newborn A — because bath water is colder than would be ideal at delivery",
+      "Both equally — timing of bath does not affect heat loss in either infant"
+    ],
+    answer: 0,
+    concept: "Bath vs. Skin-to-Skin",
+    rationale: "Newborn A is at GREATER risk of cold stress. Bathing a newborn within the first 30 minutes causes rapid evaporative heat loss, which the immature thermoregulation system cannot compensate for. Skin-to-skin (Newborn B) maintains temperature optimally.",
+    deepExplanation: "Newborns lack effective shivering thermogenesis and rely on non-shivering thermogenesis (brown fat metabolism), which is energy- and glucose-intensive. Cold stress → metabolic acidosis → hypoglycemia → respiratory distress. The cascade is preventable with proper warming and delayed bathing.",
+    others: {
+      "1": "Skin-to-skin is the gold standard for thermoregulation.",
+      "2": "Even warm bath water causes evaporative loss; the bath itself is the issue, not water temp.",
+      "3": "Bath timing significantly affects heat loss."
+    }
+  },
+  {
+    topic: "Apgar Score Interpretation",
+    confirmed: false,
+    type: "standard",
+    stem: "A newborn at 1 minute has: HR 90, weak respiratory effort, some flexion of extremities, grimace with stimulation, and blue all over. Calculate the 1-minute Apgar score and identify the MOST urgent action:",
+    options: [
+      "Apgar 8 — routine care with no further intervention",
+      "Apgar 6 — close monitoring only without escalation",
+      "Apgar 4 — immediate resuscitation with bag-mask ventilation",
+      "Apgar 2 — prepare for terminal extubation and withdrawal"
+    ],
+    answer: 2,
+    concept: "Severely Depressed Apgar",
+    rationale: "Scoring: Appearance (blue all over) = 0; Pulse (HR 90, <100) = 1; Grimace (response to stimulation) = 1; Activity (some flexion) = 1; Respiratory (weak) = 1. Total = 0+1+1+1+1 = 4. Apgar 4–6 = moderately depressed; requires immediate resuscitation per NRP guidelines (warm, dry, stimulate, position, suction, PPV if needed).",
+    deepExplanation: "NRP (Neonatal Resuscitation Program) algorithm: at 30 seconds reassess; if HR <100 OR labored breathing/cyanosis, begin positive pressure ventilation (PPV); if HR <60 after 30 sec PPV, start chest compressions + IV epinephrine. Apgar is NOT used to guide resuscitation — the NRP algorithm is. Apgar describes status; NRP drives action.",
+    others: {
+      "0": "Apgar 8 would require near-normal findings.",
+      "1": "Apgar 6 is moderate, not the score for these findings.",
+      "3": "Apgar 2 with depression alive does NOT mean terminal extubation."
+    }
+  },
+  {
+    topic: "Heat Loss Combined",
+    confirmed: false,
+    type: "standard",
+    stem: "A newborn is being assessed in a delivery room with the air conditioner directly above. The infant has been dried but is being weighed on a cold scale. Which heat loss mechanisms are occurring SIMULTANEOUSLY?",
+    options: [
+      "Conduction (cold scale) and convection (air movement)",
+      "Evaporation only — the baby is wet",
+      "Radiation only — from the cool walls",
+      "No heat loss is occurring — the baby is dry"
+    ],
+    answer: 0,
+    concept: "Multiple Heat Loss Mechanisms",
+    rationale: "TWO mechanisms are occurring at once: CONDUCTION (cold scale = direct contact loss) AND CONVECTION (AC air moving over the newborn = air-current loss). Both can be prevented — warm the scale before placement; shield the newborn from drafts.",
+    deepExplanation: "Real-world heat loss is rarely from a single source. Recognition of multiple simultaneous mechanisms helps in comprehensive prevention. The four mechanisms can occur together; nursing care addresses all of them: dry the baby (evaporation), warm surfaces (conduction), block drafts (convection), move away from cold surfaces (radiation).",
+    others: {
+      "1": "Dry babies still lose heat via the other three mechanisms.",
+      "2": "Cold scale + AC = at least conduction + convection beyond radiation.",
+      "3": "Multiple losses are occurring."
+    }
+  }
+];
+
+// === QUIZ ENGINE ===
+let currentQ = 0;
+let score = 0;
+let totalPoints = 0;
+let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_mat_ch17_deepdrill';
+
+function begin() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+
+function extractLabs(stem) {
+  const labs = [];
+  const seen = new Set();
+
+  // Each pattern: { re, name, unit (or unitFromMatch index), rangeFromMatch (optional) }
+  const patterns = [
+    { re: /\bBP\s+(\d{2,3}\/\d{2,3})(?:\s*\((?:baseline|normal)\s+([\d\/<>≥≤\-–\s]+)\))?/gi, name: 'BP', unit: 'mmHg', rangeIdx: 2, ranglePrefix: 'baseline ' },
+    { re: /\bHR\s+(\d{2,3})\b/gi, name: 'HR', unit: 'bpm' },
+    { re: /\bpulse\s+(\d{2,3})\b/gi, name: 'Pulse', unit: 'bpm' },
+    { re: /\b(?:temperature|temp)[\s:]+(\d{2,3}(?:\.\d)?)\s*°?\s*([CF])\b/gi, name: 'Temp', unitIdx: 2, unitPrefix: '°' },
+    { re: /\b(?:respiratory rate|RR)\s+(\d{1,3})(?:\/min)?(?:\s*\(was\s+(\d+)\/?(?:min)?\))?\b/gi, name: 'RR', unit: '/min', rangeIdx: 2, ranglePrefix: 'was ' },
+    { re: /\b(?:urine output|UOP)\s+(\d{1,3})\s*mL\/hr(?:\s*\(was\s+(\d+)\s*mL\/hr\))?\b/gi, name: 'UOP', unit: 'mL/hr', rangeIdx: 2, ranglePrefix: 'was ' },
+    { re: /\b(?:bedside\s+)?(?:blood\s+)?glucose(?:\s+is|\s+at\s+\d+\s+(?:hour|min)\w*)?\s+(?:is\s+)?(\d{1,3})\s*mg\/dL(?:\s*\((?:normal[^)]*?|cutoff[^)]*?)\))?/gi, name: 'Glucose', unit: 'mg/dL' },
+    { re: /\b(?:hematocrit|HCT)\s+of\s+(\d{2,3})%(?:\s*\(normal[^)]*?\))?/gi, name: 'HCT', unit: '%' },
+    { re: /\bplatelets\s+([\d,]+)\s*\/?mm\u00b3?(?:\s*\(normal[^)]*?\))?/gi, name: 'Platelets', unit: '/mm³' },
+    { re: /\bAST\s+(\d{1,4})\s*U\/L(?:\s*\(normal[^)]*?\))?/gi, name: 'AST', unit: 'U/L' },
+    { re: /(?:\u03b2-hCG|beta-hCG|hCG)(?:\s+(?:is|of))?\s+([\d,]+)\s*mIU\/mL/gi, name: 'β-hCG', unit: 'mIU/mL' },
+    { re: /\bfundal height\s+of\s+(\d{1,3})\s*cm(?:\s*\((?:expected|normal)\s*~?\s*(\d{1,3})\s*cm\))?/gi, name: 'Fundal Ht', unit: 'cm', rangeIdx: 2, ranglePrefix: 'expected ~' },
+    { re: /\bAFI\s+(\d{1,3})\s*cm/gi, name: 'AFI', unit: 'cm' },
+    { re: /\b1-hour\b[^.]*?(\d{2,3})\s*mg\/dL/gi, name: '1-hr GCT', unit: 'mg/dL' },
+    { re: /(?:weighing|weighs|estimated at|EFW)\s+(\d{3,4})\s*g\b/gi, name: 'Weight', unit: 'g' }
+  ];
+
+  for (const pat of patterns) {
+    const re = new RegExp(pat.re.source, pat.re.flags);
+    let m;
+    while ((m = re.exec(stem)) !== null) {
+      const val = m[1];
+      const key = pat.name + ':' + val;
+      if (seen.has(key)) continue;
+      seen.add(key);
+
+      let unit = pat.unit || '';
+      if (pat.unitIdx && m[pat.unitIdx]) {
+        unit = (pat.unitPrefix || '') + m[pat.unitIdx];
+      }
+
+      let range = '';
+      if (pat.rangeIdx && m[pat.rangeIdx]) {
+        range = (pat.ranglePrefix || '') + m[pat.rangeIdx];
+      }
+
+      // First, check if m[0] itself contains a parenthetical (greedy patterns consume it)
+      if (!range) {
+        const innerParen = m[0].match(/\(([^)]+)\)/);
+        if (innerParen && /normal|baseline|expected|cutoff|target|was/i.test(innerParen[1])) {
+          range = innerParen[1].trim();
+        }
+      }
+
+      // Otherwise look ahead in the full stem
+      if (!range) {
+        const afterIdx = m.index + m[0].length;
+        const tail = stem.slice(afterIdx, afterIdx + 80);
+        const parenMatch = tail.match(/^\s*\(([^)]+)\)/);
+        if (parenMatch && /normal|baseline|expected|cutoff|target|was/i.test(parenMatch[1])) {
+          range = parenMatch[1].trim();
+        }
+      }
+
+      labs.push({ name: pat.name, value: val, unit, range });
+    }
+  }
+
+  return labs;
+}
+
+function renderLabStrip(labs) {
+  if (!labs || labs.length === 0) return '';
+  const items = labs.map(function(l) {
+    const range = l.range ? '<div class="lab-range">' + escapeStemHTML(l.range) + '</div>' : '';
+    const unit = l.unit ? ' <span class="lab-value-unit">' + escapeStemHTML(l.unit) + '</span>' : '';
+    return '<div class="lab-item"><div class="lab-name">' + escapeStemHTML(l.name) + '</div><div class="lab-value">' + escapeStemHTML(l.value) + unit + '</div>' + range + '</div>';
+  }).join('');
+  return '<div class="lab-strip"><div class="lab-strip-label">Clinical Data</div><div class="lab-row">' + items + '</div></div>';
+}
+
+function escapeStemHTML(s) {
+  const div = document.createElement('div');
+  div.textContent = String(s);
+  return div.innerHTML;
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  const labs = q.labs || extractLabs(q.stem);
+  const labStrip = renderLabStrip(labs);
+  document.getElementById('q-stem').innerHTML = labStrip + '<div>' + escapeStemHTML(q.stem) + '</div>';
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('action-row').classList.remove('has-rationale');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  document.getElementById('action-row').classList.add('has-rationale');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.deepExplanation) {
+    html += `<div class="deep-block"><strong>Deeper:</strong> ${q.deepExplanation}</div>`;
+  }
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong application of newborn adaptation concepts. You are ready for this material on the final.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed scenarios below before moving on.';
+  else if (pct >= 60) msg = 'Below pass threshold. Review the missed items, retry, then re-confirm with the Knowledge Check.';
+  else msg = 'Heavy review needed. Re-read Ch 17, work through the missed items below, and try again before the final.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>
