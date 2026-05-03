@@ -161,7 +161,7 @@ const questions = [
     topic: "GDM Newborn",
     confirmed: false,
     type: "standard",
-    stem: "A newborn delivered to a mother with poorly controlled GDM weighs 4500 g. Bedside glucose at 30 minutes is 28 mg/dL (normal newborn ≥40–45 mg/dL). The newborn is jittery and feeding poorly. Which is the priority intervention?",
+    stem: "A newborn delivered to a mother with poorly controlled GDM shows jitteriness and poor feeding at 30 minutes. Given the labs below, which is the FIRST priority?",
     options: [
       "Continue routine observation since these are normal newborn findings",
       "Bathe the infant in warm water to stimulate metabolism",
@@ -176,7 +176,21 @@ const questions = [
       "0": "Glucose 28 with symptoms is NOT routine — it requires intervention.",
       "1": "Bathing causes cold stress and worsens hypoglycemia.",
       "3": "IV insulin is contraindicated — makes hypoglycemia worse."
-    }
+    },
+    labs: [
+      {
+        "name": "Weight",
+        "value": "4500",
+        "unit": "g",
+        "range": "LGA"
+      },
+      {
+        "name": "Glucose",
+        "value": "28",
+        "unit": "mg/dL",
+        "range": "normal newborn ≥40-45"
+      }
+    ]
   },
   {
     topic: "Preeclampsia Severe",
@@ -224,7 +238,7 @@ const questions = [
     topic: "Mag Sulfate Toxicity",
     confirmed: false,
     type: "standard",
-    stem: "A patient on magnesium sulfate IV infusion has the following findings: deep tendon reflexes 1+ (was 2+), respiratory rate 10/min, urine output 15 mL/hr (was 60 mL/hr). The MOST appropriate FIRST action is:",
+    stem: "A patient on magnesium sulfate IV infusion has deep tendon reflexes 1+ (was 2+), respiratory rate 10/min, and the lab below. Which is the priority action?",
     options: [
       "Stop the infusion and prepare to administer calcium gluconate IV",
       "Continue the infusion at the current rate",
@@ -239,13 +253,21 @@ const questions = [
       "1": "Continuing risks cardiac arrest.",
       "2": "Decreased rate is insufficient — stop completely.",
       "3": "30-minute delay risks death."
-    }
+    },
+    labs: [
+      {
+        "name": "UOP",
+        "value": "15",
+        "unit": "mL/hr",
+        "range": "was 60"
+      }
+    ]
   },
   {
     topic: "Early Bleeding Differentiation",
     confirmed: false,
     type: "standard",
-    stem: "A 9-week pregnant patient presents with sharp right lower quadrant pain, light vaginal bleeding, and a positive pregnancy test. β-hCG is 2200 mIU/mL with no intrauterine pregnancy on transvaginal ultrasound. Which condition does the nurse suspect?",
+    stem: "A 9-week pregnant patient presents with sharp right lower quadrant pain, light vaginal bleeding, and a positive pregnancy test. Given the lab below, the nurse anticipates which diagnosis?",
     options: [
       "Normal early intrauterine pregnancy",
       "Complete spontaneous abortion",
@@ -260,13 +282,21 @@ const questions = [
       "0": "Normal IUP would show on TVUS at this hCG level.",
       "1": "Complete abortion would have hCG falling and resolved bleeding/pain.",
       "3": "Hyperemesis presents with severe nausea/vomiting, not pain + bleeding."
-    }
+    },
+    labs: [
+      {
+        "name": "β-hCG",
+        "value": "2200",
+        "unit": "mIU/mL",
+        "range": "lower than expected for gestational age"
+      }
+    ]
   },
   {
     topic: "GDM Diagnosis",
     confirmed: false,
     type: "standard",
-    stem: "A patient at 26 weeks has a 1-hour 50-g glucose challenge test result of 165 mg/dL (cutoff typically 130–140). Which is the next step?",
+    stem: "A patient at 26 weeks completes a 1-hour 50-g glucose challenge test. Given the result below, which is the next step?",
     options: [
       "Diagnose GDM and start insulin immediately",
       "Repeat the 1-hour test in 4 weeks",
@@ -281,13 +311,21 @@ const questions = [
       "0": "Single abnormal screen does not confirm GDM.",
       "1": "GDM diagnosis cannot wait 4 weeks.",
       "3": "165 is above the cutoff and requires follow-up."
-    }
+    },
+    labs: [
+      {
+        "name": "1-hr GCT",
+        "value": "165",
+        "unit": "mg/dL",
+        "range": "cutoff typically 130-140"
+      }
+    ]
   },
   {
     topic: "Preeclampsia HELLP",
     confirmed: false,
     type: "standard",
-    stem: "A patient with preeclampsia has the following labs: AST 220 U/L (normal <40), platelets 78,000/mm³ (normal 150,000–400,000), and elevated LDH. The nurse recognizes this as:",
+    stem: "A patient with preeclampsia has the labs below and reports right-upper-quadrant pain. Which condition does the nurse suspect?",
     options: [
       "HELLP syndrome",
       "Mild preeclampsia",
@@ -302,7 +340,21 @@ const questions = [
       "1": "Mild preeclampsia does not have these severe lab abnormalities.",
       "2": "These labs are clearly abnormal.",
       "3": "Cholestasis presents with elevated bile acids and pruritus, not platelet/AST changes like this."
-    }
+    },
+    labs: [
+      {
+        "name": "AST",
+        "value": "220",
+        "unit": "U/L",
+        "range": "normal <40"
+      },
+      {
+        "name": "Platelets",
+        "value": "78,000",
+        "unit": "/mm³",
+        "range": "normal 150,000-400,000"
+      }
+    ]
   },
   {
     topic: "CMV Prevention",
@@ -392,7 +444,7 @@ const questions = [
     topic: "GDM + Insulin",
     confirmed: false,
     type: "standard",
-    stem: "A patient with GDM is on insulin. She reports skipping breakfast and now has tremors, sweating, and dizziness. Glucose is 52 mg/dL. The MOST appropriate FIRST action is:",
+    stem: "A patient with GDM is on insulin. She reports skipping breakfast and now has tremors, sweating, and dizziness. Given the lab below, which is the priority action?",
     options: [
       "Hold all insulin and continue fasting until glucose normalizes",
       "Administer glucagon IM immediately as the first intervention",
@@ -407,7 +459,15 @@ const questions = [
       "0": "Holding food worsens hypoglycemia.",
       "1": "Glucagon is for unconscious or unable to swallow patients.",
       "2": "Insulin worsens hypoglycemia."
-    }
+    },
+    labs: [
+      {
+        "name": "Glucose",
+        "value": "52",
+        "unit": "mg/dL",
+        "range": "normal 70-99"
+      }
+    ]
   },
   {
     topic: "Spontaneous Abortion Types",
@@ -615,7 +675,39 @@ function extractLabs(stem) {
     { re: /\bfundal height\s+of\s+(\d{1,3})\s*cm(?:\s*\((?:expected|normal)\s*~?\s*(\d{1,3})\s*cm\))?/gi, name: 'Fundal Ht', unit: 'cm', rangeIdx: 2, ranglePrefix: 'expected ~' },
     { re: /\bAFI\s+(\d{1,3})\s*cm/gi, name: 'AFI', unit: 'cm' },
     { re: /\b1-hour\b[^.]*?(\d{2,3})\s*mg\/dL/gi, name: '1-hr GCT', unit: 'mg/dL' },
-    { re: /(?:weighing|weighs|estimated at|EFW)\s+(\d{3,4})\s*g\b/gi, name: 'Weight', unit: 'g' }
+    { re: /(?:weighing|weighs|estimated at|EFW)\s+(\d{3,4})\s*g\b/gi, name: 'Weight', unit: 'g' },
+
+    // Electrolytes
+    { re: /\b(?:sodium|Na\+?)\s+(?:level\s+)?(?:of\s+|is\s+)?(\d{2,3})\s*mEq\/L/gi, name: 'Na+', unit: 'mEq/L' },
+    { re: /\b(?:potassium|K\+?)\s+(?:level\s+)?(?:of\s+|is\s+)?(\d(?:\.\d)?)\s*mEq\/L/gi, name: 'K+', unit: 'mEq/L' },
+    { re: /\b(?:calcium|Ca\+?\+?)\s+(?:level\s+)?(?:of\s+|is\s+)?(\d{1,2}(?:\.\d)?)\s*mg\/dL/gi, name: 'Ca', unit: 'mg/dL' },
+    { re: /\b(?:magnesium|Mg\+?\+?)\s+(?:level\s+)?(?:of\s+|is\s+)?(\d(?:\.\d)?)\s*mg\/dL/gi, name: 'Mg', unit: 'mg/dL' },
+
+    // CBC additions
+    { re: /\b(?:hemoglobin|Hgb|Hb)\s+(?:of\s+|is\s+)?(\d{1,2}(?:\.\d)?)\s*(?:g\/dL)?/gi, name: 'Hgb', unit: 'g/dL' },
+    { re: /\bANC\s+(?:of\s+|is\s+)?([\d,]+)/gi, name: 'ANC', unit: '/mm³' },
+    { re: /\bWBC\s+(?:of\s+|count of\s+|is\s+)?([\d,]+(?:\.\d)?)/gi, name: 'WBC', unit: '/mm³' },
+
+    // Renal
+    { re: /\b(?:creatinine|Cr)\s+(?:of\s+)?(\d(?:\.\d{1,2})?)\s*mg\/dL/gi, name: 'Cr', unit: 'mg/dL' },
+    { re: /\bBUN\s+(?:of\s+)?(\d{1,3})(?:\s*mg\/dL)?/gi, name: 'BUN', unit: 'mg/dL' },
+
+    // Coag
+    { re: /\bINR\s+(?:of\s+|is\s+)?(\d(?:\.\d{1,2})?)/gi, name: 'INR', unit: '' },
+
+    // Acid-base (DKA)
+    { re: /\bpH\s+(?:of\s+|is\s+)?(\d(?:\.\d{1,2})?)\b/gi, name: 'pH', unit: '' },
+    { re: /\b(?:bicarb|HCO3)\s+(?:of\s+|is\s+)?(\d{1,2})\b/gi, name: 'HCO3', unit: 'mEq/L' },
+
+    // Other
+    { re: /\b(?:hemoglobin\s+)?A1[cC]\s+(?:of\s+|is\s+)?(\d{1,2}(?:\.\d)?)\s*%?/gi, name: 'A1c', unit: '%' },
+    { re: /\b(?:total\s+)?bilirubin\s+(?:of\s+|is\s+)?(\d{1,2}(?:\.\d)?)\s*mg\/dL/gi, name: 'Bilirubin', unit: 'mg/dL' },
+
+    // Osmolality
+    { re: /\b(?:serum\s+|urine\s+)?osmolality\s+(?:of\s+|is\s+)?(\d{2,3})\s*mOsm\/kg/gi, name: 'Osmolality', unit: 'mOsm/kg' },
+
+    // Specific gravity
+    { re: /\b(?:urine\s+)?specific gravity\s+(?:of\s+|is\s+)?(\d\.\d{3})/gi, name: 'Sp Gravity', unit: '' }
   ];
 
   for (const pat of patterns) {
@@ -645,12 +737,12 @@ function extractLabs(stem) {
         }
       }
 
-      // Otherwise look ahead in the full stem
+      // Otherwise look ahead in the full stem (allow optional unit text before paren)
       if (!range) {
         const afterIdx = m.index + m[0].length;
-        const tail = stem.slice(afterIdx, afterIdx + 80);
-        const parenMatch = tail.match(/^\s*\(([^)]+)\)/);
-        if (parenMatch && /normal|baseline|expected|cutoff|target|was/i.test(parenMatch[1])) {
+        const tail = stem.slice(afterIdx, afterIdx + 100);
+        const parenMatch = tail.match(/^[^()]{0,30}?\(([^)]+)\)/);
+        if (parenMatch && /normal|baseline|expected|cutoff|target|was|therapeutic|toxic/i.test(parenMatch[1])) {
           range = parenMatch[1].trim();
         }
       }
@@ -664,7 +756,11 @@ function extractLabs(stem) {
 
 function renderLabStrip(labs) {
   if (!labs || labs.length === 0) return '';
-  const items = labs.map(function(l) {
+  // Skip vitals from the strip — students should know normal ranges for these
+  const VITALS_DENYLIST = new Set(['BP', 'HR', 'Pulse', 'RR', 'Temp', 'SpO2', 'Pain']);
+  const filtered = labs.filter(function(l) { return !VITALS_DENYLIST.has(l.name); });
+  if (filtered.length === 0) return '';
+  const items = filtered.map(function(l) {
     const range = l.range ? '<div class="lab-range">' + escapeStemHTML(l.range) + '</div>' : '';
     const unit = l.unit ? ' <span class="lab-value-unit">' + escapeStemHTML(l.unit) + '</span>' : '';
     return '<div class="lab-item"><div class="lab-name">' + escapeStemHTML(l.name) + '</div><div class="lab-value">' + escapeStemHTML(l.value) + unit + '</div>' + range + '</div>';
@@ -686,7 +782,7 @@ function showQuestion() {
   document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
   const labs = q.labs || extractLabs(q.stem);
   const labStrip = renderLabStrip(labs);
-  document.getElementById('q-stem').innerHTML = labStrip + '<div>' + escapeStemHTML(q.stem) + '</div>';
+  document.getElementById('q-stem').innerHTML = '<div>' + escapeStemHTML(q.stem) + '</div>' + labStrip;
 
   const optsEl = document.getElementById('q-options');
   optsEl.innerHTML = '';

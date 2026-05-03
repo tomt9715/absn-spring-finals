@@ -51,6 +51,15 @@
     .btn:disabled { background: rgba(255,255,255,0.2); color: rgba(255,255,255,0.5); cursor: not-allowed; }
     .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
     .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .lab-strip { margin-top: 14px; margin-bottom: 18px; padding: 12px 14px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; border-left: 3px solid var(--teal); }
+    .lab-strip-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+    .lab-row { display: flex; flex-wrap: wrap; gap: 12px 18px; }
+    .lab-item { display: flex; flex-direction: column; gap: 2px; min-width: 90px; }
+    .lab-name { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.04em; }
+    .lab-value { font-size: 14px; color: var(--ink); font-weight: 600; }
+    .lab-value-unit { font-weight: 400; color: var(--muted); font-size: 11px; }
+    .lab-range { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 1px; }
+
     .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 16px; overflow: hidden; }
     .progress-fill { height: 100%; background: var(--gold); transition: width 0.4s ease; width: 0%; }
     .top-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
@@ -383,7 +392,7 @@ const questions = [
   {
     ch: "19",
     topic: "Amniotic",
-    stem: "A patient at 32 weeks has AFI of 4 cm (normal 8-25 cm). This represents:",
+    stem: "Given the lab below at 32 weeks gestation, this represents:",
     options: [
       "Polyhydramnios (excess amniotic fluid)",
       "Normal labor onset",
@@ -391,12 +400,20 @@ const questions = [
       "Oligohydramnios (deficient amniotic fluid)"
     ],
     answer: 3,
-    rationale: "OLIGOHYDRAMNIOS = AFI <5 cm. Causes: PROM, postdates, fetal renal anomalies (Potter syndrome), placental insufficiency, maternal HTN, dehydration. Risks: cord compression, fetal malformations, IUGR. Treatment: maternal hydration, treat underlying cause, may require delivery if severe. POLYHYDRAMNIOS = AFI >25 cm."
+    rationale: "OLIGOHYDRAMNIOS = AFI <5 cm. Causes: PROM, postdates, fetal renal anomalies (Potter syndrome), placental insufficiency, maternal HTN, dehydration. Risks: cord compression, fetal malformations, IUGR. Treatment: maternal hydration, treat underlying cause, may require delivery if severe. POLYHYDRAMNIOS = AFI >25 cm.",
+    labs: [
+      {
+        "name": "AFI",
+        "value": "4",
+        "unit": "cm",
+        "range": "normal 8-25"
+      }
+    ]
   },
   {
     ch: "20",
     topic: "High-Risk Preg",
-    stem: "A patient at 28 weeks has a 1-hour glucose challenge test (GCT) result of 165 mg/dL (cutoff ≥130-140). The NEXT step is:",
+    stem: "A patient at 28 weeks completes a 1-hour glucose challenge test. Given the result below, the NEXT step is:",
     options: [
       "Schedule a 3-hour glucose tolerance test (GTT) for confirmation",
       "Diagnose gestational diabetes immediately",
@@ -404,7 +421,15 @@ const questions = [
       "Repeat the GCT in 4 weeks"
     ],
     answer: 0,
-    rationale: "Abnormal 1-hour GCT (≥130-140 mg/dL): proceed to 3-HOUR GTT (100g glucose load) for confirmation. GDM diagnosed if ≥2 of 4 values exceed thresholds (fasting ≥95, 1-hr ≥180, 2-hr ≥155, 3-hr ≥140). Treatment: diet, exercise, insulin if needed."
+    rationale: "Abnormal 1-hour GCT (≥130-140 mg/dL): proceed to 3-HOUR GTT (100g glucose load) for confirmation. GDM diagnosed if ≥2 of 4 values exceed thresholds (fasting ≥95, 1-hr ≥180, 2-hr ≥155, 3-hr ≥140). Treatment: diet, exercise, insulin if needed.",
+    labs: [
+      {
+        "name": "1-hr GCT",
+        "value": "165",
+        "unit": "mg/dL",
+        "range": "cutoff ≥130-140"
+      }
+    ]
   },
   {
     ch: "20",
@@ -734,7 +759,7 @@ const questions = [
   {
     ch: "48",
     topic: "Endocrine",
-    stem: "A 6-year-old has urine output 250 mL/hr, urine specific gravity 1.001, serum sodium 152 mEq/L (normal 135-145), and intense thirst. The MOST likely diagnosis is:",
+    stem: "A 6-year-old has urine output 250 mL/hr, urine specific gravity 1.001, and intense thirst. Given the lab below, the MOST likely diagnosis is:",
     options: [
       "SIADH from CNS lesion",
       "Type 1 diabetes mellitus",
@@ -742,12 +767,20 @@ const questions = [
       "Hypothyroidism"
     ],
     answer: 2,
-    rationale: "DI: polyuria + DILUTE URINE (SG 1.001) + HYPERNATREMIA (Na 152 from water loss) + intense thirst. ADH deficiency. Treatment: DDAVP (intranasal/oral) for central DI. SIADH has OPPOSITE pattern (hyponatremia, concentrated urine)."
+    rationale: "DI: polyuria + DILUTE URINE (SG 1.001) + HYPERNATREMIA (Na 152 from water loss) + intense thirst. ADH deficiency. Treatment: DDAVP (intranasal/oral) for central DI. SIADH has OPPOSITE pattern (hyponatremia, concentrated urine).",
+    labs: [
+      {
+        "name": "Na+",
+        "value": "152",
+        "unit": "mEq/L",
+        "range": "normal 135-145"
+      }
+    ]
   },
   {
     ch: "48",
     topic: "Endocrine",
-    stem: "A child post-meningitis has Na 122 mEq/L (low), urine osmolality 850 mOsm/kg (concentrated), serum osmolality 250 (low), and weight gain of 1.5 kg in 24 hours. The MOST likely diagnosis is:",
+    stem: "A child post-meningitis has weight gain of 1.5 kg in 24 hours and the labs below. The MOST likely diagnosis is:",
     options: [
       "Diabetes insipidus",
       "Adrenal insufficiency",
@@ -755,12 +788,32 @@ const questions = [
       "Syndrome of inappropriate ADH (SIADH)"
     ],
     answer: 3,
-    rationale: "SIADH: HYPONATREMIA + CONCENTRATED URINE + LOW serum osmolality + WEIGHT GAIN (water retention). CNS infections common trigger. Treatment: FLUID RESTRICTION first-line; hypertonic saline if severe symptomatic hyponatremia (Na <120 with seizures)."
+    rationale: "SIADH: HYPONATREMIA + CONCENTRATED URINE + LOW serum osmolality + WEIGHT GAIN (water retention). CNS infections common trigger. Treatment: FLUID RESTRICTION first-line; hypertonic saline if severe symptomatic hyponatremia (Na <120 with seizures).",
+    labs: [
+      {
+        "name": "Na+",
+        "value": "122",
+        "unit": "mEq/L",
+        "range": "normal 135-145"
+      },
+      {
+        "name": "Osmolality",
+        "value": "850",
+        "unit": "mOsm/kg (urine)",
+        "range": "concentrated"
+      },
+      {
+        "name": "Osmolality",
+        "value": "250",
+        "unit": "mOsm/kg (serum)",
+        "range": "low; normal 275-295"
+      }
+    ]
   },
   {
     ch: "48",
     topic: "Endocrine",
-    stem: "A child with newly diagnosed T1DM presents with glucose 580 mg/dL (high), pH 7.18 (low), bicarb 12 (low), Kussmaul respirations. The FIRST priority is:",
+    stem: "A child with newly diagnosed T1DM presents with positive ketones, Kussmaul respirations, and the labs below. The FIRST priority is:",
     options: [
       "IV fluid resuscitation (NS 10 mL/kg bolus)",
       "IV insulin bolus to lower glucose rapidly",
@@ -768,12 +821,32 @@ const questions = [
       "Subcutaneous lispro insulin"
     ],
     answer: 0,
-    rationale: "DKA management: FIRST priority is FLUID RESUSCITATION (NS 10 mL/kg bolus). Patient is severely dehydrated. Insulin starts at 0.05-0.1 unit/kg/hr after fluids — NO BOLUS (cerebral edema risk). Avoid bicarbonate. Monitor potassium closely."
+    rationale: "DKA management: FIRST priority is FLUID RESUSCITATION (NS 10 mL/kg bolus). Patient is severely dehydrated. Insulin starts at 0.05-0.1 unit/kg/hr after fluids — NO BOLUS (cerebral edema risk). Avoid bicarbonate. Monitor potassium closely.",
+    labs: [
+      {
+        "name": "Glucose",
+        "value": "580",
+        "unit": "mg/dL",
+        "range": "normal 70-99"
+      },
+      {
+        "name": "pH",
+        "value": "7.18",
+        "unit": "",
+        "range": "normal 7.35-7.45"
+      },
+      {
+        "name": "HCO3",
+        "value": "12",
+        "unit": "mEq/L",
+        "range": "normal 22-28"
+      }
+    ]
   },
   {
     ch: "48",
     topic: "Endocrine",
-    stem: "A 7-year-old with T1DM is found at home with glucose 38 mg/dL (low), conscious but drowsy. The FIRST action is:",
+    stem: "A 7-year-old with T1DM is found at home conscious but drowsy. Given the lab below, the FIRST action is:",
     options: [
       "Administer glucagon IM and call 911",
       "Give 15g of fast-acting carbohydrate (4 oz juice), recheck in 15 min",
@@ -781,7 +854,15 @@ const questions = [
       "Take to ER without intervening"
     ],
     answer: 1,
-    rationale: "CONSCIOUS hypoglycemia: 15-15 RULE — 15g fast-acting carb (juice, glucose tabs), recheck in 15 min. Repeat if still <70. Then complex carb + protein snack. GLUCAGON only if UNCONSCIOUS or unable to swallow."
+    rationale: "CONSCIOUS hypoglycemia: 15-15 RULE — 15g fast-acting carb (juice, glucose tabs), recheck in 15 min. Repeat if still <70. Then complex carb + protein snack. GLUCAGON only if UNCONSCIOUS or unable to swallow.",
+    labs: [
+      {
+        "name": "Glucose",
+        "value": "38",
+        "unit": "mg/dL",
+        "range": "normal 70-99"
+      }
+    ]
   },
   {
     ch: "48",
@@ -916,7 +997,7 @@ const questions = [
   {
     ch: "50",
     topic: "Behavioral",
-    stem: "A 17-year-old with normal weight presents with K 2.8 (low), metabolic alkalosis, dental erosion, and parotid swelling. Which diagnosis is MOST likely?",
+    stem: "A 17-year-old with normal weight presents with metabolic alkalosis, dental erosion, parotid swelling, and the lab below. Which diagnosis is MOST likely?",
     options: [
       "Bulimia nervosa with self-induced vomiting",
       "Anorexia nervosa with severe restriction",
@@ -924,7 +1005,15 @@ const questions = [
       "Acute viral gastroenteritis"
     ],
     answer: 0,
-    rationale: "Normal weight + HYPOKALEMIA + metabolic alkalosis + DENTAL EROSION + PAROTID SWELLING = BULIMIA NERVOSA with vomiting. Loss of HCl (alkalosis), K loss (hypokalemia). Stomach acid erodes teeth. \"Chipmunk cheeks\" from chronic vomiting."
+    rationale: "Normal weight + HYPOKALEMIA + metabolic alkalosis + DENTAL EROSION + PAROTID SWELLING = BULIMIA NERVOSA with vomiting. Loss of HCl (alkalosis), K loss (hypokalemia). Stomach acid erodes teeth. \"Chipmunk cheeks\" from chronic vomiting.",
+    labs: [
+      {
+        "name": "K+",
+        "value": "2.8",
+        "unit": "mEq/L",
+        "range": "normal 3.5-5.0"
+      }
+    ]
   },
   {
     ch: "50",
@@ -1109,12 +1198,256 @@ function begin() {
   showQuestion();
 }
 
+function extractLabs(stem) {
+  const labs = [];
+  const seen = new Set();
+
+  // Each pattern: { re, name, unit (or unitFromMatch index), rangeFromMatch (optional) }
+  const patterns = [
+    { re: /\bBP\s+(\d{2,3}\/\d{2,3})(?:\s*\((?:baseline|normal)\s+([\d\/<>≥≤\-–\s]+)\))?/gi, name: 'BP', unit: 'mmHg', rangeIdx: 2, ranglePrefix: 'baseline ' },
+    { re: /\bHR\s+(\d{2,3})\b/gi, name: 'HR', unit: 'bpm' },
+    { re: /\bpulse\s+(\d{2,3})\b/gi, name: 'Pulse', unit: 'bpm' },
+    { re: /\b(?:temperature|temp)[\s:]+(\d{2,3}(?:\.\d)?)\s*°?\s*([CF])\b/gi, name: 'Temp', unitIdx: 2, unitPrefix: '°' },
+    { re: /\b(?:respiratory rate|RR)\s+(\d{1,3})(?:\/min)?(?:\s*\(was\s+(\d+)\/?(?:min)?\))?\b/gi, name: 'RR', unit: '/min', rangeIdx: 2, ranglePrefix: 'was ' },
+    { re: /\b(?:urine output|UOP)\s+(\d{1,3})\s*mL\/hr(?:\s*\(was\s+(\d+)\s*mL\/hr\))?\b/gi, name: 'UOP', unit: 'mL/hr', rangeIdx: 2, ranglePrefix: 'was ' },
+    { re: /\b(?:bedside\s+)?(?:blood\s+)?glucose(?:\s+is|\s+at\s+\d+\s+(?:hour|min)\w*)?\s+(?:is\s+)?(\d{1,3})\s*mg\/dL(?:\s*\((?:normal[^)]*?|cutoff[^)]*?)\))?/gi, name: 'Glucose', unit: 'mg/dL' },
+    { re: /\b(?:hematocrit|HCT)\s+of\s+(\d{2,3})%(?:\s*\(normal[^)]*?\))?/gi, name: 'HCT', unit: '%' },
+    { re: /\bplatelets\s+([\d,]+)\s*\/?mm\u00b3?(?:\s*\(normal[^)]*?\))?/gi, name: 'Platelets', unit: '/mm³' },
+    { re: /\bAST\s+(\d{1,4})\s*U\/L(?:\s*\(normal[^)]*?\))?/gi, name: 'AST', unit: 'U/L' },
+    { re: /(?:\u03b2-hCG|beta-hCG|hCG)(?:\s+(?:is|of))?\s+([\d,]+)\s*mIU\/mL/gi, name: 'β-hCG', unit: 'mIU/mL' },
+    { re: /\bfundal height\s+of\s+(\d{1,3})\s*cm(?:\s*\((?:expected|normal)\s*~?\s*(\d{1,3})\s*cm\))?/gi, name: 'Fundal Ht', unit: 'cm', rangeIdx: 2, ranglePrefix: 'expected ~' },
+    { re: /\bAFI\s+(\d{1,3})\s*cm/gi, name: 'AFI', unit: 'cm' },
+    { re: /\b1-hour\b[^.]*?(\d{2,3})\s*mg\/dL/gi, name: '1-hr GCT', unit: 'mg/dL' },
+    { re: /(?:weighing|weighs|estimated at|EFW)\s+(\d{3,4})\s*g\b/gi, name: 'Weight', unit: 'g' },
+
+    // Electrolytes
+    { re: /\b(?:sodium|Na\+?)\s+(?:level\s+)?(?:of\s+|is\s+)?(\d{2,3})\s*mEq\/L/gi, name: 'Na+', unit: 'mEq/L' },
+    { re: /\b(?:potassium|K\+?)\s+(?:level\s+)?(?:of\s+|is\s+)?(\d(?:\.\d)?)\s*mEq\/L/gi, name: 'K+', unit: 'mEq/L' },
+    { re: /\b(?:calcium|Ca\+?\+?)\s+(?:level\s+)?(?:of\s+|is\s+)?(\d{1,2}(?:\.\d)?)\s*mg\/dL/gi, name: 'Ca', unit: 'mg/dL' },
+    { re: /\b(?:magnesium|Mg\+?\+?)\s+(?:level\s+)?(?:of\s+|is\s+)?(\d(?:\.\d)?)\s*mg\/dL/gi, name: 'Mg', unit: 'mg/dL' },
+
+    // CBC additions
+    { re: /\b(?:hemoglobin|Hgb|Hb)\s+(?:of\s+|is\s+)?(\d{1,2}(?:\.\d)?)\s*(?:g\/dL)?/gi, name: 'Hgb', unit: 'g/dL' },
+    { re: /\bANC\s+(?:of\s+|is\s+)?([\d,]+)/gi, name: 'ANC', unit: '/mm³' },
+    { re: /\bWBC\s+(?:of\s+|count of\s+|is\s+)?([\d,]+(?:\.\d)?)/gi, name: 'WBC', unit: '/mm³' },
+
+    // Renal
+    { re: /\b(?:creatinine|Cr)\s+(?:of\s+)?(\d(?:\.\d{1,2})?)\s*mg\/dL/gi, name: 'Cr', unit: 'mg/dL' },
+    { re: /\bBUN\s+(?:of\s+)?(\d{1,3})(?:\s*mg\/dL)?/gi, name: 'BUN', unit: 'mg/dL' },
+
+    // Coag
+    { re: /\bINR\s+(?:of\s+|is\s+)?(\d(?:\.\d{1,2})?)/gi, name: 'INR', unit: '' },
+
+    // Acid-base (DKA)
+    { re: /\bpH\s+(?:of\s+|is\s+)?(\d(?:\.\d{1,2})?)\b/gi, name: 'pH', unit: '' },
+    { re: /\b(?:bicarb|HCO3)\s+(?:of\s+|is\s+)?(\d{1,2})\b/gi, name: 'HCO3', unit: 'mEq/L' },
+
+    // Other
+    { re: /\b(?:hemoglobin\s+)?A1[cC]\s+(?:of\s+|is\s+)?(\d{1,2}(?:\.\d)?)\s*%?/gi, name: 'A1c', unit: '%' },
+    { re: /\b(?:total\s+)?bilirubin\s+(?:of\s+|is\s+)?(\d{1,2}(?:\.\d)?)\s*mg\/dL/gi, name: 'Bilirubin', unit: 'mg/dL' },
+
+    // Osmolality
+    { re: /\b(?:serum\s+|urine\s+)?osmolality\s+(?:of\s+|is\s+)?(\d{2,3})\s*mOsm\/kg/gi, name: 'Osmolality', unit: 'mOsm/kg' },
+
+    // Specific gravity
+    { re: /\b(?:urine\s+)?specific gravity\s+(?:of\s+|is\s+)?(\d\.\d{3})/gi, name: 'Sp Gravity', unit: '' }
+  ];
+
+  for (const pat of patterns) {
+    const re = new RegExp(pat.re.source, pat.re.flags);
+    let m;
+    while ((m = re.exec(stem)) !== null) {
+      const val = m[1];
+      const key = pat.name + ':' + val;
+      if (seen.has(key)) continue;
+      seen.add(key);
+
+      let unit = pat.unit || '';
+      if (pat.unitIdx && m[pat.unitIdx]) {
+        unit = (pat.unitPrefix || '') + m[pat.unitIdx];
+      }
+
+      let range = '';
+      if (pat.rangeIdx && m[pat.rangeIdx]) {
+        range = (pat.ranglePrefix || '') + m[pat.rangeIdx];
+      }
+
+      // First, check if m[0] itself contains a parenthetical (greedy patterns consume it)
+      if (!range) {
+        const innerParen = m[0].match(/\(([^)]+)\)/);
+        if (innerParen && /normal|baseline|expected|cutoff|target|was/i.test(innerParen[1])) {
+          range = innerParen[1].trim();
+        }
+      }
+
+      // Otherwise look ahead in the full stem (allow optional unit text before paren)
+      if (!range) {
+        const afterIdx = m.index + m[0].length;
+        const tail = stem.slice(afterIdx, afterIdx + 100);
+        const parenMatch = tail.match(/^[^()]{0,30}?\(([^)]+)\)/);
+        if (parenMatch && /normal|baseline|expected|cutoff|target|was|therapeutic|toxic/i.test(parenMatch[1])) {
+          range = parenMatch[1].trim();
+        }
+      }
+
+      labs.push({ name: pat.name, value: val, unit, range });
+    }
+  }
+
+  return labs;
+}
+
+function renderLabStrip(labs) {
+  if (!labs || labs.length === 0) return '';
+  // Skip vitals from the strip — students should know normal ranges for these
+  const VITALS_DENYLIST = new Set(['BP', 'HR', 'Pulse', 'RR', 'Temp', 'SpO2', 'Pain']);
+  const filtered = labs.filter(function(l) { return !VITALS_DENYLIST.has(l.name); });
+  if (filtered.length === 0) return '';
+  const items = filtered.map(function(l) {
+    const range = l.range ? '<div class="lab-range">' + escapeStemHTML(l.range) + '</div>' : '';
+    const unit = l.unit ? ' <span class="lab-value-unit">' + escapeStemHTML(l.unit) + '</span>' : '';
+    return '<div class="lab-item"><div class="lab-name">' + escapeStemHTML(l.name) + '</div><div class="lab-value">' + escapeStemHTML(l.value) + unit + '</div>' + range + '</div>';
+  }).join('');
+  return '<div class="lab-strip"><div class="lab-strip-label">Clinical Data</div><div class="lab-row">' + items + '</div></div>';
+}
+
+function escapeStemHTML(s) {
+  const div = document.createElement('div');
+  div.textContent = String(s);
+  return div.innerHTML;
+}
+
+function showQuestion() {
+  selectedIdx = null;
+  const q = questions[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  const labs = q.labs || extractLabs(q.stem);
+  const labStrip = renderLabStrip(labs);
+  document.getElementById('q-stem').innerHTML = '<div>' + escapeStemHTML(q.stem) + '</div>' + labStrip;
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('action-row').classList.remove('has-rationale');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
+}
+
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function submitAnswer() {
+  if (selectedIdx === null) return;
+  const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
+  const opts = document.querySelectorAll('.option');
+
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
+
+  if (correct) {
+    score++;
+    totalPoints++;
+  }
+  answers.push({ q, selectedIdx, correct });
+
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  document.getElementById('action-row').classList.add('has-rationale');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.deepExplanation) {
+    html += `<div class="deep-block"><strong>Deeper:</strong> ${q.deepExplanation}</div>`;
+  }
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
+    });
+    html += `</ul>`;
+  }
+  r.innerHTML = html;
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+
+  const pct = Math.round((totalPoints / TOTAL) * 100);
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong application of high-risk pregnancy. You are ready for this material on the final.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed scenarios below before moving on.';
+  else if (pct >= 60) msg = 'Below pass threshold. Review the missed items, retry, then re-confirm with the Knowledge Check.';
+  else msg = 'Heavy review needed. Re-read Ch 20, work through the missed items below, and try again before the final.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
+  if (missed.length > 0) {
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
+    missed.forEach(m => {
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
+      </div>`;
+    });
+    document.getElementById('missed-section').innerHTML = html;
+  }
+}
+</script>
+</body>
+</html>
+
 function showQuestion() {
   const q = questions[currentQ];
   document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
   document.getElementById('q-chapter').textContent = `Ch ${q.ch} · ${q.topic}`;
   document.getElementById('progress').style.width = `${((currentQ + 1) / TOTAL) * 100}%`;
-  document.getElementById('q-stem').textContent = q.stem;
+  const __labs = q.labs || extractLabs(q.stem);
+  const __labStrip = renderLabStrip(__labs);
+  document.getElementById('q-stem').innerHTML = '<div>' + escapeStemHTML(q.stem) + '</div>' + __labStrip;
 
   const optsEl = document.getElementById('q-options');
   optsEl.innerHTML = '';
