@@ -232,10 +232,10 @@ const questions = [
     type: "standard",
     stem: "A patient newly diagnosed with COPD has post-bronchodilator FEV₁ 45% predicted, with mMRC dyspnea grade 2 (shortness of breath when hurrying or walking up a slight hill). The patient has had 1 exacerbation in the past year not requiring hospitalization. Which GOLD classification fits?",
     options: [
-      "GOLD 1 (mild) — minimal disease",
-      "GOLD 2 (moderate) — moderate airflow limitation",
-      "GOLD 3 (severe) — severe airflow limitation",
-      "GOLD 4 (very severe) — end-stage disease"
+      "GOLD 1 (mild)",
+      "GOLD 2 (moderate)",
+      "GOLD 3 (severe)",
+      "GOLD 4 (very severe)"
     ],
     answer: 1,
     concept: "COPD GOLD Staging",
@@ -422,9 +422,9 @@ const questions = [
     type: "standard",
     stem: "An asthma patient using their peak flow meter at home gets a reading at 65% of personal best. The patient asks the nurse what to do. Which response is BEST?",
     options: [
-      "Continue normal activities — green zone",
-      "Yellow zone — use rescue inhaler and follow asthma action plan",
-      "Red zone — call 911 immediately",
+      "Green zone — continue normal activities",
+      "Yellow zone",
+      "Red zone",
       "Disregard peak flow readings — symptoms are more reliable than numbers"
     ],
     answer: 1,
@@ -609,7 +609,7 @@ const questions = [
   }
 ];
 
-        // === QUIZ ENGINE ===
+// === QUIZ ENGINE ===
 let currentQ = 0;
 let totalPts = 0;
 let answers = [];
