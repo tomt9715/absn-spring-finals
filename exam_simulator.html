@@ -1656,6 +1656,11 @@ let totalPoints = 0;
 let answers = [];
 
 function startQuiz() {
+  // Fisher-Yates shuffle so questions appear in random order (not grouped by section)
+  for (let i = questions.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [questions[i], questions[j]] = [questions[j], questions[i]];
+  }
   document.getElementById('start-screen').style.display = 'none';
   document.getElementById('quiz-container').style.display = 'block';
   showQuestion();

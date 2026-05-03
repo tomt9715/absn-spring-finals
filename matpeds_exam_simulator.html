@@ -1193,6 +1193,11 @@ const TOTAL = questions.length;
 const STORAGE_KEY = 'score_matpeds_simulator_attempt';
 
 function begin() {
+  // Fisher-Yates shuffle so questions appear in random order (not grouped by chapter)
+  for (let i = questions.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [questions[i], questions[j]] = [questions[j], questions[i]];
+  }
   document.getElementById('start-screen').classList.add('hidden');
   document.getElementById('quiz-screen').classList.remove('hidden');
   showQuestion();
