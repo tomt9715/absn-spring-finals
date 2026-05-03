@@ -606,6 +606,12 @@ function extractLabs(stem) {
     { re: /\beGFR\s+(?:of\s+|is\s+)?(\d{1,3})\s*(?:mL\/min)?/gi, name: 'eGFR', unit: 'mL/min' },
     { re: /\b(?:urine output|UOP)\s+(?:of\s+|is\s+)?(\d{1,3})\s*mL\/hr/gi, name: 'UOP', unit: 'mL/hr' },
 
+    // Osmolality
+    { re: /\b(?:serum\s+)?osmolality\s+(?:of\s+|is\s+)?(\d{2,3})\s*mOsm\/kg/gi, name: 'Osmolality', unit: 'mOsm/kg' },
+
+    // ECG
+    { re: /\bQT\s+(?:interval\s+)?(?:of\s+)?(\d{3,4})\s*(?:msec|ms)?/gi, name: 'QT', unit: 'msec' },
+
     // Pain
     { re: /\bpain\s+(?:rating\s+|score\s+|level\s+)?(?:of\s+|is\s+|at\s+)?(\d{1,2})\/10/gi, name: 'Pain', unit: '/10' },
 
@@ -637,8 +643,8 @@ function extractLabs(stem) {
       const afterIdx = m.index + m[0].length;
       const tail = stem.slice(afterIdx, afterIdx + 100);
 
-      // Format 1: paren immediately after
-      const parenMatch = tail.match(/^\s*\(([^)]+)\)/);
+      // Format 1: paren after match (allowing optional unit text up to 30 chars)
+      const parenMatch = tail.match(/^[^()]{0,30}?\(([^)]+)\)/);
       if (parenMatch && /normal|baseline|expected|cutoff|target|was|therapeutic|toxic/i.test(parenMatch[1])) {
         range = parenMatch[1].trim();
       }
@@ -680,7 +686,11 @@ function extractLabs(stem) {
 
 function renderLabStrip(labs) {
   if (!labs || labs.length === 0) return '';
-  const items = labs.map(function(l) {
+  // Skip vitals from the strip — students should know normal ranges for these
+  const VITALS_DENYLIST = new Set(['BP', 'HR', 'Pulse', 'RR', 'Temp', 'SpO2', 'Pain']);
+  const filtered = labs.filter(function(l) { return !VITALS_DENYLIST.has(l.name); });
+  if (filtered.length === 0) return '';
+  const items = filtered.map(function(l) {
     const range = l.range ? '<div class="lab-range">' + escapeStemHTML(l.range) + '</div>' : '';
     const unit = l.unit ? ' <span class="lab-value-unit">' + escapeStemHTML(l.unit) + '</span>' : '';
     return '<div class="lab-item"><div class="lab-name">' + escapeStemHTML(l.name) + '</div><div class="lab-value">' + escapeStemHTML(l.value) + unit + '</div>' + range + '</div>';
@@ -707,7 +717,7 @@ function showQuestion() {
   if (q.confirmed) html += `<div class="confirmed-banner">⚠ Confirmed Test Item — recalled from actual exam</div>`;
   const __labs = q.labs || extractLabs(q.stem);
   const __labStrip = renderLabStrip(__labs);
-  html += __labStrip + `<div class="q-stem">${q.stem}</div>`;
+  html += `<div class="q-stem">${q.stem}</div>` + __labStrip;
   if (q.type === 'sata') html += `<div style="font-family:'DM Mono', monospace; font-size:12px; color:var(--purple); margin-bottom:12px;">SELECT ALL THAT APPLY</div>`;
   html += `<div class="options" id="options-list">`;
   q.options.forEach((opt, i) => {

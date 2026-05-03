@@ -184,7 +184,7 @@ const questions = [
   {
     section: "Hem/Onc",
     type: "standard",
-    stem: "A patient receiving chemotherapy has these labs: WBC 6,200, Hgb 9.2, Plt 22,000, ANC 1,500. Which finding requires the MOST immediate intervention?",
+    stem: "A patient receiving chemotherapy has the lab results below. Which finding requires the MOST immediate intervention?",
     options: [
       "The hemoglobin of 9.2 g/dL",
       "The ANC of 1,500",
@@ -194,10 +194,36 @@ const questions = [
     answer: 3,
     rationale: "Platelets at 22,000 put the patient near critical bleeding threshold (<20,000) — bleeding precautions, no NSAIDs, and avoiding invasive procedures are urgent.",
     others: {
-      0: "Hgb 9.2 indicates anemia but is not the most urgent.",
-      1: "ANC 1,500 is mildly low but well above the 500 chemo-hold threshold.",
-      2: "WBC 6,200 is normal range."
-    }
+      "0": "Hgb 9.2 indicates anemia but is not the most urgent.",
+      "1": "ANC 1,500 is mildly low but well above the 500 chemo-hold threshold.",
+      "2": "WBC 6,200 is normal range."
+    },
+    labs: [
+      {
+        "name": "WBC",
+        "value": "6,200",
+        "unit": "/mm³",
+        "range": "normal 4,500-11,000"
+      },
+      {
+        "name": "Hgb",
+        "value": "9.2",
+        "unit": "g/dL",
+        "range": "normal 12-16"
+      },
+      {
+        "name": "Platelets",
+        "value": "22,000",
+        "unit": "/mm³",
+        "range": "normal 150,000-400,000"
+      },
+      {
+        "name": "ANC",
+        "value": "1,500",
+        "unit": "/mm³",
+        "range": "normal >1,500"
+      }
+    ]
   },
   {
     section: "Hem/Onc",
@@ -212,27 +238,39 @@ const questions = [
     answer: 1,
     rationale: "The 21-day spacing allows normal bone marrow (high growth fraction) to recover between cycles — preventing severe cumulative myelosuppression while still attacking cancer.",
     others: {
-      0: "Spacing has medical, not billing, rationale.",
-      2: "Cancer cells regrow, not weaken, between cycles.",
-      3: "Drug clearance varies by agent."
+      "0": "Spacing has medical, not billing, rationale.",
+      "2": "Cancer cells regrow, not weaken, between cycles.",
+      "3": "Drug clearance varies by agent."
     }
   },
   {
     section: "Hem/Onc",
-    type: "standard",
-    stem: "A patient with chemo-induced N/V is being prescribed prophylactic antiemetics. The nurse expects which class to be ordered?",
+    type: "sata",
+    stem: "A patient with cancer asks about prognosis. Per the CAUTION acronym, which findings should the nurse teach the patient to report? Select all that apply.",
     options: [
-      "Loop diuretics",
-      "Serotonin (5-HT3) antagonists",
-      "Beta-adrenergic blockers",
-      "Calcium channel blockers"
+      "Change in bowel or bladder habits",
+      "A sore that does not heal over time",
+      "Mild seasonal allergies with sneezing",
+      "Unusual bleeding or vaginal discharge",
+      "Nagging cough or new hoarseness",
+      "Routine premenstrual breast tenderness"
     ],
-    answer: 1,
-    rationale: "Serotonin (5-HT3) antagonists like ondansetron are first-line prophylactic antiemetics for chemo-induced N/V.",
+    answerArr: [
+      0,
+      1,
+      3,
+      4
+    ],
+    rationale: "C.A.U.T.I.O.N. = Change in bowel/bladder habits, A sore that doesn't heal, Unusual bleeding/discharge, Thickening/lump, Indigestion/dysphagia, Obvious change in wart/mole, Nagging cough/hoarseness. Seasonal allergies and PMS findings are not warning signs.",
+    perOptionExplanations: {
+      "0": "<strong>Bowel/bladder change</strong> — the C in CAUTION.",
+      "1": "<strong>Non-healing sore</strong> — the A in CAUTION.",
+      "3": "<strong>Unusual bleeding/discharge</strong> — the U in CAUTION.",
+      "4": "<strong>Nagging cough/hoarseness</strong> — the N in CAUTION."
+    },
     others: {
-      0: "Diuretics treat fluid overload.",
-      2: "Beta-blockers treat HTN/dysrhythmias.",
-      3: "CCBs treat HTN."
+      "2": "Seasonal allergies are not a CAUTION warning sign.",
+      "5": "PMS breast tenderness is hormonal, not the T (Thickening/lump) sign."
     }
   },
   {
@@ -248,15 +286,15 @@ const questions = [
     answer: 0,
     rationale: "Well-differentiated, encapsulated, no lymph node involvement = classic benign features. Benign tumors are localized, slow-growing, and have rare recurrence after removal.",
     others: {
-      1: "Metastatic disease shows lymph involvement and undifferentiated cells.",
-      2: "Stage IV = metastatic.",
-      3: "Anaplastic = undifferentiated, opposite finding."
+      "1": "Metastatic disease shows lymph involvement and undifferentiated cells.",
+      "2": "Stage IV = metastatic.",
+      "3": "Anaplastic = undifferentiated, opposite finding."
     }
   },
   {
     section: "Hem/Onc",
     type: "standard",
-    stem: "A patient with neutropenia has new diarrhea, abdominal cramping, and a temp of 100.6°F. What is the priority concern?",
+    stem: "A patient with neutropenia has new diarrhea, abdominal cramping, and a temperature of 100.6°F. What is the priority concern?",
     options: [
       "Routine GI virus that will resolve on its own",
       "Side effect of dietary changes during chemo",
@@ -266,52 +304,45 @@ const questions = [
     answer: 2,
     rationale: "A neutropenic patient with fever and diarrhea raises serious concern for C. difficile or other GI infection — needs urgent stool studies, contact isolation, and provider notification.",
     others: {
-      0: "Cannot dismiss fever in a neutropenic patient.",
-      1: "Diet changes don't cause fever.",
-      3: "Fever is not a normal stress response."
-    }
-  },
-  {
-    section: "Hem/Onc",
-    type: "sata",
-    stem: "A patient receiving chemotherapy is at risk for tumor lysis syndrome. Which interventions are appropriate? Select all that apply.",
-    options: [
-      "Increase fluid intake to flush metabolites",
-      "Administer allopurinol prophylactically",
-      "Restrict all fluids to under 1 liter daily",
-      "Monitor potassium, phosphate, and uric acid",
-      "Encourage a high-protein diet daily",
-      "Monitor renal function with BUN and creatinine"
-    ],
-    answerArr: [0,1,3,5],
-    rationale: "Tumor lysis syndrome management: hydration, allopurinol prophylaxis, monitor electrolytes (K+, phosphate, uric acid), and renal function. Fluid restriction and high protein worsen the picture.",
-    perOptionExplanations: {
-      0: "<strong>Increase fluids</strong> — flushes uric acid and metabolites.",
-      1: "<strong>Allopurinol</strong> — prevents urate crystal formation.",
-      3: "<strong>Monitor K+, phosphate, uric acid</strong> — these elevate dangerously.",
-      5: "<strong>Monitor renal function</strong> — urate crystals damage kidneys."
-    },
-    others: {
-      2: "Fluid restriction worsens TLS.",
-      4: "High protein increases uric acid load."
+      "0": "Cannot dismiss fever in a neutropenic patient.",
+      "1": "Diet changes don't cause fever.",
+      "3": "Fever is not a normal stress response."
     }
   },
   {
     section: "Hem/Onc",
     type: "standard",
-    stem: "A nurse is reviewing patient teaching for chemotherapy. Which statement by the patient indicates correct understanding?",
+    stem: "A patient asks how oncogenes lead to cancer. Which is the MOST accurate response?",
     options: [
-      "\"I will eat raw sushi and salads to maintain my appetite.\"",
-      "\"I will resume my contact sports league activities now.\"",
-      "\"I will host my grandchildren's birthday party next week.\"",
-      "\"I will avoid live vaccines while my immunity is suppressed.\""
+      "Oncogenes are viruses transmitted between people",
+      "Normal genes can mutate into oncogenes from radiation, viruses, carcinogens, or aging",
+      "Oncogenes only develop when the immune system is weak",
+      "Oncogenes are inherited and cannot be triggered by environment"
+    ],
+    answer: 1,
+    rationale: "Oncogenes are mutated normal genes that drive uncontrolled cell growth. Causes per the review sheet: viruses, radiation (X-rays, UV), carcinogens (chemicals), aging, and nutrition factors. They are not contagious viruses themselves.",
+    others: {
+      "0": "Oncogenes are mutated genes, not transmissible viruses.",
+      "2": "Immune status doesn't trigger oncogene formation.",
+      "3": "Oncogenes are absolutely triggered by environmental exposures."
+    }
+  },
+  {
+    section: "Hem/Onc",
+    type: "standard",
+    stem: "A patient receiving chemotherapy with myelosuppression asks about pain medication. Which is SAFEST for analgesia?",
+    options: [
+      "Ibuprofen 400 mg every 6 hours as needed",
+      "Naproxen 500 mg twice daily as needed",
+      "Aspirin 325 mg twice daily for prevention",
+      "Acetaminophen 650 mg every 6 hours as needed"
     ],
     answer: 3,
-    rationale: "Patients on chemo should AVOID live vaccines during immunosuppression — they can cause active disease. Inactivated vaccines are generally OK with provider input.",
+    rationale: "Per myelosuppression teaching: avoid drugs that promote bleeding (NSAIDs, aspirin) due to thrombocytopenia. ACETAMINOPHEN is preferred for analgesia. Soft-bristle toothbrush also part of bleeding precautions.",
     others: {
-      0: "Raw foods carry infection risk.",
-      1: "Contact sports risk bleeding from thrombocytopenia.",
-      2: "Crowds with children are infection risk."
+      "0": "Ibuprofen is an NSAID — increases bleeding risk.",
+      "1": "Naproxen is an NSAID — same bleeding risk.",
+      "2": "Aspirin platelet inhibition is dangerous in thrombocytopenia."
     }
   },
   {
@@ -327,9 +358,9 @@ const questions = [
     answer: 2,
     rationale: "Cells in G0 (resting phase) are largely unaffected by chemotherapy — chemo targets actively dividing cells with high growth fraction.",
     others: {
-      0: "S-phase cells are vulnerable to many agents.",
-      1: "G2 cells are actively dividing and vulnerable.",
-      3: "DNA synthesis = vulnerable phase."
+      "0": "S-phase cells are vulnerable to many agents.",
+      "1": "G2 cells are actively dividing and vulnerable.",
+      "3": "DNA synthesis = vulnerable phase."
     }
   },
   {
@@ -345,9 +376,9 @@ const questions = [
     answer: 0,
     rationale: "Tumor markers track disease progression, treatment response, and recurrence — they're monitoring tools, not diagnostic alone or therapeutic.",
     others: {
-      1: "Markers complement imaging, not replace it.",
-      2: "Markers don't treat cancer.",
-      3: "Markers indicate trends, not exact dates."
+      "1": "Markers complement imaging, not replace it.",
+      "2": "Markers don't treat cancer.",
+      "3": "Markers indicate trends, not exact dates."
     }
   },
   {
@@ -363,9 +394,9 @@ const questions = [
     answer: 1,
     rationale: "Severe LUQ pain on filgrastim suggests splenic rupture — a rare but serious adverse effect requiring immediate evaluation.",
     others: {
-      0: "Mild bone pain is the most common side effect.",
-      2: "Mild fatigue is common.",
-      3: "Pink at injection site is normal."
+      "0": "Mild bone pain is the most common side effect.",
+      "2": "Mild fatigue is common.",
+      "3": "Pink at injection site is normal."
     }
   },
   {
@@ -381,9 +412,9 @@ const questions = [
     answer: 0,
     rationale: "T2 N0 M0 = moderate tumor size, NO lymph node involvement, NO metastasis. This is a localized cancer with favorable staging.",
     others: {
-      1: "Extensive metastasis would be N+ and M1.",
-      2: "TNM staging is for malignant tumors.",
-      3: "M1 indicates metastasis, not M0."
+      "1": "Extensive metastasis would be N+ and M1.",
+      "2": "TNM staging is for malignant tumors.",
+      "3": "M1 indicates metastasis, not M0."
     }
   },
   {
@@ -399,9 +430,9 @@ const questions = [
     answer: 2,
     rationale: "Chemo-damaged hair follicles often regrow with different texture, color, or curl pattern — a known and harmless effect that resolves over time.",
     others: {
-      0: "This is normal, not a complication.",
-      1: "It is not autoimmune.",
-      3: "Hair products do not cause this."
+      "0": "This is normal, not a complication.",
+      "1": "It is not autoimmune.",
+      "3": "Hair products do not cause this."
     }
   },
   {
@@ -417,9 +448,9 @@ const questions = [
     answer: 1,
     rationale: "Severe stomatitis requires opioid analgesia — magic mouthwash (lidocaine + diphenhydramine) is reserved for MILD cases only.",
     others: {
-      0: "Magic mouthwash is for mild cases alone.",
-      2: "Opioids treat pain, not damage.",
-      3: "Antibiotics treat infection if present, not first-line."
+      "0": "Magic mouthwash is for mild cases alone.",
+      "2": "Opioids treat pain, not damage.",
+      "3": "Antibiotics treat infection if present, not first-line."
     }
   },
   {
@@ -435,15 +466,15 @@ const questions = [
     answer: 2,
     rationale: "Prolongation of life means living longer than without treatment, while accepting that cure is not realistic. It is the middle goal between cure and palliation.",
     others: {
-      0: "Cure goal aims for elimination.",
-      1: "Treatment does extend life.",
-      3: "That describes palliation."
+      "0": "Cure goal aims for elimination.",
+      "1": "Treatment does extend life.",
+      "3": "That describes palliation."
     }
   },
   {
     section: "Hem/Onc",
     type: "standard",
-    stem: "A patient with thrombocytopenia (Plt 14,000) requires a bedside procedure. What is the priority nursing action?",
+    stem: "A patient with chemo-induced thrombocytopenia requires a bedside procedure. Given the lab below, what is the priority nursing action?",
     options: [
       "Proceed with the procedure as scheduled",
       "Apply pressure to the site for 5 minutes after the procedure",
@@ -453,10 +484,18 @@ const questions = [
     answer: 3,
     rationale: "Platelets at 14,000 are below 20,000 (spontaneous bleeding threshold). Provider notification for likely platelet transfusion before any invasive procedure.",
     others: {
-      0: "Proceeding without addressing low platelets risks severe bleeding.",
-      1: "Pressure alone is insufficient at this level.",
-      2: "Procedure doses don't apply."
-    }
+      "0": "Proceeding without addressing low platelets risks severe bleeding.",
+      "1": "Pressure alone is insufficient at this level.",
+      "2": "Procedure doses don't apply."
+    },
+    labs: [
+      {
+        "name": "Platelets",
+        "value": "14,000",
+        "unit": "/mm³",
+        "range": "normal 150,000-400,000"
+      }
+    ]
   },
   {
     section: "Pain",
@@ -471,9 +510,9 @@ const questions = [
     answer: 0,
     rationale: "Lorazepam (a benzodiazepine) combined with opioids causes additive CNS and respiratory depression — a major safety concern requiring careful evaluation.",
     others: {
-      1: "Lisinopril is not a CNS depressant.",
-      2: "Statins are not CNS depressants.",
-      3: "Levothyroxine is a thyroid hormone replacement."
+      "1": "Lisinopril is not a CNS depressant.",
+      "2": "Statins are not CNS depressants.",
+      "3": "Levothyroxine is a thyroid hormone replacement."
     }
   },
   {
@@ -489,15 +528,15 @@ const questions = [
     answer: 1,
     rationale: "Pain present for over 6 months is classified as chronic pain — the 8-month back pain meets this definition.",
     others: {
-      0: "Sprained ankle 3 days ago = acute.",
-      2: "Post-op 2 weeks = acute.",
-      3: "Sinus headache since yesterday = acute."
+      "0": "Sprained ankle 3 days ago = acute.",
+      "2": "Post-op 2 weeks = acute.",
+      "3": "Sinus headache since yesterday = acute."
     }
   },
   {
     section: "Pain",
     type: "standard",
-    stem: "A patient on a fentanyl patch develops a fever of 102°F from a viral illness. What is the nurse's priority concern?",
+    stem: "A patient on a fentanyl patch develops a temperature of 102°F from a viral illness. What is the nurse's priority concern?",
     options: [
       "Fever increases fentanyl absorption — risk for toxicity",
       "Fever decreases fentanyl absorption — risk for inadequate pain control",
@@ -507,9 +546,9 @@ const questions = [
     answer: 0,
     rationale: "Fever (elevated body temperature) increases fentanyl absorption from the patch, raising serum levels and risking respiratory depression — similar to direct heat exposure.",
     others: {
-      1: "Fever increases, not decreases, absorption.",
-      2: "Fever is highly significant.",
-      3: "Patch is q72h regardless; the issue is monitoring for toxicity."
+      "1": "Fever increases, not decreases, absorption.",
+      "2": "Fever is highly significant.",
+      "3": "Patch is q72h regardless; the issue is monitoring for toxicity."
     }
   },
   {
@@ -525,9 +564,9 @@ const questions = [
     answer: 2,
     rationale: "Aspirin is contraindicated in pediatric viral illness due to Reye's syndrome risk — a rare but devastating liver and brain disease. Use APAP or ibuprofen instead.",
     others: {
-      0: "Aspirin is contraindicated.",
-      1: "Aspirin should never be given to a child with viral illness.",
-      3: "Half-dose aspirin still has full Reye's risk."
+      "0": "Aspirin is contraindicated.",
+      "1": "Aspirin should never be given to a child with viral illness.",
+      "3": "Half-dose aspirin still has full Reye's risk."
     }
   },
   {
@@ -543,9 +582,9 @@ const questions = [
     answer: 2,
     rationale: "RR of 6 indicates significant opioid-induced respiratory depression — naloxone and ventilation support may be needed immediately.",
     others: {
-      0: "Pain reduction from 8 to 3 = good response.",
-      1: "Mild drowsiness is expected.",
-      3: "Itching is a common opioid effect, not emergent."
+      "0": "Pain reduction from 8 to 3 = good response.",
+      "1": "Mild drowsiness is expected.",
+      "3": "Itching is a common opioid effect, not emergent."
     }
   },
   {
@@ -561,9 +600,9 @@ const questions = [
     answer: 1,
     rationale: "Tolerance develops with chronic opioid use — patients require larger doses to achieve the same analgesic effect. This is physiologic, not addiction.",
     others: {
-      0: "Tolerance ≠ addiction (compulsive use despite harm).",
-      2: "May be true but tolerance is the more specific concept asked.",
-      3: "Allergic reactions present differently (rash, anaphylaxis)."
+      "0": "Tolerance ≠ addiction (compulsive use despite harm).",
+      "2": "May be true but tolerance is the more specific concept asked.",
+      "3": "Allergic reactions present differently (rash, anaphylaxis)."
     }
   },
   {
@@ -579,15 +618,15 @@ const questions = [
     answer: 3,
     rationale: "The 4% OTC lidocaine patch dosing is 1 patch per application (for ages 12+). Using 3 OTC patches risks lidocaine toxicity. The 5% RX allows up to 3 patches in adults.",
     others: {
-      0: "OTC max is 1 patch.",
-      1: "Frequency isn't the issue — quantity is.",
-      2: "Switching agents requires provider eval, not the immediate teaching."
+      "0": "OTC max is 1 patch.",
+      "1": "Frequency isn't the issue — quantity is.",
+      "2": "Switching agents requires provider eval, not the immediate teaching."
     }
   },
   {
     section: "Pain",
     type: "standard",
-    stem: "A patient on methadone reports new-onset dizziness and palpitations. The ECG shows QT of 530 msec. What is the priority action?",
+    stem: "A patient on methadone reports new-onset dizziness and palpitations. The ECG result is shown below. What is the priority action?",
     options: [
       "Continue methadone — these are common side effects",
       "Reduce the dose by 25% and recheck in 48 hours",
@@ -597,10 +636,18 @@ const questions = [
     answer: 2,
     rationale: "QT >500 msec on methadone requires DISCONTINUATION — torsades de pointes risk. The symptoms suggest the dysrhythmia may already be developing.",
     others: {
-      0: "These symptoms with QT >500 are dangerous.",
-      1: "Dose reduction is not the standard for QT >500.",
-      3: "Beta-blockers don't shorten QT."
-    }
+      "0": "These symptoms with QT >500 are dangerous.",
+      "1": "Dose reduction is not the standard for QT >500.",
+      "3": "Beta-blockers don't shorten QT."
+    },
+    labs: [
+      {
+        "name": "QT",
+        "value": "530",
+        "unit": "msec",
+        "range": "normal <450"
+      }
+    ]
   },
   {
     section: "Pain",
@@ -615,9 +662,9 @@ const questions = [
     answer: 0,
     rationale: "Oxymorphone ER tablets must be swallowed whole — they are abuse-deterrent extended-release. Crushing destroys the controlled release and risks fatal overdose.",
     others: {
-      1: "Crushing causes dose dumping.",
-      2: "Cutting also disrupts ER mechanism.",
-      3: "Food alters absorption (oxymorphone needs empty stomach)."
+      "1": "Crushing causes dose dumping.",
+      "2": "Cutting also disrupts ER mechanism.",
+      "3": "Food alters absorption (oxymorphone needs empty stomach)."
     }
   },
   {
@@ -633,9 +680,9 @@ const questions = [
     answer: 1,
     rationale: "Opioid-tolerant requires at least 1 week of 60 mg oral morphine equivalents daily. This patient at 5 days does not yet meet the duration criterion.",
     others: {
-      0: "24 hours is not enough.",
-      2: "5 days is below the 1-week threshold.",
-      3: "All opioids produce tolerance."
+      "0": "24 hours is not enough.",
+      "2": "5 days is below the 1-week threshold.",
+      "3": "All opioids produce tolerance."
     }
   },
   {
@@ -651,9 +698,9 @@ const questions = [
     answer: 2,
     rationale: "Acetaminophen and ibuprofen alternating provides effective pain relief with the safest profile in lactation. Codeine carries a BBW for breastfeeding due to CYP2D6 rapid metabolizer risk.",
     others: {
-      0: "Codeine BBW in breastfeeding.",
-      1: "Aspirin enters breast milk.",
-      3: "Methadone is a controlled substance not first-line."
+      "0": "Codeine BBW in breastfeeding.",
+      "1": "Aspirin enters breast milk.",
+      "3": "Methadone is a controlled substance not first-line."
     }
   },
   {
@@ -669,9 +716,9 @@ const questions = [
     answer: 3,
     rationale: "When docusate-senna fails, escalate to osmotic laxatives (PEG, lactulose). Eventually peripheral mu antagonists (methylnaltrexone) may be needed.",
     others: {
-      0: "Discontinuing worsens constipation.",
-      1: "All opioids cause constipation.",
-      2: "Reducing fluids worsens constipation."
+      "0": "Discontinuing worsens constipation.",
+      "1": "All opioids cause constipation.",
+      "2": "Reducing fluids worsens constipation."
     }
   },
   {
@@ -687,9 +734,9 @@ const questions = [
     answer: 0,
     rationale: "Oxymorphone must be taken on an empty stomach (food alters absorption) AND swallowed whole (ER abuse-deterrent formulation that must not be crushed/chewed/split).",
     others: {
-      1: "Food alters absorption.",
-      2: "Crushing causes fatal dose dumping.",
-      3: "Milk is food — alters absorption."
+      "1": "Food alters absorption.",
+      "2": "Crushing causes fatal dose dumping.",
+      "3": "Milk is food — alters absorption."
     }
   },
   {
@@ -705,9 +752,9 @@ const questions = [
     answer: 0,
     rationale: "Levodopa toxicity causes hallucinations, confusion, and dyskinesias from excessive dopaminergic activity in the brain — a known dose-related ADE.",
     others: {
-      1: "B12 deficiency presents with neuropathy and macrocytic anemia.",
-      2: "Withdrawal causes worsening Parkinson symptoms.",
-      3: "High protein reduces, not increases, levodopa effect."
+      "1": "B12 deficiency presents with neuropathy and macrocytic anemia.",
+      "2": "Withdrawal causes worsening Parkinson symptoms.",
+      "3": "High protein reduces, not increases, levodopa effect."
     }
   },
   {
@@ -724,9 +771,9 @@ const questions = [
     rationale: "Cholinergic crisis presents with SLUDGE/anti-anti-SLUD findings (salivation, lacrimation, urination, diaphoresis, GI upset, emesis, miosis) plus weakness — indicates pyridostigmine OVERdose.",
     deepExplanation: "Differentiating myasthenic vs cholinergic crisis is critical. Both cause weakness. Cholinergic crisis adds the cholinergic excess signs (sweating, salivation, miosis). Tensilon test or holding the drug helps distinguish.",
     others: {
-      0: "Myasthenic crisis = weakness without cholinergic excess.",
-      2: "These signs are not normal.",
-      3: "Symptoms specific to cholinergic excess."
+      "0": "Myasthenic crisis = weakness without cholinergic excess.",
+      "2": "These signs are not normal.",
+      "3": "Symptoms specific to cholinergic excess."
     }
   },
   {
@@ -742,27 +789,27 @@ const questions = [
     answer: 0,
     rationale: "Donepezil (cholinesterase inhibitor) increases acetylcholine, causing bradycardia and AV block — baseline HR and rhythm are essential before starting.",
     others: {
-      1: "Vision is not a primary concern.",
-      2: "Hyperthermia is not a typical AE.",
-      3: "Joint stiffness is not a key concern."
+      "1": "Vision is not a primary concern.",
+      "2": "Hyperthermia is not a typical AE.",
+      "3": "Joint stiffness is not a key concern."
     }
   },
   {
     section: "Neuro",
     type: "standard",
-    stem: "A patient with multiple sclerosis is receiving interferon beta. The patient asks why \"flu-like symptoms\" are common. What is the most accurate response?",
+    stem: "A patient on carbamazepine for seizures has a CBC drawn. Which result requires the nurse to STOP the medication?",
     options: [
-      "Interferon causes a real influenza infection",
-      "Flu-like symptoms indicate the drug is failing",
-      "The drug contains live influenza virus",
-      "These are immune-mediated effects of the drug"
+      "WBC 8,500 /mm³ (normal 4,500–11,000)",
+      "WBC 6,200 /mm³ (normal 4,500–11,000)",
+      "WBC 2,800 /mm³ (normal 4,500–11,000)",
+      "WBC 5,000 /mm³ (normal 4,500–11,000)"
     ],
-    answer: 3,
-    rationale: "Interferon beta causes immune-mediated flu-like symptoms (fever, chills, myalgia, fatigue) — these are expected effects, often managed with NSAIDs and bedtime dosing.",
+    answer: 2,
+    rationale: "Carbamazepine causes hematological adverse effects (leukopenia, anemia, thrombocytopenia). Per the review sheet: D/C the drug if WBC < 3,000. WBC 2,800 is below this threshold. Patients should also report fever, sore throat, infection.",
     others: {
-      0: "It does not cause real flu.",
-      1: "Flu-like symptoms are expected, not failure.",
-      2: "No live virus."
+      "0": "8,500 is normal — no action.",
+      "1": "6,200 is normal — no action.",
+      "3": "5,000 is normal — no action."
     }
   },
   {
@@ -778,45 +825,45 @@ const questions = [
     answer: 2,
     rationale: "Phenytoin therapeutic range is 10-20 mcg/mL. Below 10 = subtherapeutic; above 20 = toxic (nystagmus, ataxia, sedation, eventually seizures and death).",
     others: {
-      0: "Subtherapeutic.",
-      1: "Subtherapeutic.",
-      3: "Highly toxic."
+      "0": "Subtherapeutic.",
+      "1": "Subtherapeutic.",
+      "3": "Highly toxic."
     }
   },
   {
     section: "Neuro",
     type: "standard",
-    stem: "A patient on phenytoin presents with nystagmus, ataxia, and slurred speech. The phenytoin level is 28 mcg/mL. What is the most likely explanation?",
+    stem: "A patient on carbamazepine reports drinking grapefruit juice with breakfast. Which response is MOST appropriate?",
     options: [
-      "Subtherapeutic level — needs higher dose",
-      "Therapeutic level with normal effects",
-      "Phenytoin toxicity from elevated level",
-      "Acute alcohol intoxication unrelated"
+      "Grapefruit juice has no interaction with carbamazepine",
+      "Drink grapefruit juice only on alternating days",
+      "Switch to grapefruit juice instead of water for absorption",
+      "Avoid grapefruit juice — it can raise carbamazepine to toxic levels"
     ],
-    answer: 2,
-    rationale: "Phenytoin level of 28 is toxic (>20). Classic toxicity signs include nystagmus, ataxia, slurred speech, and confusion. Severe toxicity progresses to seizures and death.",
+    answer: 3,
+    rationale: "Grapefruit juice inhibits CYP3A4 metabolism, raising carbamazepine to potentially toxic levels (therapeutic 4–12 mcg/mL). Patients on carbamazepine must AVOID grapefruit juice entirely. Same warning applies to many other CYP3A4-metabolized drugs (sildenafil, buspirone, etc.).",
     others: {
-      0: "Level is far above therapeutic.",
-      1: "Therapeutic is 10-20.",
-      3: "Lab values point to phenytoin."
+      "0": "There IS a significant interaction.",
+      "1": "Even occasional use can cause toxicity.",
+      "2": "Grapefruit juice with the drug is dangerous, not helpful."
     }
   },
   {
     section: "Neuro",
     type: "standard",
-    stem: "A patient on long-term phenytoin should have which assessment done routinely?",
+    stem: "A patient with moderate Alzheimer's disease is being started on memantine. The nurse teaches the patient and family about which mechanism?",
     options: [
-      "Annual renal ultrasound imaging",
-      "Gum and oral hygiene assessment",
-      "Pulmonary function testing every visit",
-      "Daily blood pressure with positional changes"
+      "Boosts acetylcholine to enhance memory like donepezil does",
+      "Blocks NMDA receptors to prevent calcium-induced cell death",
+      "Replaces dopamine in the substantia nigra to slow decline",
+      "Inhibits MAO-B to preserve serotonin in the brain"
     ],
     answer: 1,
-    rationale: "Phenytoin causes gingival hyperplasia (gum overgrowth) — patients need good oral hygiene with soft-bristle toothbrush and regular dental care.",
+    rationale: "Memantine = NMDA receptor antagonist. In AD, excess glutamate opens NMDA receptors → too much calcium enters cells → neuron death. Memantine blocks this pathway = neuroprotection. Used ONLY for moderate-to-severe AD (not mild). Donepezil works by boosting ACh and is used at all stages.",
     others: {
-      0: "Routine renal imaging is not indicated.",
-      2: "PFTs are not standard.",
-      3: "Orthostatic BP is not the primary monitoring."
+      "0": "That's the donepezil mechanism, not memantine.",
+      "2": "Dopamine replacement = Parkinson's, not AD.",
+      "3": "MAO-B inhibition = Parkinson's adjunct, not AD."
     }
   },
   {
@@ -832,9 +879,9 @@ const questions = [
     answer: 1,
     rationale: "Beta-blockers (propranolol) are commonly used for migraine PROPHYLAXIS — they prevent attacks. Triptans are for ACUTE migraine treatment, not prevention.",
     others: {
-      0: "Triptans = acute, not prevention.",
-      2: "Opioids are not preferred for migraine.",
-      3: "Lidocaine patches are not migraine therapy."
+      "0": "Triptans = acute, not prevention.",
+      "2": "Opioids are not preferred for migraine.",
+      "3": "Lidocaine patches are not migraine therapy."
     }
   },
   {
@@ -850,9 +897,9 @@ const questions = [
     answer: 2,
     rationale: "Levodopa absorption is reduced by amino acids — patients should AVOID taking it with high-protein meals. Take 30 minutes before or 1 hour after meals.",
     others: {
-      0: "High protein REDUCES levodopa effect.",
-      1: "Dairy is not specifically contraindicated.",
-      3: "Grapefruit juice does not improve absorption."
+      "0": "High protein REDUCES levodopa effect.",
+      "1": "Dairy is not specifically contraindicated.",
+      "3": "Grapefruit juice does not improve absorption."
     }
   },
   {
@@ -868,9 +915,9 @@ const questions = [
     answer: 3,
     rationale: "Sumatriptan causes vasoconstriction. Chest tightness in a patient on triptans raises concern for coronary vasoconstriction (especially in patients with cardiac risk) — needs immediate evaluation.",
     others: {
-      0: "Cannot dismiss chest tightness on triptans.",
-      1: "PE is not the typical triptan AE.",
-      2: "Cardiac concern takes priority."
+      "0": "Cannot dismiss chest tightness on triptans.",
+      "1": "PE is not the typical triptan AE.",
+      "2": "Cardiac concern takes priority."
     }
   },
   {
@@ -886,15 +933,15 @@ const questions = [
     answer: 0,
     rationale: "Tardive dyskinesia (involuntary rhythmic tongue, lip, and face movements) is a serious EPS effect of long-term FGA use — often irreversible. Provider must be notified.",
     others: {
-      1: "Hypoglycemia presents differently.",
-      2: "Not allergic features.",
-      3: "TD is not self-resolving."
+      "1": "Hypoglycemia presents differently.",
+      "2": "Not allergic features.",
+      "3": "TD is not self-resolving."
     }
   },
   {
     section: "Psych",
     type: "standard",
-    stem: "A patient on olanzapine (SGA) for 1 year has gained 35 pounds and now has fasting glucose of 165 mg/dL. The nurse recognizes which complication?",
+    stem: "A patient on olanzapine (SGA) for 1 year has gained 35 pounds. Given the fasting lab below, the nurse recognizes which complication?",
     options: [
       "Metabolic syndrome from SGA therapy",
       "Tardive dyskinesia from chronic use",
@@ -904,15 +951,23 @@ const questions = [
     answer: 0,
     rationale: "Significant weight gain plus elevated glucose on an SGA = metabolic syndrome (weight gain, diabetes, dyslipidemia). This is the major risk profile of SGAs over EPS.",
     others: {
-      1: "TD is movement disorder, not metabolic.",
-      2: "Thyroid disorders present differently.",
-      3: "These changes are drug-induced."
-    }
+      "1": "TD is movement disorder, not metabolic.",
+      "2": "Thyroid disorders present differently.",
+      "3": "These changes are drug-induced."
+    },
+    labs: [
+      {
+        "name": "Glucose",
+        "value": "165",
+        "unit": "mg/dL",
+        "range": "fasting normal 70-100"
+      }
+    ]
   },
   {
     section: "Psych",
     type: "standard",
-    stem: "A patient on lithium has a serum level of 1.8 mEq/L. The nurse interprets this finding as:",
+    stem: "A patient on lithium has the serum level below. The nurse interprets this finding as:",
     options: [
       "Subtherapeutic — dose increase needed",
       "Within normal therapeutic range",
@@ -922,10 +977,18 @@ const questions = [
     answer: 2,
     rationale: "Lithium therapeutic range is 0.6-1.2 mEq/L (some maintenance up to 1.5). A level of 1.8 is above therapeutic, approaching toxicity (>2.0 is severe toxicity).",
     others: {
-      0: "Above range, not below.",
-      1: "Above 1.2 is concerning.",
-      3: "It is high, not low."
-    }
+      "0": "Above range, not below.",
+      "1": "Above 1.2 is concerning.",
+      "3": "It is high, not low."
+    },
+    labs: [
+      {
+        "name": "Lithium",
+        "value": "1.8",
+        "unit": "mEq/L",
+        "range": "therapeutic 0.6-1.2"
+      }
+    ]
   },
   {
     section: "Psych",
@@ -940,9 +1003,9 @@ const questions = [
     answer: 1,
     rationale: "Agitation, confusion, hyperthermia, and clonus are classic serotonin syndrome — caused by excess serotonergic activity, often from drug interactions (SSRI + MAOI, tramadol, etc.).",
     others: {
-      0: "Lithium toxicity has tremor and slurred speech, not clonus.",
-      2: "NMS occurs with antipsychotics, has rigidity not clonus.",
-      3: "Alcohol withdrawal has tremor, no hyperreflexia/clonus."
+      "0": "Lithium toxicity has tremor and slurred speech, not clonus.",
+      "2": "NMS occurs with antipsychotics, has rigidity not clonus.",
+      "3": "Alcohol withdrawal has tremor, no hyperreflexia/clonus."
     }
   },
   {
@@ -958,9 +1021,9 @@ const questions = [
     answer: 3,
     rationale: "TCAs cause orthostatic hypotension. Hot baths cause vasodilation that compounds orthostasis — patient is at risk for falls when standing up after a hot bath.",
     others: {
-      0: "Hot baths are dangerous due to orthostasis.",
-      1: "Skipping baths entirely is unnecessary.",
-      2: "No need for cold baths."
+      "0": "Hot baths are dangerous due to orthostasis.",
+      "1": "Skipping baths entirely is unnecessary.",
+      "2": "No need for cold baths."
     }
   },
   {
@@ -976,9 +1039,9 @@ const questions = [
     answer: 3,
     rationale: "Antipsychotics treat psychotic disorders (schizophrenia, bipolar mania), not anxiety as primary use. Buspirone or benzodiazepines treat anxiety. The other statements are correct.",
     others: {
-      0: "Correct — FGAs higher EPS.",
-      1: "Correct — SGAs higher metabolic.",
-      2: "Correct — clozapine requires CBCs for agranulocytosis."
+      "0": "Correct — FGAs higher EPS.",
+      "1": "Correct — SGAs higher metabolic.",
+      "2": "Correct — clozapine requires CBCs for agranulocytosis."
     }
   },
   {
@@ -994,9 +1057,9 @@ const questions = [
     answer: 0,
     rationale: "After response to SSRI therapy, treatment is typically continued for 6-12 months to prevent relapse. First-episode patients need at least this duration; recurrent depression may require lifelong therapy.",
     others: {
-      1: "Stopping early causes relapse.",
-      2: "Year-round therapy is standard.",
-      3: "SSRIs are not PRN drugs."
+      "1": "Stopping early causes relapse.",
+      "2": "Year-round therapy is standard.",
+      "3": "SSRIs are not PRN drugs."
     }
   },
   {
@@ -1012,9 +1075,9 @@ const questions = [
     answer: 2,
     rationale: "Reporting toxicity signs (tremors, slurred speech, polydipsia) is critical lithium teaching. Patients should drink 8-10 glasses of water daily, maintain salt intake, and avoid NSAIDs.",
     others: {
-      0: "Need 8-10 glasses, not 4.",
-      1: "Low-sodium causes lithium toxicity.",
-      3: "NSAIDs cause lithium toxicity."
+      "0": "Need 8-10 glasses, not 4.",
+      "1": "Low-sodium causes lithium toxicity.",
+      "3": "NSAIDs cause lithium toxicity."
     }
   },
   {
@@ -1030,9 +1093,9 @@ const questions = [
     answer: 2,
     rationale: "NMS classic tetrad: fever (hyperthermia), severe muscle rigidity, altered mental status, autonomic instability. A medical emergency requiring immediate stopping of the antipsychotic and supportive care.",
     others: {
-      0: "Serotonin syndrome has clonus, hyperreflexia, not rigidity.",
-      1: "Lithium toxicity has tremors, slurred speech, not rigidity.",
-      3: "TD has movement disorders without fever or rigidity."
+      "0": "Serotonin syndrome has clonus, hyperreflexia, not rigidity.",
+      "1": "Lithium toxicity has tremors, slurred speech, not rigidity.",
+      "3": "TD has movement disorders without fever or rigidity."
     }
   },
   {
@@ -1048,28 +1111,42 @@ const questions = [
     answer: 3,
     rationale: "Type 1 diabetics must NEVER stop insulin during illness — risk of DKA. Sick day rules: continue insulin, monitor glucose more frequently, check ketones, hydrate, and call provider if levels are unstable.",
     others: {
-      0: "Stopping insulin causes DKA.",
-      1: "Major dose cuts during illness can precipitate DKA.",
-      2: "Both insulins are usually still needed."
+      "0": "Stopping insulin causes DKA.",
+      "1": "Major dose cuts during illness can precipitate DKA.",
+      "2": "Both insulins are usually still needed."
     }
   },
   {
     section: "Endocrine",
     type: "standard",
-    stem: "A patient on metformin is being prepared for a CT scan with IV contrast. What is the priority nursing action?",
+    stem: "A patient with type 2 diabetes is found unresponsive at home with severe dehydration. Given the labs below, which intervention is the PRIORITY?",
     options: [
-      "Give an extra dose of metformin pre-procedure",
-      "Hold metformin around the contrast administration",
-      "Switch to insulin permanently after the scan",
-      "Reduce the metformin dose by 50% afterward"
+      "Aggressive IV normal saline to correct dehydration first",
+      "IV regular insulin bolus before fluid resuscitation",
+      "Oral glucose tablets to prevent rebound hypoglycemia",
+      "IV sodium bicarbonate to correct metabolic acidosis"
     ],
-    answer: 1,
-    rationale: "Metformin is held around IV iodinated contrast (typically held the day of and 48 hours after) due to risk of contrast-induced nephropathy and lactic acidosis if AKI develops.",
+    answer: 0,
+    rationale: "HHNS (hyperglycemic hyperosmolar nonketotic syndrome) in T2DM: glucose >600, severe dehydration, confusion. PRIORITY = AGGRESSIVE IV FLUIDS first to correct dehydration, FOLLOWED BY IV insulin. Insulin before fluids causes intravascular collapse.",
     others: {
-      0: "Extra dose increases risk.",
-      2: "Permanent switch is not standard.",
-      3: "Brief hold is the standard, not dose reduction."
-    }
+      "1": "Insulin without fluids → vascular collapse.",
+      "2": "Glucose elevated, not low.",
+      "3": "HHNS is non-ketotic; bicarbonate not first-line."
+    },
+    labs: [
+      {
+        "name": "Glucose",
+        "value": "720",
+        "unit": "mg/dL",
+        "range": "normal 70-110"
+      },
+      {
+        "name": "Osmolality",
+        "value": "360",
+        "unit": "mOsm/kg",
+        "range": "normal 275-295"
+      }
+    ]
   },
   {
     section: "Endocrine",
@@ -1084,9 +1161,9 @@ const questions = [
     answer: 1,
     rationale: "Levothyroxine should be taken on an empty stomach 30-60 minutes before breakfast — food, calcium, iron, and antacids significantly reduce absorption.",
     others: {
-      0: "Food reduces absorption.",
-      2: "Calcium reduces absorption.",
-      3: "Timing matters significantly."
+      "0": "Food reduces absorption.",
+      "2": "Calcium reduces absorption.",
+      "3": "Timing matters significantly."
     }
   },
   {
@@ -1102,9 +1179,9 @@ const questions = [
     answer: 2,
     rationale: "Glargine (Lantus) is a long-acting basal insulin with NO peak — provides steady 24-hour coverage. Cannot be mixed with other insulins in the same syringe.",
     others: {
-      0: "Glargine cannot be mixed.",
-      1: "Glargine has no peak.",
-      3: "Glargine is basal, not bolus."
+      "0": "Glargine cannot be mixed.",
+      "1": "Glargine has no peak.",
+      "3": "Glargine is basal, not bolus."
     }
   },
   {
@@ -1120,46 +1197,45 @@ const questions = [
     answer: 3,
     rationale: "Methimazole carries a BBW for agranulocytosis. Patients must report sore throat, fever, or any signs of infection IMMEDIATELY — could indicate dangerous neutropenia.",
     others: {
-      0: "Mild fatigue is common, not critical.",
-      1: "Weight gain is expected (improving from hyperthyroid state).",
-      2: "Increased appetite is expected."
+      "0": "Mild fatigue is common, not critical.",
+      "1": "Weight gain is expected (improving from hyperthyroid state).",
+      "2": "Increased appetite is expected."
     }
   },
   {
     section: "Endocrine",
     type: "standard",
-    stem: "A patient with Addison's disease takes hydrocortisone daily. During an acute illness, what change is anticipated?",
+    stem: "A patient with type 2 diabetes is starting semaglutide. Which patient history is an ABSOLUTE contraindication?",
     options: [
-      "Increase the hydrocortisone dose (\"stress dose\")",
-      "Stop the hydrocortisone until illness resolves",
-      "Reduce the dose by 50% to prevent toxicity",
-      "No change is needed during illness"
+      "Family history of medullary thyroid carcinoma (MTC)",
+      "History of mild seasonal allergic rhinitis",
+      "Patient drinks 2 cups of coffee daily",
+      "Patient has a family history of hypertension"
     ],
     answer: 0,
-    rationale: "Addison's patients require STRESS DOSING of hydrocortisone during illness, surgery, or trauma — failure to do so can precipitate adrenal crisis (life-threatening).",
-    deepExplanation: "Patients should have an emergency injectable hydrocortisone kit and medical alert ID. Stress dosing is typically 2-3x the maintenance dose during illness.",
+    rationale: "Semaglutide is a GLP-1 agonist with a BLACK BOX WARNING for thyroid C-cell tumors. CONTRAINDICATED in personal or family history of medullary thyroid carcinoma (MTC) or MEN-2. Also avoid with history of pancreatitis. Approved for T2DM only; causes low appetite (use cautiously with weight loss).",
     others: {
-      1: "Stopping causes adrenal crisis.",
-      2: "Reducing causes adrenal crisis.",
-      3: "Stress dosing IS needed."
+      "1": "Allergic rhinitis is not a contraindication.",
+      "2": "Coffee intake is not a contraindication.",
+      "3": "Family HTN history is not a contraindication."
     }
   },
   {
     section: "Endocrine",
     type: "standard",
-    stem: "A patient is taking exogenous prednisone long-term. The nurse should teach the patient to:",
+    stem: "A patient is started on glimepiride for type 2 diabetes. Which teaching point is MOST important?",
     options: [
-      "Stop the medication abruptly when feeling better",
-      "Skip doses if blood pressure is normal",
-      "Taper the dose gradually under provider supervision",
-      "Double the dose if symptoms recur"
+      "Avoid alcohol — risk of disulfiram-like reaction and severe hypoglycemia",
+      "Take the medication only when blood sugar is high",
+      "Skip doses on days you exercise vigorously to prevent low sugar",
+      "Take with grapefruit juice to enhance absorption"
     ],
-    answer: 2,
-    rationale: "Long-term steroids must be tapered gradually — abrupt discontinuation causes adrenal crisis because the adrenal glands are suppressed and need time to recover function.",
+    answer: 0,
+    rationale: "Glimepiride teaching per review sheet: AVOID ALCOHOL (causes a disulfiram-like reaction). Side effects include hypoglycemia and weight gain. Use caution with heart disease (cardiotoxic). Take consistently — not PRN. Skipping on exercise days could destabilize control.",
     others: {
-      0: "Abrupt stop causes adrenal crisis.",
-      1: "Skipping causes withdrawal/crisis.",
-      3: "Doubling without provider input is unsafe."
+      "1": "Sulfonylureas are taken on a schedule, not PRN.",
+      "2": "Skipping doses risks hyperglycemia rebound.",
+      "3": "Grapefruit juice is not the issue — alcohol is."
     }
   },
   {
@@ -1175,81 +1251,81 @@ const questions = [
     answer: 1,
     rationale: "Sulfonylureas (glipizide, glyburide) stimulate insulin release and can cause hypoglycemia (tremors, sweating, confusion, hunger). Treat with fast-acting glucose; recheck in 15 minutes.",
     others: {
-      0: "Pancreatitis presents with abdominal pain.",
-      2: "Allergic reactions present with rash, itching, anaphylaxis.",
-      3: "These are HYPOglycemia signs."
+      "0": "Pancreatitis presents with abdominal pain.",
+      "2": "Allergic reactions present with rash, itching, anaphylaxis.",
+      "3": "These are HYPOglycemia signs."
     }
   },
   {
     section: "Endocrine",
     type: "standard",
-    stem: "A patient with diabetes insipidus is started on desmopressin (DDAVP). The nurse should monitor for which adverse effect?",
+    stem: "A patient is being treated with iodine 131 for Graves' disease. Which teaching is MOST accurate?",
     options: [
-      "Hyponatremia from water retention",
-      "Severe hypokalemia from diuresis",
-      "Persistent polyuria despite therapy",
-      "Acute hyperglycemia from drug effect"
-    ],
-    answer: 0,
-    rationale: "Desmopressin causes water retention to treat DI — but excess water retention dilutes sodium, causing hyponatremia. Monitor sodium levels and watch for symptoms (confusion, seizures).",
-    others: {
-      1: "DDAVP retains water, not increases potassium loss.",
-      2: "Persistent polyuria = drug not working.",
-      3: "Hyperglycemia is not a typical AE."
-    }
-  },
-  {
-    section: "Urinary/Repro",
-    type: "standard",
-    stem: "A patient is taking nitrofurantoin for a UTI. The patient asks why their urine is brown. What is the most accurate response?",
-    options: [
-      "This indicates serious kidney damage",
-      "You are dehydrated and need to drink more",
-      "Stop the antibiotic immediately",
-      "Brown urine is a normal harmless side effect"
+      "Effects are immediate within 24 hours",
+      "Continue methimazole indefinitely after the iodine 131 dose",
+      "Treatment is safe to use during pregnancy and breastfeeding",
+      "Effects are delayed 1–3 months; lifelong thyroid replacement may be needed"
     ],
     answer: 3,
-    rationale: "Nitrofurantoin causes harmless brown discoloration of urine — patients should be educated about this expected effect to prevent unnecessary alarm.",
+    rationale: "Iodine 131 destroys overactive thyroid tissue but the EFFECTS ARE DELAYED 1–3 MONTHS. Patients often require LIFELONG thyroid hormone replacement (levothyroxine) afterward because too much tissue is destroyed. AVOID in pregnancy, lactation, and pediatrics.",
     others: {
-      0: "Brown urine on nitrofurantoin is benign.",
-      1: "Dehydration causes dark yellow, not brown.",
-      2: "No need to stop for color change."
+      "0": "Effect is delayed, not immediate.",
+      "1": "Methimazole is typically tapered after radioactive iodine.",
+      "2": "Iodine 131 is contraindicated in pregnancy and lactation."
     }
   },
   {
     section: "Urinary/Repro",
     type: "standard",
-    stem: "A patient on phenazopyridine for UTI dysuria asks why their urine is bright orange. What is the most accurate response?",
+    stem: "A patient with urinary retention is being started on bethanechol. Which patient history is a CONTRAINDICATION?",
     options: [
-      "This is normal — phenazopyridine stains urine orange",
-      "Stop the medication and call the provider",
-      "Drink more water to prevent the color change",
-      "Switch to a different urinary analgesic now"
-    ],
-    answer: 0,
-    rationale: "Phenazopyridine causes bright orange-red urine discoloration — this is a normal and expected effect. Patients should also be told it stains contact lenses and clothing.",
-    others: {
-      1: "No need to stop.",
-      2: "Color is not from dehydration.",
-      3: "Switching is not needed."
-    }
-  },
-  {
-    section: "Urinary/Repro",
-    type: "standard",
-    stem: "A patient with BPH is taking tamsulosin. Which adverse effect should the patient be educated to watch for?",
-    options: [
-      "Severe hypertension on rising",
-      "Orthostatic hypotension and dizziness",
-      "Acute urinary retention worsening",
-      "Persistent hyperthermia and rigors"
+      "Patient is 4 weeks postpartum and breastfeeding",
+      "Patient has a history of latent asthma",
+      "Patient had abdominal surgery 3 months ago",
+      "Patient takes a daily multivitamin"
     ],
     answer: 1,
-    rationale: "Tamsulosin is an alpha-1 blocker — causes orthostatic hypotension and dizziness, especially with the first dose. Patients should rise slowly and have first-dose precautions.",
+    rationale: "Bethanechol is a muscarinic agonist (causes things to MOVE — promotes voiding). CONTRAINDICATED in: physical obstruction, weak bladder wall, hypotension/low cardiac output, hyperthyroidism, intestinal obstruction or recent bowel surgery, and LATENT/ACTIVE ASTHMA (causes bronchoconstriction).",
     others: {
-      0: "Causes hypotension, not hypertension.",
-      2: "Tamsulosin RELIEVES retention.",
-      3: "Hyperthermia is not a typical AE."
+      "0": "Postpartum is actually an indication, not contraindication.",
+      "2": "Healed surgery from months ago is not a contraindication; recent bowel surgery is.",
+      "3": "Multivitamin doesn't interact."
+    }
+  },
+  {
+    section: "Urinary/Repro",
+    type: "standard",
+    stem: "A male patient with BPH is taking finasteride. Which statement by the patient indicates a NEED FOR FURTHER TEACHING?",
+    options: [
+      "I will see full benefit after 6–12 months on this drug",
+      "I may notice decreased ejaculate volume and libido",
+      "I should not handle crushed or broken tablets with bare hands",
+      "I can donate blood as soon as I stop the medication"
+    ],
+    answer: 3,
+    rationale: "Finasteride teaching: must wait at least 1 MONTH after discontinuation before donating blood (6 months for dutasteride). The drug is teratogenic in male fetuses, so transfusion to a pregnant woman would be dangerous. All other statements are correct: 6–12 months for full benefit, no bare-hand contact with broken tablets, decreased ejaculate volume/libido and gynecomastia common.",
+    others: {
+      "0": "Correct — 6–12 months for full benefit.",
+      "1": "Correct — known side effects.",
+      "2": "Correct — teratogenic if absorbed transdermally."
+    }
+  },
+  {
+    section: "Urinary/Repro",
+    type: "standard",
+    stem: "A patient with BPH starts terazosin. Baseline BP 138/86 mmHg. The patient asks why the first dose is given at bedtime. The BEST response is:",
+    options: [
+      "It works only during sleep cycles",
+      "First-dose orthostatic hypotension can cause syncope when standing",
+      "It must be timed with morning food intake",
+      "It only relieves nighttime urinary symptoms"
+    ],
+    answer: 1,
+    rationale: "Terazosin (-zosin = orthostatic hypotension warning, 'going to zzzz → low BP'). First-dose effect = sudden orthostatic hypotension and syncope. Bedtime dosing minimizes risk. Also causes reflex tachycardia, nasal congestion. Avoid in hypotension. Teach patients to change positions slowly.",
+    others: {
+      "0": "It works continuously, not only at sleep.",
+      "2": "Not specifically food-related.",
+      "3": "It works around the clock, not only at night."
     }
   },
   {
@@ -1265,27 +1341,27 @@ const questions = [
     answer: 0,
     rationale: "Finasteride is a known teratogen — pregnant women must not handle crushed or broken tablets due to risk of fetal genital malformations.",
     others: {
-      1: "Crushed tablets are dangerous to handle in pregnancy.",
-      2: "Whole tablets in coating are safer; crushed are absorbed.",
-      3: "Pregnant women must not take it."
+      "1": "Crushed tablets are dangerous to handle in pregnancy.",
+      "2": "Whole tablets in coating are safer; crushed are absorbed.",
+      "3": "Pregnant women must not take it."
     }
   },
   {
     section: "Urinary/Repro",
     type: "standard",
-    stem: "A patient is taking oxybutynin for overactive bladder. Which side effect is MOST common?",
+    stem: "A male patient is prescribed sildenafil for erectile dysfunction. Which patient statement indicates correct understanding?",
     options: [
-      "Severe acute hypertension",
-      "Profuse diaphoresis and salivation",
-      "Dry mouth and constipation",
-      "Severe persistent diarrhea"
+      "I will wait at least 24 hours before taking my nitroglycerin",
+      "I take this with grapefruit juice for better absorption",
+      "I should take this 5 minutes before intercourse",
+      "I can use this with my isosorbide for chest pain"
     ],
-    answer: 2,
-    rationale: "Oxybutynin is anticholinergic — classic anti-SLUD effects: dry mouth, constipation, urinary retention, blurred vision, dry eyes. Educate patients on managing dry mouth with hydration.",
+    answer: 0,
+    rationale: "Sildenafil + NITRATES = severe hypotension. NEVER use together. Wait at least 24 HOURS (washout) between sildenafil and any nitrate (nitroglycerin, isosorbide). Take 60 min before intercourse (not 5). Avoid grapefruit juice. Avoid in recent (≤6 mo) MI, stroke, dysrhythmia, or hypo/hypertension.",
     others: {
-      0: "HTN is not the primary AE.",
-      1: "Anti-SLUD = OPPOSITE of these.",
-      3: "Constipation, not diarrhea."
+      "1": "GFJ is contraindicated, not helpful.",
+      "2": "Take 60 min before, not 5 min.",
+      "3": "Isosorbide is a nitrate — fatal combination."
     }
   },
   {
@@ -1301,9 +1377,9 @@ const questions = [
     answer: 2,
     rationale: "Combined oral contraceptives (estrogen-containing) are contraindicated with history of DVT/PE/thromboembolism due to increased clotting risk. Other CIs include smokers >35yo, breast cancer, severe HTN.",
     others: {
-      0: "Allergies are not a contraindication.",
-      1: "Well-controlled HTN may be acceptable.",
-      3: "Routine exam is not a CI."
+      "0": "Allergies are not a contraindication.",
+      "1": "Well-controlled HTN may be acceptable.",
+      "3": "Routine exam is not a CI."
     }
   },
   {
@@ -1319,81 +1395,101 @@ const questions = [
     answer: 0,
     rationale: "Oxytocin can cause uterine hyperstimulation — tetanic contractions (>90 sec, <2 min apart) risk uterine rupture and fetal compromise. The infusion is stopped if hyperstimulation occurs.",
     others: {
-      1: "FHR changes need full evaluation, not just baseline.",
-      2: "Mild N/V and back pain are routine labor.",
-      3: "Oxytocin accelerates, not slows labor."
+      "1": "FHR changes need full evaluation, not just baseline.",
+      "2": "Mild N/V and back pain are routine labor.",
+      "3": "Oxytocin accelerates, not slows labor."
     }
   },
   {
     section: "Urinary/Repro",
-    type: "standard",
-    stem: "A patient at 24 weeks gestation is in preterm labor. Which medication is used to STOP the contractions?",
+    type: "sata",
+    stem: "A patient asks why she is being scheduled for labor induction. Which patient condition would qualify per the review sheet? Select all that apply.",
     options: [
-      "Oxytocin (Pitocin)",
-      "Methylergonovine",
-      "Misoprostol vaginal",
-      "Magnesium sulfate"
+      "Abruptio placenta with maternal compromise",
+      "Routine 38-week appointment with no complications",
+      "Premature rupture of membranes",
+      "Preeclampsia with worsening symptoms",
+      "Active simple seasonal cold without fever",
+      "Gestational hypertension with rising BP"
     ],
-    answer: 3,
-    rationale: "Magnesium sulfate is the tocolytic of choice — relaxes uterine smooth muscle to stop preterm contractions. It is also used for fetal neuroprotection in preterm labor.",
-    others: {
-      0: "Oxytocin INDUCES, not stops, contractions.",
-      1: "Methergine treats postpartum hemorrhage.",
-      2: "Misoprostol RIPENS the cervix."
-    }
-  },
-  {
-    section: "Urinary/Repro",
-    type: "standard",
-    stem: "A postpartum patient has uterine atony with hemorrhage. The provider orders methylergonovine (Methergine). The nurse must verify which finding before administration?",
-    options: [
-      "Patient blood pressure is not elevated",
-      "Patient blood glucose is within range",
-      "Patient is no longer breastfeeding",
-      "Patient has voided in the last hour"
+    answerArr: [
+      0,
+      2,
+      3,
+      5
     ],
-    answer: 0,
-    rationale: "Methylergonovine causes vasoconstriction and is contraindicated in HTN — administering to a hypertensive patient can cause severe HTN, stroke, or MI. Always verify BP before giving.",
+    rationale: "Labor induction qualifying conditions: abruptio placenta, water breaking too early (PROM), gestational HTN, preeclampsia, eclampsia, diabetes, renal disease, fetal compromise. Routine prenatal visits and minor URIs are not indications.",
+    perOptionExplanations: {
+      "0": "<strong>Abruptio placenta</strong> — placenta separating from uterus = induction.",
+      "2": "<strong>Water breaks too early</strong> — induction indicated to prevent infection.",
+      "3": "<strong>Preeclampsia worsening</strong> — induction treats the underlying problem.",
+      "5": "<strong>Gestational HTN</strong> — induction qualifying condition."
+    },
     others: {
-      1: "Glucose is not the primary check.",
-      2: "Methergine is OK in lactation.",
-      3: "Voiding is not the priority check."
+      "1": "Routine appointment without complications doesn't justify induction.",
+      "4": "Common cold doesn't qualify for induction."
     }
   },
   {
     section: "Urinary/Repro",
     type: "standard",
-    stem: "A patient on magnesium sulfate develops absent deep tendon reflexes, RR of 8, and confusion. What is the priority action?",
+    stem: "A male oncology patient with chemotherapy-induced anemia is being prescribed testosterone off-label. Given the lab below, the nurse explains the rationale is:",
     options: [
-      "Continue the infusion at the current rate",
-      "Stop the infusion and prepare calcium gluconate",
-      "Increase the infusion to overcome resistance",
-      "Switch to a different tocolytic agent"
+      "Testosterone reverses chemotherapy nausea",
+      "Testosterone has erythropoietic effects, increasing red blood cell production",
+      "Testosterone replaces fluid losses from chemotherapy",
+      "Testosterone protects against thrombocytopenia"
     ],
     answer: 1,
-    rationale: "Absent DTRs, RR <12, and confusion = MAGNESIUM TOXICITY. Stop the infusion and prepare CALCIUM GLUCONATE (the antidote). Continuous monitoring required.",
+    rationale: "Testosterone has erythropoietic effects (↑ RBC production). It is used off-label to treat chemo-induced anemia. Does not affect platelets, fluid balance, or N/V.",
     others: {
-      0: "Continuing worsens toxicity.",
-      2: "Increasing causes severe toxicity.",
-      3: "The toxicity must be reversed first."
+      "0": "Antiemetics treat N/V, not testosterone.",
+      "2": "Doesn't address fluids.",
+      "3": "Doesn't increase platelets."
+    },
+    labs: [
+      {
+        "name": "Hgb",
+        "value": "8.4",
+        "unit": "g/dL",
+        "range": "normal 13.5-17.5"
+      }
+    ]
+  },
+  {
+    section: "Urinary/Repro",
+    type: "standard",
+    stem: "A pregnant patient with epilepsy is being counseled about antiepileptic medication. Which statement BEST reflects correct teaching?",
+    options: [
+      "Stop all AEDs during pregnancy to protect the fetus",
+      "Switch immediately to valproic acid for safest seizure control",
+      "Use two or more AEDs together to reduce individual dose",
+      "Use ONE AED, take folic acid 400 mcg/day, and avoid valproic acid"
+    ],
+    answer: 3,
+    rationale: "Per review sheet: AEDs ARE teratogenic, but the benefit of preventing seizures OUTWEIGHS the risk (seizures harm the fetus more). MINIMIZE risk: monotherapy (ONE AED only), AVOID valproic acid (highest teratogenic risk), and take FOLIC ACID 400 mcg/day to prevent neural tube defects.",
+    others: {
+      "0": "Stopping AEDs causes uncontrolled seizures = greater fetal harm.",
+      "1": "Valproic acid is the WORST AED in pregnancy.",
+      "2": "Polytherapy increases teratogenic risk."
     }
   },
   {
     section: "Urinary/Repro",
     type: "standard",
-    stem: "A patient is starting trimethoprim-sulfamethoxazole (Bactrim) for a UTI. Which patient history is a contraindication?",
+    stem: "A patient on combined oral contraceptives is scheduled for elective hip surgery in 3 weeks. Which is the appropriate action?",
     options: [
-      "Mild seasonal allergies and rhinitis",
-      "Routine annual physical findings",
-      "Sulfa drug allergy with prior reaction",
-      "Mild lactose intolerance with dairy"
+      "Continue the combination OC up to the day of surgery",
+      "Discontinue only if the patient is over age 40",
+      "Switch to progestin-only pill the morning of surgery",
+      "Discontinue the OC at least 4 weeks prior to surgery"
     ],
-    answer: 2,
-    rationale: "Bactrim contains sulfamethoxazole (a sulfa drug) — contraindicated in patients with sulfa allergy. May cause Stevens-Johnson syndrome or other severe reactions.",
+    answer: 3,
+    rationale: "Combination OCs (estrogen-containing) must be DISCONTINUED 4 WEEKS PRIOR to surgery due to thromboembolism risk. Estrogen increases clotting risk; immobility from surgery compounds it. Patients should also report DVT/PE warning signs (leg pain, chest pain, SOB, severe HA, visual changes) immediately while on the drug.",
     others: {
-      0: "Mild allergies are not a contraindication.",
-      1: "Routine findings are not relevant.",
-      3: "Lactose intolerance is not relevant."
+      "0": "Continuing increases DVT/PE risk.",
+      "1": "Risk applies regardless of age.",
+      "2": "Same-day switch doesn't allow estrogen washout."
     }
   },
   {
@@ -1409,9 +1505,9 @@ const questions = [
     answer: 3,
     rationale: "Levothyroxine must be taken on an empty stomach 30-60 minutes before breakfast — food significantly reduces absorption. Oxymorphone also requires empty stomach.",
     others: {
-      0: "Metformin is taken with meals to reduce GI upset.",
-      1: "Aspirin is taken with food to reduce GI bleeding.",
-      2: "Sertraline can be taken with or without food."
+      "0": "Metformin is taken with meals to reduce GI upset.",
+      "1": "Aspirin is taken with food to reduce GI bleeding.",
+      "2": "Sertraline can be taken with or without food."
     }
   },
   {
@@ -1427,9 +1523,9 @@ const questions = [
     answer: 1,
     rationale: "Fluoxetine (SSRI), tramadol (serotonergic opioid), AND methylene blue (MAOI properties) all increase serotonin — a triple combination at high risk for serotonin syndrome.",
     others: {
-      0: "Cardiovascular drugs, no serotonin risk.",
-      2: "Diabetes drugs, no serotonin risk.",
-      3: "Endocrine/supplements, no serotonin risk."
+      "0": "Cardiovascular drugs, no serotonin risk.",
+      "2": "Diabetes drugs, no serotonin risk.",
+      "3": "Endocrine/supplements, no serotonin risk."
     }
   },
   {
@@ -1445,9 +1541,9 @@ const questions = [
     answer: 2,
     rationale: "QT prolongation predisposes to torsades de pointes (a polymorphic VT) — can degenerate to VF and sudden cardiac death. Methadone, haloperidol, and certain SSRIs/antibiotics carry this BBW.",
     others: {
-      0: "MI is not the QT prolongation risk.",
-      1: "Neuropathy is not the QT issue.",
-      3: "Liver failure is not the QT issue."
+      "0": "MI is not the QT prolongation risk.",
+      "1": "Neuropathy is not the QT issue.",
+      "3": "Liver failure is not the QT issue."
     }
   },
   {
@@ -1462,35 +1558,39 @@ const questions = [
       "Methylphenidate ER (Concerta)",
       "Standard ibuprofen tablets"
     ],
-    answerArr: [0,2,4],
+    answerArr: [
+      0,
+      2,
+      4
+    ],
     rationale: "NEVER crush extended-release formulations — destroys the controlled-release mechanism, causes dose dumping, and may be fatal. Standard immediate-release and plain tablets can typically be split or crushed.",
     perOptionExplanations: {
-      0: "<strong>Oxymorphone ER</strong> — abuse-deterrent, must be swallowed whole.",
-      2: "<strong>Morphine sulfate ER</strong> — extended-release; alcohol BBW; never crush.",
-      4: "<strong>Methylphenidate ER (Concerta)</strong> — OROS technology destroyed by crushing."
+      "0": "<strong>Oxymorphone ER</strong> — abuse-deterrent, must be swallowed whole.",
+      "2": "<strong>Morphine sulfate ER</strong> — extended-release; alcohol BBW; never crush.",
+      "4": "<strong>Methylphenidate ER (Concerta)</strong> — OROS technology destroyed by crushing."
     },
     others: {
-      1: "Standard acetaminophen can be crushed.",
-      3: "Plain aspirin can be crushed (enteric-coated cannot).",
-      5: "Standard ibuprofen can be crushed."
+      "1": "Standard acetaminophen can be crushed.",
+      "3": "Plain aspirin can be crushed (enteric-coated cannot).",
+      "5": "Standard ibuprofen can be crushed."
     }
   },
   {
     section: "Wild Card",
     type: "standard",
-    stem: "A patient is being educated on a new medication. Which statement BEST demonstrates understanding of \"first-pass effect\"?",
+    stem: "A patient has overdosed on diazepam and is unresponsive with RR 6. The nurse anticipates the provider will order which medication?",
     options: [
-      "The drug works fastest after the first dose",
-      "The drug crosses the blood-brain barrier first",
-      "The first cycle of chemo is the most effective",
-      "The drug is metabolized before reaching circulation"
+      "Naloxone for benzodiazepine reversal",
+      "Activated charcoal as the only treatment",
+      "Atropine to counteract sedative effects",
+      "Flumazenil to reverse sedation and respiratory depression"
     ],
     answer: 3,
-    rationale: "First-pass effect = oral medication metabolized by the liver BEFORE reaching systemic circulation. This reduces bioavailability and is why some drugs require higher PO doses than IV equivalents.",
+    rationale: "Flumazenil is the BENZODIAZEPINE antagonist — reverses sedation and respiratory depression. CAUTION: can precipitate seizures, especially in patients on chronic benzo therapy or those with seizure disorders. Naloxone reverses opioids, not benzos. Atropine is anticholinergic, not a reversal agent.",
     others: {
-      0: "Not about onset speed.",
-      1: "BBB crossing is a different concept.",
-      2: "First-order kinetics is different."
+      "0": "Naloxone is for opioids, not benzos.",
+      "1": "Charcoal alone won't reverse acute respiratory depression.",
+      "2": "Atropine doesn't reverse benzodiazepines."
     }
   },
   {
@@ -1506,9 +1606,9 @@ const questions = [
     answer: 0,
     rationale: "Severe rash + fever + mucosal lesions = Stevens-Johnson syndrome (SJS) — a life-threatening drug reaction. Common triggers include sulfa drugs, anticonvulsants (phenytoin, carbamazepine), and allopurinol. Stop the drug and provide intensive care.",
     others: {
-      1: "SJS is a medical emergency, not mild.",
-      2: "Drug reaction is more likely with this constellation.",
-      3: "Not a stress response."
+      "1": "SJS is a medical emergency, not mild.",
+      "2": "Drug reaction is more likely with this constellation.",
+      "3": "Not a stress response."
     }
   },
   {
@@ -1524,9 +1624,9 @@ const questions = [
     answer: 1,
     rationale: "Fentanyl patches MUST be stored away from children and pets — even used patches contain fatal amounts of drug. NEVER store within child's reach.",
     others: {
-      0: "Original containers preserve labeling and identity.",
-      2: "Checking expiration is correct.",
-      3: "Locked storage prevents diversion and accidental exposure."
+      "0": "Original containers preserve labeling and identity.",
+      "2": "Checking expiration is correct.",
+      "3": "Locked storage prevents diversion and accidental exposure."
     }
   },
   {
@@ -1542,12 +1642,11 @@ const questions = [
     answer: 3,
     rationale: "Ginkgo biloba has antiplatelet effects — combined with warfarin, dramatically increases bleeding risk. Other concerning herbals: ginger, garlic, ginseng, fish oil, vitamin E.",
     others: {
-      0: "Calcium has no significant warfarin interaction.",
-      1: "Glucosamine is not a major bleeding risk.",
-      2: "Vitamin D is generally safe."
+      "0": "Calcium has no significant warfarin interaction.",
+      "1": "Glucosamine is not a major bleeding risk.",
+      "2": "Vitamin D is generally safe."
     }
   }
-
 ];
 
 // === QUIZ ENGINE ===
@@ -1623,6 +1722,12 @@ function extractLabs(stem) {
     { re: /\beGFR\s+(?:of\s+|is\s+)?(\d{1,3})\s*(?:mL\/min)?/gi, name: 'eGFR', unit: 'mL/min' },
     { re: /\b(?:urine output|UOP)\s+(?:of\s+|is\s+)?(\d{1,3})\s*mL\/hr/gi, name: 'UOP', unit: 'mL/hr' },
 
+    // Osmolality
+    { re: /\b(?:serum\s+)?osmolality\s+(?:of\s+|is\s+)?(\d{2,3})\s*mOsm\/kg/gi, name: 'Osmolality', unit: 'mOsm/kg' },
+
+    // ECG
+    { re: /\bQT\s+(?:interval\s+)?(?:of\s+)?(\d{3,4})\s*(?:msec|ms)?/gi, name: 'QT', unit: 'msec' },
+
     // Pain
     { re: /\bpain\s+(?:rating\s+|score\s+|level\s+)?(?:of\s+|is\s+|at\s+)?(\d{1,2})\/10/gi, name: 'Pain', unit: '/10' },
 
@@ -1654,8 +1759,8 @@ function extractLabs(stem) {
       const afterIdx = m.index + m[0].length;
       const tail = stem.slice(afterIdx, afterIdx + 100);
 
-      // Format 1: paren immediately after
-      const parenMatch = tail.match(/^\s*\(([^)]+)\)/);
+      // Format 1: paren after match (allowing optional unit text up to 30 chars)
+      const parenMatch = tail.match(/^[^()]{0,30}?\(([^)]+)\)/);
       if (parenMatch && /normal|baseline|expected|cutoff|target|was|therapeutic|toxic/i.test(parenMatch[1])) {
         range = parenMatch[1].trim();
       }
@@ -1697,7 +1802,11 @@ function extractLabs(stem) {
 
 function renderLabStrip(labs) {
   if (!labs || labs.length === 0) return '';
-  const items = labs.map(function(l) {
+  // Skip vitals from the strip — students should know normal ranges for these
+  const VITALS_DENYLIST = new Set(['BP', 'HR', 'Pulse', 'RR', 'Temp', 'SpO2', 'Pain']);
+  const filtered = labs.filter(function(l) { return !VITALS_DENYLIST.has(l.name); });
+  if (filtered.length === 0) return '';
+  const items = filtered.map(function(l) {
     const range = l.range ? '<div class="lab-range">' + escapeStemHTML(l.range) + '</div>' : '';
     const unit = l.unit ? ' <span class="lab-value-unit">' + escapeStemHTML(l.unit) + '</span>' : '';
     return '<div class="lab-item"><div class="lab-name">' + escapeStemHTML(l.name) + '</div><div class="lab-value">' + escapeStemHTML(l.value) + unit + '</div>' + range + '</div>';
@@ -1724,7 +1833,7 @@ function showQuestion() {
   let html = `<div class="question-card">
     <div class="q-number">Question ${currentQ + 1} of ${TOTAL}</div>
     <span class="q-section-tag">${q.section}</span>
-    ${__labStrip}<div class="q-stem">${q.stem}</div>`;
+    <div class="q-stem">${q.stem}</div>${__labStrip}`;
   if (q.type === 'sata') html += `<div style="font-family:'DM Mono', monospace; font-size:12px; color:var(--purple); margin-bottom:12px;">SELECT ALL THAT APPLY</div>`;
   html += `<div class="options" id="options-list">`;
   q.options.forEach((opt, i) => {
