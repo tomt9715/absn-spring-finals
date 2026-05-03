@@ -51,6 +51,11 @@
     .btn:disabled { background: rgba(255,255,255,0.2); color: rgba(255,255,255,0.5); cursor: not-allowed; }
     .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
     .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 16px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--gold); transition: width 0.4s ease; width: 0%; }
+    .top-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
     .lab-strip { margin-top: 14px; margin-bottom: 18px; padding: 12px 14px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; border-left: 3px solid var(--teal); }
     .lab-strip-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
     .lab-row { display: flex; flex-wrap: wrap; gap: 12px 18px; }
@@ -60,11 +65,6 @@
     .lab-value-unit { font-weight: 400; color: var(--muted); font-size: 11px; }
     .lab-range { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 1px; }
 
-    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 16px; overflow: hidden; }
-    .progress-fill { height: 100%; background: var(--gold); transition: width 0.4s ease; width: 0%; }
-    .top-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
-    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
-    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
     .options { display: flex; flex-direction: column; gap: 10px; }
     .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
     .option:hover:not(.locked) { border-color: var(--gold); background: var(--gold-pale); }
@@ -1316,129 +1316,6 @@ function escapeStemHTML(s) {
   div.textContent = String(s);
   return div.innerHTML;
 }
-
-function showQuestion() {
-  selectedIdx = null;
-  const q = questions[currentQ];
-  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
-  document.getElementById('q-points').textContent = `${totalPoints} pts`;
-  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
-  const labs = q.labs || extractLabs(q.stem);
-  const labStrip = renderLabStrip(labs);
-  document.getElementById('q-stem').innerHTML = '<div>' + escapeStemHTML(q.stem) + '</div>' + labStrip;
-
-  const optsEl = document.getElementById('q-options');
-  optsEl.innerHTML = '';
-  q.options.forEach((opt, i) => {
-    const btn = document.createElement('div');
-    btn.className = 'option';
-    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
-    btn.onclick = () => selectOption(i);
-    optsEl.appendChild(btn);
-  });
-
-  document.getElementById('rationale-area').classList.add('hidden');
-  document.getElementById('rationale-area').classList.remove('wrong-bg');
-  document.getElementById('action-row').classList.remove('has-rationale');
-  document.getElementById('submit-btn').classList.remove('hidden');
-  document.getElementById('submit-btn').disabled = true;
-  document.getElementById('next-btn').classList.add('hidden');
-}
-
-function selectOption(idx) {
-  if (document.querySelector('.option.locked')) return;
-  selectedIdx = idx;
-  document.querySelectorAll('.option').forEach((el, i) => {
-    el.classList.toggle('selected', i === idx);
-  });
-  document.getElementById('submit-btn').disabled = false;
-}
-
-function submitAnswer() {
-  if (selectedIdx === null) return;
-  const q = questions[currentQ];
-  const correct = selectedIdx === q.answer;
-  const opts = document.querySelectorAll('.option');
-
-  opts.forEach((el, i) => {
-    el.classList.add('locked');
-    el.classList.remove('selected');
-    if (i === q.answer) el.classList.add('correct');
-    else if (i === selectedIdx) el.classList.add('wrong');
-  });
-
-  if (correct) {
-    score++;
-    totalPoints++;
-  }
-  answers.push({ q, selectedIdx, correct });
-
-  const r = document.getElementById('rationale-area');
-  r.classList.remove('hidden');
-  document.getElementById('action-row').classList.add('has-rationale');
-  if (!correct) r.classList.add('wrong-bg');
-  let html = `<span class="concept-pill">${q.concept}</span>`;
-  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
-  if (q.deepExplanation) {
-    html += `<div class="deep-block"><strong>Deeper:</strong> ${q.deepExplanation}</div>`;
-  }
-  if (q.others && Object.keys(q.others).length > 0) {
-    html += `<ul class="others-list">`;
-    Object.keys(q.others).forEach(k => {
-      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
-    });
-    html += `</ul>`;
-  }
-  r.innerHTML = html;
-
-  document.getElementById('q-points').textContent = `${totalPoints} pts`;
-  document.getElementById('submit-btn').classList.add('hidden');
-  document.getElementById('next-btn').classList.remove('hidden');
-}
-
-function nextQuestion() {
-  currentQ++;
-  if (currentQ >= TOTAL) {
-    showResults();
-  } else {
-    showQuestion();
-    window.scrollTo({ top: 0, behavior: 'instant' });
-  }
-}
-
-function showResults() {
-  document.getElementById('quiz-screen').classList.add('hidden');
-  document.getElementById('results-screen').classList.remove('hidden');
-
-  const pct = Math.round((totalPoints / TOTAL) * 100);
-  document.getElementById('r-score').textContent = `${pct}%`;
-  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
-
-  let msg = '';
-  if (pct >= 90) msg = 'Strong application of high-risk pregnancy. You are ready for this material on the final.';
-  else if (pct >= 77) msg = 'Passing range. Review the missed scenarios below before moving on.';
-  else if (pct >= 60) msg = 'Below pass threshold. Review the missed items, retry, then re-confirm with the Knowledge Check.';
-  else msg = 'Heavy review needed. Re-read Ch 20, work through the missed items below, and try again before the final.';
-  document.getElementById('r-msg').textContent = msg;
-
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
-
-  const missed = answers.filter(a => !a.correct);
-  if (missed.length > 0) {
-    let html = `<h3>Review these (${missed.length} missed)</h3>`;
-    missed.forEach(m => {
-      html += `<div class="missed-item">
-        <div class="stem">${m.q.stem}</div>
-        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
-        <div class="rat">${m.q.rationale}</div>
-      </div>`;
-    });
-    document.getElementById('missed-section').innerHTML = html;
-  }
-}
-</script>
-</body>
-</html>
 
 function showQuestion() {
   const q = questions[currentQ];
