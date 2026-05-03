@@ -509,7 +509,7 @@ const questions = [
     topic: "Endocrine",
     confirmed: false,
     type: "standard",
-    stem: "A T2DM patient arrives in the ED with a glucose of 685 mg/dL (normal 70-110), BUN 48 (normal 7-20), and is lethargic with poor skin turgor. The provider orders IV insulin and IV normal saline. Which order should the nurse implement first?",
+    stem: "A T2DM patient arrives in the ED lethargic with poor skin turgor and the labs below. The provider orders IV insulin and IV normal saline. Which order should the nurse question?",
     options: [
       "Begin IV regular insulin infusion at 0.1 units/kg/hr",
       "Administer the IV potassium chloride that was ordered",
@@ -524,7 +524,21 @@ const questions = [
       "0": "Insulin is needed but not first — fluids must be running before insulin starts.",
       "1": "Potassium replacement may be needed once levels are checked but is not the first action.",
       "2": "An ECG is not the priority over starting fluids."
-    }
+    },
+    labs: [
+      {
+        "name": "Glucose",
+        "value": "685",
+        "unit": "mg/dL",
+        "range": "normal 70-110"
+      },
+      {
+        "name": "BUN",
+        "value": "48",
+        "unit": "mg/dL",
+        "range": "normal 7-20"
+      }
+    ]
   },
   {
     topic: "Endocrine",
@@ -644,7 +658,11 @@ const questions = [
       "Patient is 8 years old with newly diagnosed Graves disease",
       "Patient has a visible goiter on physical examination"
     ],
-    answerArr: [0, 2, 4],
+    answerArr: [
+      0,
+      2,
+      4
+    ],
     concept: "I-131 absolute CIs",
     rationale: "I-131 is absolutely contraindicated in pregnancy, lactation, and pediatric patients. Age, controlled HTN, and goiter (the indication itself) are not contraindications.",
     others: {
@@ -771,7 +789,12 @@ const questions = [
       "Type 2 diabetes mellitus history",
       "Blood glucose 180 mg/dL"
     ],
-    answerArr: [0, 1, 3, 4],
+    answerArr: [
+      0,
+      1,
+      3,
+      4
+    ],
     concept: "HHNS clinical picture",
     rationale: "HHNS = T2DM + extreme hyperglycemia (>600) + dehydration + altered mental status, WITHOUT ketoacidosis (which is the DKA picture).",
     others: {
@@ -823,7 +846,7 @@ const questions = [
   }
 ];
 
-        // === QUIZ ENGINE ===
+// === QUIZ ENGINE ===
 const TOTAL = questions.length;
 let currentQ = 0;
 let totalPoints = 0;

@@ -153,540 +153,564 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--navy)
 <script>
 const questions = [
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'How long must pain last to be classified as "chronic"?',
+    type: "standard",
+    stem: "How long must pain last to be classified as \"chronic\"?",
     options: [
-      'Less than 1 month',
-      '1 to 3 months',
-      '6 months or more',
-      '12 months minimum'
+      "Less than 1 month",
+      "1 to 3 months",
+      "6 months or more",
+      "12 months minimum"
     ],
     answer: 2,
-    concept: 'Chronic pain definition',
-    rationale: 'Chronic pain lasts 6 months or more — the threshold that distinguishes it from acute pain.',
-    deepExplanation: 'Acute pain typically lasts 3-6 months and is associated with tissue injury. Chronic pain (over 6 months) often persists beyond the expected healing time and can occur without ongoing tissue damage. Different pain durations require different management approaches.',
+    concept: "Chronic pain definition",
+    rationale: "Chronic pain lasts 6 months or more — the threshold that distinguishes it from acute pain.",
+    deepExplanation: "Acute pain typically lasts 3-6 months and is associated with tissue injury. Chronic pain (over 6 months) often persists beyond the expected healing time and can occur without ongoing tissue damage. Different pain durations require different management approaches.",
     others: {
-      0: 'Less than 1 month is acute pain.',
-      1: '1-3 months is still acute pain.',
-      3: '12 months exceeds the chronic threshold by far.'
+      "0": "Less than 1 month is acute pain.",
+      "1": "1-3 months is still acute pain.",
+      "3": "12 months exceeds the chronic threshold by far."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'sata',
-    stem: 'Which conditions are contraindications to opioid use? Select all that apply.',
+    type: "sata",
+    stem: "Which conditions are contraindications to opioid use? Select all that apply.",
     options: [
-      'Active acute respiratory depression',
-      'Paralytic ileus or known bowel obstruction',
-      'Mild seasonal allergies and rhinitis',
-      'Head trauma with loss of consciousness',
-      'Routine annual wellness exam visit',
-      'Pregnancy or active lactation period'
+      "Active acute respiratory depression",
+      "Paralytic ileus or known bowel obstruction",
+      "Mild seasonal allergies and rhinitis",
+      "Head trauma with loss of consciousness",
+      "Routine annual wellness exam visit",
+      "Pregnancy or active lactation period"
     ],
-    answerArr: [0, 1, 3, 5],
-    concept: 'Opioid contraindications',
-    rationale: 'Opioids are contraindicated in respiratory depression, paralytic ileus, head trauma/unconsciousness, and (caution required) pregnancy/lactation.',
+    answerArr: [
+      0,
+      1,
+      3,
+      5
+    ],
+    concept: "Opioid contraindications",
+    rationale: "Opioids are contraindicated in respiratory depression, paralytic ileus, head trauma/unconsciousness, and (caution required) pregnancy/lactation.",
     perOptionExplanations: {
-      0: '<strong>Respiratory depression</strong> — opioids worsen breathing.',
-      1: '<strong>Paralytic ileus</strong> — opioids decrease GI motility, worsening ileus.',
-      3: '<strong>Head trauma/LOC</strong> — opioids mask neuro changes and increase ICP.',
-      5: '<strong>Pregnancy/lactation</strong> — caution required to avoid fetal/neonatal effects.'
+      "0": "<strong>Respiratory depression</strong> — opioids worsen breathing.",
+      "1": "<strong>Paralytic ileus</strong> — opioids decrease GI motility, worsening ileus.",
+      "3": "<strong>Head trauma/LOC</strong> — opioids mask neuro changes and increase ICP.",
+      "5": "<strong>Pregnancy/lactation</strong> — caution required to avoid fetal/neonatal effects."
     },
     others: {
-      2: 'Mild allergies are not opioid contraindications.',
-      4: 'Routine wellness exams are not relevant to opioid CIs.'
+      "2": "Mild allergies are not opioid contraindications.",
+      "4": "Routine wellness exams are not relevant to opioid CIs."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'Activation of the mu opioid receptor produces all of the following effects EXCEPT which one?',
+    type: "standard",
+    stem: "Activation of the mu opioid receptor produces all of the following effects EXCEPT which one?",
     options: [
-      'Severe hypertension and tachycardia',
-      'Analgesia and pain relief',
-      'Respiratory depression and sedation',
-      'Decreased GI motility and constipation'
+      "Severe hypertension and tachycardia",
+      "Analgesia and pain relief",
+      "Respiratory depression and sedation",
+      "Decreased GI motility and constipation"
     ],
     answer: 0,
-    concept: 'Mu receptor effects',
-    rationale: 'Mu receptor activation does NOT cause hypertension or tachycardia. The classic mu effects are: analgesia, respiratory depression, sedation, euphoria, physical dependence, and decreased GI motility (constipation).',
-    deepExplanation: 'Mu receptor activation actually tends to lower BP and HR (hypotension, bradycardia). The full list of mu effects: analgesia, respiratory depression, sedation, euphoria, physical dependence, decreased GI motility. These are predictable and explain both the desired analgesic effects and the major side effect profile.',
+    concept: "Mu receptor effects",
+    rationale: "Mu receptor activation does NOT cause hypertension or tachycardia. The classic mu effects are: analgesia, respiratory depression, sedation, euphoria, physical dependence, and decreased GI motility (constipation).",
+    deepExplanation: "Mu receptor activation actually tends to lower BP and HR (hypotension, bradycardia). The full list of mu effects: analgesia, respiratory depression, sedation, euphoria, physical dependence, decreased GI motility. These are predictable and explain both the desired analgesic effects and the major side effect profile.",
     others: {
-      1: 'Analgesia IS a mu effect.',
-      2: 'Respiratory depression and sedation ARE mu effects.',
-      3: 'Decreased GI motility IS a mu effect.'
+      "1": "Analgesia IS a mu effect.",
+      "2": "Respiratory depression and sedation ARE mu effects.",
+      "3": "Decreased GI motility IS a mu effect."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'A patient on long-term opioids for chronic pain develops tolerance. To which effect does tolerance NOT develop?',
+    type: "standard",
+    stem: "A patient on long-term opioids for chronic pain develops tolerance. To which effect does tolerance NOT develop?",
     options: [
-      'Therapeutic analgesia',
-      'Constipation and miosis',
-      'Sedation effects',
-      'Respiratory depression'
+      "Therapeutic analgesia",
+      "Constipation and miosis",
+      "Sedation effects",
+      "Respiratory depression"
     ],
     answer: 1,
-    concept: 'No tolerance to constipation/miosis',
-    rationale: 'No tolerance ever develops to constipation or miosis — these effects persist throughout opioid therapy.',
-    deepExplanation: 'Tolerance develops to analgesia, euphoria, sedation, and respiratory depression — meaning patients require larger doses to achieve the same effect. But constipation and miosis (pinpoint pupils) persist indefinitely. This is why opioid users always need a bowel regimen.',
+    concept: "No tolerance to constipation/miosis",
+    rationale: "No tolerance ever develops to constipation or miosis — these effects persist throughout opioid therapy.",
+    deepExplanation: "Tolerance develops to analgesia, euphoria, sedation, and respiratory depression — meaning patients require larger doses to achieve the same effect. But constipation and miosis (pinpoint pupils) persist indefinitely. This is why opioid users always need a bowel regimen.",
     others: {
-      0: 'Tolerance DOES develop to analgesia.',
-      2: 'Tolerance DOES develop to sedation.',
-      3: 'Tolerance DOES develop to respiratory depression.'
+      "0": "Tolerance DOES develop to analgesia.",
+      "2": "Tolerance DOES develop to sedation.",
+      "3": "Tolerance DOES develop to respiratory depression."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'Morphine extended-release capsules carry a black box warning for fatal overdose when consumed with which substance?',
+    type: "standard",
+    stem: "Morphine extended-release capsules carry a black box warning for fatal overdose when consumed with which substance?",
     options: [
-      'Caffeinated beverages',
-      'Alcohol',
-      'Grapefruit juice',
-      'Calcium-rich dairy products'
+      "Caffeinated beverages",
+      "Alcohol",
+      "Grapefruit juice",
+      "Calcium-rich dairy products"
     ],
     answer: 1,
-    concept: 'Morphine BBW + alcohol',
-    rationale: 'Morphine ER capsules carry a black box warning for fatal overdose if consumed with alcohol — alcohol disrupts the extended-release mechanism, causing dose dumping.',
-    deepExplanation: 'Alcohol can rapidly release the entire 24-hour dose at once, causing fatal respiratory depression. Patients on morphine ER must be educated about strict alcohol avoidance. Other CNS depressants (benzodiazepines, barbiturates) also stack risks.',
+    concept: "Morphine BBW + alcohol",
+    rationale: "Morphine ER capsules carry a black box warning for fatal overdose if consumed with alcohol — alcohol disrupts the extended-release mechanism, causing dose dumping.",
+    deepExplanation: "Alcohol can rapidly release the entire 24-hour dose at once, causing fatal respiratory depression. Patients on morphine ER must be educated about strict alcohol avoidance. Other CNS depressants (benzodiazepines, barbiturates) also stack risks.",
     others: {
-      0: 'Caffeine is not the BBW substance.',
-      2: 'Grapefruit is not the morphine BBW substance (relevant to other drugs).',
-      3: 'Dairy is not contraindicated.'
+      "0": "Caffeine is not the BBW substance.",
+      "2": "Grapefruit is not the morphine BBW substance (relevant to other drugs).",
+      "3": "Dairy is not contraindicated."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'A patient is considered "opioid-tolerant" if they have been taking which dose for at least how long?',
+    type: "standard",
+    stem: "A patient is considered \"opioid-tolerant\" if they have been taking which dose for at least how long?",
     options: [
-      '60 mg oral morphine equivalents/day for 1 week',
-      'Any opioid taken for at least 48 hours',
-      '10 mg of oral morphine taken for 1 day',
-      '5 mg of oral morphine taken for 1 month'
+      "60 mg oral morphine equivalents/day for 1 week",
+      "Any opioid taken for at least 48 hours",
+      "10 mg of oral morphine taken for 1 day",
+      "5 mg of oral morphine taken for 1 month"
     ],
     answer: 0,
-    concept: 'Opioid tolerant definition',
-    rationale: 'Opioid-tolerant = taking at least 60 mg of oral morphine equivalents daily for at least 1 week.',
-    deepExplanation: 'This clinical definition matters because certain medications (like fentanyl patches) require opioid tolerance for safe use. Tolerance means the patient can safely receive higher doses without immediate respiratory depression — but tolerance only develops with sustained, high-dose exposure.',
+    concept: "Opioid tolerant definition",
+    rationale: "Opioid-tolerant = taking at least 60 mg of oral morphine equivalents daily for at least 1 week.",
+    deepExplanation: "This clinical definition matters because certain medications (like fentanyl patches) require opioid tolerance for safe use. Tolerance means the patient can safely receive higher doses without immediate respiratory depression — but tolerance only develops with sustained, high-dose exposure.",
     others: {
-      1: '48 hours is far too short to develop tolerance.',
-      2: '10 mg for 1 day is not nearly enough.',
-      3: '5 mg for 1 month is below the daily threshold.'
+      "1": "48 hours is far too short to develop tolerance.",
+      "2": "10 mg for 1 day is not nearly enough.",
+      "3": "5 mg for 1 month is below the daily threshold."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'Where should a fentanyl transdermal patch be applied?',
+    type: "standard",
+    stem: "Where should a fentanyl transdermal patch be applied?",
     options: [
-      'On the patient\'s lower abdomen near the umbilicus',
-      'On the lower extremities below the knee',
-      'On the patient\'s palms or soles of the feet',
-      'On the upper torso (chest, back, or upper arm)'
+      "On the patient's lower abdomen near the umbilicus",
+      "On the lower extremities below the knee",
+      "On the patient's palms or soles of the feet",
+      "On the upper torso (chest, back, or upper arm)"
     ],
     answer: 3,
-    concept: 'Fentanyl patch site',
-    rationale: 'Fentanyl transdermal patches should be applied to the upper torso (chest, back, or upper arm).',
-    deepExplanation: 'Avoid sites prone to motion, sweating, or compression. The patch is changed every 72 hours. Always remove the old patch before applying a new one. Fold the old patch in half (sticky sides together) and flush it down the toilet to prevent diversion.',
+    concept: "Fentanyl patch site",
+    rationale: "Fentanyl transdermal patches should be applied to the upper torso (chest, back, or upper arm).",
+    deepExplanation: "Avoid sites prone to motion, sweating, or compression. The patch is changed every 72 hours. Always remove the old patch before applying a new one. Fold the old patch in half (sticky sides together) and flush it down the toilet to prevent diversion.",
     others: {
-      0: 'Lower abdomen is not the recommended site.',
-      1: 'Lower extremities are not appropriate.',
-      2: 'Palms/soles are not appropriate.'
+      "0": "Lower abdomen is not the recommended site.",
+      "1": "Lower extremities are not appropriate.",
+      "2": "Palms/soles are not appropriate."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'How often should a fentanyl transdermal patch be changed?',
+    type: "standard",
+    stem: "How often should a fentanyl transdermal patch be changed?",
     options: [
-      'Every 12 hours',
-      'Every 24 hours',
-      'Every 72 hours',
-      'Every 7 days'
+      "Every 12 hours",
+      "Every 24 hours",
+      "Every 72 hours",
+      "Every 7 days"
     ],
     answer: 2,
-    concept: 'Fentanyl patch frequency',
-    rationale: 'Fentanyl transdermal patches are changed every 72 hours.',
-    deepExplanation: 'The patch provides 72 hours of continuous opioid delivery. Always remove the old patch before applying a new one to prevent overdose. Fold the used patch in half and flush down the toilet for safe disposal.',
+    concept: "Fentanyl patch frequency",
+    rationale: "Fentanyl transdermal patches are changed every 72 hours.",
+    deepExplanation: "The patch provides 72 hours of continuous opioid delivery. Always remove the old patch before applying a new one to prevent overdose. Fold the used patch in half and flush down the toilet for safe disposal.",
     others: {
-      0: '12 hours is too frequent.',
-      1: '24 hours is too frequent.',
-      3: '7 days is too long.'
+      "0": "12 hours is too frequent.",
+      "1": "24 hours is too frequent.",
+      "3": "7 days is too long."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'sata',
-    stem: 'A patient with a fentanyl transdermal patch should AVOID which activities? Select all that apply.',
+    type: "sata",
+    stem: "A patient with a fentanyl transdermal patch should AVOID which activities? Select all that apply.",
     options: [
-      'Direct heat sources like heating pads',
-      'Brief lukewarm showers',
-      'Sunbathing for prolonged periods',
-      'Massage over the patch site',
-      'Taking acetaminophen as needed',
-      'Strenuous exercise'
+      "Direct heat sources like heating pads",
+      "Brief lukewarm showers",
+      "Sunbathing for prolonged periods",
+      "Massage over the patch site",
+      "Taking acetaminophen as needed",
+      "Strenuous exercise"
     ],
-    answerArr: [0, 2, 3, 5],
-    concept: 'Fentanyl patch activities',
-    rationale: 'Avoid direct heat, sunbathing, massage, and strenuous exercise — all increase absorption to fatal levels.',
+    answerArr: [
+      0,
+      2,
+      3,
+      5
+    ],
+    concept: "Fentanyl patch activities",
+    rationale: "Avoid direct heat, sunbathing, massage, and strenuous exercise — all increase absorption to fatal levels.",
     perOptionExplanations: {
-      0: '<strong>Direct heat</strong> — heating pads dangerously increase absorption.',
-      2: '<strong>Sunbathing</strong> — heat exposure increases absorption.',
-      3: '<strong>Massage over the patch</strong> — increases absorption.',
-      5: '<strong>Strenuous exercise</strong> — body heat from exercise increases absorption.'
+      "0": "<strong>Direct heat</strong> — heating pads dangerously increase absorption.",
+      "2": "<strong>Sunbathing</strong> — heat exposure increases absorption.",
+      "3": "<strong>Massage over the patch</strong> — increases absorption.",
+      "5": "<strong>Strenuous exercise</strong> — body heat from exercise increases absorption."
     },
     others: {
-      1: 'Brief lukewarm showers are acceptable.',
-      4: 'Acetaminophen is acceptable adjunct therapy.'
+      "1": "Brief lukewarm showers are acceptable.",
+      "4": "Acetaminophen is acceptable adjunct therapy."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'A nurse is preparing to apply a new fentanyl patch. The patient still has yesterday\'s patch in place. What is the correct action?',
+    type: "standard",
+    stem: "A nurse is preparing to apply a new fentanyl patch. The patient still has yesterday's patch in place. What is the correct action?",
     options: [
-      'Apply the new patch directly over the old one for full coverage',
-      'Apply the new patch on the opposite side without removing old',
-      'Cut the new patch in half so the dose is not too high',
-      'Always remove the old patch first before applying the new one'
+      "Apply the new patch directly over the old one for full coverage",
+      "Apply the new patch on the opposite side without removing old",
+      "Cut the new patch in half so the dose is not too high",
+      "Always remove the old patch first before applying the new one"
     ],
     answer: 3,
-    concept: 'Patch removal sequence',
-    rationale: 'Always remove the old patch before applying a new one — leaving both on can cause overdose.',
-    deepExplanation: 'Fentanyl patches are NEVER cut (this disrupts the extended-release mechanism and can cause fatal overdose). Always remove the old patch first, then apply the new one to a different site on the upper torso.',
+    concept: "Patch removal sequence",
+    rationale: "Always remove the old patch before applying a new one — leaving both on can cause overdose.",
+    deepExplanation: "Fentanyl patches are NEVER cut (this disrupts the extended-release mechanism and can cause fatal overdose). Always remove the old patch first, then apply the new one to a different site on the upper torso.",
     others: {
-      0: 'Stacking patches doubles the dose — fatal.',
-      1: 'Two patches on opposite sides still doubles the dose.',
-      2: 'Cutting a fentanyl patch is dangerous and contraindicated.'
+      "0": "Stacking patches doubles the dose — fatal.",
+      "1": "Two patches on opposite sides still doubles the dose.",
+      "2": "Cutting a fentanyl patch is dangerous and contraindicated."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'Fentanyl patches are only appropriate for which patient population?',
+    type: "standard",
+    stem: "Fentanyl patches are only appropriate for which patient population?",
     options: [
-      'Opioid-tolerant patients over 2 years old',
-      'Any adult patient with severe pain',
-      'Children under 1 year old with chronic pain',
-      'All pediatric patients with acute pain'
+      "Opioid-tolerant patients over 2 years old",
+      "Any adult patient with severe pain",
+      "Children under 1 year old with chronic pain",
+      "All pediatric patients with acute pain"
     ],
     answer: 0,
-    concept: 'Fentanyl patch population',
-    rationale: 'Fentanyl patches should only be used in opioid-tolerant patients over 2 years old.',
-    deepExplanation: 'Opioid-naive patients can suffer fatal respiratory depression from the high doses delivered by patches. Patches are reserved for chronic pain patients already tolerant to opioids. Pediatric patients under 2 are excluded entirely.',
+    concept: "Fentanyl patch population",
+    rationale: "Fentanyl patches should only be used in opioid-tolerant patients over 2 years old.",
+    deepExplanation: "Opioid-naive patients can suffer fatal respiratory depression from the high doses delivered by patches. Patches are reserved for chronic pain patients already tolerant to opioids. Pediatric patients under 2 are excluded entirely.",
     others: {
-      1: 'Not safe for opioid-naive patients.',
-      2: 'Patches are NOT for children under 2.',
-      3: 'Patches are NOT for opioid-naive pediatric patients.'
+      "1": "Not safe for opioid-naive patients.",
+      "2": "Patches are NOT for children under 2.",
+      "3": "Patches are NOT for opioid-naive pediatric patients."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'Methadone carries a black box warning for which adverse effect?',
+    type: "standard",
+    stem: "Methadone carries a black box warning for which adverse effect?",
     options: [
-      'Fatal respiratory depression at any dose',
-      'QT prolongation requiring ECG monitoring',
-      'Severe acute liver failure within 24 hours',
-      'Permanent kidney damage and dialysis'
+      "Fatal respiratory depression at any dose",
+      "QT prolongation requiring ECG monitoring",
+      "Severe acute liver failure within 24 hours",
+      "Permanent kidney damage and dialysis"
     ],
     answer: 1,
-    concept: 'Methadone QT BBW',
-    rationale: 'Methadone carries a BBW for QT prolongation — an ECG must be performed prior to starting, at 30 days, and annually.',
-    deepExplanation: 'Methadone is contraindicated or requires discontinuation if the QT interval exceeds 500 msec. Methadone is used for severe pain and detox. The QT prolongation risk can lead to torsades de pointes and sudden cardiac death.',
+    concept: "Methadone QT BBW",
+    rationale: "Methadone carries a BBW for QT prolongation — an ECG must be performed prior to starting, at 30 days, and annually.",
+    deepExplanation: "Methadone is contraindicated or requires discontinuation if the QT interval exceeds 500 msec. Methadone is used for severe pain and detox. The QT prolongation risk can lead to torsades de pointes and sudden cardiac death.",
     others: {
-      0: 'Respiratory depression is a risk but not the primary BBW.',
-      2: 'Liver failure is not the methadone BBW.',
-      3: 'Kidney damage is not the methadone BBW.'
+      "0": "Respiratory depression is a risk but not the primary BBW.",
+      "2": "Liver failure is not the methadone BBW.",
+      "3": "Kidney damage is not the methadone BBW."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'A patient on methadone has a baseline ECG showing QT interval of 480 msec. The next ECG at 30 days shows QT of 510 msec. What is the priority action?',
+    type: "standard",
+    stem: "A patient starting methadone has a baseline ECG below. The next ECG at 30 days is also shown. What is the priority action?",
     options: [
-      'Continue methadone — the QT change is acceptable',
-      'Reduce the dose by 25% and recheck in 1 week',
-      'Add a beta-blocker to control the QT interval',
-      'Discontinue methadone — QT exceeds 500 msec'
+      "Continue methadone — the QT change is acceptable",
+      "Reduce the dose by 25% and recheck in 1 week",
+      "Add a beta-blocker to control the QT interval",
+      "Discontinue methadone — QT exceeds 500 msec"
     ],
     answer: 3,
-    concept: 'Methadone QT threshold',
-    rationale: 'Methadone is contraindicated and requires discontinuation if the QT interval exceeds 500 msec — at 510 msec, the drug must be stopped.',
-    deepExplanation: 'QT prolongation puts the patient at risk for torsades de pointes (a polymorphic VT) and sudden cardiac death. ECGs are required at baseline, 30 days, and annually. The provider determines the alternative pain management strategy.',
+    concept: "Methadone QT threshold",
+    rationale: "Methadone is contraindicated and requires discontinuation if the QT interval exceeds 500 msec — at 510 msec, the drug must be stopped.",
+    deepExplanation: "QT prolongation puts the patient at risk for torsades de pointes (a polymorphic VT) and sudden cardiac death. ECGs are required at baseline, 30 days, and annually. The provider determines the alternative pain management strategy.",
     others: {
-      0: 'A QT over 500 is dangerous and requires action.',
-      1: 'Dose reduction is not the standard for QT > 500 — discontinuation is.',
-      2: 'Adding a beta-blocker doesn\'t shorten QT.'
-    }
+      "0": "A QT over 500 is dangerous and requires action.",
+      "1": "Dose reduction is not the standard for QT > 500 — discontinuation is.",
+      "2": "Adding a beta-blocker doesn't shorten QT."
+    },
+    labs: [
+      {
+        "name": "QT (baseline)",
+        "value": "480",
+        "unit": "msec",
+        "range": "normal <450"
+      },
+      {
+        "name": "QT (30 days)",
+        "value": "510",
+        "unit": "msec",
+        "range": "concerning >500"
+      }
+    ]
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'Lidocaine patches should be applied for how long during each 24-hour period?',
+    type: "standard",
+    stem: "Lidocaine patches should be applied for how long during each 24-hour period?",
     options: [
-      '4 hours on, then 20 hours off',
-      '24 hours continuously without removal',
-      '12 hours on, then 12 hours off',
-      'Once weekly for sustained relief'
+      "4 hours on, then 20 hours off",
+      "24 hours continuously without removal",
+      "12 hours on, then 12 hours off",
+      "Once weekly for sustained relief"
     ],
     answer: 2,
-    concept: 'Lidocaine 12 on/12 off',
-    rationale: 'Lidocaine patches are applied for 12 hours on, followed by 12 hours off — to prevent toxicity from continuous absorption.',
-    deepExplanation: 'The 12-hour off period allows lidocaine levels to drop, preventing systemic toxicity. Patches can be cut to fit. They are different concentrations: 4% OTC and 5% prescription (different patient populations and quantities).',
+    concept: "Lidocaine 12 on/12 off",
+    rationale: "Lidocaine patches are applied for 12 hours on, followed by 12 hours off — to prevent toxicity from continuous absorption.",
+    deepExplanation: "The 12-hour off period allows lidocaine levels to drop, preventing systemic toxicity. Patches can be cut to fit. They are different concentrations: 4% OTC and 5% prescription (different patient populations and quantities).",
     others: {
-      0: '4 hours on is incorrect.',
-      1: 'Continuous use causes toxicity.',
-      3: 'Once weekly is incorrect.'
+      "0": "4 hours on is incorrect.",
+      "1": "Continuous use causes toxicity.",
+      "3": "Once weekly is incorrect."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'A patient asks about the difference between the OTC and prescription lidocaine patches. What is the most accurate response?',
+    type: "standard",
+    stem: "A patient asks about the difference between the OTC and prescription lidocaine patches. What is the most accurate response?",
     options: [
-      'OTC is 4%, RX is 5% — different patient ages and quantities',
-      'OTC and RX are identical and interchangeable',
-      'OTC is 5%, RX is 10% — both for adults only',
-      'OTC patches must be applied 24/7 to be effective'
+      "OTC is 4%, RX is 5% — different patient ages and quantities",
+      "OTC and RX are identical and interchangeable",
+      "OTC is 5%, RX is 10% — both for adults only",
+      "OTC patches must be applied 24/7 to be effective"
     ],
     answer: 0,
-    concept: 'Lidocaine OTC vs RX',
-    rationale: 'OTC lidocaine patches are 4% (for ages 12 and up, 1 per application). Prescription patches are 5% (adults only, up to 3 per application).',
-    deepExplanation: 'Both can be cut to fit. The 12-on/12-off application schedule applies to both. The difference matters for safe self-administration: pediatric and adolescent use is limited to the 4% OTC version.',
+    concept: "Lidocaine OTC vs RX",
+    rationale: "OTC lidocaine patches are 4% (for ages 12 and up, 1 per application). Prescription patches are 5% (adults only, up to 3 per application).",
+    deepExplanation: "Both can be cut to fit. The 12-on/12-off application schedule applies to both. The difference matters for safe self-administration: pediatric and adolescent use is limited to the 4% OTC version.",
     others: {
-      1: 'They are NOT identical.',
-      2: '5% is RX, not OTC; lidocaine patches don\'t come in 10%.',
-      3: 'Both follow the 12-on/12-off rule.'
+      "1": "They are NOT identical.",
+      "2": "5% is RX, not OTC; lidocaine patches don't come in 10%.",
+      "3": "Both follow the 12-on/12-off rule."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'A breastfeeding mother is prescribed codeine for postpartum pain. The provider mentions CYP2D6 testing. Why is this important?',
+    type: "standard",
+    stem: "A breastfeeding mother is prescribed codeine for postpartum pain. The provider mentions CYP2D6 testing. Why is this important?",
     options: [
-      'CYP2D6 status affects how the patient pays for the drug',
-      'Rapid metabolizers convert codeine to morphine too quickly',
-      'CYP2D6 only matters for chronic codeine users',
-      'CYP2D6 testing predicts the duration of analgesia'
+      "CYP2D6 status affects how the patient pays for the drug",
+      "Rapid metabolizers convert codeine to morphine too quickly",
+      "CYP2D6 only matters for chronic codeine users",
+      "CYP2D6 testing predicts the duration of analgesia"
     ],
     answer: 1,
-    concept: 'Codeine + CYP2D6',
-    rationale: 'Codeine is a prodrug — it is converted to morphine by CYP2D6. "Rapid metabolizers" convert it too quickly, causing severe toxicity, including fatal neonatal sedation in breastfeeding mothers.',
-    deepExplanation: 'This carries a Black Box Warning for breastfeeding mothers. The morphine produced from rapid conversion enters breast milk and can cause fatal sedation in the infant. Genetic testing for CYP2D6 status is crucial before prescribing codeine to lactating women.',
+    concept: "Codeine + CYP2D6",
+    rationale: "Codeine is a prodrug — it is converted to morphine by CYP2D6. \"Rapid metabolizers\" convert it too quickly, causing severe toxicity, including fatal neonatal sedation in breastfeeding mothers.",
+    deepExplanation: "This carries a Black Box Warning for breastfeeding mothers. The morphine produced from rapid conversion enters breast milk and can cause fatal sedation in the infant. Genetic testing for CYP2D6 status is crucial before prescribing codeine to lactating women.",
     others: {
-      0: 'CYP2D6 testing is medical, not financial.',
-      2: 'CYP2D6 matters from the first dose, not just chronic use.',
-      3: 'CYP2D6 testing predicts toxicity, not duration.'
+      "0": "CYP2D6 testing is medical, not financial.",
+      "2": "CYP2D6 matters from the first dose, not just chronic use.",
+      "3": "CYP2D6 testing predicts toxicity, not duration."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'A pediatric patient with a viral illness asks about taking aspirin for fever. What is the nurse\'s priority concern?',
+    type: "standard",
+    stem: "A pediatric patient with a viral illness asks about taking aspirin for fever. What is the nurse's priority concern?",
     options: [
-      'Aspirin in pediatric viral illness causes Reye\'s syndrome',
-      'Aspirin causes pediatric kidney failure within hours',
-      'Aspirin is too expensive for routine pediatric use',
-      'Aspirin requires a prescription for pediatric patients'
+      "Aspirin in pediatric viral illness causes Reye's syndrome",
+      "Aspirin causes pediatric kidney failure within hours",
+      "Aspirin is too expensive for routine pediatric use",
+      "Aspirin requires a prescription for pediatric patients"
     ],
     answer: 0,
-    concept: 'Pediatric ASA + Reye\'s',
-    rationale: 'Aspirin is contraindicated in pediatric viral illness due to risk of Reye\'s syndrome — a potentially fatal liver and brain disease.',
-    deepExplanation: 'Reye\'s syndrome is a rare but devastating condition associated with aspirin use during viral infections in children. Acetaminophen (APAP) or ibuprofen are preferred for pediatric fever and pain. This is a critical safety teaching point for parents.',
+    concept: "Pediatric ASA + Reye's",
+    rationale: "Aspirin is contraindicated in pediatric viral illness due to risk of Reye's syndrome — a potentially fatal liver and brain disease.",
+    deepExplanation: "Reye's syndrome is a rare but devastating condition associated with aspirin use during viral infections in children. Acetaminophen (APAP) or ibuprofen are preferred for pediatric fever and pain. This is a critical safety teaching point for parents.",
     others: {
-      1: 'Reye\'s syndrome is the concern, not kidney failure.',
-      2: 'Cost is not the medical concern.',
-      3: 'Aspirin is OTC; the concern is safety, not access.'
+      "1": "Reye's syndrome is the concern, not kidney failure.",
+      "2": "Cost is not the medical concern.",
+      "3": "Aspirin is OTC; the concern is safety, not access."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'Which medications are preferred for pediatric pain or fever instead of aspirin?',
+    type: "standard",
+    stem: "Which medications are preferred for pediatric pain or fever instead of aspirin?",
     options: [
-      'Codeine for routine pediatric pain control',
-      'Methadone for any pediatric pain situation',
-      'Acetaminophen or ibuprofen',
-      'Oxymorphone for moderate pain in children'
+      "Codeine for routine pediatric pain control",
+      "Methadone for any pediatric pain situation",
+      "Acetaminophen or ibuprofen",
+      "Oxymorphone for moderate pain in children"
     ],
     answer: 2,
-    concept: 'Pediatric analgesia choice',
-    rationale: 'Acetaminophen (APAP) or ibuprofen are preferred for pediatrics — aspirin is contraindicated due to Reye\'s syndrome risk.',
-    deepExplanation: 'Codeine carries a BBW especially in children due to CYP2D6 rapid metabolizer toxicity risk. Methadone and oxymorphone are not first-line pediatric agents. APAP and ibuprofen have well-established pediatric dosing and safety profiles.',
+    concept: "Pediatric analgesia choice",
+    rationale: "Acetaminophen (APAP) or ibuprofen are preferred for pediatrics — aspirin is contraindicated due to Reye's syndrome risk.",
+    deepExplanation: "Codeine carries a BBW especially in children due to CYP2D6 rapid metabolizer toxicity risk. Methadone and oxymorphone are not first-line pediatric agents. APAP and ibuprofen have well-established pediatric dosing and safety profiles.",
     others: {
-      0: 'Codeine has BBW concerns in pediatrics.',
-      1: 'Methadone is not first-line pediatric pain.',
-      3: 'Oxymorphone is not first-line pediatric.'
+      "0": "Codeine has BBW concerns in pediatrics.",
+      "1": "Methadone is not first-line pediatric pain.",
+      "3": "Oxymorphone is not first-line pediatric."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'Oxymorphone carries a black box warning for which combination?',
+    type: "standard",
+    stem: "Oxymorphone carries a black box warning for which combination?",
     options: [
-      'Combined use with acetaminophen and NSAIDs',
-      'Combined use with caffeine and stimulants',
-      'Respiratory depression and profound interaction with alcohol',
-      'Combined use with grapefruit juice and citrus'
+      "Combined use with acetaminophen and NSAIDs",
+      "Combined use with caffeine and stimulants",
+      "Respiratory depression and profound interaction with alcohol",
+      "Combined use with grapefruit juice and citrus"
     ],
     answer: 2,
-    concept: 'Oxymorphone BBW',
-    rationale: 'Oxymorphone carries a BBW for respiratory depression and profound interaction with alcohol.',
-    deepExplanation: 'Patients must strictly avoid alcohol while on oxymorphone. The drug must be taken on an empty stomach. Extended-release forms are abuse-deterrent and must be swallowed whole — not crushed or chewed.',
+    concept: "Oxymorphone BBW",
+    rationale: "Oxymorphone carries a BBW for respiratory depression and profound interaction with alcohol.",
+    deepExplanation: "Patients must strictly avoid alcohol while on oxymorphone. The drug must be taken on an empty stomach. Extended-release forms are abuse-deterrent and must be swallowed whole — not crushed or chewed.",
     others: {
-      0: 'APAP and NSAIDs are not the BBW concern.',
-      1: 'Caffeine is not the BBW concern.',
-      3: 'Grapefruit is not the oxymorphone BBW.'
+      "0": "APAP and NSAIDs are not the BBW concern.",
+      "1": "Caffeine is not the BBW concern.",
+      "3": "Grapefruit is not the oxymorphone BBW."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'How should oxymorphone be taken to ensure proper absorption?',
+    type: "standard",
+    stem: "How should oxymorphone be taken to ensure proper absorption?",
     options: [
-      'With a high-fat meal for slower release',
-      'With a glass of milk to coat the stomach',
-      'With grapefruit juice to enhance absorption',
-      'On an empty stomach'
+      "With a high-fat meal for slower release",
+      "With a glass of milk to coat the stomach",
+      "With grapefruit juice to enhance absorption",
+      "On an empty stomach"
     ],
     answer: 3,
-    concept: 'Oxymorphone empty stomach',
-    rationale: 'Oxymorphone must be taken on an empty stomach — food significantly affects its absorption.',
-    deepExplanation: 'Taking oxymorphone with food can alter peak levels and cause unpredictable effects. Patients should take it at least 1 hour before or 2 hours after meals. Extended-release forms must be swallowed whole — never crushed, chewed, or split (abuse-deterrent formulation).',
+    concept: "Oxymorphone empty stomach",
+    rationale: "Oxymorphone must be taken on an empty stomach — food significantly affects its absorption.",
+    deepExplanation: "Taking oxymorphone with food can alter peak levels and cause unpredictable effects. Patients should take it at least 1 hour before or 2 hours after meals. Extended-release forms must be swallowed whole — never crushed, chewed, or split (abuse-deterrent formulation).",
     others: {
-      0: 'High-fat meals alter absorption — NOT recommended.',
-      1: 'Milk would interfere with absorption.',
-      2: 'Grapefruit is not part of oxymorphone teaching.'
+      "0": "High-fat meals alter absorption — NOT recommended.",
+      "1": "Milk would interfere with absorption.",
+      "2": "Grapefruit is not part of oxymorphone teaching."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'What is the proper way to dispose of a used fentanyl patch?',
+    type: "standard",
+    stem: "What is the proper way to dispose of a used fentanyl patch?",
     options: [
-      'Throw the patch directly into the kitchen trash',
-      'Fold the patch in half and flush down the toilet',
-      'Save used patches for return to the pharmacy',
-      'Burn the patch carefully in a metal container'
+      "Throw the patch directly into the kitchen trash",
+      "Fold the patch in half and flush down the toilet",
+      "Save used patches for return to the pharmacy",
+      "Burn the patch carefully in a metal container"
     ],
     answer: 1,
-    concept: 'Fentanyl patch disposal',
-    rationale: 'Fold the old patch in half (sticky sides together) and flush it down the toilet — this prevents diversion and accidental exposure.',
-    deepExplanation: 'A used fentanyl patch still contains enough drug to cause fatal overdose if a child or pet finds it. Flushing is the FDA-recommended disposal method specifically for fentanyl patches due to their high abuse and accidental exposure potential.',
+    concept: "Fentanyl patch disposal",
+    rationale: "Fold the old patch in half (sticky sides together) and flush it down the toilet — this prevents diversion and accidental exposure.",
+    deepExplanation: "A used fentanyl patch still contains enough drug to cause fatal overdose if a child or pet finds it. Flushing is the FDA-recommended disposal method specifically for fentanyl patches due to their high abuse and accidental exposure potential.",
     others: {
-      0: 'Trash disposal allows accidental exposure to others.',
-      2: 'Pharmacies don\'t accept used opioid patches.',
-      3: 'Burning is dangerous and not recommended.'
+      "0": "Trash disposal allows accidental exposure to others.",
+      "2": "Pharmacies don't accept used opioid patches.",
+      "3": "Burning is dangerous and not recommended."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'A patient asks how often they need an ECG when taking methadone. What is the correct schedule?',
+    type: "standard",
+    stem: "A patient asks how often they need an ECG when taking methadone. What is the correct schedule?",
     options: [
-      'Once a year only at the annual exam',
-      'Only when symptoms of dysrhythmia develop',
-      'Every 6 months for the duration of therapy',
-      'Prior to starting, at 30 days, and annually'
+      "Once a year only at the annual exam",
+      "Only when symptoms of dysrhythmia develop",
+      "Every 6 months for the duration of therapy",
+      "Prior to starting, at 30 days, and annually"
     ],
     answer: 3,
-    concept: 'Methadone ECG schedule',
-    rationale: 'ECGs are required prior to starting methadone, at 30 days, and annually thereafter — to monitor for QT prolongation.',
-    deepExplanation: 'The 30-day check captures whether the QT has lengthened on the new drug. Annual monitoring continues for the duration of therapy. Methadone is discontinued if QT exceeds 500 msec due to torsades de pointes risk.',
+    concept: "Methadone ECG schedule",
+    rationale: "ECGs are required prior to starting methadone, at 30 days, and annually thereafter — to monitor for QT prolongation.",
+    deepExplanation: "The 30-day check captures whether the QT has lengthened on the new drug. Annual monitoring continues for the duration of therapy. Methadone is discontinued if QT exceeds 500 msec due to torsades de pointes risk.",
     others: {
-      0: 'Annual alone misses early changes.',
-      1: 'Symptom-based monitoring is too late — sudden cardiac death is possible.',
-      2: 'Every 6 months is not the standard interval.'
+      "0": "Annual alone misses early changes.",
+      "1": "Symptom-based monitoring is too late — sudden cardiac death is possible.",
+      "2": "Every 6 months is not the standard interval."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'A patient takes ER morphine 30 mg twice daily. They report taking it for 10 days. Are they considered "opioid tolerant" for fentanyl patch use?',
+    type: "standard",
+    stem: "A patient takes ER morphine 30 mg twice daily. They report taking it for 10 days. Are they considered \"opioid tolerant\" for fentanyl patch use?",
     options: [
-      'Yes — 60 mg/day for over 1 week meets the definition',
-      'No — they need to take it for at least 1 month',
-      'No — they need 100 mg/day minimum',
-      'No — they need to take morphine for 6 months'
+      "Yes — 60 mg/day for over 1 week meets the definition",
+      "No — they need to take it for at least 1 month",
+      "No — they need 100 mg/day minimum",
+      "No — they need to take morphine for 6 months"
     ],
     answer: 0,
-    concept: 'Opioid tolerant calculation',
-    rationale: '60 mg of oral morphine equivalents daily for at least 1 week meets the definition of opioid tolerant — this patient qualifies.',
-    deepExplanation: '30 mg twice daily = 60 mg/day. They\'ve been on it for 10 days, which exceeds the 1-week threshold. This patient is appropriately a candidate for fentanyl patch therapy from a tolerance standpoint, assuming other criteria are met.',
+    concept: "Opioid tolerant calculation",
+    rationale: "60 mg of oral morphine equivalents daily for at least 1 week meets the definition of opioid tolerant — this patient qualifies.",
+    deepExplanation: "30 mg twice daily = 60 mg/day. They've been on it for 10 days, which exceeds the 1-week threshold. This patient is appropriately a candidate for fentanyl patch therapy from a tolerance standpoint, assuming other criteria are met.",
     others: {
-      1: '1 month is not required.',
-      2: '60 mg is the threshold, not 100 mg.',
-      3: '6 months is not required.'
+      "1": "1 month is not required.",
+      "2": "60 mg is the threshold, not 100 mg.",
+      "3": "6 months is not required."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'Methadone is used for which clinical purposes?',
+    type: "standard",
+    stem: "Methadone is used for which clinical purposes?",
     options: [
-      'Prevention of allergic reactions',
-      'Severe pain and opioid detoxification',
-      'Treatment of viral infections',
-      'Reversal of opioid overdose'
+      "Prevention of allergic reactions",
+      "Severe pain and opioid detoxification",
+      "Treatment of viral infections",
+      "Reversal of opioid overdose"
     ],
     answer: 1,
-    concept: 'Methadone uses',
-    rationale: 'Methadone is used for severe pain and detoxification (opioid use disorder treatment).',
-    deepExplanation: 'Methadone has a long half-life that makes it useful for both stable analgesia in chronic severe pain and for medication-assisted treatment of opioid addiction. The QT prolongation BBW applies to both indications.',
+    concept: "Methadone uses",
+    rationale: "Methadone is used for severe pain and detoxification (opioid use disorder treatment).",
+    deepExplanation: "Methadone has a long half-life that makes it useful for both stable analgesia in chronic severe pain and for medication-assisted treatment of opioid addiction. The QT prolongation BBW applies to both indications.",
     others: {
-      0: 'Methadone is not for allergies.',
-      2: 'Methadone does not treat viral infections.',
-      3: 'Naloxone reverses opioid overdose, not methadone.'
+      "0": "Methadone is not for allergies.",
+      "2": "Methadone does not treat viral infections.",
+      "3": "Naloxone reverses opioid overdose, not methadone."
     }
   },
   {
-    topic: 'Pain',
+    topic: "Pain",
     confirmed: false,
-    type: 'standard',
-    stem: 'A patient asks why they need a stool softener and laxative routine while on chronic opioids. What is the most accurate response?',
+    type: "standard",
+    stem: "A patient asks why they need a stool softener and laxative routine while on chronic opioids. What is the most accurate response?",
     options: [
-      'Tolerance never develops to opioid-induced constipation',
-      'Opioids cause constipation only in the first 24 hours',
-      'Stool softeners prevent the analgesic effect from wearing off',
-      'Constipation only happens when opioid doses are very high'
+      "Tolerance never develops to opioid-induced constipation",
+      "Opioids cause constipation only in the first 24 hours",
+      "Stool softeners prevent the analgesic effect from wearing off",
+      "Constipation only happens when opioid doses are very high"
     ],
     answer: 0,
-    concept: 'No tolerance to constipation',
-    rationale: 'No tolerance ever develops to opioid-induced constipation — patients need a bowel regimen for the duration of therapy.',
-    deepExplanation: 'While tolerance develops to analgesia, sedation, euphoria, and respiratory depression, constipation and miosis persist throughout opioid therapy. This is why every patient on chronic opioids needs prophylactic stool softeners (docusate) and stimulant laxatives (senna).',
+    concept: "No tolerance to constipation",
+    rationale: "No tolerance ever develops to opioid-induced constipation — patients need a bowel regimen for the duration of therapy.",
+    deepExplanation: "While tolerance develops to analgesia, sedation, euphoria, and respiratory depression, constipation and miosis persist throughout opioid therapy. This is why every patient on chronic opioids needs prophylactic stool softeners (docusate) and stimulant laxatives (senna).",
     others: {
-      1: 'Constipation persists indefinitely, not just 24 hours.',
-      2: 'Stool softeners don\'t affect analgesia.',
-      3: 'Constipation occurs at any opioid dose.'
+      "1": "Constipation persists indefinitely, not just 24 hours.",
+      "2": "Stool softeners don't affect analgesia.",
+      "3": "Constipation occurs at any opioid dose."
     }
   }
 ];

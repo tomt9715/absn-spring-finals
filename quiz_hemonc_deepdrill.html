@@ -220,7 +220,7 @@ const questions = [
     topic: "HemOnc",
     confirmed: false,
     type: "standard",
-    stem: "A patient with chemo-induced thrombocytopenia (platelets 18,000; normal 150,000-400,000) develops a headache. Which medication should the nurse give from the PRN orders?",
+    stem: "A patient with chemo-induced thrombocytopenia develops a headache. Given the lab below, which medication should the nurse give from the PRN orders?",
     options: [
       "Aspirin 325 mg PO",
       "Ibuprofen 600 mg PO",
@@ -235,7 +235,15 @@ const questions = [
       "0": "Aspirin inhibits platelet function — dangerous with thrombocytopenia.",
       "1": "NSAIDs inhibit platelet function — avoid in thrombocytopenia.",
       "2": "NSAIDs inhibit platelet function — avoid in thrombocytopenia."
-    }
+    },
+    labs: [
+      {
+        "name": "Platelets",
+        "value": "18,000",
+        "unit": "/mm³",
+        "range": "normal 150,000-400,000"
+      }
+    ]
   },
   {
     topic: "HemOnc",
@@ -313,7 +321,12 @@ const questions = [
       "Avoid fresh flowers and standing water in vases",
       "Floss vigorously each day for oral care"
     ],
-    answerArr: [0, 1, 3, 4],
+    answerArr: [
+      0,
+      1,
+      3,
+      4
+    ],
     concept: "Neutropenic precautions teaching",
     rationale: "Correct teaching: avoid crowds and sick people, report fever ASAP, hand washing, avoid fresh flowers and standing water (microbial reservoirs). Avoid raw produce (microbial risk) and vigorous flossing (gum bleeding from thrombocytopenia).",
     others: {
@@ -325,7 +338,7 @@ const questions = [
     topic: "HemOnc",
     confirmed: false,
     type: "standard",
-    stem: "A nurse is preparing to administer chemotherapy. Lab results show ANC of 480 (normal >1,500), platelets of 85,000 (normal 150,000-400,000), and hemoglobin of 9.8 g/dL (normal 12-16). What is the nurse's priority action?",
+    stem: "A nurse is preparing to administer chemotherapy. Given the labs below, what is the nurse's priority action?",
     options: [
       "Administer the chemotherapy as scheduled",
       "Hold the chemotherapy and notify the provider",
@@ -340,13 +353,33 @@ const questions = [
       "0": "ANC under 500 is a hold criterion.",
       "2": "Transfusion alone doesn't address neutropenia.",
       "3": "Dose reduction is a provider decision."
-    }
+    },
+    labs: [
+      {
+        "name": "Hgb",
+        "value": "9.8",
+        "unit": "g/dL",
+        "range": "normal 12-16"
+      },
+      {
+        "name": "Platelets",
+        "value": "85,000",
+        "unit": "/mm³",
+        "range": "normal 150,000-400,000"
+      },
+      {
+        "name": "ANC",
+        "value": "480",
+        "unit": "/mm³",
+        "range": "normal >1,500"
+      }
+    ]
   },
   {
     topic: "HemOnc",
     confirmed: false,
     type: "standard",
-    stem: "A patient with cancer reports persistent fatigue, pallor, and shortness of breath when walking up stairs. The CBC shows hemoglobin of 8.2 g/dL (normal 12-16). The nurse recognizes this as which complication?",
+    stem: "A patient with cancer reports persistent fatigue, pallor, and shortness of breath when walking up stairs. Given the CBC below, the nurse recognizes this as which complication?",
     options: [
       "Severe acute hyperuricemia",
       "Active febrile neutropenia",
@@ -361,7 +394,15 @@ const questions = [
       "0": "Hyperuricemia presents with kidney concerns, not these symptoms.",
       "1": "Neutropenia presents with infection, not these symptoms.",
       "2": "Thrombocytopenia presents with bleeding, not these symptoms."
-    }
+    },
+    labs: [
+      {
+        "name": "Hgb",
+        "value": "8.2",
+        "unit": "g/dL",
+        "range": "normal 12-16"
+      }
+    ]
   },
   {
     topic: "HemOnc",
@@ -533,7 +574,7 @@ const questions = [
   }
 ];
 
-        // === QUIZ ENGINE ===
+// === QUIZ ENGINE ===
 const TOTAL = questions.length;
 let currentQ = 0;
 let totalPoints = 0;
