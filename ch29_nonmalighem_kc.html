@@ -38,6 +38,15 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 36px; color: var(--navy)
 .progress-fill { height: 100%; background: var(--teal); transition: width 0.3s; }
 .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
 .q-stem { font-size: 18px; color: var(--ink); margin-bottom: 24px; line-height: 1.5; }
+    .lab-strip { margin-top: 14px; margin-bottom: 18px; padding: 12px 14px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; border-left: 3px solid var(--teal); }
+    .lab-strip-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+    .lab-row { display: flex; flex-wrap: wrap; gap: 12px 18px; }
+    .lab-item { display: flex; flex-direction: column; gap: 2px; min-width: 90px; }
+    .lab-name { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.04em; }
+    .lab-value { font-size: 14px; color: var(--ink); font-weight: 600; }
+    .lab-value-unit { font-weight: 400; color: var(--muted); font-size: 11px; }
+    .lab-range { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 1px; }
+
 .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
 .option { border: 1.5px solid var(--line); border-radius: 6px; padding: 14px 18px; cursor: pointer; transition: all 0.15s; background: var(--card); font-size: 15px; display: flex; align-items: flex-start; gap: 12px; }
 .option:hover:not(.locked) { border-color: var(--teal); background: var(--teal-pale); }
@@ -124,478 +133,494 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 36px; color: var(--navy)
 <script>
 const questions = [
   {
-    topic: 'NonmaligHem',
-    type: 'standard',
-    stem: 'What is the normal platelet count range?',
+    topic: "NonmaligHem",
+    type: "standard",
+    stem: "What is the normal platelet count range?",
     options: [
-      '50,000 - 100,000',
-      '150,000 - 400,000',
-      '4,000 - 11,000',
-      '500,000 - 1,000,000'
+      "50,000 - 100,000",
+      "150,000 - 400,000",
+      "4,000 - 11,000",
+      "500,000 - 1,000,000"
     ],
     answer: 1,
-    concept: 'Platelet Normal Range',
-    rationale: 'Normal platelet count is 150,000-400,000. Below this is thrombocytopenia (low platelets), increasing bleeding risk.',
+    concept: "Platelet Normal Range",
+    rationale: "Normal platelet count is 150,000-400,000. Below this is thrombocytopenia (low platelets), increasing bleeding risk.",
     others: {
-      0: '50,000-100,000 indicates moderate thrombocytopenia.',
-      2: '4,000-11,000 is the normal WBC range, not platelets.',
-      3: 'Far above normal — would indicate thrombocytosis.'
+      "0": "50,000-100,000 indicates moderate thrombocytopenia.",
+      "2": "4,000-11,000 is the normal WBC range, not platelets.",
+      "3": "Far above normal — would indicate thrombocytosis."
     }
   },
   {
-    topic: 'NonmaligHem',
-    type: 'standard',
-    stem: 'A patient has a platelet count of 80,000 (normal 150,000-400,000). Which condition does the nurse identify?',
+    topic: "NonmaligHem",
+    type: "standard",
+    stem: "A patient has a platelet count of 80,000 (normal 150,000-400,000). Which condition does the nurse identify?",
     options: [
-      'Leukopenia (low WBC count)',
-      'Polycythemia (excess RBCs)',
-      'Thrombocytopenia',
-      'Anemia (low hemoglobin)'
+      "Leukopenia (low WBC count)",
+      "Polycythemia (excess RBCs)",
+      "Thrombocytopenia",
+      "Anemia (low hemoglobin)"
     ],
     answer: 2,
-    concept: 'Thrombocytopenia',
-    rationale: 'Thrombocytopenia is low platelets (below 150,000). 80,000 is well below normal — this patient is at risk for bleeding.',
+    concept: "Thrombocytopenia",
+    rationale: "Thrombocytopenia is low platelets (below 150,000). 80,000 is well below normal — this patient is at risk for bleeding.",
     others: {
-      0: 'Leukopenia is low WBC, not platelets.',
-      1: 'Polycythemia is excess RBCs.',
-      3: 'Anemia is low RBC/Hgb, not platelets.'
+      "0": "Leukopenia is low WBC, not platelets.",
+      "1": "Polycythemia is excess RBCs.",
+      "3": "Anemia is low RBC/Hgb, not platelets."
     }
   },
   {
-    topic: 'NonmaligHem',
-    type: 'standard',
-    stem: 'A nurse is monitoring a thrombocytopenic patient. Which assessment findings are MOST important to watch for?',
+    topic: "NonmaligHem",
+    type: "standard",
+    stem: "A nurse is monitoring a thrombocytopenic patient. Which assessment findings are MOST important to watch for?",
     options: [
-      'Easy bruising and petechiae',
-      'High fever and sore throat',
-      'Fatigue and pallor',
-      'Joint pain and stiffness'
+      "Easy bruising and petechiae",
+      "High fever and sore throat",
+      "Fatigue and pallor",
+      "Joint pain and stiffness"
     ],
     answer: 0,
-    concept: 'Thrombocytopenia S/S',
-    rationale: 'Thrombocytopenia (low platelets) increases bleeding risk. Watch for easy bruising and petechiae (small red/purple spots from capillary bleeding).',
+    concept: "Thrombocytopenia S/S",
+    rationale: "Thrombocytopenia (low platelets) increases bleeding risk. Watch for easy bruising and petechiae (small red/purple spots from capillary bleeding).",
     others: {
-      1: 'Fever and sore throat suggest infection (think leukopenia).',
-      2: 'Fatigue and pallor are classic anemia findings.',
-      3: 'Joint pain is more associated with sickle cell or rheumatic disorders.'
+      "1": "Fever and sore throat suggest infection (think leukopenia).",
+      "2": "Fatigue and pallor are classic anemia findings.",
+      "3": "Joint pain is more associated with sickle cell or rheumatic disorders."
     }
   },
   {
-    topic: 'NonmaligHem',
-    type: 'standard',
-    stem: 'A nurse is teaching a thrombocytopenic patient about home safety. Which education is MOST appropriate?',
+    topic: "NonmaligHem",
+    type: "standard",
+    stem: "A nurse is teaching a thrombocytopenic patient about home safety. Which education is MOST appropriate?",
     options: [
-      'Use a hard-bristle toothbrush for thorough cleaning',
-      'Shave with a straight razor for the closest shave',
-      'Avoid all crowded public places at all times',
-      'Use a soft-bristle toothbrush and electric razor'
+      "Use a hard-bristle toothbrush for thorough cleaning",
+      "Shave with a straight razor for the closest shave",
+      "Avoid all crowded public places at all times",
+      "Use a soft-bristle toothbrush and electric razor"
     ],
     answer: 3,
-    concept: 'Thrombocytopenia Education',
-    rationale: 'Soft-bristle toothbrush and electric razor minimize bleeding risk from gum trauma or shaving cuts. Thrombocytopenic patients bleed easily.',
+    concept: "Thrombocytopenia Education",
+    rationale: "Soft-bristle toothbrush and electric razor minimize bleeding risk from gum trauma or shaving cuts. Thrombocytopenic patients bleed easily.",
     others: {
-      0: 'Hard bristles cause gum bleeding.',
-      1: 'Straight razors cause cuts that bleed excessively.',
-      2: 'Crowd avoidance is for leukopenia (infection risk), not thrombocytopenia.'
+      "0": "Hard bristles cause gum bleeding.",
+      "1": "Straight razors cause cuts that bleed excessively.",
+      "2": "Crowd avoidance is for leukopenia (infection risk), not thrombocytopenia."
     }
   },
   {
-    topic: 'NonmaligHem',
-    type: 'standard',
-    stem: 'What is the normal WBC count range?',
+    topic: "NonmaligHem",
+    type: "standard",
+    stem: "What is the normal WBC count range?",
     options: [
-      '4,000 - 11,000',
-      '150,000 - 400,000',
-      '12 - 18',
-      '40,000 - 60,000'
+      "4,000 - 11,000",
+      "150,000 - 400,000",
+      "12 - 18",
+      "40,000 - 60,000"
     ],
     answer: 0,
-    concept: 'WBC Normal Range',
-    rationale: 'Normal WBC count is 4,000-11,000. Below this is leukopenia, increasing infection risk.',
+    concept: "WBC Normal Range",
+    rationale: "Normal WBC count is 4,000-11,000. Below this is leukopenia, increasing infection risk.",
     others: {
-      1: 'That is the normal platelet range.',
-      2: 'That is the normal Hgb range (g/dL).',
-      3: 'Far above normal — would indicate leukocytosis.'
+      "1": "That is the normal platelet range.",
+      "2": "That is the normal Hgb range (g/dL).",
+      "3": "Far above normal — would indicate leukocytosis."
     }
   },
   {
-    topic: 'NonmaligHem',
-    type: 'standard',
-    stem: 'A patient has a WBC count of 2,500 (normal 4,000-11,000). What primary risk does this represent?',
+    topic: "NonmaligHem",
+    type: "standard",
+    stem: "Given the lab below, what primary risk does this represent?",
     options: [
-      'Bleeding from minor trauma',
-      'Sepsis and infection',
-      'Hypoxia from low oxygen',
-      'Thrombus formation'
+      "Bleeding from minor trauma",
+      "Sepsis and infection",
+      "Hypoxia from low oxygen",
+      "Thrombus formation"
     ],
     answer: 1,
-    concept: 'Leukopenia Risk',
-    rationale: 'Leukopenia (low WBC) increases the risk of sepsis and infection. The body cannot mount a strong immune response.',
+    concept: "Leukopenia Risk",
+    rationale: "Leukopenia (low WBC) increases the risk of sepsis and infection. The body cannot mount a strong immune response.",
     others: {
-      0: 'Bleeding risk relates to thrombocytopenia, not leukopenia.',
-      2: 'Hypoxia relates to anemia.',
-      3: 'Thrombus formation is more associated with polycythemia.'
-    }
+      "0": "Bleeding risk relates to thrombocytopenia, not leukopenia.",
+      "2": "Hypoxia relates to anemia.",
+      "3": "Thrombus formation is more associated with polycythemia."
+    },
+    labs: [
+      {
+        "name": "WBC",
+        "value": "2,500",
+        "unit": "/mm³",
+        "range": "normal 4,000-11,000"
+      }
+    ]
   },
   {
-    topic: 'NonmaligHem',
-    type: 'standard',
-    stem: 'Which signs and symptoms are MOST important to watch for in a leukopenic patient?',
+    topic: "NonmaligHem",
+    type: "standard",
+    stem: "Which signs and symptoms are MOST important to watch for in a leukopenic patient?",
     options: [
-      'Petechiae and easy bruising',
-      'Pallor and shortness of breath',
-      'High fever and sore throat',
-      'Joint pain and morning stiffness'
+      "Petechiae and easy bruising",
+      "Pallor and shortness of breath",
+      "High fever and sore throat",
+      "Joint pain and morning stiffness"
     ],
     answer: 2,
-    concept: 'Leukopenia S/S',
-    rationale: 'Watch for high fever and sore throat — early signs of infection in a leukopenic patient. Fever may be the only sign of serious infection.',
+    concept: "Leukopenia S/S",
+    rationale: "Watch for high fever and sore throat — early signs of infection in a leukopenic patient. Fever may be the only sign of serious infection.",
     others: {
-      0: 'Petechiae and bruising signal thrombocytopenia.',
-      1: 'Pallor and SOB are anemia signs.',
-      3: 'Joint pain is unrelated to leukopenia.'
+      "0": "Petechiae and bruising signal thrombocytopenia.",
+      "1": "Pallor and SOB are anemia signs.",
+      "3": "Joint pain is unrelated to leukopenia."
     }
   },
   {
-    topic: 'NonmaligHem',
-    type: 'standard',
-    stem: 'What patient education is appropriate for a leukopenic patient?',
+    topic: "NonmaligHem",
+    type: "standard",
+    stem: "What patient education is appropriate for a leukopenic patient?",
     options: [
-      'Use only a soft-bristle toothbrush during oral care',
-      'Avoid contact sports and trauma to prevent bleeding',
-      'Limit physical activity to bed rest until counts normalize',
-      'Strict handwashing, avoid crowds, no fresh flowers/plants'
+      "Use only a soft-bristle toothbrush during oral care",
+      "Avoid contact sports and trauma to prevent bleeding",
+      "Limit physical activity to bed rest until counts normalize",
+      "Strict handwashing, avoid crowds, no fresh flowers/plants"
     ],
     answer: 3,
-    concept: 'Leukopenia Education',
-    rationale: 'Leukopenic patients have increased infection risk. Strict handwashing, avoiding crowds, and avoiding fresh flowers/plants (which harbor bacteria/fungi) are essential.',
+    concept: "Leukopenia Education",
+    rationale: "Leukopenic patients have increased infection risk. Strict handwashing, avoiding crowds, and avoiding fresh flowers/plants (which harbor bacteria/fungi) are essential.",
     others: {
-      0: 'Soft toothbrush is for thrombocytopenia.',
-      1: 'Bleeding is not the primary concern in leukopenia.',
-      2: 'Bed rest is unnecessary and increases other risks.'
+      "0": "Soft toothbrush is for thrombocytopenia.",
+      "1": "Bleeding is not the primary concern in leukopenia.",
+      "2": "Bed rest is unnecessary and increases other risks."
     }
   },
   {
-    topic: 'NonmaligHem',
-    type: 'standard',
-    stem: 'What is the MOST common symptom across all anemia types?',
+    topic: "NonmaligHem",
+    type: "standard",
+    stem: "What is the MOST common symptom across all anemia types?",
     options: [
-      'Fatigue',
-      'Sharp chest pain',
-      'High fever',
-      'Joint stiffness'
+      "Fatigue",
+      "Sharp chest pain",
+      "High fever",
+      "Joint stiffness"
     ],
     answer: 0,
-    concept: 'Anemia Hallmark',
-    rationale: 'Fatigue is the MOST common symptom of anemia. Other signs include weakness, malaise, pallor or jaundice, nail changes, and pica.',
+    concept: "Anemia Hallmark",
+    rationale: "Fatigue is the MOST common symptom of anemia. Other signs include weakness, malaise, pallor or jaundice, nail changes, and pica.",
     others: {
-      1: 'Chest pain is more associated with cardiac/pulmonary disease.',
-      2: 'Fever suggests infection, not anemia.',
-      3: 'Joint stiffness suggests rheumatic disorders.'
+      "1": "Chest pain is more associated with cardiac/pulmonary disease.",
+      "2": "Fever suggests infection, not anemia.",
+      "3": "Joint stiffness suggests rheumatic disorders."
     }
   },
   {
-    topic: 'NonmaligHem',
-    type: 'standard',
-    stem: 'Which finding is associated with anemia?',
+    topic: "NonmaligHem",
+    type: "standard",
+    stem: "Which finding is associated with anemia?",
     options: [
-      'Petechiae and ecchymosis',
-      'Pallor or jaundice',
-      'High fever and chills',
-      'Joint swelling'
+      "Petechiae and ecchymosis",
+      "Pallor or jaundice",
+      "High fever and chills",
+      "Joint swelling"
     ],
     answer: 1,
-    concept: 'Anemia Findings',
-    rationale: 'Anemia presents with pallor (low Hgb) or jaundice (in hemolytic types). Other findings: fatigue, weakness, malaise, nail changes, pica.',
+    concept: "Anemia Findings",
+    rationale: "Anemia presents with pallor (low Hgb) or jaundice (in hemolytic types). Other findings: fatigue, weakness, malaise, nail changes, pica.",
     others: {
-      0: 'Petechiae signal thrombocytopenia.',
-      2: 'Fever signals infection (think leukopenia).',
-      3: 'Joint swelling suggests rheumatic disease.'
+      "0": "Petechiae signal thrombocytopenia.",
+      "2": "Fever signals infection (think leukopenia).",
+      "3": "Joint swelling suggests rheumatic disease."
     }
   },
   {
-    topic: 'NonmaligHem',
-    type: 'standard',
-    stem: 'A patient with iron deficiency anemia is being taught about diet. Which foods does the nurse recommend?',
+    topic: "NonmaligHem",
+    type: "standard",
+    stem: "A patient with iron deficiency anemia is being taught about diet. Which foods does the nurse recommend?",
     options: [
-      'Dairy products and citrus fruits',
-      'Whole grain bread and butter',
-      'Meat, beans, and fortified cereals',
-      'Yogurt and leafy green salads'
+      "Dairy products and citrus fruits",
+      "Whole grain bread and butter",
+      "Meat, beans, and fortified cereals",
+      "Yogurt and leafy green salads"
     ],
     answer: 2,
-    concept: 'Iron-Rich Foods',
-    rationale: 'Iron-rich foods include meat, beans, and fortified cereals. These boost hemoglobin synthesis in iron deficiency anemia.',
+    concept: "Iron-Rich Foods",
+    rationale: "Iron-rich foods include meat, beans, and fortified cereals. These boost hemoglobin synthesis in iron deficiency anemia.",
     others: {
-      0: 'Dairy actually inhibits iron absorption.',
-      1: 'Whole grains are low in iron.',
-      3: 'Leafy greens have some iron but meat/beans/fortified cereals are the priority recommendation.'
+      "0": "Dairy actually inhibits iron absorption.",
+      "1": "Whole grains are low in iron.",
+      "3": "Leafy greens have some iron but meat/beans/fortified cereals are the priority recommendation."
     }
   },
   {
-    topic: 'NonmaligHem',
-    type: 'standard',
-    stem: 'A patient with B12 deficiency anemia asks about treatment. What is the appropriate response?',
+    topic: "NonmaligHem",
+    type: "standard",
+    stem: "A patient with B12 deficiency anemia asks about treatment. What is the appropriate response?",
     options: [
-      'Treatment is with B12 supplementation',
-      'Iron-rich foods will resolve this',
-      'Bone marrow transplant is required',
-      'No treatment is needed; it self-resolves'
+      "Treatment is with B12 supplementation",
+      "Iron-rich foods will resolve this",
+      "Bone marrow transplant is required",
+      "No treatment is needed; it self-resolves"
     ],
     answer: 0,
-    concept: 'B12 Deficiency Treatment',
-    rationale: 'B12 deficiency anemia is treated with B12 supplementation — orally or via injection (especially if pernicious anemia limits absorption).',
+    concept: "B12 Deficiency Treatment",
+    rationale: "B12 deficiency anemia is treated with B12 supplementation — orally or via injection (especially if pernicious anemia limits absorption).",
     others: {
-      1: 'Iron treats iron deficiency anemia, not B12 deficiency.',
-      2: 'BMT is for aplastic anemia or leukemias, not B12 deficiency.',
-      3: 'Untreated B12 deficiency causes neurologic damage.'
+      "1": "Iron treats iron deficiency anemia, not B12 deficiency.",
+      "2": "BMT is for aplastic anemia or leukemias, not B12 deficiency.",
+      "3": "Untreated B12 deficiency causes neurologic damage."
     }
   },
   {
-    topic: 'NonmaligHem',
-    type: 'standard',
-    stem: 'What is the underlying pathophysiology of aplastic anemia?',
+    topic: "NonmaligHem",
+    type: "standard",
+    stem: "What is the underlying pathophysiology of aplastic anemia?",
     options: [
-      'Inherited disorder of abnormal hemoglobin',
-      'Body cannot absorb B12 from food',
-      'Insufficient iron intake or absorption',
-      'Bone marrow suppression of all stem cell production'
+      "Inherited disorder of abnormal hemoglobin",
+      "Body cannot absorb B12 from food",
+      "Insufficient iron intake or absorption",
+      "Bone marrow suppression of all stem cell production"
     ],
     answer: 3,
-    concept: 'Aplastic Anemia Patho',
-    rationale: 'Aplastic anemia is bone marrow suppression of all new stem cell production — affecting RBCs, WBCs, and platelets. Patients require protective isolation.',
+    concept: "Aplastic Anemia Patho",
+    rationale: "Aplastic anemia is bone marrow suppression of all new stem cell production — affecting RBCs, WBCs, and platelets. Patients require protective isolation.",
     others: {
-      0: 'Inherited abnormal hemoglobin describes thalassemia.',
-      1: 'B12 absorption issue describes pernicious anemia.',
-      2: 'Iron deficiency is a different anemia mechanism.'
+      "0": "Inherited abnormal hemoglobin describes thalassemia.",
+      "1": "B12 absorption issue describes pernicious anemia.",
+      "2": "Iron deficiency is a different anemia mechanism."
     }
   },
   {
-    topic: 'NonmaligHem',
-    type: 'standard',
-    stem: 'Which intervention is essential for a patient with aplastic anemia?',
+    topic: "NonmaligHem",
+    type: "standard",
+    stem: "Which intervention is essential for a patient with aplastic anemia?",
     options: [
-      'Encourage gardening and fresh produce',
-      'Provide protective isolation',
-      'Restrict fluids to prevent overload',
-      'Encourage outdoor exercise daily'
+      "Encourage gardening and fresh produce",
+      "Provide protective isolation",
+      "Restrict fluids to prevent overload",
+      "Encourage outdoor exercise daily"
     ],
     answer: 1,
-    concept: 'Aplastic Anemia Care',
-    rationale: 'Aplastic anemia suppresses all stem cell lines — including WBCs. Patients require protective isolation due to severe infection risk.',
+    concept: "Aplastic Anemia Care",
+    rationale: "Aplastic anemia suppresses all stem cell lines — including WBCs. Patients require protective isolation due to severe infection risk.",
     others: {
-      0: 'Soil and fresh plants harbor pathogens — to be avoided.',
-      2: 'Fluid restriction is not standard for aplastic anemia.',
-      3: 'Outdoor exposure increases infection risk.'
+      "0": "Soil and fresh plants harbor pathogens — to be avoided.",
+      "2": "Fluid restriction is not standard for aplastic anemia.",
+      "3": "Outdoor exposure increases infection risk."
     }
   },
   {
-    topic: 'NonmaligHem',
-    type: 'standard',
-    stem: 'What is thalassemia?',
+    topic: "NonmaligHem",
+    type: "standard",
+    stem: "What is thalassemia?",
     options: [
-      'Autoimmune destruction of red blood cells',
-      'Inherited disorder of abnormal hemoglobin',
-      'Bone marrow failure of all cell lines',
-      'Acquired vitamin B12 deficiency'
+      "Autoimmune destruction of red blood cells",
+      "Inherited disorder of abnormal hemoglobin",
+      "Bone marrow failure of all cell lines",
+      "Acquired vitamin B12 deficiency"
     ],
     answer: 1,
-    concept: 'Thalassemia Definition',
-    rationale: 'Thalassemia is an inherited disorder of abnormal hemoglobin production. It causes lifelong anemia of varying severity.',
+    concept: "Thalassemia Definition",
+    rationale: "Thalassemia is an inherited disorder of abnormal hemoglobin production. It causes lifelong anemia of varying severity.",
     others: {
-      0: 'Autoimmune RBC destruction describes autoimmune hemolytic anemia.',
-      2: 'Bone marrow failure describes aplastic anemia.',
-      3: 'B12 deficiency is acquired, not inherited.'
+      "0": "Autoimmune RBC destruction describes autoimmune hemolytic anemia.",
+      "2": "Bone marrow failure describes aplastic anemia.",
+      "3": "B12 deficiency is acquired, not inherited."
     }
   },
   {
-    topic: 'NonmaligHem',
-    type: 'standard',
-    stem: 'A patient with severe anemia is being treated. Which intervention is appropriate?',
+    topic: "NonmaligHem",
+    type: "standard",
+    stem: "A patient with severe anemia is being treated. Which intervention is appropriate?",
     options: [
-      'Transfusion of packed red blood cells',
-      'Daily therapeutic phlebotomy',
-      'Restriction of all dietary protein',
-      'Strict bed rest indefinitely'
+      "Transfusion of packed red blood cells",
+      "Daily therapeutic phlebotomy",
+      "Restriction of all dietary protein",
+      "Strict bed rest indefinitely"
     ],
     answer: 0,
-    concept: 'Severe Anemia Tx',
-    rationale: 'Severe anemia is treated with packed RBC transfusion to rapidly raise hemoglobin and oxygen-carrying capacity, while addressing the underlying cause.',
+    concept: "Severe Anemia Tx",
+    rationale: "Severe anemia is treated with packed RBC transfusion to rapidly raise hemoglobin and oxygen-carrying capacity, while addressing the underlying cause.",
     others: {
-      1: 'Phlebotomy treats polycythemia (excess RBCs), not anemia.',
-      2: 'Protein is needed to support RBC production.',
-      3: 'Bed rest is not the primary intervention.'
+      "1": "Phlebotomy treats polycythemia (excess RBCs), not anemia.",
+      "2": "Protein is needed to support RBC production.",
+      "3": "Bed rest is not the primary intervention."
     }
   },
   {
-    topic: 'NonmaligHem',
-    type: 'standard',
-    stem: 'What are the expected outcomes of anemia treatment?',
+    topic: "NonmaligHem",
+    type: "standard",
+    stem: "What are the expected outcomes of anemia treatment?",
     options: [
-      'Increased fatigue and weight loss',
-      'Less fatigue and adequate nutrition',
-      'Constant pain and increased bleeding',
-      'Frequent infections and fevers'
+      "Increased fatigue and weight loss",
+      "Less fatigue and adequate nutrition",
+      "Constant pain and increased bleeding",
+      "Frequent infections and fevers"
     ],
     answer: 1,
-    concept: 'Anemia Expected Outcomes',
-    rationale: 'Successful anemia treatment results in less fatigue and adequate nutrition. The patient can resume normal activities.',
+    concept: "Anemia Expected Outcomes",
+    rationale: "Successful anemia treatment results in less fatigue and adequate nutrition. The patient can resume normal activities.",
     others: {
-      0: 'Worsening fatigue indicates failure of treatment.',
-      2: 'Pain and bleeding are not typical outcomes of anemia treatment.',
-      3: 'Infection risk relates to leukopenia, not treated anemia.'
+      "0": "Worsening fatigue indicates failure of treatment.",
+      "2": "Pain and bleeding are not typical outcomes of anemia treatment.",
+      "3": "Infection risk relates to leukopenia, not treated anemia."
     }
   },
   {
-    topic: 'NonmaligHem',
-    type: 'standard',
-    stem: 'What is the PRIORITY nursing intervention during sickle cell crisis?',
+    topic: "NonmaligHem",
+    type: "standard",
+    stem: "What is the PRIORITY nursing intervention during sickle cell crisis?",
     options: [
-      'Pain control and fluids',
-      'Cool compresses to extremities',
-      'Bed rest in a cold room',
-      'Restrict fluids to reduce blood volume'
+      "Pain control and fluids",
+      "Cool compresses to extremities",
+      "Bed rest in a cold room",
+      "Restrict fluids to reduce blood volume"
     ],
     answer: 0,
-    concept: 'Sickle Cell Crisis Priority',
-    rationale: 'Pain control (PRIORITY) and fluids are first-line in sickle cell crisis. Hydration helps reduce blood viscosity and prevent further sickling.',
+    concept: "Sickle Cell Crisis Priority",
+    rationale: "Pain control (PRIORITY) and fluids are first-line in sickle cell crisis. Hydration helps reduce blood viscosity and prevent further sickling.",
     others: {
-      1: 'Cold causes vasoconstriction and worsens sickling — keep patients WARM.',
-      2: 'Cold environments worsen crises.',
-      3: 'Fluid restriction worsens sickling — patients need hydration.'
+      "1": "Cold causes vasoconstriction and worsens sickling — keep patients WARM.",
+      "2": "Cold environments worsen crises.",
+      "3": "Fluid restriction worsens sickling — patients need hydration."
     }
   },
   {
-    topic: 'NonmaligHem',
-    type: 'standard',
-    stem: 'Which medication is the drug of choice for severe pain in sickle cell crisis?',
+    topic: "NonmaligHem",
+    type: "standard",
+    stem: "Which medication is the drug of choice for severe pain in sickle cell crisis?",
     options: [
-      'Aspirin',
-      'Acetaminophen',
-      'Morphine',
-      'Ibuprofen'
+      "Aspirin",
+      "Acetaminophen",
+      "Morphine",
+      "Ibuprofen"
     ],
     answer: 2,
-    concept: 'Sickle Cell Pain Med',
-    rationale: 'Pain management progression: NSAIDs → opioids. Morphine is the drug of choice for severe sickle cell pain.',
+    concept: "Sickle Cell Pain Med",
+    rationale: "Pain management progression: NSAIDs → opioids. Morphine is the drug of choice for severe sickle cell pain.",
     others: {
-      0: 'Aspirin is rarely used due to bleeding and Reye syndrome risk.',
-      1: 'Acetaminophen alone is insufficient for crisis-level pain.',
-      3: 'Ibuprofen (NSAID) is for milder pain; morphine is preferred for severe crisis.'
+      "0": "Aspirin is rarely used due to bleeding and Reye syndrome risk.",
+      "1": "Acetaminophen alone is insufficient for crisis-level pain.",
+      "3": "Ibuprofen (NSAID) is for milder pain; morphine is preferred for severe crisis."
     }
   },
   {
-    topic: 'NonmaligHem',
-    type: 'standard',
-    stem: 'Which patient education BEST helps prevent sickle cell crisis?',
+    topic: "NonmaligHem",
+    type: "standard",
+    stem: "Which patient education BEST helps prevent sickle cell crisis?",
     options: [
-      'Avoid cold exposure, maintain hydration, prevent infection',
-      'Take aspirin daily as a preventive measure',
-      'Avoid all fluids to reduce blood viscosity',
-      'Stay in air-conditioned environments year-round'
+      "Avoid cold exposure, maintain hydration, prevent infection",
+      "Take aspirin daily as a preventive measure",
+      "Avoid all fluids to reduce blood viscosity",
+      "Stay in air-conditioned environments year-round"
     ],
     answer: 0,
-    concept: 'Sickle Cell Prevention',
-    rationale: 'Avoiding cold (KEEP THEM WARM), maintaining hydration, and preventing infection are the core teaching points to prevent sickle cell crises.',
+    concept: "Sickle Cell Prevention",
+    rationale: "Avoiding cold (KEEP THEM WARM), maintaining hydration, and preventing infection are the core teaching points to prevent sickle cell crises.",
     others: {
-      1: 'Daily aspirin is not standard preventive therapy.',
-      2: 'Fluid restriction WORSENS sickling — opposite of correct.',
-      3: 'Cold environments trigger crises; warmth is preferred.'
+      "1": "Daily aspirin is not standard preventive therapy.",
+      "2": "Fluid restriction WORSENS sickling — opposite of correct.",
+      "3": "Cold environments trigger crises; warmth is preferred."
     }
   },
   {
-    topic: 'NonmaligHem',
-    type: 'standard',
-    stem: 'Why is infection prevention especially important in sickle cell disease?',
+    topic: "NonmaligHem",
+    type: "standard",
+    stem: "Why is infection prevention especially important in sickle cell disease?",
     options: [
-      'Antibiotics worsen sickling effects',
-      'Infection can trigger or worsen a sickle cell crisis',
-      'Sickle cell patients cannot tolerate vaccines',
-      'Infection causes permanent kidney damage only'
+      "Antibiotics worsen sickling effects",
+      "Infection can trigger or worsen a sickle cell crisis",
+      "Sickle cell patients cannot tolerate vaccines",
+      "Infection causes permanent kidney damage only"
     ],
     answer: 1,
-    concept: 'SCD Infection Trigger',
-    rationale: 'Infection can trigger or worsen sickle cell crisis. Patients should report fever immediately and stay current on vaccinations.',
+    concept: "SCD Infection Trigger",
+    rationale: "Infection can trigger or worsen sickle cell crisis. Patients should report fever immediately and stay current on vaccinations.",
     others: {
-      0: 'Antibiotics treat infections; they do not worsen sickling.',
-      2: 'Vaccines are recommended in SCD to prevent infection.',
-      3: 'Effects are systemic, not isolated to the kidneys.'
+      "0": "Antibiotics treat infections; they do not worsen sickling.",
+      "2": "Vaccines are recommended in SCD to prevent infection.",
+      "3": "Effects are systemic, not isolated to the kidneys."
     }
   },
   {
-    topic: 'NonmaligHem',
-    type: 'standard',
-    stem: 'What is the expected outcome for a sickle cell patient receiving appropriate treatment?',
+    topic: "NonmaligHem",
+    type: "standard",
+    stem: "What is the expected outcome for a sickle cell patient receiving appropriate treatment?",
     options: [
-      'Cure of the underlying genetic defect',
-      'Controlled pain and no infection',
-      'Complete absence of all crises',
-      'Resolution of abnormal hemoglobin'
+      "Cure of the underlying genetic defect",
+      "Controlled pain and no infection",
+      "Complete absence of all crises",
+      "Resolution of abnormal hemoglobin"
     ],
     answer: 1,
-    concept: 'SCD Expected Outcomes',
-    rationale: 'Expected outcomes for sickle cell management are controlled pain and no infection. The disease is genetic — not curable in routine care.',
+    concept: "SCD Expected Outcomes",
+    rationale: "Expected outcomes for sickle cell management are controlled pain and no infection. The disease is genetic — not curable in routine care.",
     others: {
-      0: 'SCD is genetic and not curable in standard nursing care.',
-      2: 'Crises may still occur but should be minimized and managed.',
-      3: 'Abnormal hemoglobin is the genetic defect — not resolved.'
+      "0": "SCD is genetic and not curable in standard nursing care.",
+      "2": "Crises may still occur but should be minimized and managed.",
+      "3": "Abnormal hemoglobin is the genetic defect — not resolved."
     }
   },
   {
-    topic: 'NonmaligHem',
-    type: 'standard',
-    stem: 'A nurse is reviewing a patient\'s lab values: WBC 3,200, RBC normal, platelets normal. What does the nurse identify?',
+    topic: "NonmaligHem",
+    type: "standard",
+    stem: "A nurse is reviewing a patient's lab values: RBC normal, platelets normal, and the WBC below. What does the nurse identify?",
     options: [
-      'Thrombocytopenia',
-      'Anemia',
-      'Leukopenia',
-      'Polycythemia'
+      "Thrombocytopenia",
+      "Anemia",
+      "Leukopenia",
+      "Polycythemia"
     ],
     answer: 2,
-    concept: 'Lab Interpretation',
-    rationale: 'WBC of 3,200 is below the normal 4,000-11,000 range — this is leukopenia. Platelets and RBCs are normal.',
+    concept: "Lab Interpretation",
+    rationale: "WBC of 3,200 is below the normal 4,000-11,000 range — this is leukopenia. Platelets and RBCs are normal.",
     others: {
-      0: 'Platelets are normal — no thrombocytopenia.',
-      1: 'RBCs are normal — no anemia.',
-      3: 'Polycythemia is excess RBCs — not present here.'
-    }
+      "0": "Platelets are normal — no thrombocytopenia.",
+      "1": "RBCs are normal — no anemia.",
+      "3": "Polycythemia is excess RBCs — not present here."
+    },
+    labs: [
+      {
+        "name": "WBC",
+        "value": "3,200",
+        "unit": "/mm³",
+        "range": "normal 4,000-11,000"
+      }
+    ]
   },
   {
-    topic: 'NonmaligHem',
-    type: 'standard',
-    stem: 'Which nursing intervention helps manage fatigue in anemia patients?',
+    topic: "NonmaligHem",
+    type: "standard",
+    stem: "Which nursing intervention helps manage fatigue in anemia patients?",
     options: [
-      'Encourage strenuous daily exercise',
-      'Provide caffeinated beverages frequently',
-      'Schedule all activities back-to-back',
-      'Assist with activities of daily living (ADLs)'
+      "Encourage strenuous daily exercise",
+      "Provide caffeinated beverages frequently",
+      "Schedule all activities back-to-back",
+      "Assist with activities of daily living (ADLs)"
     ],
     answer: 3,
-    concept: 'Fatigue Management',
-    rationale: 'Assisting with ADLs helps the patient conserve energy while managing anemia-related fatigue.',
+    concept: "Fatigue Management",
+    rationale: "Assisting with ADLs helps the patient conserve energy while managing anemia-related fatigue.",
     others: {
-      0: 'Strenuous exercise worsens fatigue when oxygen-carrying capacity is low.',
-      1: 'Caffeine does not address the underlying anemia.',
-      2: 'Back-to-back activities exhaust anemic patients.'
+      "0": "Strenuous exercise worsens fatigue when oxygen-carrying capacity is low.",
+      "1": "Caffeine does not address the underlying anemia.",
+      "2": "Back-to-back activities exhaust anemic patients."
     }
   },
   {
-    topic: 'NonmaligHem',
-    type: 'standard',
-    stem: 'A nurse reviewing a CBC notes platelets 28,000 (normal 150,000-400,000). What is the priority nursing concern?',
+    topic: "NonmaligHem",
+    type: "standard",
+    stem: "A nurse reviewing a CBC notes platelets 28,000 (normal 150,000-400,000). What is the priority nursing concern?",
     options: [
-      'Risk for serious bleeding',
-      'Risk for sepsis from low immune function',
-      'Risk for hypoxia from low oxygen-carrying capacity',
-      'Risk for thrombus formation'
+      "Risk for serious bleeding",
+      "Risk for sepsis from low immune function",
+      "Risk for hypoxia from low oxygen-carrying capacity",
+      "Risk for thrombus formation"
     ],
     answer: 0,
-    concept: 'Severe Thrombocytopenia',
-    rationale: 'Platelets at 28,000 represent severe thrombocytopenia. This places the patient at high risk for serious or spontaneous bleeding.',
+    concept: "Severe Thrombocytopenia",
+    rationale: "Platelets at 28,000 represent severe thrombocytopenia. This places the patient at high risk for serious or spontaneous bleeding.",
     others: {
-      1: 'Sepsis risk is for leukopenia (WBC issue).',
-      2: 'Hypoxia risk relates to anemia.',
-      3: 'Thrombus formation is opposite — would relate to elevated platelets.'
+      "1": "Sepsis risk is for leukopenia (WBC issue).",
+      "2": "Hypoxia risk relates to anemia.",
+      "3": "Thrombus formation is opposite — would relate to elevated platelets."
     }
   }
 ];
@@ -612,13 +637,134 @@ function begin() {
   renderQuestion();
 }
 
+function extractLabs(stem) {
+  const labs = [];
+  const seen = new Set();
+
+  // Each pattern: { re, name, unit (or unitFromMatch index), rangeFromMatch (optional) }
+  const patterns = [
+    { re: /\bBP\s+(\d{2,3}\/\d{2,3})(?:\s*\((?:baseline|normal)\s+([\d\/<>≥≤\-–\s]+)\))?/gi, name: 'BP', unit: 'mmHg', rangeIdx: 2, ranglePrefix: 'baseline ' },
+    { re: /\bHR\s+(\d{2,3})\b/gi, name: 'HR', unit: 'bpm' },
+    { re: /\bpulse\s+(\d{2,3})\b/gi, name: 'Pulse', unit: 'bpm' },
+    { re: /\b(?:temperature|temp)[\s:]+(\d{2,3}(?:\.\d)?)\s*°?\s*([CF])\b/gi, name: 'Temp', unitIdx: 2, unitPrefix: '°' },
+    { re: /\b(?:respiratory rate|RR)\s+(\d{1,3})(?:\/min)?(?:\s*\(was\s+(\d+)\/?(?:min)?\))?\b/gi, name: 'RR', unit: '/min', rangeIdx: 2, ranglePrefix: 'was ' },
+    { re: /\b(?:urine output|UOP)\s+(\d{1,3})\s*mL\/hr(?:\s*\(was\s+(\d+)\s*mL\/hr\))?\b/gi, name: 'UOP', unit: 'mL/hr', rangeIdx: 2, ranglePrefix: 'was ' },
+    { re: /\b(?:bedside\s+)?(?:blood\s+)?glucose(?:\s+is|\s+at\s+\d+\s+(?:hour|min)\w*)?\s+(?:is\s+)?(\d{1,3})\s*mg\/dL(?:\s*\((?:normal[^)]*?|cutoff[^)]*?)\))?/gi, name: 'Glucose', unit: 'mg/dL' },
+    { re: /\b(?:hematocrit|HCT)\s+of\s+(\d{2,3})%(?:\s*\(normal[^)]*?\))?/gi, name: 'HCT', unit: '%' },
+    { re: /\bplatelets\s+([\d,]+)\s*\/?mm\u00b3?(?:\s*\(normal[^)]*?\))?/gi, name: 'Platelets', unit: '/mm³' },
+    { re: /\bAST\s+(\d{1,4})\s*U\/L(?:\s*\(normal[^)]*?\))?/gi, name: 'AST', unit: 'U/L' },
+    { re: /(?:\u03b2-hCG|beta-hCG|hCG)(?:\s+(?:is|of))?\s+([\d,]+)\s*mIU\/mL/gi, name: 'β-hCG', unit: 'mIU/mL' },
+    { re: /\bfundal height\s+of\s+(\d{1,3})\s*cm(?:\s*\((?:expected|normal)\s*~?\s*(\d{1,3})\s*cm\))?/gi, name: 'Fundal Ht', unit: 'cm', rangeIdx: 2, ranglePrefix: 'expected ~' },
+    { re: /\bAFI\s+(\d{1,3})\s*cm/gi, name: 'AFI', unit: 'cm' },
+    { re: /\b1-hour\b[^.]*?(\d{2,3})\s*mg\/dL/gi, name: '1-hr GCT', unit: 'mg/dL' },
+    { re: /(?:weighing|weighs|estimated at|EFW)\s+(\d{3,4})\s*g\b/gi, name: 'Weight', unit: 'g' },
+
+    // Electrolytes
+    { re: /\b(?:sodium|Na\+?)\s+(?:level\s+)?(?:of\s+|is\s+)?(\d{2,3})\s*mEq\/L/gi, name: 'Na+', unit: 'mEq/L' },
+    { re: /\b(?:potassium|K\+?)\s+(?:level\s+)?(?:of\s+|is\s+)?(\d(?:\.\d)?)\s*mEq\/L/gi, name: 'K+', unit: 'mEq/L' },
+    { re: /\b(?:calcium|Ca\+?\+?)\s+(?:level\s+)?(?:of\s+|is\s+)?(\d{1,2}(?:\.\d)?)\s*mg\/dL/gi, name: 'Ca', unit: 'mg/dL' },
+    { re: /\b(?:magnesium|Mg\+?\+?)\s+(?:level\s+)?(?:of\s+|is\s+)?(\d(?:\.\d)?)\s*mg\/dL/gi, name: 'Mg', unit: 'mg/dL' },
+
+    // CBC additions
+    { re: /\b(?:hemoglobin|Hgb|Hb)\s+(?:of\s+|is\s+)?(\d{1,2}(?:\.\d)?)\s*(?:g\/dL)?/gi, name: 'Hgb', unit: 'g/dL' },
+    { re: /\bANC\s+(?:of\s+|is\s+)?([\d,]+)/gi, name: 'ANC', unit: '/mm³' },
+    { re: /\bWBC\s+(?:of\s+|count of\s+|is\s+)?([\d,]+(?:\.\d)?)/gi, name: 'WBC', unit: '/mm³' },
+
+    // Renal
+    { re: /\b(?:creatinine|Cr)\s+(?:of\s+)?(\d(?:\.\d{1,2})?)\s*mg\/dL/gi, name: 'Cr', unit: 'mg/dL' },
+    { re: /\bBUN\s+(?:of\s+)?(\d{1,3})(?:\s*mg\/dL)?/gi, name: 'BUN', unit: 'mg/dL' },
+
+    // Coag
+    { re: /\bINR\s+(?:of\s+|is\s+)?(\d(?:\.\d{1,2})?)/gi, name: 'INR', unit: '' },
+
+    // Acid-base (DKA)
+    { re: /\bpH\s+(?:of\s+|is\s+)?(\d(?:\.\d{1,2})?)\b/gi, name: 'pH', unit: '' },
+    { re: /\b(?:bicarb|HCO3)\s+(?:of\s+|is\s+)?(\d{1,2})\b/gi, name: 'HCO3', unit: 'mEq/L' },
+
+    // Other
+    { re: /\b(?:hemoglobin\s+)?A1[cC]\s+(?:of\s+|is\s+)?(\d{1,2}(?:\.\d)?)\s*%?/gi, name: 'A1c', unit: '%' },
+    { re: /\b(?:total\s+)?bilirubin\s+(?:of\s+|is\s+)?(\d{1,2}(?:\.\d)?)\s*mg\/dL/gi, name: 'Bilirubin', unit: 'mg/dL' },
+
+    // Osmolality
+    { re: /\b(?:serum\s+|urine\s+)?osmolality\s+(?:of\s+|is\s+)?(\d{2,3})\s*mOsm\/kg/gi, name: 'Osmolality', unit: 'mOsm/kg' },
+
+    // Specific gravity
+    { re: /\b(?:urine\s+)?specific gravity\s+(?:of\s+|is\s+)?(\d\.\d{3})/gi, name: 'Sp Gravity', unit: '' }
+  ];
+
+  for (const pat of patterns) {
+    const re = new RegExp(pat.re.source, pat.re.flags);
+    let m;
+    while ((m = re.exec(stem)) !== null) {
+      const val = m[1];
+      const key = pat.name + ':' + val;
+      if (seen.has(key)) continue;
+      seen.add(key);
+
+      let unit = pat.unit || '';
+      if (pat.unitIdx && m[pat.unitIdx]) {
+        unit = (pat.unitPrefix || '') + m[pat.unitIdx];
+      }
+
+      let range = '';
+      if (pat.rangeIdx && m[pat.rangeIdx]) {
+        range = (pat.ranglePrefix || '') + m[pat.rangeIdx];
+      }
+
+      // First, check if m[0] itself contains a parenthetical (greedy patterns consume it)
+      if (!range) {
+        const innerParen = m[0].match(/\(([^)]+)\)/);
+        if (innerParen && /normal|baseline|expected|cutoff|target|was/i.test(innerParen[1])) {
+          range = innerParen[1].trim();
+        }
+      }
+
+      // Otherwise look ahead in the full stem (allow optional unit text before paren)
+      if (!range) {
+        const afterIdx = m.index + m[0].length;
+        const tail = stem.slice(afterIdx, afterIdx + 100);
+        const parenMatch = tail.match(/^[^()]{0,30}?\(([^)]+)\)/);
+        if (parenMatch && /normal|baseline|expected|cutoff|target|was|therapeutic|toxic/i.test(parenMatch[1])) {
+          range = parenMatch[1].trim();
+        }
+      }
+
+      labs.push({ name: pat.name, value: val, unit, range });
+    }
+  }
+
+  return labs;
+}
+
+function renderLabStrip(labs) {
+  if (!labs || labs.length === 0) return '';
+  // Skip vitals from the strip — students should know normal ranges for these
+  const VITALS_DENYLIST = new Set(['BP', 'HR', 'Pulse', 'RR', 'Temp', 'SpO2', 'Pain']);
+  const filtered = labs.filter(function(l) { return !VITALS_DENYLIST.has(l.name); });
+  if (filtered.length === 0) return '';
+  const items = filtered.map(function(l) {
+    const range = l.range ? '<div class="lab-range">' + escapeStemHTML(l.range) + '</div>' : '';
+    const unit = l.unit ? ' <span class="lab-value-unit">' + escapeStemHTML(l.unit) + '</span>' : '';
+    return '<div class="lab-item"><div class="lab-name">' + escapeStemHTML(l.name) + '</div><div class="lab-value">' + escapeStemHTML(l.value) + unit + '</div>' + range + '</div>';
+  }).join('');
+  return '<div class="lab-strip"><div class="lab-strip-label">Clinical Data</div><div class="lab-row">' + items + '</div></div>';
+}
+
+function escapeStemHTML(s) {
+  const div = document.createElement('div');
+  div.textContent = String(s);
+  return div.innerHTML;
+}
+
 function renderQuestion() {
   const q = questions[currentQ];
   selectedOption = null;
   document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${questions.length}`;
   document.getElementById('q-points').textContent = `${totalPts.toFixed(1)} pts`;
   document.getElementById('progress').style.width = `${(currentQ / questions.length) * 100}%`;
-  document.getElementById('q-stem').textContent = q.stem;
+  const __labs = q.labs || extractLabs(q.stem);
+  const __labStrip = renderLabStrip(__labs);
+  document.getElementById('q-stem').innerHTML = '<div>' + escapeStemHTML(q.stem) + '</div>' + __labStrip;
   const optsHtml = q.options.map((opt, i) => `
     <div class="option" data-idx="${i}" onclick="selectOption(${i})">
       <span class="option-letter">${String.fromCharCode(65+i)}.</span>

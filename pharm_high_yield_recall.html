@@ -1,1927 +1,322 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pharm High-Yield Recall</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-:root {
-  --navy: #0a2540;
-  --navy-soft: #1a3a5c;
-  --teal: #0d9488;
-  --teal-soft: #14b8a6;
-  --teal-pale: #f0fdfa;
-  --purple: #7c3aed;
-  --purple-soft: #8b5cf6;
-  --purple-pale: #f5f3ff;
-  --gold: #f59e0b;
-  --ink: #1a1a1a;
-  --ink-soft: #3a3a3a;
-  --muted: #6b7280;
-  --bg: #fafaf7;
-  --card: #ffffff;
-  --line: #e5e0d5;
-  --correct: #059669;
-  --correct-bg: #ecfdf5;
-  --wrong: #dc2626;
-  --wrong-bg: #fef2f2;
-  --partial: #d97706;
-  --partial-bg: #fffbeb;
-}
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: 'Outfit', sans-serif;
-  background: var(--bg);
-  color: var(--ink);
-  line-height: 1.6;
-  padding: 40px 20px 100px;
-}
-.container { max-width: 800px; margin: 0 auto; }
-.header {
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-left: 4px solid var(--purple);
-  padding: 28px 32px;
-  margin-bottom: 24px;
-}
-.badge {
-  display: inline-block;
-  background: var(--purple-pale);
-  color: var(--purple);
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  font-weight: 500;
-  padding: 4px 10px;
-  border-radius: 3px;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-}
-h1 {
-  font-family: 'DM Serif Display', serif;
-  font-size: 32px;
-  color: var(--navy);
-  margin-bottom: 6px;
-  font-weight: 400;
-}
-.subtitle { color: var(--muted); font-size: 15px; }
-.progress-bar {
-  background: var(--card);
-  border: 1px solid var(--line);
-  padding: 16px 24px;
-  margin-bottom: 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-family: 'DM Mono', monospace;
-  font-size: 13px;
-  color: var(--ink-soft);
-}
-.progress-track {
-  flex: 1;
-  height: 4px;
-  background: var(--line);
-  margin: 0 20px;
-  border-radius: 2px;
-  overflow: hidden;
-}
-.progress-fill {
-  height: 100%;
-  background: var(--purple);
-  width: 0%;
-  transition: width 0.3s ease;
-}
-.question-card {
-  background: var(--card);
-  border: 1px solid var(--line);
-  padding: 32px;
-  margin-bottom: 20px;
-}
-.q-number {
-  font-family: 'DM Mono', monospace;
-  font-size: 12px;
-  color: var(--muted);
-  letter-spacing: 0.5px;
-  margin-bottom: 12px;
-}
-.confirmed-banner {
-  background: var(--purple-pale);
-  border-left: 3px solid var(--purple);
-  color: var(--purple);
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  padding: 8px 12px;
-  margin-bottom: 16px;
-  letter-spacing: 0.3px;
-  text-transform: uppercase;
-}
-.q-stem {
-  font-size: 17px;
-  color: var(--ink);
-  margin-bottom: 24px;
-  font-weight: 500;
-  line-height: 1.5;
-}
-.options { display: flex; flex-direction: column; gap: 10px; }
-.option {
-  background: var(--card);
-  border: 1.5px solid var(--line);
-  padding: 14px 18px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  font-size: 15px;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  text-align: left;
-  width: 100%;
-  font-family: inherit;
-  color: var(--ink);
-}
-.option:hover:not(:disabled) {
-  border-color: var(--purple);
-  background: var(--purple-pale);
-}
-.option:disabled { cursor: not-allowed; }
-.option-letter {
-  font-family: 'DM Mono', monospace;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--muted);
-  flex-shrink: 0;
-  padding-top: 1px;
-}
-.option.selected {
-  border-color: var(--purple);
-  background: var(--purple-pale);
-}
-.option.correct {
-  border-color: var(--correct);
-  background: var(--correct-bg);
-}
-.option.correct .option-letter { color: var(--correct); }
-.option.wrong {
-  border-color: var(--wrong);
-  background: var(--wrong-bg);
-}
-.option.wrong .option-letter { color: var(--wrong); }
-.option.missed {
-  border-color: var(--partial);
-  background: var(--partial-bg);
-  border-style: dashed;
-}
-.option.missed .option-letter { color: var(--partial); }
-.submit-btn, .next-btn {
-  background: var(--navy);
-  color: white;
-  border: none;
-  padding: 12px 28px;
-  font-family: inherit;
-  font-size: 15px;
-  font-weight: 500;
-  cursor: pointer;
-  margin-top: 20px;
-  transition: background 0.15s;
-}
-.submit-btn:hover, .next-btn:hover { background: var(--navy-soft); }
-.submit-btn:disabled { background: var(--muted); cursor: not-allowed; }
-    .lab-strip { margin-bottom: 14px; padding: 12px 14px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; border-left: 3px solid var(--navy); }
-    .lab-strip-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
-    .lab-row { display: flex; flex-wrap: wrap; gap: 12px 18px; }
-    .lab-item { display: flex; flex-direction: column; gap: 2px; min-width: 90px; }
-    .lab-name { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.04em; }
-    .lab-value { font-size: 14px; color: var(--ink); font-weight: 600; }
-    .lab-value-unit { font-weight: 400; color: var(--muted); font-size: 11px; }
-    .lab-range { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 1px; }
-    /* Sticky submit/next button: stays at bottom of viewport while reading rationale */
-    .submit-btn, .next-btn { position: sticky; bottom: 12px; z-index: 10; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
-
-.rationale {
-  margin-top: 24px;
-  padding-top: 24px;
-  border-top: 1px solid var(--line);
-  display: none;
-}
-.rationale.show { display: block; }
-.verdict {
-  display: inline-block;
-  padding: 6px 14px;
-  font-family: 'DM Mono', monospace;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-}
-.verdict.correct { background: var(--correct-bg); color: var(--correct); }
-.verdict.wrong { background: var(--wrong-bg); color: var(--wrong); }
-.verdict.partial { background: var(--partial-bg); color: var(--partial); }
-.concept-pill {
-  display: inline-block;
-  background: var(--purple-pale);
-  color: var(--purple);
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  padding: 4px 10px;
-  border-radius: 3px;
-  margin-left: 8px;
-  letter-spacing: 0.3px;
-}
-.rationale h4 {
-  font-family: 'DM Serif Display', serif;
-  font-size: 18px;
-  color: var(--navy);
-  margin: 16px 0 8px;
-  font-weight: 400;
-}
-.rationale p { margin-bottom: 10px; color: var(--ink-soft); font-size: 15px; }
-.rationale .correct-answer-display {
-  background: var(--correct-bg);
-  border-left: 3px solid var(--correct);
-  padding: 10px 14px;
-  margin: 12px 0;
-  font-size: 14px;
-}
-.others-list { margin-top: 12px; }
-.others-list li {
-  list-style: none;
-  padding: 8px 0;
-  border-top: 1px solid var(--line);
-  font-size: 14px;
-  color: var(--ink-soft);
-}
-.others-list li strong { color: var(--ink); }
-.sata-legend {
-  display: flex;
-  gap: 16px;
-  margin: 12px 0;
-  flex-wrap: wrap;
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-}
-.sata-legend span { display: flex; align-items: center; gap: 6px; }
-.legend-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 2px;
-  display: inline-block;
-}
-.legend-dot.green { background: var(--correct); }
-.legend-dot.yellow { background: var(--partial); border: 1px dashed var(--partial); }
-.legend-dot.red { background: var(--wrong); }
-.results-card {
-  background: var(--card);
-  border: 1px solid var(--line);
-  padding: 40px;
-  text-align: center;
-}
-.results-score {
-  font-family: 'DM Serif Display', serif;
-  font-size: 72px;
-  color: var(--navy);
-  margin: 16px 0;
-  font-weight: 400;
-}
-.results-pct { font-family: 'DM Mono', monospace; font-size: 24px; color: var(--purple); margin-bottom: 24px; }
-.perf-msg {
-  font-size: 17px;
-  color: var(--ink-soft);
-  margin-bottom: 24px;
-  padding: 16px;
-  background: var(--purple-pale);
-  border-left: 3px solid var(--purple);
-  text-align: left;
-}
-.missed-list { text-align: left; margin-top: 32px; }
-.missed-list h3 {
-  font-family: 'DM Serif Display', serif;
-  font-size: 22px;
-  color: var(--navy);
-  margin-bottom: 16px;
-  font-weight: 400;
-}
-.missed-item {
-  padding: 14px 0;
-  border-top: 1px solid var(--line);
-}
-.missed-item .preview {
-  font-size: 14px;
-  color: var(--ink-soft);
-  margin: 6px 0;
-}
-.missed-item .answer-line {
-  font-size: 13px;
-  color: var(--correct);
-  font-family: 'DM Mono', monospace;
-  margin-top: 4px;
-}
-.missed-item .rationale-line { font-size: 13px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
-.retry-btn {
-  background: var(--purple);
-  color: white;
-  border: none;
-  padding: 14px 32px;
-  font-family: inherit;
-  font-size: 15px;
-  font-weight: 500;
-  cursor: pointer;
-  margin-top: 32px;
-}
-.retry-btn:hover { background: var(--purple-soft); }
-.back-btn {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  background: var(--navy);
-  color: white;
-  text-decoration: none;
-  padding: 12px 20px;
-  font-family: 'DM Mono', monospace;
-  font-size: 13px;
-  border-radius: 4px;
-  z-index: 100;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-.back-btn:hover { background: var(--navy-soft); }
-.start-screen {
-  background: var(--card);
-  border: 1px solid var(--line);
-  padding: 48px 40px;
-  text-align: center;
-}
-.start-screen h2 {
-  font-family: 'DM Serif Display', serif;
-  font-size: 28px;
-  color: var(--navy);
-  margin-bottom: 12px;
-  font-weight: 400;
-}
-.start-screen p { color: var(--ink-soft); margin-bottom: 8px; }
-.start-stats {
-  display: flex;
-  justify-content: center;
-  gap: 32px;
-  margin: 24px 0 32px;
-  font-family: 'DM Mono', monospace;
-  font-size: 13px;
-  color: var(--muted);
-}
-.start-btn {
-  background: var(--purple);
-  color: white;
-  border: none;
-  padding: 14px 36px;
-  font-family: inherit;
-  font-size: 15px;
-  font-weight: 500;
-  cursor: pointer;
-}
-.start-btn:hover { background: var(--purple-soft); }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pharm Final · Priority Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-soft: #1a3a5c;
+      --teal: #0d9488;
+      --teal-pale: #f0fdfa;
+      --purple: #7c3aed;
+      --purple-pale: #f5f3ff;
+      --gold: #f59e0b;
+      --gold-soft: #fbbf24;
+      --gold-pale: #fef3c7;
+      --ink: #1a1a1a;
+      --ink-soft: #3a3a3a;
+      --muted: #6b7280;
+      --bg: #fafaf7;
+      --card: #ffffff;
+      --line: #e5e0d5;
+      --correct: #059669;
+      --correct-bg: #ecfdf5;
+      --wrong: #dc2626;
+      --wrong-bg: #fef2f2;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--ink); padding: 2rem 1rem 4rem; line-height: 1.6; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; font-weight: 500; }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 400; line-height: 1.15; color: var(--navy); margin-bottom: 12px; }
+    .tagline { font-size: 15px; color: var(--ink-soft); margin-bottom: 28px; max-width: 580px; }
+    .start-card { background: var(--navy); color: white; border-radius: 12px; padding: 36px; margin-bottom: 20px; }
+    .start-card h1 { color: white; }
+    .start-card .eyebrow { color: var(--gold); }
+    .start-card .tagline { color: rgba(255,255,255,0.75); }
+    .start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0; }
+    .start-stat { text-align: center; padding: 18px 12px; background: rgba(255,255,255,0.06); border-radius: 8px; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .start-stat-num { display: block; font-family: 'DM Serif Display', serif; font-size: 30px; color: var(--gold); margin-bottom: 4px; }
+    .start-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.7); letter-spacing: 0.05em; text-transform: uppercase; }
+    .source-note { background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.4); border-radius: 8px; padding: 14px 18px; margin: 18px 0 24px; font-size: 13px; line-height: 1.5; color: rgba(255,255,255,0.85); }
+    .source-note strong { color: var(--gold); }
+    .empty-state { text-align: center; padding: 32px 20px; background: rgba(255,255,255,0.05); border: 1px dashed rgba(245,158,11,0.4); border-radius: 8px; margin-bottom: 24px; }
+    .empty-state-title { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--gold); margin-bottom: 8px; }
+    .empty-state-text { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.6; }
+    .btn { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; padding: 14px 32px; border-radius: 6px; border: none; cursor: pointer; background: var(--gold); color: var(--navy); transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: translateY(1px); }
+    .btn:disabled { background: rgba(255,255,255,0.2); color: rgba(255,255,255,0.5); cursor: not-allowed; }
+    .btn-secondary { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .progress-bar { height: 4px; background: var(--line); border-radius: 100px; margin-bottom: 24px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--gold); transition: width 0.4s ease; width: 0%; }
+    .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
+    .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
+    .option:hover:not(.locked) { border-color: var(--gold); background: var(--gold-pale); }
+    .option.selected { border-color: var(--gold); background: var(--gold-pale); }
+    .option.correct { border-color: var(--correct); background: var(--correct-bg); }
+    .option.wrong { border-color: var(--wrong); background: var(--wrong-bg); }
+    .option.locked { cursor: default; }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: white; color: var(--muted); flex-shrink: 0; margin-top: 1px; border: 1px solid var(--line); }
+    .option.selected .option-letter { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+    .option.correct .option-letter { background: var(--correct); color: white; border-color: var(--correct); }
+    .option.wrong .option-letter { background: var(--wrong); color: white; border-color: var(--wrong); }
+    #rationale-area { margin-top: 18px; padding: 16px 18px; border-radius: 8px; background: var(--gold-pale); border-left: 3px solid var(--gold); font-size: 14px; line-height: 1.65; color: var(--ink-soft); }
+    #rationale-area.wrong-bg { background: var(--wrong-bg); border-left-color: var(--wrong); }
+    .concept-pill { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 99px; background: var(--gold); color: var(--navy); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+    .rationale-text { margin-bottom: 8px; }
+    .rationale-text strong { color: var(--ink); font-weight: 600; }
+    .others-list { list-style: none; padding: 0; margin-top: 10px; font-size: 13px; }
+    .others-list li { margin-bottom: 6px; padding-left: 14px; position: relative; line-height: 1.55; }
+    .others-list li::before { content: '·'; position: absolute; left: 4px; color: var(--muted); }
+    .others-list strong { color: var(--ink); font-weight: 600; }
+    .btn-row { margin-top: 18px; }
+    .results-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 36px 28px; text-align: center; }
+    .results-card .eyebrow { display: block; }
+    .results-card h1 { margin-bottom: 18px; }
+    .results-score { font-family: 'DM Serif Display', serif; font-size: 72px; color: var(--gold); line-height: 1; margin-bottom: 6px; }
+    .results-pts { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; }
+    .perf-msg { font-size: 15px; color: var(--ink-soft); max-width: 480px; margin: 0 auto 28px; line-height: 1.6; }
+    .missed-section { margin-top: 32px; text-align: left; padding-top: 28px; border-top: 1px solid var(--line); }
+    .missed-section h3 { font-family: 'DM Serif Display', serif; color: var(--navy); margin-bottom: 16px; font-size: 22px; }
+    .missed-item { border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin-bottom: 12px; background: var(--bg); font-size: 14px; }
+    .missed-item .stem { font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
+    .missed-item .ans { color: var(--correct); margin-bottom: 8px; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .missed-item .rat { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
+    .back-btn { position: fixed; bottom: 20px; left: 20px; background: var(--navy); color: white; text-decoration: none; padding: 10px 18px; border-radius: 100px; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 50; }
+    .hidden { display: none; }
+  </style>
 </head>
 <body>
+<a href="index.html" class="back-btn">← STUDY HUB</a>
 <div class="container">
 
-<div id="start-screen" class="start-screen">
-  <span class="badge">Final Push</span>
-  <h2>Pharm High-Yield Recall</h2>
-  <p>Targeted prep — high-yield clinical pharmacology spanning the review sheet.</p>
-  <p style="font-size:14px; color:var(--muted); margin-top:8px;">Items flagged with the purple banner are high-priority for the final exam.</p>
-  <div class="start-stats">
-    <span>75 questions</span>
-    <span>•</span>
-    <span>High-yield review</span>
-    <span>•</span>
-    <span>Final-push prep</span>
+<div id="start-screen">
+  <div class="start-card">
+    <div class="eyebrow">Pharmacology II Final · Priority Review</div>
+    <h1>Recall Drill</h1>
+    <p class="tagline">Targeted review of confirmed high-yield concepts. The highest-priority drill before exam day.</p>
+    <div class="source-note">
+      <strong>Note:</strong> This drill covers confirmed high-priority concepts identified through targeted review. Treat it as the highest-yield study session before exam day.
+    </div>
+    <div id="ready-state" class="hidden">
+      <div class="start-stats">
+        <div class="start-stat"><span class="start-stat-num" id="stat-count">0</span><span class="start-stat-label">Questions</span></div>
+        <div class="start-stat"><span class="start-stat-num">MC</span><span class="start-stat-label">Format</span></div>
+        <div class="start-stat"><span class="start-stat-num">Yes</span><span class="start-stat-label">Rationale</span></div>
+      </div>
+      <p style="color: rgba(255,255,255,0.7); font-size: 13px; margin-bottom: 20px;">Each question maps to a concept that appeared on the actual exam. Answer, get instant rationale, move on.</p>
+      <button class="btn" onclick="begin()">Begin Drill</button>
+    </div>
+    <div id="empty-state" class="empty-state">
+      <div class="empty-state-title">Drill being assembled</div>
+      <div class="empty-state-text">High-priority concepts are being added to this drill. Check back shortly — once the questions are in, this page will be ready to drill.</div>
+    </div>
   </div>
-  <button class="start-btn" onclick="startQuiz()">Begin</button>
 </div>
 
-<div id="quiz-container" style="display:none;">
-  <div class="header">
-    <span class="badge">Pharm High-Yield Recall</span>
-    <h1>Final-push pharmacology review</h1>
-    <p class="subtitle">High-yield clinical scenarios spanning all body systems</p>
+<div id="quiz-screen" class="hidden">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="question-card">
+    <div class="q-header">
+      <span id="q-counter">Question 1 of 0</span>
+      <span id="q-points">0 pts</span>
+    </div>
+    <div class="q-stem" id="q-stem"></div>
+    <div class="options" id="q-options"></div>
+    <div id="rationale-area" class="hidden"></div>
+    <div class="btn-row">
+      <button class="btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit</button>
+      <button class="btn btn-secondary hidden" id="next-btn" onclick="nextQuestion()">Next</button>
+    </div>
   </div>
-  <div class="progress-bar">
-    <span id="progress-text">Question 1 / 75</span>
-    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
-    <span id="score-text">Score: 0</span>
-  </div>
-  <div id="question-area"></div>
 </div>
 
-<div id="results-area" style="display:none;"></div>
+<div id="results-screen" class="hidden">
+  <div class="results-card">
+    <div class="eyebrow">Results · Priority Review</div>
+    <h1>Recall Drill</h1>
+    <div class="results-score" id="r-score">0%</div>
+    <div class="results-pts" id="r-pts">0 / 0 points</div>
+    <div class="perf-msg" id="r-msg"></div>
+    <div class="btn-row" style="justify-content: center; margin-bottom: 32px;">
+      <button class="btn" onclick="location.reload()">Retry Drill</button>
+      <a href="index.html" class="btn btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;">Back to Hub</a>
+    </div>
+    <div class="missed-section" id="missed-section"></div>
+  </div>
+</div>
 
 </div>
-<a href="index.html" class="back-btn">← Study Hub</a>
 
 <script>
+// ============================================================
+// HIGH-YIELD RECALL QUESTIONS — fill this in as concepts come in
+// Each question needs: { topic, type, stem, options, answer, concept, rationale, others }
+// ============================================================
 const questions = [
-  // === ENDOCRINE (13 verbatim + 2 fill = 15) ===
-  {
-    topic: 'Endocrine', confirmed: true, type: 'standard',
-    stem: 'In a healthy patient, which statement correctly describes glucose regulation?',
-    options: [
-      'The pancreas releases insulin when blood glucose is low',
-      'The pancreas releases glucagon when blood glucose is low',
-      'The liver releases insulin when blood glucose is high',
-      'The kidneys release glucagon when blood glucose is high'
-    ],
-    answer: 1,
-    concept: 'Glucose Regulation',
-    rationale: 'In healthy regulation, the pancreas releases insulin when BG is high and glucagon when BG is low.',
-    deepExplanation: 'Insulin (beta cells) lowers BG by moving glucose into cells. Glucagon (alpha cells) raises BG by triggering liver glycogenolysis. Both come from the pancreas.',
-    others: { '0': 'Insulin is released when BG is HIGH, not low.', '2': 'The pancreas releases insulin, not the liver.', '3': 'Glucagon comes from the pancreas, not kidneys.' }
-  },
-  {
-    topic: 'Endocrine', confirmed: true, type: 'standard',
-    stem: 'Which insulin is the only one that can be administered IV?',
-    options: [
-      'Regular insulin (Humulin R / Novolin R) for IV use',
-      'NPH insulin suspension (Humulin N) for IV bolus',
-      'Insulin glargine (Lantus) given IV daily',
-      'Insulin lispro (Humalog) IV before meals'
-    ],
-    answer: 0,
-    concept: 'Regular Insulin IV',
-    rationale: 'Regular insulin is the only insulin given IV — used for DKA, HHNS, and inpatient drips.',
-    deepExplanation: 'Only Regular insulin (fast-acting, Humulin R/Novolin R) is approved IV. NPH is a suspension and cannot be given IV. Long-acting analogs (glargine, detemir) are SubQ only.',
-    others: { '1': 'NPH is suspension; SubQ only, never IV.', '2': 'Glargine is SubQ only, never IV.', '3': 'Lispro is SubQ only.' }
-  },
-  {
-    topic: 'Endocrine', confirmed: true, type: 'standard',
-    stem: 'Which insulin is given subcutaneously on a sliding scale 30 minutes before meals?',
-    options: [
-      'Insulin glargine (Lantus) once daily at bedtime',
-      'NPH insulin (Humulin N) on a fixed dose schedule',
-      'Regular insulin (Humulin R) on a sliding scale',
-      'Insulin detemir (Levemir) once daily basal'
-    ],
-    answer: 2,
-    concept: 'Regular Insulin Sliding Scale',
-    rationale: 'Regular insulin is given SubQ on sliding scale 30 minutes before meals.',
-    deepExplanation: 'Regular insulin: sliding scale, 30 min before meals SubQ. Rapid-acting (lispro, aspart, glulisine): 5-15 min before meals. NPH: fixed dose, 30 min before meals. Glargine/detemir: once-daily bedtime, never mixed with NPH.',
-    others: { '0': 'Glargine is once-daily bedtime, not sliding scale.', '1': 'NPH is fixed dose, not sliding scale.', '3': 'Detemir is long-acting bedtime.' }
-  },
-  {
-    topic: 'Endocrine', confirmed: true, type: 'standard',
-    stem: 'A patient is being taught about glimepiride. Which teaching is essential?',
-    options: [
-      'Take with grapefruit juice for better drug absorption',
-      'Avoid alcohol — causes a disulfiram-like reaction',
-      'Increase daily salt intake to prevent hypotension',
-      'Mix the medication with NPH insulin daily'
-    ],
-    answer: 1,
-    concept: 'Glimepiride + Alcohol',
-    rationale: 'Glimepiride combined with alcohol causes a disulfiram reaction (flushing, nausea, vomiting, hypotension).',
-    deepExplanation: 'Glimepiride (sulfonylurea) side effects: weight gain, hypoglycemia. AVOID alcohol — disulfiram reaction. Caution in heart disease — cardiotoxic.',
-    others: { '0': 'Grapefruit is not a routine pairing.', '2': 'Salt intake is unrelated.', '3': 'Glimepiride is oral; not mixed with insulin.' }
-  },
-  {
-    topic: 'Endocrine', confirmed: true, type: 'standard',
-    stem: 'A patient is being prescribed semaglutide. The nurse reviews the chart for which BLACK BOX WARNING contraindication?',
-    options: [
-      'Recent dental cleaning within the past six months',
-      'Known childhood sulfa antibiotic allergy on chart',
-      'History of mild seasonal allergies and asthma',
-      'Family history of medullary thyroid carcinoma'
-    ],
-    answer: 3,
-    concept: 'Semaglutide BBW Thyroid',
-    rationale: 'Semaglutide BBW: thyroid C-cell tumors. Contraindicated with personal/family history of MTC or MEN2.',
-    deepExplanation: 'Based on rodent studies showing C-cell tumors. Contraindicated in personal/family history of MTC or Multiple Endocrine Neoplasia type 2 (MEN2). All GLP-1 agonists carry this warning.',
-    others: { '0': 'Dental procedures unrelated.', '1': 'Sulfa allergy is not a semaglutide contraindication.', '2': 'Allergies/asthma not contraindicated.' }
-  },
-  {
-    topic: 'Endocrine', confirmed: true, type: 'standard',
-    stem: 'Semaglutide is associated with which serious GI complication that requires avoidance in patients with personal history?',
-    options: [
-      'Pancreatitis with possible severe morbidity',
-      'Inflammatory bowel disease with bloody diarrhea',
-      'GERD complicated by erosive esophagitis',
-      'Diverticulitis with possible bowel perforation'
-    ],
-    answer: 0,
-    concept: 'Semaglutide + Pancreatitis',
-    rationale: 'Semaglutide can cause pancreatitis. Avoid in patients with prior pancreatitis.',
-    deepExplanation: 'GLP-1 agonists carry a documented pancreatitis risk. Patients with history of pancreatitis should avoid this drug class entirely.',
-    others: { '1': 'IBD not a semaglutide complication.', '2': 'GERD not specifically associated.', '3': 'Diverticulitis not associated.' }
-  },
-  {
-    topic: 'Endocrine', confirmed: true, type: 'standard',
-    stem: 'A patient with type 2 diabetes is admitted with BG 600+, severe dehydration, and confusion. Which is the priority intervention?',
-    options: [
-      'IV regular insulin push immediately at full dose',
-      'Oral glucose tablets and rest in low Fowler',
-      'IV fluid resuscitation FIRST, then IV insulin',
-      'Subcutaneous regular insulin every 30 minutes'
-    ],
-    answer: 2,
-    concept: 'HHNS Priority',
-    rationale: 'HHNS priority is FLUIDS FIRST to correct dehydration, then IV insulin.',
-    deepExplanation: 'HHNS: T2DM, BG >600, severe dehydration, confusion, no ketones, normal pH. Priority is FLUIDS to correct dehydration, FOLLOWED by IV insulin.',
-    others: { '0': 'Insulin without fluids first worsens dehydration.', '1': 'Patient is hyperglycemic — glucose is contraindicated.', '3': 'IV not SubQ; fluids must come first.' }
-  },
-  {
-    topic: 'Endocrine', confirmed: true, type: 'standard',
-    stem: 'Which thyroid disorder is treated with levothyroxine?',
-    options: ['Hyperthyroidism only', 'Hypothyroidism only', 'Thyroid cancer in adults only', 'Both hyper and hypothyroidism'],
-    answer: 1,
-    concept: 'Levothyroxine for Hypothyroidism',
-    rationale: 'Levothyroxine is the drug of choice for HYPOTHYROIDISM.',
-    deepExplanation: 'Synthetic T4 — replaces deficient thyroid hormone. Hyperthyroidism is treated with methimazole, PTU, or I-131.',
-    others: { '0': 'Hyperthyroid uses methimazole/PTU — opposite.', '2': 'Levothyroxine is for hypothyroidism, not specifically cancer.', '3': 'Levothyroxine adds hormone — would worsen hyperthyroid.' }
-  },
-  {
-    topic: 'Endocrine', confirmed: true, type: 'standard',
-    stem: 'A patient who normally takes oral levothyroxine is admitted lethargic, hypoventilating, hypothermic, and unresponsive. Which medication does the nurse anticipate?',
-    options: [
-      'Oral levothyroxine at the patient\'s home dose',
-      'IV methimazole for thyroid storm crisis',
-      'IV regular insulin for metabolic stabilization',
-      'IV levothyroxine for myxedema coma'
-    ],
-    answer: 3,
-    concept: 'IV Levothyroxine for Myxedema Coma',
-    rationale: 'IV levothyroxine is given for myxedema coma — life-threatening hypothyroidism emergency.',
-    deepExplanation: 'Myxedema coma: severe hypothyroidism with hypothermia, hypoventilation, altered mental status. Patient cannot absorb oral; needs IV. Methimazole is for HYPER (wrong direction).',
-    others: { '0': 'Patient is too sick to absorb oral.', '1': 'Methimazole is for hyperthyroid — opposite.', '2': 'Insulin doesn\'t treat thyroid.' }
-  },
-  {
-    topic: 'Endocrine', confirmed: true, type: 'standard',
-    stem: 'Which lab test is the first-line diagnostic for thyroid disorders and for monitoring levothyroxine therapy?',
-    options: [
-      'Serum TSH (thyroid-stimulating hormone)',
-      'Serum T3 (triiodothyronine) level only',
-      'Free T4 (thyroxine) level alone',
-      'Anti-thyroid antibody panel only'
-    ],
-    answer: 0,
-    concept: 'TSH for Thyroid',
-    rationale: 'Serum TSH is first-line for diagnosing thyroid disorders and dosing levothyroxine.',
-    deepExplanation: 'TSH is the most sensitive marker — high TSH = hypothyroid, low TSH = hyperthyroid. Used to titrate levothyroxine dose.',
-    others: { '1': 'T3 is not first-line screen.', '2': 'Free T4 supportive but TSH primary.', '3': 'Antibodies confirm autoimmune cause but not the primary screen.' }
-  },
-  {
-    topic: 'Endocrine', confirmed: true, type: 'standard',
-    stem: 'A patient on warfarin is being started on levothyroxine. What does the nurse anticipate?',
-    options: [
-      'Increase the warfarin dose to compensate',
-      'REDUCE the warfarin dose because of enhanced effect',
-      'Discontinue warfarin completely permanently',
-      'No change to warfarin dose is needed'
-    ],
-    answer: 1,
-    concept: 'Levothyroxine + Warfarin',
-    rationale: 'Levothyroxine enhances warfarin — REDUCE warfarin dose to prevent bleeding.',
-    deepExplanation: 'Levothyroxine enhances warfarin\'s anticoagulant effect, increasing INR and bleeding risk. Warfarin dose must be reduced and INR closely monitored.',
-    others: { '0': 'Increasing warfarin would cause severe bleeding.', '2': 'Discontinuing not needed; just reduce.', '3': 'Significant interaction; needs adjustment.' }
-  },
-  {
-    topic: 'Endocrine', confirmed: true, type: 'standard',
-    stem: 'In which trimester is methimazole contraindicated?',
-    options: [
-      'Second trimester only — fetal liver concerns',
-      'Third trimester only due to fetal toxicity',
-      'First trimester only — fetal abnormalities',
-      'All three trimesters equally throughout pregnancy'
-    ],
-    answer: 2,
-    concept: 'Methimazole 1st Trimester CI',
-    rationale: 'Methimazole is contraindicated in the FIRST trimester due to fetal abnormalities. Safe in 2nd/3rd.',
-    deepExplanation: 'PTU is preferred in the 1st trimester. Methimazole crosses placenta and causes fetal abnormalities (aplasia cutis, choanal/esophageal atresia). After 1st trimester, switch to methimazole due to PTU\'s liver toxicity.',
-    others: { '0': 'Safe in 2nd trimester.', '1': 'Safe in 3rd trimester.', '3': 'Only 1st trimester contraindicated.' }
-  },
-  {
-    topic: 'Endocrine', confirmed: true, type: 'standard',
-    stem: 'Which medications are used to treat Graves disease?',
-    options: [
-      'Levothyroxine and liothyronine combined daily',
-      'Insulin and metformin for glucose control',
-      'Glimepiride and semaglutide combined therapy',
-      'Methimazole and PTU (propylthiouracil)'
-    ],
-    answer: 3,
-    concept: 'Graves Disease Treatment',
-    rationale: 'Graves disease (most common hyperthyroidism) is treated with methimazole and PTU.',
-    deepExplanation: 'Graves: autoimmune hyperthyroidism — too much T3/T4, low TSH. Treatment: methimazole and PTU (PTU 1st trimester pregnancy). I-131 also used (radioactive iodine destroys overactive thyroid tissue).',
-    others: { '0': 'These ADD thyroid hormone — wrong direction.', '1': 'For diabetes.', '2': 'For diabetes.' }
-  },
-  {
-    topic: 'Endocrine', confirmed: false, type: 'standard',
-    stem: 'When should each insulin type be administered?',
-    options: [
-      'Rapid: bedtime; Regular: 5-15 min before meals; NPH: anytime',
-      'Rapid: 5-15 min before meals; Regular: 30 min; Glargine: bedtime',
-      'All insulins administered the same way once daily at noon',
-      'Long-acting: before meals; Rapid: bedtime; NPH: IV only'
-    ],
-    answer: 1,
-    concept: 'Insulin Timing Summary',
-    rationale: 'Rapid: 5-15 min before meals. Regular: 30 min before meals. NPH: fixed dose 30 min before meals. Long-acting (glargine, detemir): once daily at bedtime, NEVER mix with NPH.',
-    deepExplanation: 'Knowing the onset/peak/duration of each class is critical for safe administration. Rapid-acting works fast (give right before eating); long-acting provides flat 24hr basal coverage.',
-    others: { '0': 'Reversed timing — wrong.', '2': 'Each insulin has specific timing.', '3': 'Reversed — wrong.' }
-  },
-  {
-    topic: 'Endocrine', confirmed: false, type: 'standard',
-    stem: 'A patient just received I-131 for hyperthyroidism. What discharge teaching is critical?',
-    options: [
-      'Lifelong thyroid replacement may be needed; avoid pregnancy',
-      'Effects are immediate; symptoms resolve within 1-2 days',
-      'No precautions are needed at home around any family',
-      'Plan to have a baby within the next thirty days'
-    ],
-    answer: 0,
-    concept: 'I-131 Teaching',
-    rationale: 'I-131 destroys overactive thyroid tissue. Effects are delayed (1-3 months). Patients often require lifelong thyroid hormone replacement. Avoid in pregnancy, lactation, and pediatrics.',
-    deepExplanation: 'I-131 (radioactive iodine) destroys thyroid tissue — many patients become hypothyroid afterwards and need lifelong levothyroxine. Avoid in pregnancy/lactation/peds (radiation exposure).',
-    others: { '1': 'Effects are DELAYED 1-3 months, not immediate.', '2': 'Patient should follow radiation precautions for several days.', '3': 'Pregnancy must be AVOIDED post I-131.' }
-  },
-
-  // === URINARY (4 verbatim) ===
-  {
-    topic: 'Urinary', confirmed: true, type: 'standard',
-    stem: 'Bethanechol is contraindicated in which condition?',
-    options: [
-      'Hyperthyroidism with TSH suppression only',
-      'Hypertension on multiple BP medications',
-      'Type 2 diabetes managed with metformin',
-      'Asthma — bethanechol causes bronchoconstriction'
-    ],
-    answer: 3,
-    concept: 'Bethanechol + Asthma',
-    rationale: 'Bethanechol is a muscarinic agonist that causes bronchoconstriction. Avoid in patients with active or latent asthma.',
-    deepExplanation: 'Bethanechol (cholinergic agonist) used for urinary retention. Contraindicated in: active/latent asthma (bronchoconstriction), hypotension/low CO, hyperthyroidism, intestinal obstruction, bowel surgery, physical obstruction, weak bladder wall.',
-    others: { '0': 'Hyperthyroidism is also a CI but asthma is the classic answer.', '1': 'HTN is not the answer; hypotension is the issue.', '2': 'Diabetes is not a CI.' }
-  },
-  {
-    topic: 'Urinary', confirmed: true, type: 'standard',
-    stem: 'A patient is prescribed finasteride for severe BPH. Which teaching about duration is correct?',
-    options: [
-      'Take this medication for two weeks only',
-      'Lifelong drug, especially for severe prostate',
-      'Take only when symptoms become severe',
-      'Take as needed before urination episodes'
-    ],
-    answer: 1,
-    concept: 'Finasteride Lifelong',
-    rationale: 'Finasteride is a lifelong drug, especially for severe enlarged prostate. Takes 6-12 months for full benefit.',
-    deepExplanation: 'Finasteride decreases prostate size by blocking DHT. Lifelong use needed; 6-12 months to see full benefit. Low dose for male baldness, high dose for BPH. Decreases ejaculate volume and libido; causes male gynecomastia.',
-    others: { '0': '2 weeks far too short for BPH benefit.', '2': 'Lifelong daily use, not symptom-based.', '3': 'Not a PRN medication.' }
-  },
-  {
-    topic: 'Urinary', confirmed: true, type: 'standard',
-    stem: 'What teaching applies to finasteride regarding pregnancy and male blood donation?',
-    options: [
-      'Finasteride is completely safe during all pregnancy stages',
-      'It is harmless to pregnant women but toxic to all infants',
-      'Pregnant women take finasteride along with their partners',
-      'Teratogenic to males; defer male blood donation 1 month'
-    ],
-    answer: 3,
-    concept: 'Finasteride Pregnancy + Blood Donation',
-    rationale: 'Finasteride is teratogenic to MALE neonates. Pregnant women should not handle broken/crushed tablets. Males cannot donate blood for 1 month after discontinuation (6 months for dutasteride).',
-    deepExplanation: 'DHT is critical for male fetal development; finasteride disrupts this. Even skin contact with broken tablets in pregnancy is a concern. Blood donation deferred post-discontinuation: 1 month for finasteride, 6 months for dutasteride.',
-    others: { '0': 'Teratogenic — major safety concern.', '1': 'It\'s harmful to MALE fetuses specifically.', '2': 'Not a couple\'s medication.' }
-  },
-  {
-    topic: 'Urinary', confirmed: true, type: 'standard',
-    stem: 'A patient is started on terazosin for BPH. What is the most important side effect to teach about?',
-    options: [
-      'Significant weight gain and increased appetite',
-      'Severe constipation needing daily laxatives',
-      'Orthostatic hypotension — change positions slowly',
-      'Decreased libido and erectile dysfunction'
-    ],
-    answer: 2,
-    concept: 'Terazosin Orthostatic Hypotension',
-    rationale: 'Terazosin (alpha-1 blocker) causes orthostatic hypotension. Teach patients to change positions slowly.',
-    deepExplanation: 'Terazosin lowers BP, can cause reflex tachycardia and nasal congestion. Avoid in hypotension. -zosin drugs cause orthostatic hypotension. Patients should rise slowly to avoid syncope.',
-    others: { '0': 'Not a primary side effect.', '1': 'Constipation not primary.', '3': 'Not primary; ED drugs (sildenafil) treat that.' }
-  },
-
-  // === REPRODUCTIVE (5 verbatim + 1 fill = 6) ===
-  {
-    topic: 'Reproductive', confirmed: true, type: 'standard',
-    stem: 'A male patient is being prescribed sildenafil. What dietary teaching is most important?',
-    options: [
-      'Take with grapefruit juice to speed onset',
-      'Avoid grapefruit juice — interferes with metabolism',
-      'Take this medication with a high-fat meal',
-      'You can drink alcohol freely with this drug'
-    ],
-    answer: 1,
-    concept: 'Sildenafil + Grapefruit',
-    rationale: 'Sildenafil should not be taken with grapefruit juice — it inhibits metabolism and can cause dangerous drug levels.',
-    deepExplanation: 'Take 60 min before intercourse. Adverse effects include hypotension, priapism (>4hr erection), dizziness, vision changes.',
-    others: { '0': 'Grapefruit causes toxic levels.', '2': 'Not the priority teaching.', '3': 'Alcohol caution applies but grapefruit is the dietary specific.' }
-  },
-  {
-    topic: 'Reproductive', confirmed: true, type: 'standard',
-    stem: 'A patient is newly prescribed sildenafil for erectile dysfunction. Which item on the home medication list concerns the nurse the MOST?',
-    options: [
-      'Nitroglycerin SL PRN for angina at home',
-      'Acetaminophen 500 mg PRN for occasional headaches',
-      'Daily multivitamin with iron at breakfast',
-      'Lisinopril 10 mg daily for chronic hypertension'
-    ],
-    answer: 0,
-    concept: 'Sildenafil + Nitrates',
-    rationale: 'Sildenafil is contraindicated with nitrates — combination causes catastrophic hypotension. Patient must wait 24h washout before nitrates.',
-    deepExplanation: 'Sildenafil + nitrates → severe hypotension that can be fatal. Patients must avoid nitrates for at least 24 hours after sildenafil. Also avoid in recent (within 6 months) MI, stroke, dysrhythmia, or hypo/hypertension.',
-    others: { '1': 'Acetaminophen is safe.', '2': 'No interaction.', '3': 'Caution but not absolute CI like nitrates.' }
-  },
-  {
-    topic: 'Reproductive', confirmed: true, type: 'standard',
-    stem: 'A patient asks which type of oral contraceptive is more effective. Which response is most accurate?',
-    options: [
-      'Mini-pill (progestin only) is more effective',
-      'Both have absolutely identical effectiveness',
-      'Neither is effective without backup methods',
-      'Combined oral contraceptive (estrogen + progestin)'
-    ],
-    answer: 3,
-    concept: 'Combined OC Effectiveness',
-    rationale: 'Combined oral contraceptive (estrogen + progestin) is more effective than the progestin-only mini-pill, especially with typical use.',
-    deepExplanation: 'Combined OC: 28-day cycle, must discontinue 4 weeks before surgery, watch for thrombosis signs. Mini-pill must be taken at the EXACT same time daily — small timing errors reduce effectiveness significantly.',
-    others: { '0': 'Mini-pill is less effective with typical use.', '1': 'Effectiveness differs between formulations.', '2': 'Both are highly effective with correct use.' }
-  },
-  {
-    topic: 'Reproductive', confirmed: true, type: 'standard',
-    stem: 'Which patient qualifies for labor induction?',
-    options: [
-      'A patient with normal full-term pregnancy and no complications',
-      'A patient with severe preeclampsia',
-      'A patient who simply wants to deliver early for convenience',
-      'A patient at 36 weeks with no complications'
-    ],
-    answer: 1,
-    concept: 'Labor Induction — Preeclampsia',
-    rationale: 'Severe preeclampsia is a clear indication for labor induction.',
-    deepExplanation: 'Labor induction qualifications: abruptio placenta, premature water breaking, gestational HTN, preeclampsia, eclampsia, diabetes, renal disease, fetal compromise.',
-    others: { '0': 'Normal full-term not an induction indication.', '2': 'Convenience is not medical indication.', '3': 'Pre-term without complication is not an indication.' }
-  },
-  {
-    topic: 'Reproductive', confirmed: true, type: 'standard',
-    stem: 'A chemotherapy patient is prescribed testosterone off-label. What is the rationale?',
-    options: [
-      'To stimulate appetite and promote weight gain over time',
-      'To boost overall energy levels during ongoing chemotherapy',
-      'Erythropoietic effects — increases RBC for chemo anemia',
-      'For cosmetic muscle development and physical fitness'
-    ],
-    answer: 2,
-    concept: 'Testosterone for Chemo Anemia',
-    rationale: 'Testosterone has erythropoietic effects (increases RBC production) and is used off-label to treat chemo-induced anemia.',
-    deepExplanation: 'Testosterone stimulates erythropoiesis (RBC production). It\'s an off-label use for treating chemo-induced anemias when other treatments aren\'t suitable.',
-    others: { '0': 'Not the primary off-label use.', '1': 'Not the documented mechanism.', '3': 'Cosmetic effect is not the medical indication.' }
-  },
-  {
-    topic: 'Reproductive', confirmed: false, type: 'standard',
-    stem: 'A pregnant patient on antiepileptic drugs (AEDs) is being counseled about pregnancy. Which teaching is correct?',
-    options: [
-      'Use AED monotherapy; avoid valproate; folic acid daily',
-      'Use multiple AEDs together for better seizure control',
-      'Valproate (VPA) is the safest AED choice in pregnancy',
-      'Folic acid is contraindicated for pregnant AED patients'
-    ],
-    answer: 0,
-    concept: 'AED in Pregnancy',
-    rationale: 'AED in pregnancy: use monotherapy when possible, AVOID valproate (VPA) due to teratogenicity, take folic acid 400 mcg daily.',
-    deepExplanation: 'Polytherapy increases teratogenicity. Valproate is the most teratogenic AED — avoid in pregnancy. Folic acid reduces neural tube defect risk and should be started before conception ideally. AED levels often need adjustment during pregnancy due to changing pharmacokinetics.',
-    others: { '1': 'Polytherapy increases teratogenic risk.', '2': 'VPA is the WORST choice in pregnancy.', '3': 'Folic acid is RECOMMENDED, not contraindicated.' }
-  },
-
-  // === CELECOXIB EXTRA (1) ===
-  {
-    topic: 'Misc', confirmed: true, type: 'standard',
-    stem: 'A patient is being prescribed celecoxib. Which allergy history would concern the nurse the most?',
-    options: [
-      'Allergy to penicillin from childhood',
-      'Allergy to shellfish on multiple occasions',
-      'Latex allergy with mild contact symptoms',
-      'Sulfa allergy — celecoxib has sulfa moiety'
-    ],
-    answer: 3,
-    concept: 'Celecoxib + Sulfa Allergy',
-    rationale: 'Celecoxib (a COX-2 inhibitor) contains a sulfonamide group. Sulfa allergy is a contraindication.',
-    deepExplanation: 'Celecoxib is structurally a sulfonamide drug. Patients with documented sulfa allergy should avoid celecoxib due to potential cross-reactivity. Always verify allergies before administering.',
-    others: { '0': 'Penicillin allergy is unrelated to celecoxib.', '1': 'Shellfish allergy is unrelated.', '2': 'Latex is unrelated.' }
-  },
-
-  // === NEURO (9 verbatim + 2 fill = 11) ===
-  {
-    topic: 'Neuro', confirmed: true, type: 'standard',
-    stem: 'A patient is being prescribed carbamazepine. Which dietary item should the nurse instruct the patient to AVOID?',
-    options: [
-      'Whole milk and dairy products at meals',
-      'Grapefruit juice',
-      'Coffee or other caffeinated beverages daily',
-      'Whole grain breads and high-fiber cereals'
-    ],
-    answer: 1,
-    concept: 'Carbamazepine + Grapefruit',
-    rationale: 'Carbamazepine should not be taken with grapefruit juice (inhibits metabolism, raises drug levels).',
-    deepExplanation: 'Carbamazepine suppresses sodium channels. Therapeutic level: 4-12 mcg/mL. Grapefruit inhibits CYP3A4, raising carbamazepine to toxic levels.',
-    others: { '0': 'No specific milk concern.', '2': 'No specific coffee concern.', '3': 'No interaction with grains.' }
-  },
-  {
-    topic: 'Neuro', confirmed: true, type: 'standard',
-    stem: 'Carbamazepine should be avoided in patients with a history of which condition?',
-    options: [
-      'Hypertension on calcium channel blockers',
-      'Asthma with seasonal exacerbations',
-      'Hematologic disorders or bone marrow depression',
-      'Migraine headaches with prodromal aura'
-    ],
-    answer: 2,
-    concept: 'Carbamazepine + Hematologic',
-    rationale: 'Carbamazepine has hematologic adverse effects (leukopenia, anemia, thrombocytopenia). Avoid in patients with bone marrow depression. Discontinue if WBC <3000.',
-    deepExplanation: 'Carbamazepine causes blood dyscrasias. Patients should report fever, sore throat, and infection signs. Avoid if PMH of bone marrow depression. Discontinue if WBC drops below 3000.',
-    others: { '0': 'HTN not a contraindication.', '1': 'Asthma not a contraindication.', '3': 'Migraines not a contraindication.' }
-  },
-  {
-    topic: 'Neuro', confirmed: true, type: 'standard',
-    stem: 'A patient is on donepezil for Alzheimer disease. Which side effect class should the nurse monitor for?',
-    options: [
-      'Anticholinergic effects (dry mouth, constipation)',
-      'Anti-platelet effects with bleeding tendencies',
-      'Hepatotoxicity with rising liver enzymes only',
-      'Cholinergic effects (SLUD: salivation, lacrimation)'
-    ],
-    answer: 3,
-    concept: 'Donepezil Cholinergic Effects',
-    rationale: 'Donepezil is a cholinesterase inhibitor — causes cholinergic effects (SLUD: salivation, lacrimation, urination, diarrhea), nausea, vomiting, dizziness, bronchoconstriction.',
-    deepExplanation: 'Memory aid: "DONepezil = DOing the most: SLUD." Initial dose stays constant 1-3 months before increasing. Bronchoconstriction is a concern in asthma/COPD.',
-    others: { '0': 'OPPOSITE — donepezil increases cholinergic activity.', '1': 'Not its mechanism.', '2': 'Not primary side effect class.' }
-  },
-  {
-    topic: 'Neuro', confirmed: true, type: 'standard',
-    stem: 'A patient on levodopa for Parkinson disease asks about diet. Which teaching is correct?',
-    options: [
-      'Avoid high-protein meals — protein competes for absorption',
-      'Eat a high-protein meal with each levodopa dose',
-      'Take with grapefruit juice for better absorption rates',
-      'Take only with carbohydrate-rich meals at bedtime'
-    ],
-    answer: 0,
-    concept: 'Levodopa Avoid High Protein',
-    rationale: 'Levodopa absorption is reduced by high-protein meals because amino acids compete for the same intestinal transporters.',
-    deepExplanation: 'Memory aid: "LEVO: LEAVE THE CHICKEN ALONE (avoid high protein)." Levodopa converts to dopamine in the brain — first-line for severe symptoms, max 5-year benefit.',
-    others: { '1': 'Protein blocks absorption.', '2': 'No grapefruit interaction documented for levodopa.', '3': 'Not specifically required.' }
-  },
-  {
-    topic: 'Neuro', confirmed: true, type: 'standard',
-    stem: 'Why is carbidopa always combined with levodopa?',
-    options: [
-      'To reduce GI side effects of levodopa',
-      'Carbidopa blocks peripheral breakdown of levodopa',
-      'To prevent allergic reactions to medication components',
-      'They are unrelated drugs combined for convenience'
-    ],
-    answer: 1,
-    concept: 'Carbidopa + Levodopa Combination',
-    rationale: 'Carbidopa blocks peripheral conversion of levodopa, allowing more levodopa to cross the blood-brain barrier and convert to dopamine.',
-    deepExplanation: 'Without carbidopa, much of the levodopa is converted to dopamine peripherally and never reaches the brain. Carbidopa is a peripheral decarboxylase inhibitor — keeps levodopa intact until it reaches the CNS.',
-    others: { '0': 'Reducing GI is not the main reason.', '2': 'Not allergy prevention.', '3': 'Carefully chosen combination.' }
-  },
-  {
-    topic: 'Neuro', confirmed: true, type: 'standard',
-    stem: 'Before administering neostigmine to a patient with myasthenia gravis, what is the FIRST assessment the nurse should perform?',
-    options: [
-      'Apical pulse for sixty full seconds',
-      'Patient ability to swallow safely',
-      'Patellar reflex bilaterally for reflex strength',
-      'Pupil reaction to direct light testing'
-    ],
-    answer: 1,
-    concept: 'Neostigmine — Assess Swallow',
-    rationale: 'Before giving neostigmine in MG, assess the patient\'s ability to swallow — risk of aspiration if dysphagia is severe.',
-    deepExplanation: 'Neostigmine blocks acetylcholinesterase → more ACh → more muscle strength. ADEs: too much SLUD (atropine for OD). Caution in bradycardia, hypotension, asthma, hyperthyroidism, seizures. Small initial dose, raise as function improves.',
-    others: { '0': 'Important but not the first; swallow is priority.', '2': 'Not a priority.', '3': 'Not a priority for MG.' }
-  },
-  {
-    topic: 'Neuro', confirmed: true, type: 'standard',
-    stem: 'A myasthenia gravis patient on neostigmine is showing ptosis and dysphagia. The nurse interprets this as:',
-    options: [
-      'Over-treatment requiring an immediate dose decrease',
-      'Allergic reaction requiring drug discontinuation now',
-      'Normal expected response to medication therapy',
-      'Under-treatment requiring a dose increase'
-    ],
-    answer: 3,
-    concept: 'MG Under vs Over Treatment',
-    rationale: 'Under-treatment: ptosis and dysphagia (need dose INCREASE). Over-treatment: salivation (need dose DECREASE).',
-    deepExplanation: 'Ptosis (drooping eyelids) and dysphagia indicate insufficient acetylcholine — patient needs MORE neostigmine. Excess salivation indicates too much ACh — needs less. Atropine is the antidote for cholinergic crisis.',
-    others: { '0': 'Over-treatment shows salivation.', '1': 'Not allergic.', '2': 'These are warning signs, not normal.' }
-  },
-  {
-    topic: 'Neuro', confirmed: true, type: 'standard',
-    stem: 'Sumatriptan is contraindicated in which conditions?',
-    options: [
-      'Mild seasonal environmental allergies',
-      'Type 2 diabetes managed with daily metformin',
-      'Ischemic heart disease, CAD, MI, uncontrolled HTN',
-      'Mild iron deficiency anemia in adults'
-    ],
-    answer: 2,
-    concept: 'Sumatriptan + Cardiac CIs',
-    rationale: 'Sumatriptan causes vasoconstriction. Contraindicated in IHD, CAD, history of MI, and uncontrolled HTN.',
-    deepExplanation: 'Memory aid: "Triptans shrink vessels and stop pain chemicals." Used for abortive migraine therapy. Vasoconstriction of intracranial vessels relieves migraine but is dangerous in patients with narrowed coronary arteries.',
-    others: { '0': 'Allergies not a CI.', '1': 'Diabetes not a CI.', '3': 'Anemia not a CI.' }
-  },
-  {
-    topic: 'Neuro', confirmed: true, type: 'standard',
-    stem: 'Flumazenil is used to reverse which type of overdose?',
-    options: [
-      'Opioid overdose (naloxone is the antidote)',
-      'Benzodiazepine overdose',
-      'Alcohol intoxication and acute overdose',
-      'Acetaminophen overdose with liver damage'
-    ],
-    answer: 1,
-    concept: 'Flumazenil for Benzo Overdose',
-    rationale: 'Flumazenil reverses benzodiazepine overdose — reverses sedation and respiratory depression.',
-    deepExplanation: 'Flumazenil is a competitive benzodiazepine receptor antagonist. CAUTION: can precipitate seizures, especially in chronic benzo users or mixed-drug overdoses.',
-    others: { '0': 'Naloxone reverses opioids.', '2': 'No specific antidote.', '3': 'N-acetylcysteine for acetaminophen.' }
-  },
-  {
-    topic: 'Neuro', confirmed: false, type: 'standard',
-    stem: 'What is the mechanism of action of memantine in Alzheimer disease?',
-    options: [
-      'NMDA receptor antagonist — blocks excess calcium',
-      'Cholinesterase inhibitor — increases acetylcholine',
-      'Dopamine agonist — increases dopamine activity',
-      'Serotonin reuptake inhibitor like fluoxetine'
-    ],
-    answer: 0,
-    concept: 'Memantine MOA',
-    rationale: 'Memantine is an NMDA receptor antagonist. It blocks NMDA receptors so excess calcium cannot enter cells, providing neuroprotection.',
-    deepExplanation: 'In AD, too much glutamate opens NMDA receptors → too much calcium → neuronal damage. Memantine blocks NMDA receptors, limiting calcium influx. Used for moderate to severe AD only.',
-    others: { '1': 'Donepezil is the cholinesterase inhibitor.', '2': 'Not a dopamine drug.', '3': 'Not an SSRI.' }
-  },
-  {
-    topic: 'Neuro', confirmed: false, type: 'standard',
-    stem: 'A patient on levodopa needs to start an MAOI. What washout period is required?',
-    options: [
-      'No washout needed; can start medication immediately',
-      'Three day washout between the two medications',
-      '14-day washout to avoid hypertensive crisis',
-      'Six month washout between the medications'
-    ],
-    answer: 2,
-    concept: 'Levodopa + MAOI 14-Day Washout',
-    rationale: 'Levodopa + MAOI causes hypertensive crisis. A 14-day washout is required.',
-    deepExplanation: 'Memory aid: "LEVO: LEAVE THE MAO." MAOIs prevent breakdown of dopamine, leading to dangerous accumulation when combined with levodopa. The 14-day washout allows MAOIs to clear before starting levodopa (or vice versa).',
-    others: { '0': 'Combination is dangerous; washout required.', '1': '3 days insufficient.', '3': '6 months unnecessarily long.' }
-  },
-
-  // === PSYCH (9 verbatim + 3 fill = 12) ===
-  {
-    topic: 'Psych', confirmed: true, type: 'standard',
-    stem: 'First-generation antipsychotics (FGAs) carry the highest risk of which side effect?',
-    options: [
-      'Metabolic effects (weight gain, diabetes)',
-      'Extrapyramidal symptoms (movement disorders)',
-      'Agranulocytosis with severe neutropenia risk',
-      'Sedation only without other side effects'
-    ],
-    answer: 1,
-    concept: 'FGA = EPS Risk',
-    rationale: 'First-generation antipsychotics (FGAs) cause high rates of EPS (movement disorders) due to strong D2 receptor blockade.',
-    deepExplanation: 'FGAs strongly block dopamine D2 receptors → EPS (acute dystonia, akathisia, parkinsonism, tardive dyskinesia). Lower risk of metabolic effects and agranulocytosis. Less expensive than SGAs.',
-    others: { '0': 'Metabolic effects are SGA risk.', '2': 'Agranulocytosis is mainly clozapine (SGA).', '3': 'Not the defining feature.' }
-  },
-  {
-    topic: 'Psych', confirmed: true, type: 'standard',
-    stem: 'Second-generation antipsychotics (SGAs) carry the highest risk of which side effect class?',
-    options: [
-      'Extrapyramidal movement disorders (EPS)',
-      'Hyperthermia with new-onset seizures',
-      'Acute liver failure with elevated enzymes',
-      'Metabolic effects — weight gain, diabetes, dyslipidemia'
-    ],
-    answer: 3,
-    concept: 'SGA = Metabolic Risk',
-    rationale: 'SGAs cause higher rates of metabolic side effects — weight gain, diabetes, dyslipidemia.',
-    deepExplanation: 'SGAs (atypicals) have moderate D2 blockade plus stronger serotonin blockade. Lower EPS risk but higher metabolic burden. More expensive. Examples: olanzapine, risperidone, quetiapine, clozapine.',
-    others: { '0': 'EPS is FGA risk.', '1': 'Not characteristic.', '2': 'Not characteristic class effect.' }
-  },
-  {
-    topic: 'Psych', confirmed: true, type: 'standard',
-    stem: 'A patient is started on clozapine (an SGA). Which side effects should the nurse expect?',
-    options: [
-      'Weight gain, diabetes, and dyslipidemia',
-      'EPS movement disorders (parkinsonism, dystonia)',
-      'Bronchoconstriction triggering asthma exacerbations',
-      'Acute hypothyroidism only without other effects'
-    ],
-    answer: 0,
-    concept: 'Clozapine SGA Effects',
-    rationale: 'Clozapine is an SGA — expected metabolic side effects include weight gain, diabetes, and dyslipidemia.',
-    deepExplanation: 'As an SGA, clozapine causes metabolic effects. ALSO carries serious agranulocytosis risk requiring weekly CBC monitoring (d/c if WBC <1000).',
-    others: { '1': 'EPS is more FGA than SGA.', '2': 'Not a clozapine effect.', '3': 'Not the metabolic profile.' }
-  },
-  {
-    topic: 'Psych', confirmed: true, type: 'standard',
-    stem: 'Before starting lithium therapy, which baseline tests are critical?',
-    options: [
-      'Liver enzymes only as baseline workup',
-      'Renal function, thyroid function, serum lithium',
-      'Vision testing only as baseline assessment',
-      'Bone density scan and electrolyte panel only'
-    ],
-    answer: 1,
-    concept: 'Lithium Baseline Testing',
-    rationale: 'Critical baseline tests for lithium: renal function (Cr, CrCl), thyroid function (T3/T4/TSH), and serum lithium levels.',
-    deepExplanation: 'Lithium is excreted by kidneys — impaired renal function leads to toxicity. Lithium can cause goiter and hypothyroidism (reduces iodine uptake). Serum lithium monitored every 2-3 days during initial therapy and every 3-6 months in maintenance.',
-    others: { '0': 'Liver enzymes not the priority for lithium.', '2': 'Vision not relevant.', '3': 'Not relevant.' }
-  },
-  {
-    topic: 'Psych', confirmed: true, type: 'standard',
-    stem: 'A patient on lithium presents with slurred speech, hand tremors, and increased thirst (polydipsia). The nurse interprets this as:',
-    options: [
-      'Therapeutic drug levels — continue as ordered',
-      'Allergic reaction — stop medication immediately',
-      'Lithium toxicity — hold dose and notify provider',
-      'Withdrawal from sudden recent dose change'
-    ],
-    answer: 2,
-    concept: 'Lithium Toxicity Signs',
-    rationale: 'Slurred speech, hand tremors, and polydipsia are classic signs of lithium TOXICITY — not normal therapeutic effects.',
-    deepExplanation: 'Therapeutic levels: temporary GI effects, mild nausea, abdominal bloating. Toxic levels: slurred speech, polydipsia, hand tremors. Severe toxicity: ataxia, confusion, seizures, coma.',
-    others: { '0': 'These are TOXICITY signs, not therapeutic.', '1': 'Not allergic.', '3': 'Not withdrawal.' }
-  },
-  {
-    topic: 'Psych', confirmed: true, type: 'standard',
-    stem: 'A patient on lithium asks if they should reduce their salt intake to be "healthy." What is the BEST nursing response?',
-    options: [
-      'Yes, reduce salt aggressively to prevent hypertension',
-      'Salt has no effect on lithium levels in the body',
-      'Cut salt in half but keep water intake the same',
-      'Do NOT reduce salt — low sodium causes lithium retention'
-    ],
-    answer: 3,
-    concept: 'Lithium DO NOT Reduce Salt',
-    rationale: 'DO NOT reduce salt intake while on lithium — low sodium causes lithium retention and toxicity.',
-    deepExplanation: 'Lithium is handled by the kidneys similarly to sodium. Low sodium states cause the kidneys to retain BOTH sodium AND lithium, raising lithium to toxic levels. Patients should maintain consistent salt intake AND drink 8-10 glasses of water daily.',
-    others: { '0': 'Reducing salt causes toxicity.', '1': 'Salt directly affects lithium levels.', '2': 'Cutting salt is dangerous on lithium.' }
-  },
-  {
-    topic: 'Psych', confirmed: true, type: 'standard',
-    stem: 'Which is true about buspirone interactions and effects?',
-    options: [
-      'Interacts with erythromycin/ketoconazole; no sedation',
-      'Has no significant drug interactions; causes severe sedation',
-      'Only interacts with alcohol; provides instant relief',
-      'Cures panic attacks within minutes of one single dose'
-    ],
-    answer: 0,
-    concept: 'Buspirone Interactions',
-    rationale: 'Buspirone interacts with erythromycin, ketoconazole, and grapefruit juice. Does NOT cause sedation.',
-    deepExplanation: 'Buspirone takes several weeks to work. NOT for acute panic attacks (use a benzo for that). Because it lacks sedation, it\'s a poor choice for insomnia. Drug interactions raise buspirone levels.',
-    others: { '1': 'Has interactions; doesn\'t cause sedation.', '2': 'Has more interactions; not instant.', '3': 'Takes weeks; not for acute panic.' }
-  },
-  {
-    topic: 'Psych', confirmed: true, type: 'standard',
-    stem: 'A breastfeeding mother needs treatment for depression. Which SSRI is the drug of choice?',
-    options: [
-      'Fluoxetine — long half-life accumulates in milk',
-      'Sertraline (Zoloft) — minimal milk transfer',
-      'Paroxetine — known teratogen, avoid in pregnancy',
-      'Citalopram — high QT prolongation risk concern'
-    ],
-    answer: 1,
-    concept: 'Sertraline DOC in Lactation',
-    rationale: 'Sertraline (Zoloft) is the drug of choice in breastfeeding mothers — does not easily cross into breast milk.',
-    deepExplanation: 'Postnatal depression often screened with Edinburgh scale 6-8 weeks postpartum. Sertraline has minimal passage into breast milk and is considered safest in lactation.',
-    others: { '0': 'Fluoxetine accumulates in milk; not first choice.', '2': 'Paroxetine is a known teratogen, not first lactation choice.', '3': 'QT issues; not first choice.' }
-  },
-  {
-    topic: 'Psych', confirmed: true, type: 'standard',
-    stem: 'Tricyclic antidepressants (TCAs) are contraindicated due to which serious side effects?',
-    options: [
-      'Bone marrow suppression with severe neutropenia',
-      'Severe pancreatitis with possible necrosis risk',
-      'Cardiac toxicity and orthostatic hypotension',
-      'Acute renal failure requiring dialysis support'
-    ],
-    answer: 2,
-    concept: 'TCA Cardiotoxic + Orthostatic',
-    rationale: 'TCAs cause cardiac toxicity and orthostatic hypotension. Avoid in cardiac disease.',
-    deepExplanation: 'TCA side effect profile: cardiac toxicity (QT prolongation, arrhythmias), orthostatic hypotension (teach pt to sit/lie when lightheaded), anticholinergic effects (anti-SLUD), sedation (give at night). Older patients dose q12 due to cardiotoxicity.',
-    others: { '0': 'Not the primary concerns.', '1': 'Not characteristic.', '3': 'Not primary concern.' }
-  },
-  {
-    topic: 'Psych', confirmed: false, type: 'standard',
-    stem: 'A patient on clozapine reports new fever, sore throat, and mouth ulcers. What is the priority concern?',
-    options: [
-      'Common viral illness — recommend rest at home',
-      'Allergic reaction to environmental triggers locally',
-      'Symptom of underlying major depression flare',
-      'Agranulocytosis — life-threatening WBC drop'
-    ],
-    answer: 3,
-    concept: 'Clozapine Agranulocytosis',
-    rationale: 'Fever, sore throat, and mouth ulcers in a clozapine patient are red flags for agranulocytosis — a dangerous drop in WBCs.',
-    deepExplanation: 'Clozapine carries a serious risk of agranulocytosis. Patients require weekly CBC monitoring; discontinue if WBC <1000.',
-    others: { '0': 'Not just viral; clozapine specific risk.', '1': 'Not allergic.', '2': 'Not depressive.' }
-  },
-  {
-    topic: 'Psych', confirmed: false, type: 'standard',
-    stem: 'A patient on lithium is being prescribed an analgesic for daily joint pain. Which medications should be AVOIDED?',
-    options: [
-      'NSAIDs (ibuprofen, naproxen) — raise lithium toxicity',
-      'Acetaminophen — interferes with lithium oral absorption',
-      'Aspirin — causes lithium accumulation in serum',
-      'Sulindac — contraindicated when combined with lithium'
-    ],
-    answer: 0,
-    concept: 'Lithium + NSAIDs',
-    rationale: 'AVOID NSAIDs (ibuprofen, naproxen) with lithium — they increase lithium toxicity. Aspirin or sulindac are safer alternatives.',
-    deepExplanation: 'NSAIDs reduce renal blood flow, decreasing lithium clearance and raising drug levels into toxicity. Also question prescriptions for diuretics (furosemide) — they promote sodium loss, increasing lithium toxicity.',
-    others: { '1': 'Acetaminophen is safe.', '2': 'Aspirin is acceptable; NSAIDs are not.', '3': 'Sulindac is acceptable.' }
-  },
-  {
-    topic: 'Psych', confirmed: false, type: 'standard',
-    stem: 'A patient newly prescribed buspirone is in the ED with an active panic attack. Should buspirone be given for rapid relief?',
-    options: [
-      'Yes — buspirone provides immediate panic relief',
-      'No — buspirone takes weeks; use benzo for acute panic',
-      'Yes — give a double dose for faster onset of action',
-      'Buspirone cures panic disorder fully in a single dose'
-    ],
-    answer: 1,
-    concept: 'Buspirone NOT for Acute Panic',
-    rationale: 'Buspirone takes several weeks to take effect — do NOT use for acute panic. Benzodiazepines are the appropriate rapid relief.',
-    deepExplanation: 'Buspirone effects develop over weeks, not minutes. For acute panic, a benzodiazepine (lorazepam, alprazolam) is needed for rapid relief. Patient must be on the drug for at least 4 weeks before judging effectiveness.',
-    others: { '0': 'No immediate effect.', '2': 'Doubling does not speed onset.', '3': 'Slow onset; not a single-dose cure.' }
-  },
-
-  // === HEM/ONC (13 verbatim + 2 fill = 15) ===
-  {
-    topic: 'Hem/Onc', confirmed: true, type: 'standard',
-    stem: 'Which feature distinguishes a malignant tumor from a benign tumor?',
-    options: [
-      'Benign tumors metastasize through blood and lymph systems',
-      'Malignant tumors are slow-growing and well-encapsulated',
-      'Malignant: metastasize, not encapsulated, abnormal cells',
-      'Benign tumors recur after removal more often than malignant'
-    ],
-    answer: 2,
-    concept: 'Benign vs Malignant',
-    rationale: 'Malignant: rapid uncontrolled growth, NOT encapsulated, metastasize through blood/lymph, abnormal poorly-differentiated cells, life-threatening, common recurrence. Benign: slow, encapsulated, do NOT spread, normal-looking cells, local pressure only, rare recurrence.',
-    deepExplanation: 'Memory aid: "Benign = contained and controlled" vs "Malignant = invasive and aggressive."',
-    others: { '0': 'OPPOSITE — malignant metastasize.', '1': 'OPPOSITE — malignant are rapid and unencapsulated.', '3': 'OPPOSITE — malignant recur more often.' }
-  },
-  {
-    topic: 'Hem/Onc', confirmed: true, type: 'standard',
-    stem: 'What is the mechanism of action of chemotherapy?',
-    options: [
-      'Boosts the immune system response to fight cancer cells',
-      'Strengthens normal cells against cancer cell invasion',
-      'Selectively destroys only cancer cells in the body',
-      'Damages DNA or stops cell division of fast-dividing cells'
-    ],
-    answer: 3,
-    concept: 'Chemo MOA',
-    rationale: 'Chemotherapy kills cancer cells by damaging DNA or stopping cell division, especially in rapidly dividing cells.',
-    deepExplanation: 'Chemo works on actively dividing cells. Best on high-growth cancer cells; less effective on resting (G0) cells. Side effects come from hitting normal fast-dividing cells: hair loss, GI mucositis, bone marrow suppression.',
-    others: { '0': 'Immunotherapy works that way; chemo is direct cytotoxic.', '1': 'Opposite — chemo damages cells.', '2': 'NOT selective — affects all rapidly dividing cells.' }
-  },
-  {
-    topic: 'Hem/Onc', confirmed: true, type: 'standard',
-    stem: 'A chemo patient reports their hair is growing back a different color. Which is the BEST nursing response?',
-    options: [
-      'Normal occurrence — hair color and texture often change',
-      'This is abnormal — notify the provider immediately',
-      'Stop all medications until the hair returns to normal',
-      'This indicates the cancer has returned and is spreading'
-    ],
-    answer: 0,
-    concept: 'Hair Color Change Normal',
-    rationale: 'Different hair color or texture after chemo regrowth is a normal, expected occurrence — not a sign of disease recurrence.',
-    deepExplanation: 'Chemo damages hair follicle stem cells. As hair regrows, color, texture, and curl pattern can change. Hair regrowth begins after chemo cycles end; full return takes months.',
-    others: { '1': 'Not abnormal — common.', '2': 'No need to stop meds.', '3': 'Doesn\'t signal recurrence.' }
-  },
-  {
-    topic: 'Hem/Onc', confirmed: true, type: 'standard',
-    stem: 'Which terms correctly describe the goals of cancer treatment?',
-    options: [
-      'Treatment, recovery, and remission as the primary three goals',
-      'Cure (5-year), prolong life, palliation (comfort focus)',
-      'Acute management and chronic management only as goals',
-      'There is only one true goal in any cancer treatment'
-    ],
-    answer: 1,
-    concept: 'Goals: Cure vs Prolong vs Palliation',
-    rationale: 'Goals of cancer treatment: cure (cancer gone, no return for 5 years), prolong life (live longer with cancer), or palliation (focus on comfort, not cure).',
-    deepExplanation: 'Prognosis depends on metastasis. Cure is rarely guaranteed; many patients aim for prolonging life or palliation when cure is not possible.',
-    others: { '0': 'Recovery and remission are different concepts.', '2': 'Not the goals framework.', '3': 'Multiple goals exist.' }
-  },
-  {
-    topic: 'Hem/Onc', confirmed: true, type: 'standard',
-    stem: 'How does chemotherapy work, and which cells does it target?',
-    options: [
-      'Kills slow-growing (G0/resting) cells only in the body',
-      'Targets only cancer cells, sparing all normal cells fully',
-      'Kills fast-growing cells; less effective on resting G0',
-      'Kills only mature cells, not stem cells in tissues'
-    ],
-    answer: 2,
-    concept: 'Chemo Targets Fast-Growing Cells',
-    rationale: 'Chemo works by killing fast-growing cells. Best at targeting actively dividing (high-growth) cancer cells; not very effective on resting (low-growth/G0) cells.',
-    deepExplanation: 'This explains why chemo causes side effects in normal fast-growing tissues: hair (alopecia), GI tract (mucositis, N/V, diarrhea), bone marrow (myelosuppression).',
-    others: { '0': 'OPPOSITE — chemo targets fast-growing.', '1': 'NOT selective.', '3': 'Targets dividing cells.' }
-  },
-  {
-    topic: 'Hem/Onc', confirmed: true, type: 'standard',
-    stem: 'What does the CAUTION acronym describe?',
-    options: [
-      'Cancer staging system framework for tumors',
-      'Warning signs that may indicate cancer',
-      'Chemotherapy administration steps for nurses',
-      'Cancer prevention strategies for the public'
-    ],
-    answer: 1,
-    concept: 'CAUTION Signs',
-    rationale: 'CAUTION = warning signs that may indicate cancer: Change in bowel/bladder, A sore that doesn\'t heal, Unusual bleeding/discharge, Thickening/lump, Indigestion/dysphagia, Obvious change in wart/mole, Nagging cough/hoarseness.',
-    deepExplanation: 'These signs prompt evaluation for possible cancer. Used as a public-health tool to encourage early presentation. None alone confirms cancer, but each warrants workup.',
-    others: { '0': 'Staging is TNM.', '2': 'Not chemo administration.', '3': 'Not prevention.' }
-  },
-  {
-    topic: 'Hem/Onc', confirmed: true, type: 'standard',
-    stem: 'What are tumor markers used for?',
-    options: [
-      'To cure the cancer directly through immune effect',
-      'To replace tissue biopsies entirely in modern care',
-      'To prevent cancer from forming in healthy tissue',
-      'To find and track cancer; assess treatment response'
-    ],
-    answer: 3,
-    concept: 'Tumor Markers Purpose',
-    rationale: 'Tumor markers are used to find and track cancer and to monitor how treatment is going.',
-    deepExplanation: 'Examples: PSA (prostate), CA-125 (ovarian), CA 19-9 (pancreatic), CEA (colorectal), AFP (liver). Used for screening, diagnosis support, monitoring response, and detecting recurrence.',
-    others: { '0': 'Markers don\'t cure.', '1': 'They support but don\'t replace biopsy.', '2': 'They don\'t prevent.' }
-  },
-  {
-    topic: 'Hem/Onc', confirmed: true, type: 'standard',
-    stem: 'In TNM staging, what does each letter stand for?',
-    options: [
-      'T = tumor size, N = nodes involved, M = metastasis',
-      'T = type, N = number, M = mortality from cancer',
-      'T = treatment, N = name, M = method of therapy',
-      'T = time, N = night setting, M = morning routine'
-    ],
-    answer: 0,
-    concept: 'TNM Staging',
-    rationale: 'TNM staging: T = tumor size, N = lymph nodes involved, M = metastasis (spread).',
-    deepExplanation: 'TNM is the universal cancer staging system. Stage based on extent of disease. Higher T/N/M numbers = more advanced disease.',
-    others: { '1': 'Wrong meanings.', '2': 'Wrong meanings.', '3': 'Wrong meanings.' }
-  },
-  {
-    topic: 'Hem/Onc', confirmed: true, type: 'standard',
-    stem: 'What is the difference between grading and staging of malignancy?',
-    options: [
-      'Grading is how far cancer has spread; staging is microscope appearance',
-      'Grading: cell appearance under microscope; staging: spread (TNM)',
-      'They are the same thing measured by different doctors at any time',
-      'Grading is much less important than staging in cancer care'
-    ],
-    answer: 1,
-    concept: 'Grading vs Staging',
-    rationale: 'Grading = how cancer cells look under microscope (1 normal-looking → 4 very abnormal). Staging = how far cancer has spread (TNM).',
-    deepExplanation: 'Memory aid: "Grade = appearance, Stage = spread." Grade 1 = looks like normal cells (less serious); Grade 4 = very abnormal (more serious). Higher = worse for both.',
-    others: { '0': 'REVERSED.', '2': 'They are different concepts.', '3': 'Both are important.' }
-  },
-  {
-    topic: 'Hem/Onc', confirmed: true, type: 'standard',
-    stem: 'A chemo patient has mild stomatitis. What is the appropriate treatment?',
-    options: [
-      'Strong opioids only without other supportive therapy',
-      'Hydrogen peroxide rinses every hour around the clock',
-      'Magic mouthwash — anesthetic and antihistamine',
-      'Hot tea rinses several times throughout the day'
-    ],
-    answer: 2,
-    concept: 'Mild Stomatitis: Magic Mouthwash',
-    rationale: 'Mild stomatitis is treated with magic mouthwash — contains an anesthetic (lidocaine) and antihistamine (diphenhydramine).',
-    deepExplanation: 'Stomatitis: inflammation of oral mucosa, causes pain with eating, speaking, swallowing. Mild = magic mouthwash. Severe = opioids. Education: good oral hygiene and bland diet.',
-    others: { '0': 'Opioids are for SEVERE, not mild.', '1': 'Hydrogen peroxide damages tissue.', '3': 'Hot rinses worsen symptoms.' }
-  },
-  {
-    topic: 'Hem/Onc', confirmed: true, type: 'standard',
-    stem: 'A chemo patient has SEVERE stomatitis with intense pain. What is the appropriate treatment?',
-    options: [
-      'Magic mouthwash only without additional pain control',
-      'Acetaminophen alone every six hours as needed',
-      'Cold packs to the cheek for symptomatic relief',
-      'Opioids for adequate pain control during treatment'
-    ],
-    answer: 3,
-    concept: 'Severe Stomatitis: Opioids',
-    rationale: 'Severe stomatitis is treated with opioids for adequate pain control.',
-    deepExplanation: 'Severe stomatitis can prevent oral intake and lead to weight loss/dehydration. Opioids (oral or IV) are needed for severe pain. Continue magic mouthwash and supportive care.',
-    others: { '0': 'Magic mouthwash is for MILD; insufficient for severe.', '1': 'Acetaminophen insufficient.', '2': 'Cold packs do not address oral pain adequately.' }
-  },
-  {
-    topic: 'Hem/Onc', confirmed: true, type: 'standard',
-    stem: 'A chemo patient\'s neutrophil count drops below 500. What is the priority action?',
-    options: [
-      'HOLD chemotherapy until neutrophil counts recover',
-      'Continue chemo as scheduled per the protocol',
-      'Increase the chemo dose to overcome the drop',
-      'Switch to oral chemo formulations only today'
-    ],
-    answer: 0,
-    concept: 'Neutrophil <500: HOLD Chemo',
-    rationale: 'Neutrophil count <500 → HOLD chemo. Patient is at extreme infection risk.',
-    deepExplanation: 'Severe neutropenia (ANC <500) puts patients at high risk for life-threatening infection. Chemo is held until counts recover. Implement neutropenic precautions, watch for fever, and start empiric antibiotics if febrile.',
-    others: { '1': 'Cannot continue at this level.', '2': 'Worsens immunosuppression.', '3': 'Same systemic risk.' }
-  },
-  {
-    topic: 'Hem/Onc', confirmed: true, type: 'standard',
-    stem: 'A neutropenic patient is given filgrastim. What is its purpose?',
-    options: [
-      'Treat the underlying cancer with new tumor effect',
-      'Stimulate bone marrow to produce more neutrophils',
-      'Reduce nausea and vomiting from chemo medications',
-      'Prevent hair loss during chemotherapy treatment cycles'
-    ],
-    answer: 1,
-    concept: 'Filgrastim Function',
-    rationale: 'Filgrastim (a colony-stimulating factor) stimulates bone marrow to produce more neutrophils.',
-    deepExplanation: 'Filgrastim, pegfilgrastim, sargramostim are colony-stimulating factors (CSFs). They speed neutrophil recovery after chemo, reducing infection risk and chemo delays.',
-    others: { '0': 'Does not treat the cancer itself.', '2': 'Antiemetics handle that.', '3': 'No effect on hair.' }
-  },
-  {
-    topic: 'Hem/Onc', confirmed: false, type: 'standard',
-    stem: 'A chemo patient with thrombocytopenia needs an analgesic for headache. Which precaution applies?',
-    options: [
-      'Aspirin and NSAIDs are preferred for pain control',
-      'Take aspirin always with food to prevent GI upset',
-      'No specific precautions are needed for these patients',
-      'Use acetaminophen; avoid aspirin/NSAIDs (bleeding)'
-    ],
-    answer: 3,
-    concept: 'Myelosuppression Precautions',
-    rationale: 'In thrombocytopenia: avoid drugs that promote bleeding (aspirin, NSAIDs); use acetaminophen for pain; soft-bristle toothbrush; avoid invasive procedures.',
-    deepExplanation: 'Myelosuppression risks: neutropenia (infection), thrombocytopenia (bleeding), anemia (fatigue). Education: monitor temperature, report fever ASAP, hand washing, skin/oral hygiene, avoid bleeding-promoters.',
-    others: { '0': 'OPPOSITE — these promote bleeding.', '1': 'Still risky despite food.', '2': 'Several precautions apply.' }
-  },
-  {
-    topic: 'Hem/Onc', confirmed: false, type: 'standard',
-    stem: 'A young woman starting chemotherapy is concerned about future pregnancy. What teaching is appropriate?',
-    options: [
-      'Risks of fetal malformation, sterility — discuss options',
-      'Chemotherapy has no effect on female fertility outcomes',
-      'Just wait six weeks after chemo cycle before conceiving',
-      'Pregnancy is encouraged during chemotherapy treatment cycles'
-    ],
-    answer: 0,
-    concept: 'Reproductive Toxicity',
-    rationale: 'Chemo causes reproductive toxicity — fetal malformation if pregnant during treatment, and risk of irreversible sterility. Discuss options (sperm banking, egg freezing) BEFORE starting treatment.',
-    deepExplanation: 'Many chemo agents are teratogens and damage gonads. Patients should not be pregnant during treatment. Fertility preservation options must be discussed before chemo starts because the window closes quickly.',
-    others: { '1': 'Significant fertility/teratogenic risk exists.', '2': '6 weeks is far too short.', '3': 'Pregnancy must be avoided.' }
-  },
-
-  // === PAIN (8 verbatim + 3 fill = 11) ===
-  {
-    topic: 'Pain', confirmed: true, type: 'standard',
-    stem: 'Which patient is contraindicated from receiving opioids?',
-    options: [
-      'A patient with mild seasonal allergies and asthma',
-      'A patient with head trauma',
-      'A patient with controlled hypertension on lisinopril',
-      'A patient with type 2 diabetes managed with metformin'
-    ],
-    answer: 1,
-    concept: 'Opioid CI: Head Trauma',
-    rationale: 'Opioids are contraindicated in head trauma. Other CIs: respiratory depression, paralytic ileus, pregnancy/lactation, urinary retention, sedatives/hypotensive drugs.',
-    deepExplanation: 'Opioids depress respiratory drive — dangerous in already-compromised brain perfusion. They also mask neurologic exam, making it hard to detect deterioration in head injury patients.',
-    others: { '0': 'Allergies not a CI.', '2': 'HTN not a CI.', '3': 'Diabetes not a CI.' }
-  },
-  {
-    topic: 'Pain', confirmed: true, type: 'standard',
-    stem: 'Which medication carries a Black Box Warning for fatal overdose when consumed with alcohol?',
-    options: [
-      'Acetaminophen tablets at standard daily doses',
-      'Ibuprofen tablets for inflammation and pain',
-      'Morphine extended release capsules',
-      'Diphenhydramine (Benadryl) for allergy use'
-    ],
-    answer: 2,
-    concept: 'Morphine ER + Alcohol BBW',
-    rationale: 'Morphine extended release capsules carry a BBW for fatal overdose if consumed with alcohol.',
-    deepExplanation: 'Alcohol can disrupt the extended-release matrix, causing dose-dumping (rapid release of the entire dose). Combined with alcohol\'s CNS depression, this can be fatal even at usual doses.',
-    others: { '0': 'Liver risk with alcohol but not the BBW for "fatal overdose" interaction described.', '1': 'GI/renal risks but not this specific BBW.', '3': 'Sedation risk but not the same BBW.' }
-  },
-  {
-    topic: 'Pain', confirmed: true, type: 'standard',
-    stem: 'Which definition describes an "opioid-tolerant" patient?',
-    options: [
-      'A patient who has never received opioids before today',
-      'A patient who refuses opioid pain medication routinely',
-      'A patient who is allergic to most opioid medications',
-      'On high-dose opioids (~60 mg morphine/day) ≥1 week'
-    ],
-    answer: 3,
-    concept: 'Opioid Tolerant Definition',
-    rationale: 'A patient is "opioid-tolerant" if they have been taking high doses of opioids (e.g., morphine 60 mg/day) for at least 1 week.',
-    deepExplanation: 'This definition matters because some medications (e.g., fentanyl patches) are ONLY for opioid-tolerant patients. Giving high-potency opioids to an opioid-naive patient can cause fatal respiratory depression.',
-    others: { '0': 'Naive, not tolerant.', '1': 'Refusal is unrelated.', '2': 'Allergy is different.' }
-  },
-  {
-    topic: 'Pain', confirmed: true, type: 'standard',
-    stem: 'How often should a fentanyl transdermal patch be replaced?',
-    options: [
-      'Every 72 hours',
-      'Every 24 hours daily without exception',
-      'Every 7 days for steady serum levels',
-      'Every 30 days monthly only'
-    ],
-    answer: 0,
-    concept: 'Fentanyl Patch 72 Hours',
-    rationale: 'Fentanyl transdermal patches are applied to the upper torso every 72 hours.',
-    deepExplanation: 'Always remove the OLD patch before applying a NEW one. Fold old patch in half (sticky sides together) and flush down toilet. Avoid heat (sunbathing, heating pad, hot tub, fever) — increases absorption to fatal levels. Never cut. Only for opioid-tolerant patients >2 years old.',
-    others: { '1': 'Too frequent.', '2': 'Too long; underdoses.', '3': 'Too long; underdoses.' }
-  },
-  {
-    topic: 'Pain', confirmed: true, type: 'standard',
-    stem: 'Methadone carries a Black Box Warning for which complication?',
-    options: [
-      'Hepatotoxicity with elevated liver enzymes always',
-      'QT prolongation',
-      'Severe constipation requiring daily laxatives',
-      'Hypoglycemia with rapid changes in glucose'
-    ],
-    answer: 1,
-    concept: 'Methadone QT Prolongation',
-    rationale: 'Methadone carries a BBW for QT prolongation. ECG required prior to starting, at 30 days, and annually.',
-    deepExplanation: 'Methadone (used for severe pain and opioid detox) prolongs the QT interval, increasing risk of torsades de pointes. Baseline ECG, 30-day follow-up ECG, and annual ECGs are required.',
-    others: { '0': 'Not the BBW.', '2': 'All opioids cause this; not BBW.', '3': 'Not associated.' }
-  },
-  {
-    topic: 'Pain', confirmed: true, type: 'standard',
-    stem: 'For a 5% prescription-grade lidocaine patch in an adult, how many patches can be applied per application?',
-    options: [
-      '1 patch only at any application',
-      '2 patches at one application time',
-      '3 patches per application',
-      'Up to 6 patches at any application'
-    ],
-    answer: 2,
-    concept: 'Lidocaine 5% Rx: 3 Patches',
-    rationale: '5% prescription lidocaine patches: up to 3 patches per application (adults only).',
-    deepExplanation: 'Lidocaine patches: 4% OTC (1 per application, age 12+); 5% Rx (3 per application, adults only); apply 12 hours on, 12 hours off; can be cut to fit the affected area.',
-    others: { '0': '4% OTC is 1 patch; 5% Rx allows 3.', '1': 'Not standard for 5%.', '3': 'Exceeds maximum.' }
-  },
-  {
-    topic: 'Pain', confirmed: true, type: 'standard',
-    stem: 'A patient has a CYP2D6 enzyme deficiency. The nurse should question which prescribed pain medication?',
-    options: [
-      'Morphine, given orally for postoperative pain',
-      'Acetaminophen 650 mg PO every six hours',
-      'Ibuprofen 600 mg PO with food, three times daily',
-      'Codeine'
-    ],
-    answer: 3,
-    concept: 'Codeine + CYP2D6',
-    rationale: 'Codeine is a prodrug that must be converted to active morphine by CYP2D6. Genetic variants affect metabolism — "rapid metabolizers" can produce too much active drug, causing toxicity.',
-    deepExplanation: 'Codeine carries a BBW especially dangerous for breastfeeding mothers (can cause fatal neonatal sedation). Genetic testing identifies rapid metabolizers who would have severe toxicity at standard doses. Slow metabolizers get inadequate analgesia.',
-    others: { '0': 'Morphine is direct, not affected by CYP2D6.', '1': 'No CYP2D6 involvement.', '2': 'No CYP2D6 involvement.' }
-  },
-  {
-    topic: 'Pain', confirmed: true, type: 'standard',
-    stem: 'Aspirin is contraindicated in pediatric patients with viral illnesses due to which risk?',
-    options: [
-      'Reye syndrome',
-      'Acute hyperglycemia from medication interaction',
-      'Bone marrow suppression with neutropenia long term',
-      'Renal stone formation in kidney tubules'
-    ],
-    answer: 0,
-    concept: 'Pediatric ASA + Reye Syndrome',
-    rationale: 'Aspirin is contraindicated in pediatrics during viral illness due to Reye syndrome risk.',
-    deepExplanation: 'Reye syndrome is a rare but fatal condition causing acute liver failure and brain swelling, linked to aspirin use during viral illnesses (especially flu and varicella). Use acetaminophen or ibuprofen instead.',
-    others: { '1': 'Not Reye-related.', '2': 'Not the specific concern.', '3': 'Not the concern.' }
-  },
-  {
-    topic: 'Pain', confirmed: false, type: 'standard',
-    stem: 'A patient is taught how to dispose of a used fentanyl patch at home. Which technique is correct?',
-    options: [
-      'Place the patch in regular trash for routine pickup',
-      'Fold in half (sticky sides together), flush; never cut',
-      'Place the used patch into a household recycling bin',
-      'Cut the patch first to release residual medication'
-    ],
-    answer: 1,
-    concept: 'Fentanyl Patch Disposal',
-    rationale: 'Fold the used fentanyl patch in half (sticky sides together) and flush down the toilet. NEVER cut the patch.',
-    deepExplanation: 'Used patches still contain enough fentanyl to be fatal to children, pets, or others who find them. Folding traps residual drug; flushing prevents diversion or accidental contact. Cutting changes the dose-release pattern and can cause fatal overdose.',
-    others: { '0': 'Risk to others — never regular trash.', '2': 'Recycling is unsafe.', '3': 'Cutting causes dose-dumping, unsafe.' }
-  },
-  {
-    topic: 'Pain', confirmed: false, type: 'standard',
-    stem: 'Activation of the mu opioid receptor causes which effects?',
-    options: [
-      'Hypertension and rapid weight loss over weeks',
-      'Bronchodilation only without other effects',
-      'Analgesia, resp depression, sedation, euphoria, constipation',
-      'Hyperthermia and excessive sweating only'
-    ],
-    answer: 2,
-    concept: 'Mu Receptor Effects',
-    rationale: 'Mu receptor activation causes: analgesia, respiratory depression, sedation, euphoria, physical dependence, decreased GI motility (constipation).',
-    deepExplanation: 'Understanding mu receptor effects explains both the therapeutic uses (pain control, cough suppression) and the major adverse effects (respiratory depression — main cause of opioid death; constipation requiring bowel regimen; addiction risk).',
-    others: { '0': 'Wrong physiologic profile.', '1': 'Not just bronchodilation.', '3': 'Wrong profile.' }
-  },
-  {
-    topic: 'Pain', confirmed: false, type: 'standard',
-    stem: 'Oxymorphone carries a Black Box Warning for which interaction, and how should it be taken?',
-    options: [
-      'BBW renal failure; take with food to slow absorption',
-      'BBW for acute hyperthermia; take with grapefruit',
-      'BBW for new psychosis onset; take with milk daily',
-      'BBW resp depression with alcohol; empty stomach'
-    ],
-    answer: 3,
-    concept: 'Oxymorphone BBW + Empty Stomach',
-    rationale: 'Oxymorphone BBW: respiratory depression and profound interaction with alcohol. Must be taken on an EMPTY stomach.',
-    deepExplanation: 'Food significantly increases oxymorphone absorption; taking with food can increase serum levels by ~50%. Combined with alcohol, fatal respiratory depression can occur. Strict empty-stomach administration is required.',
-    others: { '0': 'Not renal; empty stomach is required.', '1': 'Not hyperthermia.', '2': 'Not psychosis.' }
-  }
+  // Example structure (delete this comment block when adding real questions):
+  // {
+  //   topic: 'Pharm Recall',
+  //   type: 'standard',
+  //   stem: 'A patient is prescribed lithium...',
+  //   options: ['Option A', 'Option B', 'Option C', 'Option D'],
+  //   answer: 1, // 0=A, 1=B, 2=C, 3=D
+  //   concept: 'Lithium Toxicity',
+  //   rationale: 'Lithium has a narrow therapeutic range...',
+  //   others: {
+  //     0: 'Why A is wrong',
+  //     2: 'Why C is wrong',
+  //     3: 'Why D is wrong'
+  //   }
+  // },
 ];
 
 // === QUIZ ENGINE ===
-const TOTAL = questions.length;
 let currentQ = 0;
+let score = 0;
 let totalPoints = 0;
 let answers = [];
+let selectedIdx = null;
+const TOTAL = questions.length;
+const STORAGE_KEY = 'score_pharm_recall';
 
-function startQuiz() {
-  document.getElementById('start-screen').style.display = 'none';
-  document.getElementById('quiz-container').style.display = 'block';
+// Show ready vs empty state
+if (TOTAL > 0) {
+  document.getElementById('ready-state').classList.remove('hidden');
+  document.getElementById('empty-state').classList.add('hidden');
+  document.getElementById('stat-count').textContent = TOTAL;
+} else {
+  document.getElementById('ready-state').classList.add('hidden');
+  document.getElementById('empty-state').classList.remove('hidden');
+}
+
+function begin() {
+  if (TOTAL === 0) return;
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
   showQuestion();
 }
 
-
-function extractLabs(stem) {
-  if (!stem) return [];
-  const labs = [];
-  const seen = new Set();
-
-  const patterns = [
-    // Vitals
-    { re: /\bBP\s+of\s+(\d{2,3}\/\d{2,3})/gi, name: 'BP', unit: 'mmHg' },
-    { re: /\bBP\s+(\d{2,3}\/\d{2,3})/gi, name: 'BP', unit: 'mmHg' },
-    { re: /\bblood pressure\s+(?:of\s+)?(\d{2,3}\/\d{2,3})/gi, name: 'BP', unit: 'mmHg' },
-    { re: /\bHR\s+(?:of\s+)?(\d{2,3})\b/gi, name: 'HR', unit: 'bpm' },
-    { re: /\bheart rate\s+(?:of\s+)?(\d{2,3})\b/gi, name: 'HR', unit: 'bpm' },
-    { re: /\bpulse\s+(?:of\s+)?(\d{2,3})\b/gi, name: 'Pulse', unit: 'bpm' },
-    { re: /\b(?:temperature|temp)[\s:]+(?:of\s+)?(\d{2,3}(?:\.\d)?)\s*°?\s*([CF])\b/gi, name: 'Temp', unitIdx: 2, unitPrefix: '°' },
-    { re: /\b(?:respiratory rate|RR)\s+(?:of\s+)?(\d{1,3})(?:\/min)?\b/gi, name: 'RR', unit: '/min' },
-    { re: /\bSpO2\s+(?:of\s+)?(\d{2,3})%/gi, name: 'SpO2', unit: '%' },
-    { re: /\bO2\s+sat(?:uration)?\s+(?:of\s+)?(\d{2,3})%/gi, name: 'SpO2', unit: '%' },
-
-    // Labs - electrolytes & metabolic
-    { re: /\b(?:bedside\s+)?(?:blood\s+)?glucose\s+(?:is\s+|of\s+)?(\d{2,4})\s*mg\/dL/gi, name: 'Glucose', unit: 'mg/dL' },
-    { re: /\b(?:bedside\s+)?(?:blood\s+)?glucose\s+(\d{2,4})\s*mg\/dL/gi, name: 'Glucose', unit: 'mg/dL' },
-    { re: /\bA1[cC]\s+(?:of\s+|result of\s+|is\s+)?(\d{1,2}(?:\.\d)?)\s*%?/gi, name: 'A1c', unit: '%' },
-    { re: /\bhemoglobin A1[cC]\s+(?:of\s+)?(\d{1,2}(?:\.\d)?)\b/gi, name: 'A1c', unit: '%' },
-    { re: /\bBUN\s+(?:of\s+)?(\d{1,3})(?:\s*mg\/dL)?/gi, name: 'BUN', unit: 'mg/dL' },
-    { re: /\b(?:creatinine|Cr)\s+(?:of\s+)?(\d(?:\.\d{1,2})?)\s*mg\/dL/gi, name: 'Cr', unit: 'mg/dL' },
-    { re: /\b(?:potassium|K\+?)\s+(?:level\s+)?(?:of\s+|is\s+)?(\d(?:\.\d)?)\s*mEq\/L/gi, name: 'K+', unit: 'mEq/L' },
-    { re: /\b(?:sodium|Na\+?)\s+(?:level\s+)?(?:of\s+|is\s+)?(\d{2,3})\s*mEq\/L/gi, name: 'Na+', unit: 'mEq/L' },
-    { re: /\b(?:calcium|Ca\+?\+?)\s+(?:level\s+)?(?:of\s+|is\s+)?(\d{1,2}(?:\.\d)?)\s*mg\/dL/gi, name: 'Ca', unit: 'mg/dL' },
-    { re: /\b(?:magnesium|Mg\+?\+?)\s+(?:level\s+)?(?:of\s+|is\s+)?(\d(?:\.\d)?)\s*mg\/dL/gi, name: 'Mg', unit: 'mg/dL' },
-
-    // Coag
-    { re: /\bINR\s+(?:of\s+|is\s+)?(\d(?:\.\d{1,2})?)/gi, name: 'INR', unit: '' },
-    { re: /\b(?:aPTT|PTT)\s+(?:of\s+)?(\d{2,3})\s*(?:sec)?/gi, name: 'aPTT', unit: 'sec' },
-    { re: /\bPT\s+(?:of\s+)?(\d{2,3}(?:\.\d)?)\s*(?:sec)?/gi, name: 'PT', unit: 'sec' },
-
-    // CBC
-    { re: /\b(?:hemoglobin|Hgb|Hb)\s+(?:of\s+|is\s+)?(\d{1,2}(?:\.\d)?)\s*(?:g\/dL)?/gi, name: 'Hgb', unit: 'g/dL' },
-    { re: /\b(?:hematocrit|HCT)\s+(?:of\s+|is\s+)?(\d{2,3})\s*%?/gi, name: 'HCT', unit: '%' },
-    { re: /\bplatelets?\s+(?:of\s+|count of\s+|is\s+)?([\d,]+)(?:\s*\/?mm³)?/gi, name: 'Platelets', unit: '/mm³' },
-    { re: /\bANC\s+(?:of\s+|is\s+)?([\d,]+)/gi, name: 'ANC', unit: '/mm³' },
-    { re: /\bWBC\s+(?:of\s+|count of\s+|is\s+)?([\d,]+(?:\.\d)?)/gi, name: 'WBC', unit: '/mm³' },
-
-    // LFTs
-    { re: /\bAST\s+(?:of\s+|is\s+)?(\d{1,4})\s*(?:U\/L|IU\/L)?/gi, name: 'AST', unit: 'U/L' },
-    { re: /\bALT\s+(?:of\s+|is\s+)?(\d{1,4})\s*(?:U\/L|IU\/L)?/gi, name: 'ALT', unit: 'U/L' },
-    { re: /\b(?:total\s+)?bilirubin\s+(?:of\s+|is\s+)?(\d{1,2}(?:\.\d)?)\s*mg\/dL/gi, name: 'Bilirubin', unit: 'mg/dL' },
-
-    // Drug levels (pharm-specific)
-    { re: /\blithium\s+(?:level\s+)?(?:of\s+|is\s+)?(\d(?:\.\d{1,2})?)\s*(?:mEq\/L)?/gi, name: 'Lithium', unit: 'mEq/L' },
-    { re: /\bdigoxin\s+(?:level\s+)?(?:of\s+|is\s+)?(\d(?:\.\d{1,2})?)\s*(?:ng\/mL)?/gi, name: 'Digoxin', unit: 'ng/mL' },
-    { re: /\bvancomycin\s+(?:trough\s+)?(?:level\s+)?(?:of\s+|is\s+)?(\d{1,2}(?:\.\d)?)\s*(?:mcg\/mL|mg\/L)?/gi, name: 'Vancomycin', unit: 'mcg/mL' },
-    { re: /\bphenytoin\s+(?:level\s+)?(?:of\s+|is\s+)?(\d{1,2}(?:\.\d)?)\s*(?:mcg\/mL|mg\/L)?/gi, name: 'Phenytoin', unit: 'mcg/mL' },
-    { re: /\bvalproic acid\s+(?:level\s+)?(?:of\s+|is\s+)?(\d{1,3})\s*(?:mcg\/mL|mg\/L)?/gi, name: 'Valproate', unit: 'mcg/mL' },
-    { re: /\bsalicylate\s+(?:level\s+)?(?:of\s+|is\s+)?(\d{1,3})\s*(?:mg\/dL)?/gi, name: 'Salicylate', unit: 'mg/dL' },
-
-    // Renal/urinary
-    { re: /\bGFR\s+(?:of\s+|is\s+)?(\d{1,3})\s*(?:mL\/min)?/gi, name: 'GFR', unit: 'mL/min' },
-    { re: /\beGFR\s+(?:of\s+|is\s+)?(\d{1,3})\s*(?:mL\/min)?/gi, name: 'eGFR', unit: 'mL/min' },
-    { re: /\b(?:urine output|UOP)\s+(?:of\s+|is\s+)?(\d{1,3})\s*mL\/hr/gi, name: 'UOP', unit: 'mL/hr' },
-
-    // Osmolality
-    { re: /\b(?:serum\s+)?osmolality\s+(?:of\s+|is\s+)?(\d{2,3})\s*mOsm\/kg/gi, name: 'Osmolality', unit: 'mOsm/kg' },
-
-    // ECG
-    { re: /\bQT\s+(?:interval\s+)?(?:of\s+)?(\d{3,4})\s*(?:msec|ms)?/gi, name: 'QT', unit: 'msec' },
-
-    // Pain
-    { re: /\bpain\s+(?:rating\s+|score\s+|level\s+)?(?:of\s+|is\s+|at\s+)?(\d{1,2})\/10/gi, name: 'Pain', unit: '/10' },
-
-    // Weight
-    { re: /\bweighs?\s+(\d{2,3})\s*kg/gi, name: 'Weight', unit: 'kg' },
-    { re: /\bweighing\s+(\d{2,3})\s*kg/gi, name: 'Weight', unit: 'kg' }
-  ];
-
-  for (const pat of patterns) {
-    const re = new RegExp(pat.re.source, pat.re.flags);
-    let m;
-    while ((m = re.exec(stem)) !== null) {
-      const val = m[1];
-      const key = pat.name + ':' + val;
-      if (seen.has(key)) continue;
-      seen.add(key);
-
-      let unit = pat.unit || '';
-      if (pat.unitIdx && m[pat.unitIdx]) {
-        unit = (pat.unitPrefix || '') + m[pat.unitIdx];
-      }
-
-      // Look for a range immediately after the match.
-      // Three formats supported:
-      //   1) (normal 70-110)         - parenthetical right after match
-      //   2) ; normal 70-110         - semicolon separator (typically inside outer parens)
-      //   3) (normal 70-110)         - inside same outer paren that contains the match
-      let range = '';
-      const afterIdx = m.index + m[0].length;
-      const tail = stem.slice(afterIdx, afterIdx + 100);
-
-      // Format 1: paren after match (allowing optional unit text up to 30 chars)
-      const parenMatch = tail.match(/^[^()]{0,30}?\(([^)]+)\)/);
-      if (parenMatch && /normal|baseline|expected|cutoff|target|was|therapeutic|toxic/i.test(parenMatch[1])) {
-        range = parenMatch[1].trim();
-      }
-
-      // Format 2: separator (semicolon, comma) followed by range phrase, ending at ) or end
-      if (!range) {
-        const sepMatch = tail.match(/^\s*[;,]\s*((?:normal|baseline|expected|cutoff|target|was|therapeutic|toxic)[^);]+?)(?:\)|;|$)/i);
-        if (sepMatch) {
-          range = sepMatch[1].trim();
-        }
-      }
-
-      // Format 3: match is inside an outer paren - look at what comes after match within that paren
-      if (!range) {
-        // Find the most recent unclosed '(' before the match
-        const beforeMatch = stem.slice(0, m.index);
-        const lastOpen = beforeMatch.lastIndexOf('(');
-        const lastClose = beforeMatch.lastIndexOf(')');
-        if (lastOpen > lastClose) {
-          // We're inside parens; find the closing paren after the match
-          const fromMatch = stem.slice(m.index);
-          const closeIdx = fromMatch.indexOf(')');
-          if (closeIdx > 0) {
-            const insideParen = fromMatch.slice(m[0].length, closeIdx);
-            const rangePhrase = insideParen.match(/(?:[;,]\s*)?((?:normal|baseline|expected|cutoff|target|was|therapeutic|toxic)[^;]+)/i);
-            if (rangePhrase) {
-              range = rangePhrase[1].trim();
-            }
-          }
-        }
-      }
-
-      labs.push({ name: pat.name, value: val, unit, range });
-    }
-  }
-
-  return labs;
-}
-
-function renderLabStrip(labs) {
-  if (!labs || labs.length === 0) return '';
-  // Skip vitals from the strip — students should know normal ranges for these
-  const VITALS_DENYLIST = new Set(['BP', 'HR', 'Pulse', 'RR', 'Temp', 'SpO2', 'Pain']);
-  const filtered = labs.filter(function(l) { return !VITALS_DENYLIST.has(l.name); });
-  if (filtered.length === 0) return '';
-  const items = filtered.map(function(l) {
-    const range = l.range ? '<div class="lab-range">' + escapeStemHTML(l.range) + '</div>' : '';
-    const unit = l.unit ? ' <span class="lab-value-unit">' + escapeStemHTML(l.unit) + '</span>' : '';
-    return '<div class="lab-item"><div class="lab-name">' + escapeStemHTML(l.name) + '</div><div class="lab-value">' + escapeStemHTML(l.value) + unit + '</div>' + range + '</div>';
-  }).join('');
-  return '<div class="lab-strip"><div class="lab-strip-label">Clinical Data</div><div class="lab-row">' + items + '</div></div>';
-}
-
-function escapeStemHTML(s) {
-  const div = document.createElement('div');
-  div.textContent = String(s);
-  return div.innerHTML;
-}
-
 function showQuestion() {
-  if (currentQ >= TOTAL) { showResults(); return; }
+  selectedIdx = null;
   const q = questions[currentQ];
-  document.getElementById('progress-text').textContent = `Question ${currentQ + 1} / ${TOTAL}`;
-  document.getElementById('progress-fill').style.width = `${((currentQ) / TOTAL) * 100}%`;
-  document.getElementById('score-text').textContent = `Score: ${totalPoints.toFixed(1)}`;
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('progress').style.width = `${(currentQ / TOTAL) * 100}%`;
+  document.getElementById('q-stem').textContent = q.stem;
 
-  const area = document.getElementById('question-area');
-  let html = `<div class="question-card">
-    <div class="q-number">Question ${currentQ + 1}</div>`;
-  if (q.confirmed) html += `<div class="confirmed-banner">⚠ High-Priority Item — flagged for the final</div>`;
-  const __labs = q.labs || extractLabs(q.stem);
-  const __labStrip = renderLabStrip(__labs);
-  html += `<div class="q-stem">${q.stem}</div>` + __labStrip;
-  if (q.type === 'sata') html += `<div style="font-family:'DM Mono', monospace; font-size:12px; color:var(--purple); margin-bottom:12px;">SELECT ALL THAT APPLY</div>`;
-  html += `<div class="options" id="options-list">`;
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
   q.options.forEach((opt, i) => {
-    const letter = String.fromCharCode(65 + i);
-    html += `<button class="option" data-idx="${i}" onclick="toggleOption(${i})">
-      <span class="option-letter">${letter}</span>
-      <span>${opt}</span>
-    </button>`;
+    const btn = document.createElement('div');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${String.fromCharCode(65 + i)}</span><span>${opt}</span>`;
+    btn.onclick = () => selectOption(i);
+    optsEl.appendChild(btn);
   });
-  html += `</div>
-    <button class="submit-btn" id="submit-btn" onclick="submitAnswer()" disabled>Submit Answer</button>
-    <div class="rationale" id="rationale"></div>
-  </div>`;
-  area.innerHTML = html;
+
+  document.getElementById('rationale-area').classList.add('hidden');
+  document.getElementById('rationale-area').classList.remove('wrong-bg');
+  document.getElementById('submit-btn').classList.remove('hidden');
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('next-btn').classList.add('hidden');
 }
 
-let selectedIdx = q_type_is_sata() ? [] : null;
-
-function q_type_is_sata() { return questions[currentQ] && questions[currentQ].type === 'sata'; }
-
-function toggleOption(i) {
-  const q = questions[currentQ];
-  const opts = document.querySelectorAll('.option');
-  if (q.type === 'sata') {
-    if (!Array.isArray(selectedIdx)) selectedIdx = [];
-    const pos = selectedIdx.indexOf(i);
-    if (pos >= 0) {
-      selectedIdx.splice(pos, 1);
-      opts[i].classList.remove('selected');
-    } else {
-      selectedIdx.push(i);
-      opts[i].classList.add('selected');
-    }
-    document.getElementById('submit-btn').disabled = selectedIdx.length === 0;
-  } else {
-    selectedIdx = i;
-    opts.forEach(o => o.classList.remove('selected'));
-    opts[i].classList.add('selected');
-    document.getElementById('submit-btn').disabled = false;
-  }
+function selectOption(idx) {
+  if (document.querySelector('.option.locked')) return;
+  selectedIdx = idx;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', i === idx);
+  });
+  document.getElementById('submit-btn').disabled = false;
 }
 
 function submitAnswer() {
+  if (selectedIdx === null) return;
   const q = questions[currentQ];
+  const correct = selectedIdx === q.answer;
   const opts = document.querySelectorAll('.option');
-  opts.forEach(o => { o.disabled = true; o.onclick = null; });
-  document.getElementById('submit-btn').style.display = 'none';
 
-  let pts = 0;
-  let verdict = '';
-  let userAnswer = null;
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.classList.remove('selected');
+    if (i === q.answer) el.classList.add('correct');
+    else if (i === selectedIdx) el.classList.add('wrong');
+  });
 
-  if (q.type === 'sata') {
-    const correct = q.answerArr;
-    const selected = Array.isArray(selectedIdx) ? selectedIdx : [];
-    let correctSelected = 0, wrongSelected = 0;
-    selected.forEach(s => { if (correct.includes(s)) correctSelected++; else wrongSelected++; });
-    pts = Math.max(0, (correctSelected - wrongSelected) / correct.length);
-    if (pts === 1) verdict = 'correct';
-    else if (pts > 0) verdict = 'partial';
-    else verdict = 'wrong';
-
-    opts.forEach((o, i) => {
-      const isCorr = correct.includes(i);
-      const isSel = selected.includes(i);
-      if (isCorr && isSel) o.classList.add('correct');
-      else if (isCorr && !isSel) o.classList.add('missed');
-      else if (!isCorr && isSel) o.classList.add('wrong');
-    });
-    userAnswer = selected;
-  } else {
-    if (selectedIdx === q.answer) { pts = 1; verdict = 'correct'; }
-    else { pts = 0; verdict = 'wrong'; }
-    opts.forEach((o, i) => {
-      if (i === q.answer) o.classList.add('correct');
-      else if (i === selectedIdx) o.classList.add('wrong');
-    });
-    userAnswer = selectedIdx;
+  if (correct) {
+    score++;
+    totalPoints++;
   }
+  answers.push({ q, selectedIdx, correct });
 
-  totalPoints += pts;
-  answers.push({ q, userAnswer, pts, verdict });
-  document.getElementById('score-text').textContent = `Score: ${totalPoints.toFixed(1)}`;
-
-  showRationale(q, verdict, pts);
-}
-
-function showRationale(q, verdict, pts) {
-  const r = document.getElementById('rationale');
-  let verdictTxt = verdict === 'correct' ? 'Correct' : verdict === 'partial' ? `Partial Credit (${pts.toFixed(2)})` : 'Incorrect';
-  let html = `<span class="verdict ${verdict}">${verdictTxt}</span>
-    <span class="concept-pill">${q.concept}</span>`;
-
-  if (q.type === 'sata') {
-    html += `<div class="sata-legend">
-      <span><span class="legend-dot green"></span>Correct &amp; selected</span>
-      <span><span class="legend-dot yellow"></span>Correct but missed</span>
-      <span><span class="legend-dot red"></span>Incorrect &amp; selected</span>
-    </div>`;
-    html += `<h4>Why these are correct</h4>`;
-    q.answerArr.forEach(i => {
-      html += `<div class="correct-answer-display">${q.options[i]}<br><small style="color:var(--ink-soft);">${q.perOptionExplanations[i]}</small></div>`;
+  const r = document.getElementById('rationale-area');
+  r.classList.remove('hidden');
+  if (!correct) r.classList.add('wrong-bg');
+  let html = `<span class="concept-pill">${q.concept}</span>`;
+  html += `<div class="rationale-text"><strong>${correct ? 'Correct.' : 'Incorrect.'}</strong> ${q.rationale}</div>`;
+  if (q.others && Object.keys(q.others).length > 0) {
+    html += `<ul class="others-list">`;
+    Object.keys(q.others).forEach(k => {
+      html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
     });
-    html += `<p><strong>Overall:</strong> ${q.rationale}</p>`;
-    if (q.others && Object.keys(q.others).length > 0) {
-      html += `<h4>Why the others are wrong</h4><ul class="others-list">`;
-      Object.keys(q.others).forEach(k => {
-        html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
-      });
-      html += `</ul>`;
-    }
-  } else {
-    html += `<div class="correct-answer-display"><strong>Correct answer:</strong> ${q.options[q.answer]}</div>
-      <p>${q.rationale}</p>
-      <h4>The clinical reasoning</h4>
-      <p>${q.deepExplanation}</p>`;
-    if (q.others && Object.keys(q.others).length > 0) {
-      html += `<h4>Why the others are wrong</h4><ul class="others-list">`;
-      Object.keys(q.others).forEach(k => {
-        html += `<li><strong>${q.options[k]}:</strong> ${q.others[k]}</li>`;
-      });
-      html += `</ul>`;
-    }
+    html += `</ul>`;
   }
-  html += `<button class="next-btn" onclick="nextQuestion()">${currentQ + 1 >= TOTAL ? 'See Results' : 'Next Question →'}</button>`;
   r.innerHTML = html;
-  r.classList.add('show');
+
+  document.getElementById('q-points').textContent = `${totalPoints} pts`;
+  document.getElementById('submit-btn').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('hidden');
 }
 
 function nextQuestion() {
   currentQ++;
-  selectedIdx = q_type_is_sata() ? [] : null;
-  showQuestion();
-  window.scrollTo({ top: 0, behavior: 'instant' });
+  if (currentQ >= TOTAL) {
+    showResults();
+  } else {
+    showQuestion();
+  }
 }
 
 function showResults() {
-  document.getElementById('quiz-container').style.display = 'none';
-  const pct = Math.round((totalPoints / TOTAL) * 100);
-  let perfMsg = '';
-  if (pct >= 90) perfMsg = 'Exam ready. Strong clinical reasoning on application items.';
-  else if (pct >= 80) perfMsg = 'Solid performance. Review missed concepts and you\'re in great shape.';
-  else if (pct >= 70) perfMsg = 'Decent foundation but you\'ve got gaps. The application questions are where the exam will challenge you — review carefully.';
-  else perfMsg = 'Review carefully. Re-read your missed concepts and try this drill again before moving on.';
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
 
-  let missedHtml = '';
-  const missed = answers.filter(a => a.verdict !== 'correct');
+  const pct = TOTAL > 0 ? Math.round((totalPoints / TOTAL) * 100) : 0;
+  document.getElementById('r-score').textContent = `${pct}%`;
+  document.getElementById('r-pts').textContent = `${totalPoints} / ${TOTAL} points`;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Strong recall on the high-yield concepts. You are well-positioned for exam day.';
+  else if (pct >= 77) msg = 'Passing range. Review the missed concepts below — these are concepts that actually appeared on the exam.';
+  else if (pct >= 60) msg = 'Below pass threshold. Re-study the missed concepts carefully and rerun this drill before exam day.';
+  else msg = 'Significant gaps in high-yield concepts. Spend serious time on the missed concepts below — these are confirmed exam content.';
+  document.getElementById('r-msg').textContent = msg;
+
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ pct, pts: totalPoints, total: TOTAL, date: new Date().toLocaleDateString() })); } catch(e) {}
+
+  const missed = answers.filter(a => !a.correct);
   if (missed.length > 0) {
-    missedHtml = `<div class="missed-list"><h3>Missed concepts</h3>`;
+    let html = `<h3>Review these (${missed.length} missed)</h3>`;
     missed.forEach(m => {
-      const ans = m.q.type === 'sata' ? m.q.answerArr.map(i => m.q.options[i]).join('; ') : m.q.options[m.q.answer];
-      missedHtml += `<div class="missed-item">
-        <span class="concept-pill">${m.q.concept}</span>
-        ${m.q.confirmed ? '<span class="concept-pill" style="background:var(--purple-pale);color:var(--purple);">High-priority</span>' : ''}
-        <div class="preview">${m.q.stem}</div>
-        <div class="answer-line">→ ${ans}</div>
-        <div class="rationale-line">${m.q.rationale}</div>
+      html += `<div class="missed-item">
+        <div class="stem">${m.q.stem}</div>
+        <div class="ans">Correct: ${m.q.options[m.q.answer]}</div>
+        <div class="rat">${m.q.rationale}</div>
       </div>`;
     });
-    missedHtml += `</div>`;
+    document.getElementById('missed-section').innerHTML = html;
   }
-
-  const today = new Date().toLocaleDateString();
-  localStorage.setItem('score_pharm_recall', JSON.stringify({
-    pct, pts: totalPoints.toFixed(1), total: TOTAL, date: today
-  }));
-
-  document.getElementById('results-area').innerHTML = `
-    <div class="results-card">
-      <span class="badge">Pharm Recall Complete</span>
-      <div class="results-score">${totalPoints.toFixed(1)} / ${TOTAL}</div>
-      <div class="results-pct">${pct}%</div>
-      <div class="perf-msg">${perfMsg}</div>
-      ${missedHtml}
-      <button class="retry-btn" onclick="location.reload()">Retry Drill</button>
-    </div>
-  `;
-  document.getElementById('results-area').style.display = 'block';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 </script>
 </body>

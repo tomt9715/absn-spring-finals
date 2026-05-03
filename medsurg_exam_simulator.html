@@ -56,6 +56,15 @@
     .top-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
     .question-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 20px; }
     .q-stem { font-size: 16px; line-height: 1.65; color: var(--ink); margin-bottom: 22px; font-weight: 400; }
+    .lab-strip { margin-top: 14px; margin-bottom: 18px; padding: 12px 14px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; border-left: 3px solid var(--teal); }
+    .lab-strip-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+    .lab-row { display: flex; flex-wrap: wrap; gap: 12px 18px; }
+    .lab-item { display: flex; flex-direction: column; gap: 2px; min-width: 90px; }
+    .lab-name { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.04em; }
+    .lab-value { font-size: 14px; color: var(--ink); font-weight: 600; }
+    .lab-value-unit { font-weight: 400; color: var(--muted); font-size: 11px; }
+    .lab-range { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 1px; }
+
     .options { display: flex; flex-direction: column; gap: 10px; }
     .option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 15px; line-height: 1.5; color: var(--ink); }
     .option:hover:not(.locked) { border-color: var(--gold); background: var(--gold-pale); }
@@ -189,8 +198,9 @@
 <script>
 const questions = [
   {
-    ch: '12', topic: 'Oncology',
-    stem: "A nurse is teaching neutropenic precautions to a patient receiving chemotherapy with an ANC of 480. Which patient statement requires further teaching?",
+    ch: "12",
+    topic: "Oncology",
+    stem: "A nurse is teaching neutropenic precautions to a patient receiving chemotherapy. Given the lab below, which patient statement requires further teaching?",
     options: [
       "I will avoid raw fruits and undercooked meats while my counts are low.",
       "I will avoid crowds, sick people, and people with infections.",
@@ -198,10 +208,19 @@ const questions = [
       "I will keep flowers and live plants in my room to lift my spirits."
     ],
     answer: 3,
-    rationale: "Live plants and fresh flowers harbor fungus and bacteria — they are NOT allowed in the rooms of neutropenic patients (ANC <500 = severe). All other statements reflect correct neutropenic precautions teaching."
+    rationale: "Live plants and fresh flowers harbor fungus and bacteria — they are NOT allowed in the rooms of neutropenic patients (ANC <500 = severe). All other statements reflect correct neutropenic precautions teaching.",
+    labs: [
+      {
+        "name": "ANC",
+        "value": "480",
+        "unit": "/mm³",
+        "range": "normal >1,500"
+      }
+    ]
   },
   {
-    ch: '12', topic: 'Oncology',
+    ch: "12",
+    topic: "Oncology",
     stem: "A patient receiving IV vesicant chemotherapy reports burning at the IV site. The nurse notes redness and swelling. The PRIORITY action is:",
     options: [
       "Slow the infusion rate and continue monitoring the site",
@@ -213,8 +232,9 @@ const questions = [
     rationale: "Vesicant extravasation is an emergency — STOP the infusion immediately, leave the IV in place to attempt aspiration, and notify the provider. Vesicants cause severe tissue necrosis if allowed to continue infusing."
   },
   {
-    ch: '12', topic: 'Oncology',
-    stem: "A patient with cancer has the following labs: WBC 1.2, ANC 380, Hgb 8.2, platelets 18,000. Which finding requires the MOST URGENT intervention?",
+    ch: "12",
+    topic: "Oncology",
+    stem: "A patient with cancer has the following labs. Which finding requires the MOST URGENT intervention?",
     options: [
       "Hgb 8.2 g/dL with mild fatigue and pallor of skin",
       "WBC of 1.2 with no current fever or other symptoms",
@@ -222,10 +242,37 @@ const questions = [
       "Platelets 18,000 with active petechiae and bleeding gums"
     ],
     answer: 3,
-    rationale: "Platelets of 18,000 with active bleeding signs (petechiae, bleeding gums) is the most urgent — bleeding precautions plus likely platelet transfusion. Spontaneous bleeding risk rises sharply below 20,000. ANC and Hgb are concerning but not actively bleeding."
+    rationale: "Platelets of 18,000 with active bleeding signs (petechiae, bleeding gums) is the most urgent — bleeding precautions plus likely platelet transfusion. Spontaneous bleeding risk rises sharply below 20,000. ANC and Hgb are concerning but not actively bleeding.",
+    labs: [
+      {
+        "name": "WBC",
+        "value": "1.2",
+        "unit": "K/mm³",
+        "range": "normal 4.5-11"
+      },
+      {
+        "name": "ANC",
+        "value": "380",
+        "unit": "/mm³",
+        "range": "normal >1,500"
+      },
+      {
+        "name": "Hgb",
+        "value": "8.2",
+        "unit": "g/dL",
+        "range": "normal 12-16"
+      },
+      {
+        "name": "Platelets",
+        "value": "18,000",
+        "unit": "/mm³",
+        "range": "normal 150,000-400,000"
+      }
+    ]
   },
   {
-    ch: '12', topic: 'Oncology',
+    ch: "12",
+    topic: "Oncology",
     stem: "Which is the MOST important teaching for a patient receiving radiation therapy to the chest?",
     options: [
       "Apply ice packs to the radiation site for 20 minutes daily",
@@ -237,8 +284,9 @@ const questions = [
     rationale: "Patients should gently wash the treatment area with mild soap, pat dry, avoid lotions/perfumes/deodorants in the field, protect from sun, and NEVER scrub or remove radiation markings. Skin in the radiation field is fragile and easily damaged."
   },
   {
-    ch: '12', topic: 'Oncology',
-    stem: "A patient is admitted with neutropenic fever (T 101.4, ANC 250). What is the priority nursing action?",
+    ch: "12",
+    topic: "Oncology",
+    stem: "A patient is admitted with neutropenic fever (T 101.4°F). Given the lab below, what is the priority nursing action?",
     options: [
       "Administer prescribed acetaminophen and reassess in 1 hour",
       "Obtain blood cultures, then begin broad-spectrum antibiotics",
@@ -246,10 +294,19 @@ const questions = [
       "Provide cool compresses and discharge the patient home"
     ],
     answer: 1,
-    rationale: "Neutropenic fever is a medical emergency. The priority is to obtain blood cultures (and other cultures as indicated) BEFORE initiating broad-spectrum antibiotics — but antibiotics should not be delayed. Sepsis can progress rapidly in neutropenic patients."
+    rationale: "Neutropenic fever is a medical emergency. The priority is to obtain blood cultures (and other cultures as indicated) BEFORE initiating broad-spectrum antibiotics — but antibiotics should not be delayed. Sepsis can progress rapidly in neutropenic patients.",
+    labs: [
+      {
+        "name": "ANC",
+        "value": "250",
+        "unit": "/mm³",
+        "range": "normal >1,500"
+      }
+    ]
   },
   {
-    ch: '12', topic: 'Oncology',
+    ch: "12",
+    topic: "Oncology",
     stem: "A patient with cancer reports nausea and vomiting after chemotherapy. Which intervention is BEST?",
     options: [
       "Encourage spicy foods to stimulate appetite",
@@ -261,7 +318,8 @@ const questions = [
     rationale: "Antiemetics work best PROACTIVELY — given 30 minutes before meals or chemotherapy. Other interventions: small frequent meals, bland foods (avoid spicy/strong odors), oral hygiene before meals, and adequate hydration."
   },
   {
-    ch: '15', topic: 'Intraop',
+    ch: "15",
+    topic: "Intraop",
     stem: "During surgery, a patient suddenly develops tachycardia, muscle rigidity, hyperthermia (T 104.8°F), and hypercarbia. The nurse anticipates which emergency intervention?",
     options: [
       "Administer additional anesthetic gas as ordered",
@@ -273,7 +331,8 @@ const questions = [
     rationale: "This is malignant hyperthermia — a life-threatening reaction to volatile anesthetics or succinylcholine. Treatment: STOP trigger anesthetics immediately, administer IV dantrolene, cool the patient aggressively, and provide supportive care. Mortality is high without prompt dantrolene."
   },
   {
-    ch: '16', topic: 'Postop',
+    ch: "16",
+    topic: "Postop",
     stem: "A nurse is caring for a postoperative patient 6 hours after abdominal surgery. The patient suddenly reports a 'popping' sensation at the incision and the nurse observes pink, glistening tissue protruding through the incision. The PRIORITY action is:",
     options: [
       "Push the tissue back into the incision and apply pressure",
@@ -285,7 +344,8 @@ const questions = [
     rationale: "This is evisceration (organs protruding through the wound) — a surgical emergency. Cover with sterile saline-soaked gauze (NEVER attempt to push back in), keep patient supine with knees flexed, NPO, IV access, notify surgeon STAT, prepare for OR."
   },
   {
-    ch: '16', topic: 'Postop',
+    ch: "16",
+    topic: "Postop",
     stem: "A postoperative patient on POD 2 develops sudden shortness of breath, chest pain, and SpO2 of 87%. The nurse suspects:",
     options: [
       "Normal postoperative pain and anxiety only",
@@ -297,7 +357,8 @@ const questions = [
     rationale: "Sudden dyspnea, chest pain, and hypoxia in postop patient = PE until proven otherwise. PE is a major postop complication from venous stasis (immobility). Priority: oxygen, elevate HOB, notify provider, prepare for CT pulmonary angiogram and anticoagulation."
   },
   {
-    ch: '16', topic: 'Postop',
+    ch: "16",
+    topic: "Postop",
     stem: "On POD 1, a postoperative patient has not voided 8 hours after Foley removal. The bladder scan shows 480 mL. What is the priority intervention?",
     options: [
       "Continue to monitor and reassess in 4 more hours",
@@ -309,7 +370,8 @@ const questions = [
     rationale: "Postop urinary retention with 480 mL in the bladder requires intervention. Notify provider and anticipate straight catheterization to prevent bladder distention/damage and to assess for ongoing retention. Bladder scan >300-400 mL with inability to void requires action."
   },
   {
-    ch: '16', topic: 'Postop',
+    ch: "16",
+    topic: "Postop",
     stem: "A nurse assesses a postoperative patient and finds: HR 124, BP 88/52, SpO2 90%, urine output 18 mL in last hour, pale and diaphoretic. The nurse anticipates:",
     options: [
       "Hypovolemic shock — possible internal bleeding",
@@ -321,7 +383,8 @@ const questions = [
     rationale: "Tachycardia, hypotension, low SpO2, decreased urine output, and pale/diaphoretic skin signal hypovolemic shock — likely from postoperative hemorrhage. Notify provider STAT, assess incision/drains for bleeding, prepare for fluids/blood, and possible return to OR."
   },
   {
-    ch: '18', topic: 'Upper Resp',
+    ch: "18",
+    topic: "Upper Resp",
     stem: "A patient with chronic bronchitis is taught about exacerbation prevention. Which patient statement reflects correct understanding?",
     options: [
       "I will get the annual flu vaccine and pneumococcal vaccine",
@@ -333,7 +396,8 @@ const questions = [
     rationale: "Annual flu vaccine and pneumococcal vaccines are essential for chronic bronchitis patients to prevent infection and exacerbation. Smoking cessation (not reduction), regular activity (not avoidance), and continued maintenance medications are all important."
   },
   {
-    ch: '18', topic: 'Upper Resp',
+    ch: "18",
+    topic: "Upper Resp",
     stem: "A patient presents with productive cough lasting 4 months for the past 2 years, dyspnea on exertion, and cyanosis. The nurse anticipates which diagnosis?",
     options: [
       "Pneumonia from a recent bacterial infection",
@@ -345,7 +409,8 @@ const questions = [
     rationale: "Chronic bronchitis is defined by a productive cough for at least 3 months per year for 2+ consecutive years. Patients are often called 'blue bloaters' due to chronic hypoxia, cyanosis, and edema."
   },
   {
-    ch: '20', topic: 'Chronic Pulm',
+    ch: "20",
+    topic: "Chronic Pulm",
     stem: "A patient with COPD is on continuous O2. What is the appropriate flow rate range?",
     options: [
       "1-3 L/min via nasal cannula",
@@ -357,7 +422,8 @@ const questions = [
     rationale: "COPD patients receive low-flow oxygen at 1-3 L/min via nasal cannula. Higher flows can suppress hypoxic respiratory drive in CO2 retainers, leading to respiratory depression. Always titrate to maintain SpO2 88-92% in COPD."
   },
   {
-    ch: '20', topic: 'Chronic Pulm',
+    ch: "20",
+    topic: "Chronic Pulm",
     stem: "A patient with severe asthma exacerbation is using accessory muscles, has a quiet chest on auscultation, and SpO2 of 86%. The nurse interprets these findings as:",
     options: [
       "Improving — the wheezing has stopped",
@@ -369,7 +435,8 @@ const questions = [
     rationale: "A 'silent chest' (no wheezing) in severe asthma is OMINOUS — it means airflow is so restricted that no air is moving to wheeze. This signals impending respiratory failure. Prepare for intubation, continuous nebulizers, IV steroids, and ICU transfer."
   },
   {
-    ch: '20', topic: 'Chronic Pulm',
+    ch: "20",
+    topic: "Chronic Pulm",
     stem: "Which teaching is correct for a patient newly prescribed albuterol and fluticasone inhalers?",
     options: [
       "Use fluticasone first, then albuterol second",
@@ -381,7 +448,8 @@ const questions = [
     rationale: "Always use the bronchodilator (albuterol) FIRST to open the airways, wait 5 minutes, then use the steroid (fluticasone). This allows the steroid to penetrate deeper into the lungs. Rinse mouth after fluticasone to prevent thrush."
   },
   {
-    ch: '20', topic: 'Chronic Pulm',
+    ch: "20",
+    topic: "Chronic Pulm",
     stem: "A patient with emphysema has a barrel chest, pursed-lip breathing, and weight loss. These findings indicate:",
     options: [
       "Chronic air trapping and hyperinflation",
@@ -393,7 +461,8 @@ const questions = [
     rationale: "Barrel chest, pursed-lip breathing, and cachexia/weight loss are classic emphysema findings. These reflect chronic air trapping, hyperinflation, and the increased work of breathing. Patients are called 'pink puffers' (vs blue bloaters of chronic bronchitis)."
   },
   {
-    ch: '20', topic: 'Chronic Pulm',
+    ch: "20",
+    topic: "Chronic Pulm",
     stem: "A patient with sleep apnea is being taught about CPAP. Which patient statement requires further teaching?",
     options: [
       "I will use CPAP every night while I sleep.",
@@ -405,8 +474,9 @@ const questions = [
     rationale: "Sleep apnea is a chronic condition — CPAP must be used EVERY night long-term. Stopping after feeling better will allow apnea episodes to return, increasing risk of HTN, MI, stroke, and daytime sleepiness/accidents."
   },
   {
-    ch: '20', topic: 'Chronic Pulm',
-    stem: "A patient with COPD is dyspneic, anxious, and using accessory muscles. ABG shows pH 7.31, PaCO2 62, PaO2 54, HCO3 26. The nurse interprets:",
+    ch: "20",
+    topic: "Chronic Pulm",
+    stem: "A patient with COPD is dyspneic, anxious, and using accessory muscles. Given the ABG below, the nurse interprets:",
     options: [
       "Metabolic alkalosis with hypoxemia",
       "Compensated respiratory alkalosis",
@@ -414,10 +484,37 @@ const questions = [
       "Respiratory acidosis with hypoxemia"
     ],
     answer: 3,
-    rationale: "pH 7.31 (acidosis) + PaCO2 62 (high) = respiratory acidosis. PaO2 54 = hypoxemia. HCO3 26 is normal-high (slight compensation starting). This is acute respiratory failure in COPD — anticipate BiPAP, low-flow O2, bronchodilators, and possible intubation."
+    rationale: "pH 7.31 (acidosis) + PaCO2 62 (high) = respiratory acidosis. PaO2 54 = hypoxemia. HCO3 26 is normal-high (slight compensation starting). This is acute respiratory failure in COPD — anticipate BiPAP, low-flow O2, bronchodilators, and possible intubation.",
+    labs: [
+      {
+        "name": "pH",
+        "value": "7.31",
+        "unit": "",
+        "range": "normal 7.35-7.45"
+      },
+      {
+        "name": "PaCO2",
+        "value": "62",
+        "unit": "mmHg",
+        "range": "normal 35-45"
+      },
+      {
+        "name": "PaO2",
+        "value": "54",
+        "unit": "mmHg",
+        "range": "normal 80-100"
+      },
+      {
+        "name": "HCO3",
+        "value": "26",
+        "unit": "mEq/L",
+        "range": "normal 22-28"
+      }
+    ]
   },
   {
-    ch: '23', topic: 'Coronary',
+    ch: "23",
+    topic: "Coronary",
     stem: "A patient with stable angina takes nitroglycerin SL. After 5 minutes, the chest pain persists. What is the next nursing action?",
     options: [
       "Administer another SL nitroglycerin and wait 5 minutes",
@@ -429,7 +526,8 @@ const questions = [
     rationale: "Nitroglycerin SL: take 1 tablet, wait 5 minutes. If pain persists, take 2nd tablet, wait 5 min. If pain persists after 2nd, take 3rd. If pain persists after 3 doses (15 min), call 911 — possible MI. The patient should not exceed 3 doses without seeking emergency care."
   },
   {
-    ch: '23', topic: 'Coronary',
+    ch: "23",
+    topic: "Coronary",
     stem: "A patient is admitted with crushing substernal chest pain radiating to the left arm. ECG shows ST elevation in leads II, III, aVF. The PRIORITY intervention is:",
     options: [
       "Administer prescribed morphine for pain relief",
@@ -441,7 +539,8 @@ const questions = [
     rationale: "ST elevation MI (STEMI) requires emergent reperfusion via percutaneous coronary intervention (PCI) — door-to-balloon time of 90 minutes is the goal. Activate the cath lab immediately. Other interventions (MONA: morphine, oxygen, nitro, aspirin) happen alongside but PCI is the priority."
   },
   {
-    ch: '23', topic: 'Coronary',
+    ch: "23",
+    topic: "Coronary",
     stem: "A patient is being discharged home on nitroglycerin SL PRN. Which teaching is MOST important?",
     options: [
       "Take with food to prevent any GI upset",
@@ -453,7 +552,8 @@ const questions = [
     rationale: "Nitroglycerin must be stored in its original brown glass bottle (light-sensitive) and replaced every 6 months — it loses potency. Headache is a common side effect (do not discontinue). Take 1 tablet, wait 5 min — max 3 tablets, then call 911."
   },
   {
-    ch: '23', topic: 'Coronary',
+    ch: "23",
+    topic: "Coronary",
     stem: "A patient with chest pain has a troponin of 0.8 ng/mL (normal <0.04). Which is the most likely diagnosis?",
     options: [
       "Myocardial infarction (cardiac muscle damage)",
@@ -465,7 +565,8 @@ const questions = [
     rationale: "Troponin is a cardiac-specific marker that elevates only when cardiac muscle is damaged. A troponin of 0.8 (normal <0.04) indicates myocardial injury/MI. Stable angina does NOT elevate troponin. Pericarditis usually does not significantly elevate troponin."
   },
   {
-    ch: '23', topic: 'Coronary',
+    ch: "23",
+    topic: "Coronary",
     stem: "A patient post-MI is being discharged. Which lifestyle teaching is MOST important?",
     options: [
       "Avoid all physical activity for the rest of your life",
@@ -477,7 +578,8 @@ const questions = [
     rationale: "Post-MI lifestyle modifications: smoking cessation (most important), low-fat/low-sodium diet (DASH), participation in cardiac rehab, regular exercise (per provider), stress management, and adherence to medications (aspirin, beta-blocker, statin, ACE inhibitor)."
   },
   {
-    ch: '24', topic: 'Structural Cardiac',
+    ch: "24",
+    topic: "Structural Cardiac",
     stem: "A patient with infective endocarditis is being discharged on long-term IV antibiotics. Which teaching is MOST important?",
     options: [
       "Avoid all dental care permanently to prevent infection",
@@ -489,7 +591,8 @@ const questions = [
     rationale: "Patients with a history of endocarditis or prosthetic heart valves require antibiotic prophylaxis BEFORE dental procedures and other invasive procedures to prevent recurrent endocarditis. Routine dental care should continue (with prophylaxis), not be avoided."
   },
   {
-    ch: '24', topic: 'Structural Cardiac',
+    ch: "24",
+    topic: "Structural Cardiac",
     stem: "A child with strep throat is being treated with antibiotics. The parent asks why this is important. The BEST response is:",
     options: [
       "Untreated strep can lead to rheumatic fever and heart damage",
@@ -501,7 +604,8 @@ const questions = [
     rationale: "Untreated strep throat (Group A Strep) can lead to rheumatic fever, which causes inflammation of the heart valves (especially mitral) — leading to long-term valvular heart disease. Treating strep with antibiotics prevents this complication."
   },
   {
-    ch: '24', topic: 'Structural Cardiac',
+    ch: "24",
+    topic: "Structural Cardiac",
     stem: "A patient with severe aortic stenosis is admitted with syncope, exertional dyspnea, and angina. The nurse anticipates which intervention?",
     options: [
       "Conservative management with diet and exercise",
@@ -513,7 +617,8 @@ const questions = [
     rationale: "The classic triad of severe aortic stenosis is syncope, exertional dyspnea, and angina. Once symptoms develop, surgical valve replacement (or TAVR) is indicated — survival without surgery is poor (median ~2-3 years from symptom onset)."
   },
   {
-    ch: '25', topic: 'Heart Failure',
+    ch: "25",
+    topic: "Heart Failure",
     stem: "A patient with heart failure presents with jugular vein distention, peripheral edema, and ascites. These signs indicate which type of HF?",
     options: [
       "Acute pulmonary embolism",
@@ -525,7 +630,8 @@ const questions = [
     rationale: "Right-sided HF causes systemic venous congestion: JVD, peripheral edema, ascites, hepatomegaly, and weight gain. Left-sided HF causes pulmonary symptoms: crackles, dyspnea, orthopnea, frothy pink sputum (pulmonary edema)."
   },
   {
-    ch: '25', topic: 'Heart Failure',
+    ch: "25",
+    topic: "Heart Failure",
     stem: "A patient with heart failure is taught daily weights. Which weight gain warrants notification of the provider?",
     options: [
       "0.5 lb in 1 week of monitoring",
@@ -537,7 +643,8 @@ const questions = [
     rationale: "Heart failure patients should weigh themselves daily at the same time. Notify the provider for weight gain of 2-3 lb in 1 day or 5 lb in 1 week — this signals fluid retention and impending decompensation. Diuretic adjustment may be needed."
   },
   {
-    ch: '25', topic: 'Heart Failure',
+    ch: "25",
+    topic: "Heart Failure",
     stem: "A patient with HF is admitted with severe dyspnea, frothy pink-tinged sputum, and crackles bilaterally. The PRIORITY intervention is:",
     options: [
       "Lay the patient flat in supine position to rest",
@@ -549,7 +656,8 @@ const questions = [
     rationale: "Acute pulmonary edema in HF requires: high Fowler's position (legs dangling helps reduce preload), oxygen (high-flow), IV diuretic STAT (furosemide), morphine for anxiety/preload reduction, and possible BiPAP. NEVER lay flat or give fluids — both worsen pulmonary edema."
   },
   {
-    ch: '25', topic: 'Heart Failure',
+    ch: "25",
+    topic: "Heart Failure",
     stem: "Which dietary teaching is MOST important for a patient with heart failure?",
     options: [
       "High-sodium diet to maintain blood pressure",
@@ -561,7 +669,8 @@ const questions = [
     rationale: "HF patients require a low-sodium diet (2 g/day or less) and often fluid restriction (1.5-2 L/day) to prevent fluid retention and worsening symptoms. Read food labels — many processed foods are high in sodium."
   },
   {
-    ch: '26', topic: 'Vascular',
+    ch: "26",
+    topic: "Vascular",
     stem: "A patient with DVT in the right leg suddenly develops sharp chest pain, dyspnea, and tachycardia. The PRIORITY action is:",
     options: [
       "Get the patient out of bed to ambulate",
@@ -573,7 +682,8 @@ const questions = [
     rationale: "Sudden chest pain, dyspnea, and tachycardia in a DVT patient = pulmonary embolism (clot has traveled to the lungs). NOTIFY PROVIDER STAT, oxygen, elevate HOB, prepare for CT-PA and anticoagulation. NEVER massage or ambulate someone with active DVT until medically cleared."
   },
   {
-    ch: '26', topic: 'Vascular',
+    ch: "26",
+    topic: "Vascular",
     stem: "A patient with peripheral arterial disease (PAD) reports leg pain that occurs with walking and resolves with rest. This is called:",
     options: [
       "Intermittent claudication",
@@ -585,7 +695,8 @@ const questions = [
     rationale: "Intermittent claudication — leg pain with activity (due to inadequate arterial blood flow during exertion) that resolves with rest. It is the hallmark symptom of PAD. Pain at rest indicates more severe disease."
   },
   {
-    ch: '26', topic: 'Vascular',
+    ch: "26",
+    topic: "Vascular",
     stem: "A patient with venous insufficiency asks how to manage their condition at home. Which teaching is correct?",
     options: [
       "Sit with legs in a dependent position all day",
@@ -597,7 +708,8 @@ const questions = [
     rationale: "Venous insufficiency management: ELEVATE LEGS above heart level (improves venous return), wear compression stockings (apply in morning before swelling), avoid prolonged standing/sitting with legs dependent, and promote activity (calf muscle pump)."
   },
   {
-    ch: '26', topic: 'Vascular',
+    ch: "26",
+    topic: "Vascular",
     stem: "A patient with Raynaud's phenomenon reports numbness and color changes in fingers when cold. Which teaching is MOST important?",
     options: [
       "Smoke regularly to keep your hands warm",
@@ -609,7 +721,8 @@ const questions = [
     rationale: "Raynaud management: avoid cold exposure (wear gloves, hats, layered clothing), stop smoking (vasoconstrictor), avoid stress, avoid caffeine. Episodes involve white→blue→red color changes from vasospasm. Severe cases may need calcium channel blockers."
   },
   {
-    ch: '26', topic: 'Vascular',
+    ch: "26",
+    topic: "Vascular",
     stem: "A patient with PAD has a non-healing wound on the foot. Which assessment finding indicates worsening?",
     options: [
       "Strong, palpable pedal pulses bilaterally",
@@ -621,7 +734,8 @@ const questions = [
     rationale: "Worsening PAD shows: diminished or absent pulses, cool/cold extremity, pallor or cyanosis, slow capillary refill, hair loss on legs, shiny skin, and non-healing wounds. Strong pulses, warm extremities, and hair growth indicate good arterial flow."
   },
   {
-    ch: '27', topic: 'HTN',
+    ch: "27",
+    topic: "HTN",
     stem: "A patient with newly diagnosed HTN is taught about the DASH diet. Which patient statement reflects correct understanding?",
     options: [
       "I will eat plenty of red meat and processed foods",
@@ -633,7 +747,8 @@ const questions = [
     rationale: "DASH (Dietary Approaches to Stop Hypertension): increase fruits, vegetables, whole grains, low-fat dairy, lean proteins, nuts, and seeds. Limit sodium (<2.3 g/day, ideally <1.5 g), red meat, sweets, and alcohol (≤1 drink/day women, ≤2 men)."
   },
   {
-    ch: '27', topic: 'HTN',
+    ch: "27",
+    topic: "HTN",
     stem: "Which long-term complication is MOST associated with uncontrolled hypertension?",
     options: [
       "Acute viral hepatitis from elevated BP",
@@ -645,7 +760,8 @@ const questions = [
     rationale: "Uncontrolled HTN damages target organs: brain (stroke), heart (MI, HF, LVH), kidneys (CKD), and eyes (retinopathy/blindness). It is called the 'silent killer' because it may have no symptoms but causes cumulative damage."
   },
   {
-    ch: '27', topic: 'HTN',
+    ch: "27",
+    topic: "HTN",
     stem: "A patient with HTN reports BP of 198/118 with severe headache and blurred vision. The nurse recognizes this as:",
     options: [
       "Normal blood pressure response",
@@ -657,7 +773,8 @@ const questions = [
     rationale: "BP >180/120 with target organ damage signs (severe HA, blurred vision, chest pain, neurologic changes) = hypertensive emergency. Requires immediate IV antihypertensives in ICU setting to lower BP gradually (not too fast — risk of stroke from drop)."
   },
   {
-    ch: '29', topic: 'Nonmalig Hem',
+    ch: "29",
+    topic: "Nonmalig Hem",
     stem: "A patient with thrombocytopenia (platelets 32,000) requires which precautions?",
     options: [
       "Soft toothbrush, no IM injections, fall precautions",
@@ -669,7 +786,8 @@ const questions = [
     rationale: "Bleeding precautions: soft toothbrush (no flossing), no IM injections (use SubQ or IV; hold pressure 5-10 min after IV draws), electric razor only, fall precautions, avoid aspirin/NSAIDs, no rectal temps/suppositories, watch for petechiae/ecchymosis/bleeding."
   },
   {
-    ch: '29', topic: 'Nonmalig Hem',
+    ch: "29",
+    topic: "Nonmalig Hem",
     stem: "A patient with iron deficiency anemia is prescribed ferrous sulfate. Which teaching is correct?",
     options: [
       "Take with milk to coat the stomach",
@@ -681,7 +799,8 @@ const questions = [
     rationale: "Iron is best absorbed on an empty stomach with vitamin C (juice). Avoid milk, antacids, calcium (decrease absorption). SE: GI upset, constipation, dark/tarry stools (NORMAL — distinguish from melena). Continue 3-6 months even after Hgb normalizes to replenish stores."
   },
   {
-    ch: '29', topic: 'Nonmalig Hem',
+    ch: "29",
+    topic: "Nonmalig Hem",
     stem: "A patient with sickle cell disease is admitted with severe joint pain, dehydration, and SpO2 92%. What is the priority?",
     options: [
       "Restrict fluids to reduce joint swelling",
@@ -693,7 +812,8 @@ const questions = [
     rationale: "Sickle cell crisis (vaso-occlusive): priorities are HYDRATION (IV fluids dilute sickled cells), oxygen, and adequate pain control (often IV opioids). Cold worsens vasoconstriction and crisis — use warm compresses. Avoid hypoxia, dehydration, infection, stress (all triggers)."
   },
   {
-    ch: '29', topic: 'Nonmalig Hem',
+    ch: "29",
+    topic: "Nonmalig Hem",
     stem: "A patient with vitamin B12 deficiency anemia (pernicious anemia) requires which long-term treatment?",
     options: [
       "Daily oral B12 tablets only",
@@ -705,7 +825,8 @@ const questions = [
     rationale: "Pernicious anemia is caused by lack of intrinsic factor — patients cannot absorb B12 from the GI tract. They require B12 injections (typically monthly IM) FOR LIFE. Oral B12 is generally ineffective due to malabsorption."
   },
   {
-    ch: '29', topic: 'Nonmalig Hem',
+    ch: "29",
+    topic: "Nonmalig Hem",
     stem: "A patient is on heparin therapy. Which lab value is monitored?",
     options: [
       "PT/INR (used for warfarin therapy)",
@@ -717,7 +838,8 @@ const questions = [
     rationale: "Heparin is monitored with aPTT (activated partial thromboplastin time) — target 1.5-2.5× control. Warfarin is monitored with PT/INR (target 2-3 for most indications). LMWH (enoxaparin) is generally not monitored. Antidote for heparin: protamine sulfate."
   },
   {
-    ch: '30', topic: 'Hem Disorders',
+    ch: "30",
+    topic: "Hem Disorders",
     stem: "A patient with polycythemia vera is taught about prevention of complications. Which teaching is MOST important?",
     options: [
       "Drink 8 oz of water per day for hydration",
@@ -729,8 +851,9 @@ const questions = [
     rationale: "Polycythemia vera = too many RBCs → increased blood viscosity → high clotting risk (DVT, PE, stroke, MI). Teaching: stay well-hydrated, watch for clotting symptoms, avoid prolonged sitting, regular phlebotomy may be needed, low-dose aspirin often prescribed."
   },
   {
-    ch: '30', topic: 'Hem Disorders',
-    stem: "A patient with leukemia has WBC 0.8 (severe leukopenia) and ANC 200. Which precaution is the PRIORITY?",
+    ch: "30",
+    topic: "Hem Disorders",
+    stem: "A patient with leukemia has the labs below. Which precaution is the PRIORITY?",
     options: [
       "Neutropenic precautions (protective isolation)",
       "Fall precautions only without infection care",
@@ -738,10 +861,25 @@ const questions = [
       "Standard precautions only without modifications"
     ],
     answer: 0,
-    rationale: "ANC <500 = severe neutropenia = neutropenic/protective precautions: private room, no fresh flowers/plants, no raw fruits/vegetables, no sick visitors, hand hygiene strict, monitor for infection (often only sign is fever — no pus/redness due to low WBCs)."
+    rationale: "ANC <500 = severe neutropenia = neutropenic/protective precautions: private room, no fresh flowers/plants, no raw fruits/vegetables, no sick visitors, hand hygiene strict, monitor for infection (often only sign is fever — no pus/redness due to low WBCs).",
+    labs: [
+      {
+        "name": "WBC",
+        "value": "0.8",
+        "unit": "K/mm³",
+        "range": "severe leukopenia"
+      },
+      {
+        "name": "ANC",
+        "value": "200",
+        "unit": "/mm³",
+        "range": "normal >1,500"
+      }
+    ]
   },
   {
-    ch: '30', topic: 'Hem Disorders',
+    ch: "30",
+    topic: "Hem Disorders",
     stem: "A patient with acute leukemia is taught what is happening in their body. The BEST nurse explanation is:",
     options: [
       "Your bone marrow is making too many normal red cells",
@@ -753,7 +891,8 @@ const questions = [
     rationale: "Acute leukemia is uncontrolled proliferation of immature/abnormal WBCs in the bone marrow, crowding out normal cells. This causes pancytopenia: anemia (fatigue), thrombocytopenia (bleeding), and neutropenia (infection risk). Treatment is chemotherapy and possibly stem cell transplant."
   },
   {
-    ch: '32', topic: 'Immune Def',
+    ch: "32",
+    topic: "Immune Def",
     stem: "A patient with HIV has a CD4 count of 180. Which prophylaxis is the PRIORITY?",
     options: [
       "Annual influenza vaccine only",
@@ -765,7 +904,8 @@ const questions = [
     rationale: "CD4 <200 = AIDS-defining and increases risk for opportunistic infections. PCP (Pneumocystis pneumonia) prophylaxis with TMP-SMX (Bactrim) is initiated at CD4 <200. Other prophylaxis: MAC at CD4 <50, toxoplasmosis at CD4 <100."
   },
   {
-    ch: '32', topic: 'Immune Def',
+    ch: "32",
+    topic: "Immune Def",
     stem: "A nurse is teaching a patient newly diagnosed with HIV about HAART therapy. Which patient statement reflects correct understanding?",
     options: [
       "I will take HAART faithfully every day for the rest of my life",
@@ -777,7 +917,8 @@ const questions = [
     rationale: "HAART (highly active antiretroviral therapy) is LIFELONG and requires near-perfect adherence (>95%). Skipping doses or stopping leads to viral resistance and treatment failure. Side effects often improve — patients should report them but not skip doses."
   },
   {
-    ch: '32', topic: 'Immune Def',
+    ch: "32",
+    topic: "Immune Def",
     stem: "A healthcare worker has a needlestick injury from an HIV+ patient. What is the priority intervention?",
     options: [
       "Wait 6 weeks and test for HIV without medication",
@@ -789,7 +930,8 @@ const questions = [
     rationale: "Post-exposure prophylaxis (PEP) should be started as SOON AS POSSIBLE — ideally within 2 hours, and definitely within 72 hours of HIV exposure. Typical regimen is 28 days of antiretrovirals. Earlier initiation = better effectiveness."
   },
   {
-    ch: '32', topic: 'Immune Def',
+    ch: "32",
+    topic: "Immune Def",
     stem: "A patient with AIDS develops a dry, persistent cough, dyspnea, fever, and CD4 of 145. The nurse anticipates which diagnosis?",
     options: [
       "Common cold from a viral infection",
@@ -801,7 +943,8 @@ const questions = [
     rationale: "PCP (Pneumocystis jirovecii pneumonia) is the most common opportunistic infection in AIDS at CD4 <200. Presents with dry persistent cough, progressive dyspnea, low-grade fever. Treatment: high-dose TMP-SMX. Prophylaxis prevents most cases."
   },
   {
-    ch: '33', topic: 'Allergic',
+    ch: "33",
+    topic: "Allergic",
     stem: "A patient is brought to the ED with stridor, swelling of lips and tongue, hypotension, and hives after eating shrimp. The PRIORITY intervention is:",
     options: [
       "Administer epinephrine 0.3-0.5 mg IM in the thigh",
@@ -813,7 +956,8 @@ const questions = [
     rationale: "Anaphylaxis = airway compromise + hypotension. PRIORITY is epinephrine 0.3-0.5 mg IM in the lateral thigh (vastus lateralis). Then oxygen, IV fluids, antihistamines, steroids. Observe for biphasic reaction (recurrence 4-12 hr later)."
   },
   {
-    ch: '33', topic: 'Allergic',
+    ch: "33",
+    topic: "Allergic",
     stem: "A patient with a history of severe allergic reactions is taught EpiPen use. Which patient statement requires further teaching?",
     options: [
       "I will inject the EpiPen into my outer thigh muscle",
@@ -825,7 +969,8 @@ const questions = [
     rationale: "After EpiPen administration, patients MUST seek emergency care — biphasic reactions can occur 4-12 hours later. The EpiPen buys time, not safety. Inject into the outer thigh (through clothing if needed), hold 3 seconds, then call 911 or go to ED immediately."
   },
   {
-    ch: '33', topic: 'Allergic',
+    ch: "33",
+    topic: "Allergic",
     stem: "A patient with a known latex allergy is scheduled for surgery. Which precaution is MOST important?",
     options: [
       "Schedule the surgery as the FIRST case of the day",
@@ -837,7 +982,8 @@ const questions = [
     rationale: "Latex-allergic patients should be scheduled as the FIRST case of the day to minimize airborne latex particles in the OR. All staff must use latex-free supplies and PPE. The patient's allergy is communicated to all involved."
   },
   {
-    ch: '34', topic: 'Rheumatic',
+    ch: "34",
+    topic: "Rheumatic",
     stem: "A patient with SLE is taught about long-term management. Which teaching is MOST important?",
     options: [
       "Sunbathe daily for 30 minutes for vitamin D",
@@ -849,7 +995,8 @@ const questions = [
     rationale: "SLE is photosensitive — sun exposure can trigger flares and worsen the butterfly rash. Patients should avoid direct sun, use SPF 30+, wear long sleeves/wide-brim hats. Continue medications even in remission. Get adequate rest, nutrition, and stress management."
   },
   {
-    ch: '34', topic: 'Rheumatic',
+    ch: "34",
+    topic: "Rheumatic",
     stem: "A patient with rheumatoid arthritis is prescribed methotrexate. Which teaching is MOST important?",
     options: [
       "Take methotrexate daily with a high-dose alcohol use",
@@ -861,7 +1008,8 @@ const questions = [
     rationale: "Methotrexate is TERATOGENIC — patients of childbearing age must use reliable contraception. Avoid alcohol (liver toxicity). Take folic acid (helps with side effects). Monitor CBC, LFTs, kidney function regularly. Watch for bone marrow suppression and infection."
   },
   {
-    ch: '37', topic: 'MSK',
+    ch: "37",
+    topic: "MSK",
     stem: "A patient with a femur fracture from a motorcycle accident develops sudden confusion, dyspnea, and petechial rash on the chest and neck. The nurse suspects:",
     options: [
       "Anxiety from the trauma and accident",
@@ -873,7 +1021,8 @@ const questions = [
     rationale: "Fat embolism syndrome (FES) — classic triad after long bone fracture: confusion/altered mental status, dyspnea/hypoxia, petechial rash on neck/chest/axilla. Usually 24-72 hr post-injury. Supportive care (oxygen, IV fluids, ICU monitoring). High mortality if missed."
   },
   {
-    ch: '37', topic: 'MSK',
+    ch: "37",
+    topic: "MSK",
     stem: "A patient with a tibia fracture and cast is reporting severe unrelenting pain despite opioids, with cyanosis and tingling distally. The nurse suspects compartment syndrome. The priority action is:",
     options: [
       "Administer additional pain medication and reassess",
@@ -885,7 +1034,8 @@ const questions = [
     rationale: "Compartment syndrome = surgical emergency. Pressure builds in a fascial compartment, compressing nerves/vessels. Hallmark: severe pain unrelieved by opioids, plus distal cyanosis/tingling/paresthesia. Notify provider STAT — fasciotomy needed within 4-6 hours to prevent permanent damage. DO NOT elevate (worsens) or ice (worsens)."
   },
   {
-    ch: '37', topic: 'MSK',
+    ch: "37",
+    topic: "MSK",
     stem: "A patient has a wet plaster cast applied. Which teaching is MOST important?",
     options: [
       "Use fingertips to handle the cast for support",
@@ -897,7 +1047,8 @@ const questions = [
     rationale: "Wet cast care: handle with palms only (fingertips create indentations that pressure soft tissue and cause breakdown), allow to air dry, use a COOL setting on a hairdryer if speeding drying — never heat (burns, weakens cast). Keep dry."
   },
   {
-    ch: '39', topic: 'Oral/Esoph',
+    ch: "39",
+    topic: "Oral/Esoph",
     stem: "A patient with GERD is taught lifestyle modifications. Which patient statement reflects correct understanding?",
     options: [
       "I will avoid eating 2-3 hours before lying down",
@@ -909,7 +1060,8 @@ const questions = [
     rationale: "GERD lifestyle: avoid eating 2-3 hours before lying down (prevents nighttime reflux), elevate HOB 6-8 inches, avoid trigger foods (caffeine, chocolate, mint, spicy, fatty), small frequent meals, weight loss if obese, no smoking/alcohol."
   },
   {
-    ch: '39', topic: 'Oral/Esoph',
+    ch: "39",
+    topic: "Oral/Esoph",
     stem: "A patient receiving TPN through a central line has the bag running. Which is the most important nursing action?",
     options: [
       "Use a TPN bag for up to 48 hours to reduce waste",
@@ -921,7 +1073,8 @@ const questions = [
     rationale: "TPN must be changed every 24 hours (high glucose = bacterial growth medium). Always run through an IV PUMP (never gravity — can cause hyper/hypoglycemia). Monitor BG q4-6 hr. Watch for CLABSI (central line infection): fever, chills, redness/drainage at site."
   },
   {
-    ch: '40', topic: 'Gastric',
+    ch: "40",
+    topic: "Gastric",
     stem: "A patient with peptic ulcer disease (PUD) suddenly develops sudden severe abdominal pain with a rigid, board-like abdomen. The PRIORITY action is:",
     options: [
       "Administer prescribed antacid and reassess",
@@ -933,7 +1086,8 @@ const questions = [
     rationale: "Sudden severe pain + rigid board-like abdomen in PUD = perforation, a surgical emergency. Notify provider STAT, NPO, IV access, prepare for OR. Untreated perforation leads to peritonitis and sepsis. NEVER give antacids or warm compresses for suspected perforation."
   },
   {
-    ch: '40', topic: 'Gastric',
+    ch: "40",
+    topic: "Gastric",
     stem: "A patient with H. pylori-related PUD is prescribed triple therapy. Which medications would be expected?",
     options: [
       "Antacid, opioid pain medication, and a steroid",
@@ -945,7 +1099,8 @@ const questions = [
     rationale: "H. pylori triple therapy (14 days): PPI (omeprazole) + 2 antibiotics (commonly clarithromycin + amoxicillin or metronidazole). Quadruple therapy adds bismuth. NSAIDs are contraindicated (worsen ulcers). Patient must complete full course."
   },
   {
-    ch: '41', topic: 'Intestinal',
+    ch: "41",
+    topic: "Intestinal",
     stem: "A patient with active ulcerative colitis is being taught about diet during a flare. Which food choice reflects correct teaching?",
     options: [
       "Whole grain bread with raw vegetables for fiber",
@@ -957,7 +1112,8 @@ const questions = [
     rationale: "UC active flares: low-residue (low-fiber), high-protein, high-calorie diet. Plain white rice, baked chicken, clear broths are appropriate. Avoid raw vegetables, whole grains, spicy foods, cold foods, and lactose if intolerant. Replace lost vitamins and iron."
   },
   {
-    ch: '41', topic: 'Intestinal',
+    ch: "41",
+    topic: "Intestinal",
     stem: "A 75-year-old patient with limited mobility reports new constipation. Which intervention is the BEST initial recommendation?",
     options: [
       "Daily oral laxatives are first-line treatment",
@@ -969,7 +1125,8 @@ const questions = [
     rationale: "First-line constipation management in older adults: hydration (2-3 L/day), high fiber, mobility/ambulation. Address contributors: medications (opioids), immobility, dehydration, decreased GI motility with age. Daily laxatives should NOT be first-line."
   },
   {
-    ch: '41', topic: 'Intestinal',
+    ch: "41",
+    topic: "Intestinal",
     stem: "A patient with Crohn's disease has 8-10 watery stools per day with redness and excoriation around the anus. The PRIORITY nursing intervention is:",
     options: [
       "Administer a high-fiber meal at every interval",
@@ -981,7 +1138,8 @@ const questions = [
     rationale: "Meticulous skin care is the PRIORITY for Crohn patients with constant diarrhea — acidic stool breaks down perianal skin. Gentle cleansing, patting dry, applying a barrier cream after each stool prevents progression to skin breakdown and infection."
   },
   {
-    ch: '46u', topic: 'Urinary',
+    ch: "46u",
+    topic: "Urinary",
     stem: "An 82-year-old patient is admitted with sudden new-onset confusion and low-grade fever. The nurse should anticipate which assessment FIRST?",
     options: [
       "Lumbar puncture for meningitis",
@@ -993,7 +1151,8 @@ const questions = [
     rationale: "New-onset confusion in older adults — even with mild fever — is often the only sign of UTI. Older adults often present atypically with delirium rather than classic burning/frequency. UA/culture first; antibiotics often started empirically."
   },
   {
-    ch: '46u', topic: 'Urinary',
+    ch: "46u",
+    topic: "Urinary",
     stem: "A patient is admitted with right flank pain rated 10/10, hematuria, and pain radiating to the groin. Which diagnostic test does the nurse anticipate?",
     options: [
       "Non-contrast CT scan of abdomen/pelvis",
@@ -1005,7 +1164,8 @@ const questions = [
     rationale: "Excruciating colicky flank pain radiating to groin = renal calculi. Non-contrast CT scan of the abdomen/pelvis is the gold standard — shows stone size, location, number. Strain all urine for stone analysis. Pain management + IV fluids are priorities."
   },
   {
-    ch: '46u', topic: 'Urinary',
+    ch: "46u",
+    topic: "Urinary",
     stem: "A patient recovering from a calcium oxalate kidney stone is being taught about prevention. Which teaching is correct?",
     options: [
       "Increase milk and dairy products to coat the kidneys",
@@ -1017,7 +1177,8 @@ const questions = [
     rationale: "Calcium oxalate stones: decrease calcium, reduce sodium (high Na increases urinary calcium excretion), avoid oxalate-rich foods (spinach, beets, nuts, chocolate), and stay well-hydrated. Organ meats/shellfish are for AVOIDING uric acid stones."
   },
   {
-    ch: '46u', topic: 'Urinary',
+    ch: "46u",
+    topic: "Urinary",
     stem: "A patient is admitted with right flank pain, fever 102.5°F, chills, and right CVA tenderness. UA shows pyuria and bacteriuria. The nurse anticipates:",
     options: [
       "Pyelonephritis — 14-day antibiotic course",
@@ -1029,7 +1190,8 @@ const questions = [
     rationale: "Flank pain + fever + chills + CVA tenderness + pyuria/bacteriuria = pyelonephritis (upper UTI / kidney infection). Treatment: 14-day antibiotic course. Follow-up urine culture 2 weeks after completion. Watch for urosepsis (BP drop, tachycardia)."
   },
   {
-    ch: '46d', topic: 'Diabetes',
+    ch: "46d",
+    topic: "Diabetes",
     stem: "A 25-year-old with Type 1 diabetes is diaphoretic, shaky, confused. BG is 52 mg/dL. The patient is awake and able to swallow. Which is the PRIORITY?",
     options: [
       "Administer subcutaneous regular insulin",
@@ -1041,7 +1203,8 @@ const questions = [
     rationale: "Conscious hypoglycemic patient (BG 52, can swallow): give 15 g fast-acting carbs (4 oz juice, 3-4 glucose tabs). Recheck in 15 min — repeat if still low. Once stable, give complex carb + protein snack. NEVER give insulin (worsens) or wait."
   },
   {
-    ch: '46d', topic: 'Diabetes',
+    ch: "46d",
+    topic: "Diabetes",
     stem: "A 22-year-old with Type 1 diabetes is admitted with BG 480, fruity breath, Kussmaul respirations, and serum ketones. The PRIORITY intervention is:",
     options: [
       "Start IV fluids first to address dehydration",
@@ -1053,7 +1216,8 @@ const questions = [
     rationale: "DKA: IV FLUIDS FIRST — severe dehydration must be corrected first. After fluids start, continuous IV regular insulin (only insulin given IV) is added. Monitor potassium closely (insulin drives K into cells = hypokalemia risk)."
   },
   {
-    ch: '46d', topic: 'Diabetes',
+    ch: "46d",
+    topic: "Diabetes",
     stem: "A 70-year-old with Type 2 diabetes presents with BG 850, severe dehydration, hypernatremia, no ketones, and normal pH. The nurse anticipates:",
     options: [
       "Diabetic ketoacidosis (DKA) — Type 1 emergency",
@@ -1065,7 +1229,8 @@ const questions = [
     rationale: "BG >600 + profound dehydration + NO ketones + normal pH + Type 2 (older adult) = HHS. Often triggered by stress (illness, infection). Priority: aggressive IV fluid resuscitation FIRST, then insulin, then electrolyte correction. Higher mortality than DKA."
   },
   {
-    ch: '46d', topic: 'Diabetes',
+    ch: "46d",
+    topic: "Diabetes",
     stem: "A patient with Type 1 diabetes reports vomiting and inability to eat for 24 hours. They ask if they should skip insulin. The BEST response is:",
     options: [
       "Continue insulin — call your provider for sick day plan",
@@ -1077,7 +1242,8 @@ const questions = [
     rationale: "Type 1 diabetics MUST continue insulin during illness — body still needs basal insulin and stress raises BG. Sick day rules: continue insulin, monitor BG q2-4 hr, check ketones, drink fluids, contact provider for adjustments. Skipping insulin can trigger DKA."
   },
   {
-    ch: '46d', topic: 'Diabetes',
+    ch: "46d",
+    topic: "Diabetes",
     stem: "A patient with diabetes is being taught foot care. Which patient statement requires further teaching?",
     options: [
       "I will soak my feet in hot water to relax them daily",
@@ -1097,9 +1263,133 @@ const TOTAL = questions.length;
 const STORAGE_KEY = 'score_medsurg_simulator_attempt';
 
 function begin() {
+  // Fisher-Yates shuffle so questions appear in random order (not grouped by chapter)
+  for (let i = questions.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [questions[i], questions[j]] = [questions[j], questions[i]];
+  }
   document.getElementById('start-screen').classList.add('hidden');
   document.getElementById('quiz-screen').classList.remove('hidden');
   showQuestion();
+}
+
+function extractLabs(stem) {
+  const labs = [];
+  const seen = new Set();
+
+  // Each pattern: { re, name, unit (or unitFromMatch index), rangeFromMatch (optional) }
+  const patterns = [
+    { re: /\bBP\s+(\d{2,3}\/\d{2,3})(?:\s*\((?:baseline|normal)\s+([\d\/<>≥≤\-–\s]+)\))?/gi, name: 'BP', unit: 'mmHg', rangeIdx: 2, ranglePrefix: 'baseline ' },
+    { re: /\bHR\s+(\d{2,3})\b/gi, name: 'HR', unit: 'bpm' },
+    { re: /\bpulse\s+(\d{2,3})\b/gi, name: 'Pulse', unit: 'bpm' },
+    { re: /\b(?:temperature|temp)[\s:]+(\d{2,3}(?:\.\d)?)\s*°?\s*([CF])\b/gi, name: 'Temp', unitIdx: 2, unitPrefix: '°' },
+    { re: /\b(?:respiratory rate|RR)\s+(\d{1,3})(?:\/min)?(?:\s*\(was\s+(\d+)\/?(?:min)?\))?\b/gi, name: 'RR', unit: '/min', rangeIdx: 2, ranglePrefix: 'was ' },
+    { re: /\b(?:urine output|UOP)\s+(\d{1,3})\s*mL\/hr(?:\s*\(was\s+(\d+)\s*mL\/hr\))?\b/gi, name: 'UOP', unit: 'mL/hr', rangeIdx: 2, ranglePrefix: 'was ' },
+    { re: /\b(?:bedside\s+)?(?:blood\s+)?glucose(?:\s+is|\s+at\s+\d+\s+(?:hour|min)\w*)?\s+(?:is\s+)?(\d{1,3})\s*mg\/dL(?:\s*\((?:normal[^)]*?|cutoff[^)]*?)\))?/gi, name: 'Glucose', unit: 'mg/dL' },
+    { re: /\b(?:hematocrit|HCT)\s+of\s+(\d{2,3})%(?:\s*\(normal[^)]*?\))?/gi, name: 'HCT', unit: '%' },
+    { re: /\bplatelets\s+([\d,]+)\s*\/?mm\u00b3?(?:\s*\(normal[^)]*?\))?/gi, name: 'Platelets', unit: '/mm³' },
+    { re: /\bAST\s+(\d{1,4})\s*U\/L(?:\s*\(normal[^)]*?\))?/gi, name: 'AST', unit: 'U/L' },
+    { re: /(?:\u03b2-hCG|beta-hCG|hCG)(?:\s+(?:is|of))?\s+([\d,]+)\s*mIU\/mL/gi, name: 'β-hCG', unit: 'mIU/mL' },
+    { re: /\bfundal height\s+of\s+(\d{1,3})\s*cm(?:\s*\((?:expected|normal)\s*~?\s*(\d{1,3})\s*cm\))?/gi, name: 'Fundal Ht', unit: 'cm', rangeIdx: 2, ranglePrefix: 'expected ~' },
+    { re: /\bAFI\s+(\d{1,3})\s*cm/gi, name: 'AFI', unit: 'cm' },
+    { re: /\b1-hour\b[^.]*?(\d{2,3})\s*mg\/dL/gi, name: '1-hr GCT', unit: 'mg/dL' },
+    { re: /(?:weighing|weighs|estimated at|EFW)\s+(\d{3,4})\s*g\b/gi, name: 'Weight', unit: 'g' },
+
+    // Electrolytes
+    { re: /\b(?:sodium|Na\+?)\s+(?:level\s+)?(?:of\s+|is\s+)?(\d{2,3})\s*mEq\/L/gi, name: 'Na+', unit: 'mEq/L' },
+    { re: /\b(?:potassium|K\+?)\s+(?:level\s+)?(?:of\s+|is\s+)?(\d(?:\.\d)?)\s*mEq\/L/gi, name: 'K+', unit: 'mEq/L' },
+    { re: /\b(?:calcium|Ca\+?\+?)\s+(?:level\s+)?(?:of\s+|is\s+)?(\d{1,2}(?:\.\d)?)\s*mg\/dL/gi, name: 'Ca', unit: 'mg/dL' },
+    { re: /\b(?:magnesium|Mg\+?\+?)\s+(?:level\s+)?(?:of\s+|is\s+)?(\d(?:\.\d)?)\s*mg\/dL/gi, name: 'Mg', unit: 'mg/dL' },
+
+    // CBC additions
+    { re: /\b(?:hemoglobin|Hgb|Hb)\s+(?:of\s+|is\s+)?(\d{1,2}(?:\.\d)?)\s*(?:g\/dL)?/gi, name: 'Hgb', unit: 'g/dL' },
+    { re: /\bANC\s+(?:of\s+|is\s+)?([\d,]+)/gi, name: 'ANC', unit: '/mm³' },
+    { re: /\bWBC\s+(?:of\s+|count of\s+|is\s+)?([\d,]+(?:\.\d)?)/gi, name: 'WBC', unit: '/mm³' },
+
+    // Renal
+    { re: /\b(?:creatinine|Cr)\s+(?:of\s+)?(\d(?:\.\d{1,2})?)\s*mg\/dL/gi, name: 'Cr', unit: 'mg/dL' },
+    { re: /\bBUN\s+(?:of\s+)?(\d{1,3})(?:\s*mg\/dL)?/gi, name: 'BUN', unit: 'mg/dL' },
+
+    // Coag
+    { re: /\bINR\s+(?:of\s+|is\s+)?(\d(?:\.\d{1,2})?)/gi, name: 'INR', unit: '' },
+
+    // Acid-base (DKA)
+    { re: /\bpH\s+(?:of\s+|is\s+)?(\d(?:\.\d{1,2})?)\b/gi, name: 'pH', unit: '' },
+    { re: /\b(?:bicarb|HCO3)\s+(?:of\s+|is\s+)?(\d{1,2})\b/gi, name: 'HCO3', unit: 'mEq/L' },
+
+    // Other
+    { re: /\b(?:hemoglobin\s+)?A1[cC]\s+(?:of\s+|is\s+)?(\d{1,2}(?:\.\d)?)\s*%?/gi, name: 'A1c', unit: '%' },
+    { re: /\b(?:total\s+)?bilirubin\s+(?:of\s+|is\s+)?(\d{1,2}(?:\.\d)?)\s*mg\/dL/gi, name: 'Bilirubin', unit: 'mg/dL' },
+
+    // Osmolality
+    { re: /\b(?:serum\s+|urine\s+)?osmolality\s+(?:of\s+|is\s+)?(\d{2,3})\s*mOsm\/kg/gi, name: 'Osmolality', unit: 'mOsm/kg' },
+
+    // Specific gravity
+    { re: /\b(?:urine\s+)?specific gravity\s+(?:of\s+|is\s+)?(\d\.\d{3})/gi, name: 'Sp Gravity', unit: '' }
+  ];
+
+  for (const pat of patterns) {
+    const re = new RegExp(pat.re.source, pat.re.flags);
+    let m;
+    while ((m = re.exec(stem)) !== null) {
+      const val = m[1];
+      const key = pat.name + ':' + val;
+      if (seen.has(key)) continue;
+      seen.add(key);
+
+      let unit = pat.unit || '';
+      if (pat.unitIdx && m[pat.unitIdx]) {
+        unit = (pat.unitPrefix || '') + m[pat.unitIdx];
+      }
+
+      let range = '';
+      if (pat.rangeIdx && m[pat.rangeIdx]) {
+        range = (pat.ranglePrefix || '') + m[pat.rangeIdx];
+      }
+
+      // First, check if m[0] itself contains a parenthetical (greedy patterns consume it)
+      if (!range) {
+        const innerParen = m[0].match(/\(([^)]+)\)/);
+        if (innerParen && /normal|baseline|expected|cutoff|target|was/i.test(innerParen[1])) {
+          range = innerParen[1].trim();
+        }
+      }
+
+      // Otherwise look ahead in the full stem (allow optional unit text before paren)
+      if (!range) {
+        const afterIdx = m.index + m[0].length;
+        const tail = stem.slice(afterIdx, afterIdx + 100);
+        const parenMatch = tail.match(/^[^()]{0,30}?\(([^)]+)\)/);
+        if (parenMatch && /normal|baseline|expected|cutoff|target|was|therapeutic|toxic/i.test(parenMatch[1])) {
+          range = parenMatch[1].trim();
+        }
+      }
+
+      labs.push({ name: pat.name, value: val, unit, range });
+    }
+  }
+
+  return labs;
+}
+
+function renderLabStrip(labs) {
+  if (!labs || labs.length === 0) return '';
+  // Skip vitals from the strip — students should know normal ranges for these
+  const VITALS_DENYLIST = new Set(['BP', 'HR', 'Pulse', 'RR', 'Temp', 'SpO2', 'Pain']);
+  const filtered = labs.filter(function(l) { return !VITALS_DENYLIST.has(l.name); });
+  if (filtered.length === 0) return '';
+  const items = filtered.map(function(l) {
+    const range = l.range ? '<div class="lab-range">' + escapeStemHTML(l.range) + '</div>' : '';
+    const unit = l.unit ? ' <span class="lab-value-unit">' + escapeStemHTML(l.unit) + '</span>' : '';
+    return '<div class="lab-item"><div class="lab-name">' + escapeStemHTML(l.name) + '</div><div class="lab-value">' + escapeStemHTML(l.value) + unit + '</div>' + range + '</div>';
+  }).join('');
+  return '<div class="lab-strip"><div class="lab-strip-label">Clinical Data</div><div class="lab-row">' + items + '</div></div>';
+}
+
+function escapeStemHTML(s) {
+  const div = document.createElement('div');
+  div.textContent = String(s);
+  return div.innerHTML;
 }
 
 function showQuestion() {
@@ -1107,7 +1397,9 @@ function showQuestion() {
   document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${TOTAL}`;
   document.getElementById('q-chapter').textContent = `Ch ${q.ch} · ${q.topic}`;
   document.getElementById('progress').style.width = `${((currentQ + 1) / TOTAL) * 100}%`;
-  document.getElementById('q-stem').textContent = q.stem;
+  const __labs = q.labs || extractLabs(q.stem);
+  const __labStrip = renderLabStrip(__labs);
+  document.getElementById('q-stem').innerHTML = '<div>' + escapeStemHTML(q.stem) + '</div>' + __labStrip;
 
   const optsEl = document.getElementById('q-options');
   optsEl.innerHTML = '';
