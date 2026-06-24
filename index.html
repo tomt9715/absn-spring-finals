@@ -28,7 +28,6 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--in
 h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy); margin-bottom: 8px; line-height: 1.1; }
 .tagline { color: var(--muted); font-size: 15px; max-width: 540px; margin: 0 auto; }
 
-/* Class router tabs */
 .class-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 32px; }
 .class-tab { background: var(--card); border: 1.5px solid var(--line); border-radius: 12px; padding: 20px 24px; cursor: pointer; transition: all 0.2s; text-align: left; position: relative; overflow: hidden; }
 .class-tab:hover { border-color: var(--ink-soft); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(10, 37, 64, 0.08); }
@@ -50,7 +49,6 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
 .class-tab.medsurg .class-tab-progress-fill { background: var(--teal); }
 .class-tab.matpeds .class-tab-progress-fill { background: linear-gradient(90deg, #be185d, #f97316); }
 
-/* Top dashboard with progress ring (per-class) */
 .top-dashboard { display: grid; grid-template-columns: auto 1fr; gap: 32px; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 24px 32px; margin-bottom: 32px; }
 .progress-ring-wrap { position: relative; width: 120px; height: 120px; }
 .progress-ring-svg { transform: rotate(-90deg); }
@@ -69,8 +67,8 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
 .dash-num.fail { color: var(--fail); }
 .dash-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px; color: var(--muted); text-transform: uppercase; }
 
-/* Simulator */
-.simulator-card { background: var(--navy); border-radius: 10px; padding: 24px 32px; margin-bottom: 32px; color: white; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }.sim-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin-bottom: 8px; }
+.simulator-card { background: var(--navy); border-radius: 10px; padding: 24px 32px; margin-bottom: 32px; color: white; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }
+.sim-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin-bottom: 8px; }
 .sim-title { font-family: 'DM Serif Display', serif; font-size: 24px; color: white; margin-bottom: 4px; }
 .sim-desc { color: rgba(255,255,255,0.7); font-size: 13px; }
 .sim-action { text-align: center; }
@@ -83,7 +81,6 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
 .sim-btn:hover { background: #d97706; }
 .sim-btn.disabled { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.5); cursor: not-allowed; pointer-events: none; }
 
-/* High-Yield Recall Card (Pharm only — discreet styling) */
 .recall-card { background: #0d2540; border-radius: 10px; padding: 22px 32px; margin-bottom: 16px; color: white; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; border: 1px solid rgba(245, 158, 11, 0.15); position: relative; overflow: hidden; }
 .recall-card::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 3px; background: var(--gold); opacity: 0.6; }
 .recall-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; color: rgba(245, 158, 11, 0.85); text-transform: uppercase; margin-bottom: 6px; }
@@ -99,7 +96,6 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
 .recall-btn:hover { background: var(--gold); }
 .recall-btn.empty { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.5); cursor: default; pointer-events: none; }
 
-/* Continue studying */
 .continue-section { background: linear-gradient(135deg, #fff8e6 0%, #fef3c7 100%); border: 1px solid var(--gold); border-radius: 10px; padding: 20px 24px; margin-bottom: 32px; }
 .continue-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
 .continue-title { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #92400e; text-transform: uppercase; }
@@ -112,7 +108,6 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
 .continue-item-status { color: var(--muted); }
 .continue-item-weight { background: var(--bg); padding: 2px 6px; border-radius: 3px; color: var(--ink-soft); }
 
-/* Filter bar */
 .filter-bar { display: flex; gap: 8px; align-items: center; margin-bottom: 20px; flex-wrap: wrap; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
 .filter-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1px; color: var(--muted); text-transform: uppercase; margin-right: 4px; }
 .filter-chip { background: var(--card); border: 1px solid var(--line); padding: 6px 14px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); border-radius: 100px; cursor: pointer; transition: all 0.15s; letter-spacing: 0.5px; }
@@ -122,7 +117,6 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
 .expand-toggle { background: none; border: 1px solid var(--line); padding: 6px 14px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); border-radius: 100px; cursor: pointer; letter-spacing: 0.5px; }
 .expand-toggle:hover { color: var(--ink); border-color: var(--ink-soft); }
 
-/* System group */
 .system-group { margin-bottom: 16px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
 .system-header { padding: 14px 20px; cursor: pointer; display: flex; align-items: center; gap: 12px; user-select: none; transition: background 0.1s; }
 .system-header:hover { background: var(--bg); }
@@ -136,7 +130,6 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
 .system-group.collapsed .system-body { display: none; }
 .system-body { border-top: 1px solid var(--line-soft); }
 
-/* Topic rows */
 .topic-row { display: grid; grid-template-columns: 50px 1fr 1.2fr 1.2fr; gap: 12px; align-items: center; padding: 12px 20px; border-bottom: 1px solid var(--line-soft); transition: background 0.1s; }
 .topic-row:last-child { border-bottom: none; }
 .topic-row:hover { background: var(--bg); }
@@ -147,7 +140,6 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
 .topic-weight-badge { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--ink-soft); background: var(--bg); padding: 4px 8px; border-radius: 4px; text-align: center; letter-spacing: 0.3px; }
 .topic-weight-badge.high { background: var(--gold-pale); color: #92400e; }
 
-/* Quiz cells with strong distinction */
 .quiz-cell { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 6px; text-decoration: none; color: var(--ink); border: 1.5px solid var(--line); transition: all 0.15s; min-width: 0; background: var(--card); position: relative; }
 .quiz-cell.kc { border-color: #99f6e4; }
 .quiz-cell.dd { border-color: #ddd6fe; }
@@ -182,7 +174,7 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
 .quiz-cell.dd:hover .cta-arrow { color: var(--purple); }
 .quiz-cell.coming-soon .cta-arrow { display: none; }
 
-.footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+.footer { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
 .legend { display: flex; gap: 14px; flex-wrap: wrap; }
 .legend-item { display: flex; align-items: center; gap: 6px; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.5px; text-transform: uppercase; }
 .legend-swatch { width: 10px; height: 10px; border-radius: 2px; }
@@ -207,9 +199,125 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
   h1 { font-size: 32px; }
   .class-tabs { grid-template-columns: 1fr; }
 }
+
+/* Donation footer */
+.donation-footer { margin-top: 48px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+.donation-text p { font-family: 'Outfit', sans-serif; font-size: 14px; color: var(--ink-soft); }
+.donation-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.donate-btn { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.4px; color: var(--ink-soft); cursor: pointer; text-decoration: none; border: 1px solid var(--line); background: var(--bg); padding: 7px 14px; border-radius: 6px; transition: all 0.15s; }
+.donate-btn:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-pale); }
+.zelle-copied { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--pass); letter-spacing: 0.5px; display: none; }
+
+/* Reset confirmation modal */
+.reset-modal-overlay { position: fixed; inset: 0; background: rgba(10, 37, 64, 0.55); z-index: 1001; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; pointer-events: none; padding: 16px; }
+.reset-modal-overlay.visible { opacity: 1; pointer-events: all; }
+.reset-modal-box { background: var(--card); border-radius: 12px; max-width: 420px; width: 100%; overflow: hidden; transform: translateY(10px); transition: transform 0.2s; }
+.reset-modal-overlay.visible .reset-modal-box { transform: translateY(0); }
+.reset-modal-body { padding: 28px 28px 24px; }
+.reset-modal-title { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--navy); margin-bottom: 8px; }
+.reset-modal-desc { font-family: 'Outfit', sans-serif; font-size: 14px; color: var(--muted); line-height: 1.6; }
+.reset-modal-actions { display: flex; gap: 10px; justify-content: flex-end; padding: 16px 28px 24px; border-top: 1px solid var(--line); }
+.reset-cancel-btn { background: none; border: 1px solid var(--line); border-radius: 6px; padding: 10px 20px; font-family: 'Outfit', sans-serif; font-size: 14px; color: var(--ink-soft); cursor: pointer; transition: all 0.15s; }
+.reset-cancel-btn:hover { border-color: var(--ink-soft); color: var(--ink); }
+.reset-confirm-btn { background: var(--fail); color: white; border: none; border-radius: 6px; padding: 10px 20px; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+.reset-confirm-btn:hover { background: #b91c1c; }
+
+/* Welcome modal */
+.modal-overlay { position: fixed; inset: 0; background: rgba(10, 37, 64, 0.55); z-index: 1000; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; pointer-events: none; padding: 16px; }
+.modal-overlay.visible { opacity: 1; pointer-events: all; }
+.modal-box { background: var(--card); border-radius: 14px; max-width: 580px; width: 100%; overflow: hidden; transform: translateY(10px); transition: transform 0.2s; max-height: 90vh; overflow-y: auto; }
+.modal-overlay.visible .modal-box { transform: translateY(0); }
+.modal-header { background: var(--navy); padding: 28px 32px 24px; }
+.modal-header-eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 2px; color: var(--teal); text-transform: uppercase; margin-bottom: 8px; }
+.modal-header-title { font-family: 'DM Serif Display', serif; font-size: 30px; color: #fff; line-height: 1.15; margin-bottom: 6px; }
+.modal-header-sub { font-family: 'Outfit', sans-serif; font-size: 15px; color: rgba(255,255,255,0.55); line-height: 1.5; }
+.modal-body { padding: 24px 32px; }
+.modal-rows { display: flex; flex-direction: column; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.modal-row { display: grid; grid-template-columns: 36px 1fr; gap: 14px; align-items: flex-start; padding: 14px 16px; border-bottom: 1px solid var(--line-soft); }
+.modal-row:last-child { border-bottom: none; }
+.modal-row-icon { width: 36px; height: 36px; border-radius: 7px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.5px; }
+.modal-row-icon.kc { background: #f0fdfa; color: var(--teal); }
+.modal-row-icon.dd { background: #f5f3ff; color: var(--purple); }
+.modal-row-icon.dash { background: #eff6ff; color: #2563eb; }
+.modal-row-icon.sim { background: var(--gold-pale); color: #92400e; }
+.modal-row-title { font-family: 'DM Serif Display', serif; font-size: 17px; color: var(--navy); margin-bottom: 3px; line-height: 1.2; }
+.modal-row-desc { font-family: 'Outfit', sans-serif; font-size: 13px; color: var(--muted); line-height: 1.6; }
+.modal-notice { background: var(--bg); border: 1px solid var(--line); border-left: 3px solid var(--gold); border-radius: 0 6px 6px 0; padding: 12px 16px; margin-bottom: 22px; }
+.modal-notice-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1.5px; color: #92400e; text-transform: uppercase; margin-bottom: 5px; font-weight: 600; }
+.modal-notice-text { font-family: 'Outfit', sans-serif; font-size: 13px; color: var(--ink-soft); line-height: 1.7; }
+.modal-footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.modal-dismiss { background: var(--navy); color: white; border: none; border-radius: 6px; padding: 12px 28px; font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+.modal-dismiss:hover { background: var(--navy-soft); }
+.modal-skip { font-family: 'Outfit', sans-serif; font-size: 13px; color: var(--muted); cursor: pointer; background: none; border: none; text-decoration: underline; text-underline-offset: 2px; }
+.modal-skip:hover { color: var(--ink); }
 </style>
 </head>
 <body>
+<!-- Welcome Modal -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-header-eyebrow">Spring 2026 Finals</div>
+      <div class="modal-header-title">Welcome to the Study Hub</div>
+      <div class="modal-header-sub">A quick overview before you start — takes 30 seconds.</div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-rows">
+        <div class="modal-row">
+          <div class="modal-row-icon kc">KC</div>
+          <div>
+            <div class="modal-row-title">Knowledge Check</div>
+            <div class="modal-row-desc">Recall-based questions. Tests whether you know the core facts and concepts. Start here for any chapter you haven't touched yet.</div>
+          </div>
+        </div>
+        <div class="modal-row">
+          <div class="modal-row-icon dd">DD</div>
+          <div>
+            <div class="modal-row-title">Deep Drill</div>
+            <div class="modal-row-desc">NCLEX-style clinical judgment. Apply what you know to patient scenarios. Do the KC first, then come back for the DD.</div>
+          </div>
+        </div>
+        <div class="modal-row">
+          <div class="modal-row-icon dash">DB</div>
+          <div>
+            <div class="modal-row-title">Your Dashboard</div>
+            <div class="modal-row-desc">Tracks quizzes attempted, your average score, and how many are passing. Updates automatically as you complete quizzes.</div>
+          </div>
+        </div>
+        <div class="modal-row">
+          <div class="modal-row-icon sim">75Q</div>
+          <div>
+            <div class="modal-row-title">Practice Simulator</div>
+            <div class="modal-row-desc">Full-length practice exam. Take it after you've covered all the chapters to simulate exam day.</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-notice">
+        <div class="modal-notice-label">Score Storage</div>
+        <div class="modal-notice-text">Your scores are saved locally in your browser — not in the cloud. Always use the same browser on the same device to keep your progress. Clearing browser history or switching browsers will reset your scores. Incognito and private browsing mode will not save scores between sessions.</div>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-dismiss" onclick="closeModal()">Got it — start studying</button>
+        <button class="modal-skip" onclick="closeModal()">Don't show this again</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Reset Confirmation Modal -->
+<div class="reset-modal-overlay" id="reset-modal-overlay">
+  <div class="reset-modal-box">
+    <div class="reset-modal-body">
+      <div class="reset-modal-title">Reset all scores?</div>
+      <div class="reset-modal-desc">This will clear every quiz score on this device. You'll start fresh with no progress saved. This cannot be undone.</div>
+    </div>
+    <div class="reset-modal-actions">
+      <button class="reset-cancel-btn" onclick="closeResetModal()">Cancel</button>
+      <button class="reset-confirm-btn" onclick="confirmReset()">Yes, reset everything</button>
+    </div>
+  </div>
+</div>
+
 <div class="container">
 
 <div class="hero">
@@ -240,7 +348,7 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
   </div>
   <div class="class-tab matpeds" data-class="matpeds" onclick="switchClass('matpeds')">
     <div class="class-tab-eyebrow">Maternity / Peds</div>
-    <div class="class-tab-name">Mat & Peds Final</div>
+    <div class="class-tab-name">Mat &amp; Peds Final</div>
     <div class="class-tab-meta">
       <span class="class-tab-meta-item" id="matpeds-tab-meta-quizzes">— quizzes</span>
       <span class="class-tab-meta-item" id="matpeds-tab-meta-avg">— avg</span>
@@ -268,7 +376,7 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
     </div>
     <div class="dash-stat">
       <span class="dash-num pass" id="stat-passing">0</span>
-      <span class="dash-label">≥77% Passing</span>
+      <span class="dash-label">&#8805;77% Passing</span>
     </div>
     <div class="dash-stat">
       <span class="dash-num" id="stat-avg">—</span>
@@ -312,7 +420,7 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
 <!-- Continue studying -->
 <div class="continue-section" id="continue-section" style="display: none;">
   <div class="continue-header">
-    <div class="continue-title">⚡ Continue Studying</div>
+    <div class="continue-title">Continue Studying</div>
     <div class="continue-meta">Your weakest or untouched chapters</div>
   </div>
   <div class="continue-list" id="continue-list"></div>
@@ -324,17 +432,30 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
   <button class="filter-chip active" data-filter="all" onclick="applyFilter(this, 'all')">All</button>
   <button class="filter-chip" data-filter="untouched" onclick="applyFilter(this, 'untouched')">Untouched</button>
   <button class="filter-chip" data-filter="weak" onclick="applyFilter(this, 'weak')">Weak (&lt;77%)</button>
-  <button class="filter-chip" data-filter="strong" onclick="applyFilter(this, 'strong')">Strong (≥85%)</button>
-  <button class="filter-chip" data-filter="highweight" onclick="applyFilter(this, 'highweight')">High Weight (≥4)</button>
+  <button class="filter-chip" data-filter="strong" onclick="applyFilter(this, 'strong')">Strong (&#8805;85%)</button>
+  <button class="filter-chip" data-filter="highweight" onclick="applyFilter(this, 'highweight')">High Weight (&#8805;4)</button>
   <span class="filter-spacer"></span>
   <button class="expand-toggle" id="expand-toggle" onclick="toggleAllGroups()">Collapse all</button>
 </div>
 
 <div id="system-groups"></div>
 
+<!-- Donation footer -->
+<div class="donation-footer">
+  <div class="donation-text">
+    <p>Built for the cohort, free forever. Any support is appreciated.</p>
+  </div>
+  <div class="donation-actions">
+    <a href="venmo://paycharge?txn=pay&amp;recipients=Tom_Thomas&amp;note=Nursing%20Finals%20Hub" class="donate-btn venmo">Venmo @Tom_Thomas</a>
+    <span style="color: var(--line); font-size: 12px;">|</span>
+    <button class="donate-btn zelle" onclick="copyZelle(this)">Zelle (914) 646-0456</button>
+    <span class="zelle-copied" id="zelle-copied">Copied!</span>
+  </div>
+</div>
+
 <div class="footer">
   <div class="legend">
-    <div class="legend-item"><span class="legend-swatch" style="background: var(--pass);"></span>≥85% Pass</div>
+    <div class="legend-item"><span class="legend-swatch" style="background: var(--pass);"></span>&#8805;85% Pass</div>
     <div class="legend-item"><span class="legend-swatch" style="background: var(--partial);"></span>70-84% Borderline</div>
     <div class="legend-item"><span class="legend-swatch" style="background: var(--fail);"></span>&lt;70% Fail</div>
   </div>
@@ -344,7 +465,6 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
 </div>
 
 <script>
-// ===== TOPIC CONFIG =====
 const pharmTopics = [
   { ch: '', name: 'Hem / Onc', desc: 'Cancer biology, chemo, complications', weight: 15, qCount: 30, key: 'hemonc', system: 'pharm-priority', kcFile: 'quiz_hemonc_knowledge.html', ddFile: 'quiz_hemonc_deepdrill.html', kcReady: true, ddReady: true },
   { ch: '', name: 'Pain', desc: 'Opioids, patches, pediatric care', weight: 13, qCount: 25, key: 'pain', system: 'pharm-priority', kcFile: 'quiz_pain_knowledge.html', ddFile: 'quiz_pain_deepdrill.html', kcReady: true, ddReady: true },
@@ -361,7 +481,7 @@ const medsurgTopics = [
   { ch: '26', name: 'Vascular Disorders', desc: 'Raynaud, PE, DVT, venous vs arterial', weight: 5, key: 'vascular', system: 'cardio', kcFile: 'ch26_vascular_kc.html', ddFile: 'ch26_vascular_dd.html', kcReady: true, ddReady: true },
   { ch: '27', name: 'Hypertension', desc: 'Long-term complications, DASH diet', weight: 3, key: 'hypertension', system: 'cardio', kcFile: 'ch27_hypertension_kc.html', ddFile: 'ch27_hypertension_dd.html', kcReady: true, ddReady: true },
   { ch: '18', name: 'Upper Respiratory', desc: 'Acute vs chronic bronchitis', weight: 2, key: 'upperresp', system: 'pulm', kcFile: 'ch18_upperresp_kc.html', ddFile: 'ch18_upperresp_dd.html', kcReady: true, ddReady: true },
-  { ch: '20', name: 'Chronic Pulmonary', desc: 'Emphysema, asthma, sleep apnea, O₂ delivery', weight: 6, key: 'chronicpulm', system: 'pulm', kcFile: 'ch20_chronicpulm_kc.html', ddFile: 'ch20_chronicpulm_dd.html', kcReady: true, ddReady: true },
+  { ch: '20', name: 'Chronic Pulmonary', desc: 'Emphysema, asthma, sleep apnea, O2 delivery', weight: 6, key: 'chronicpulm', system: 'pulm', kcFile: 'ch20_chronicpulm_kc.html', ddFile: 'ch20_chronicpulm_dd.html', kcReady: true, ddReady: true },
   { ch: '29', name: 'Nonmalignant Hematologic', desc: 'Thrombocytopenia, leukopenia, anemias, sickle cell', weight: 5, key: 'nonmalighem', system: 'hem', kcFile: 'ch29_nonmalighem_kc.html', ddFile: 'ch29_nonmalighem_dd.html', kcReady: true, ddReady: true },
   { ch: '30', name: 'Hematologic Disorders', desc: 'Polycythemia vera, leukemias (AML/CML/ALL/CLL)', weight: 3, key: 'hematdisorders', system: 'hem', kcFile: 'ch30_hematdisorders_kc.html', ddFile: 'ch30_hematdisorders_dd.html', kcReady: true, ddReady: true },
   { ch: '12', name: 'Oncology', desc: 'Chemo, neutropenia, radiation, CBC monitoring', weight: 6, key: 'oncology', system: 'oncoimmune', kcFile: 'ch12_oncology_kc.html', ddFile: 'ch12_oncology_dd.html', kcReady: true, ddReady: true },
@@ -394,9 +514,7 @@ const medsurgSystems = [
   { id: 'renalendo', name: 'Renal & Endocrine', shortLabel: 'RE', color: '#2563eb', bg: '#eff6ff' }
 ];
 
-// MATERNITY / PEDIATRICS — 70 Q total (35 Mat + 35 Peds)
 const matpedsTopics = [
-  // MATERNITY (35 Q)
   { ch: '8', name: 'Reproductive Cancers', desc: 'Endometrial cancer S/S, cryotherapy, cone biopsy, colposcopy', weight: 2, qCount: 10, key: 'mat_ch8', system: 'maternity', kcFile: 'mat_ch8_repro_cancers_kc.html', ddFile: 'mat_ch8_repro_cancers_dd.html', kcReady: true, ddReady: true },
   { ch: '9', name: 'Cycle of Violence', desc: 'Phases of the cycle of violence', weight: 1, qCount: 8, key: 'mat_ch9', system: 'maternity', kcFile: 'mat_ch9_violence_kc.html', ddFile: 'mat_ch9_violence_dd.html', kcReady: true, ddReady: true },
   { ch: '12', name: 'Antepartum Assessment', desc: 'GTPAL, NST parameters, Rhogam criteria', weight: 3, qCount: 15, key: 'mat_ch12', system: 'maternity', kcFile: 'mat_ch12_antepartum_kc.html', ddFile: 'mat_ch12_antepartum_dd.html', kcReady: true, ddReady: true },
@@ -410,8 +528,6 @@ const matpedsTopics = [
   { ch: '22', name: 'Postpartum Hemorrhage', desc: 'Late postpartum hemorrhage', weight: 1, qCount: 12, key: 'mat_ch22', system: 'maternity', kcFile: 'mat_ch22_lateppH_kc.html', ddFile: 'mat_ch22_lateppH_dd.html', kcReady: true, ddReady: true },
   { ch: '23', name: 'High-Risk Newborn', desc: 'LGA/SGA, preterm/post-term newborn', weight: 5, qCount: 20, key: 'mat_ch23', system: 'maternity', kcFile: 'mat_ch23_gestage_kc.html', ddFile: 'mat_ch23_gestage_dd.html', kcReady: true, ddReady: true },
   { ch: '24', name: 'Acquired Newborn Disorders', desc: 'Esophageal atresia, sepsis, RDS, MAS, NEC, birth injuries', weight: 5, qCount: 20, key: 'mat_ch24', system: 'maternity', kcFile: 'mat_ch24_acquired_kc.html', ddFile: 'mat_ch24_acquired_dd.html', kcReady: true, ddReady: true },
-
-  // PEDIATRICS (35 Q across Ch 47-51)
   { ch: '47', name: 'Immune & Rheumatic', desc: 'JIA, HIV, anaphylaxis, IVIG, SLE, vaccines/immunocompromised', weight: 7, qCount: 25, key: 'peds_ch47', system: 'pediatrics', kcFile: 'peds_ch47_immune_kc.html', ddFile: 'peds_ch47_immune_dd.html', kcReady: true, ddReady: true },
   { ch: '48', name: 'Endocrine', desc: 'Precocious puberty, DI, SIADH, hypothyroid, Graves, DM, GH deficiency', weight: 7, qCount: 25, key: 'peds_ch48', system: 'pediatrics', kcFile: 'peds_ch48_endocrine_kc.html', ddFile: 'peds_ch48_endocrine_dd.html', kcReady: true, ddReady: true },
   { ch: '49', name: 'Genetic Disorders', desc: 'PKU, neurofibromatosis, Klinefelter, Turner, parental education', weight: 6, qCount: 12, key: 'peds_ch49', system: 'pediatrics', kcFile: 'peds_ch49_genetic_kc.html', ddFile: 'peds_ch49_genetic_dd.html', kcReady: true, ddReady: true },
@@ -425,46 +541,17 @@ const matpedsSystems = [
 ];
 
 const classConfig = {
-  pharm: {
-    topics: pharmTopics,
-    systems: pharmSystems,
-    qPerQuiz: 25,
-    simEyebrow: 'Pharmacology II Final · 75 Q · Pass at 77%',
-    simTitle: 'Pharm Final Practice Test',
-    simDesc: '15 Hem/Onc · 13 Pain · 10 Neuro · 11 Urin/Repro · 9 Psych · 9 Endo · 8 Mixed',
-    simReady: true
-  },
-  medsurg: {
-    topics: medsurgTopics,
-    systems: medsurgSystems,
-    qPerQuiz: 25,
-    simEyebrow: 'MedSurg I Final · 75 Q · Pass at 77%',
-    simTitle: 'MedSurg Final Practice Test',
-    simDesc: 'All sections weighted to blueprint. Fresh questions not in topic quizzes.',
-    simReady: true
-  },
-  matpeds: {
-    topics: matpedsTopics,
-    systems: matpedsSystems,
-    qPerQuiz: 25,
-    simEyebrow: 'Maternity / Peds Final · 70 Q · 105 minutes',
-    simTitle: 'Maternity / Peds Practice Test',
-    simDesc: '35 Maternity (Ch 8-24) · 35 Pediatrics (Ch 47-51)',
-    simReady: true
-  }
+  pharm: { topics: pharmTopics, systems: pharmSystems, qPerQuiz: 25, simEyebrow: 'Pharmacology II Final · 75 Q · Pass at 77%', simTitle: 'Pharm Final Practice Test', simDesc: '15 Hem/Onc · 13 Pain · 10 Neuro · 11 Urin/Repro · 9 Psych · 9 Endo · 8 Mixed', simReady: true },
+  medsurg: { topics: medsurgTopics, systems: medsurgSystems, qPerQuiz: 25, simEyebrow: 'MedSurg I Final · 75 Q · Pass at 77%', simTitle: 'MedSurg Final Practice Test', simDesc: 'All sections weighted to blueprint. Fresh questions not in topic quizzes.', simReady: true },
+  matpeds: { topics: matpedsTopics, systems: matpedsSystems, qPerQuiz: 25, simEyebrow: 'Maternity / Peds Final · 70 Q · 105 minutes', simTitle: 'Maternity / Peds Practice Test', simDesc: '35 Maternity (Ch 8-24) · 35 Pediatrics (Ch 47-51)', simReady: true }
 };
 
-// Saved class preference
 let currentClass = localStorage.getItem('preferred_class') || 'medsurg';
 let currentFilter = 'all';
 let allCollapsed = false;
 
-// ===== HELPERS =====
 function getScore(key, type) {
-  try {
-    const raw = localStorage.getItem(`score_${key}_${type}`);
-    return raw ? JSON.parse(raw) : null;
-  } catch (e) { return null; }
+  try { const raw = localStorage.getItem(`score_${key}_${type}`); return raw ? JSON.parse(raw) : null; } catch (e) { return null; }
 }
 
 function scoreClass(pct) {
@@ -479,7 +566,6 @@ function topicQCount(t) {
   return t.ch === '18' ? 15 : 25;
 }
 
-// ===== RENDER QUIZ CELL =====
 function renderQuizCell(topic, type) {
   const isKC = type === 'kc';
   const ready = isKC ? topic.kcReady : topic.ddReady;
@@ -487,76 +573,29 @@ function renderQuizCell(topic, type) {
   const labelText = isKC ? 'Knowledge Check' : 'Deep Drill';
   const labelClass = isKC ? 'kc' : 'dd';
   const scoreKey = isKC ? 'knowledge' : 'deepdrill';
-
-  if (!ready) {
-    return `<div class="quiz-cell coming-soon">
-      <span class="quiz-cell-label ${labelClass}">${labelText}</span>
-      <span class="quiz-cell-score soon">Coming soon</span>
-    </div>`;
-  }
-
+  if (!ready) return `<div class="quiz-cell coming-soon"><span class="quiz-cell-label ${labelClass}">${labelText}</span><span class="quiz-cell-score soon">Coming soon</span></div>`;
   const score = getScore(topic.key, scoreKey);
-  if (!score) {
-    return `<a href="${file}" class="quiz-cell ${labelClass} no-score">
-      <span class="quiz-cell-label ${labelClass}">${labelText}</span>
-      <span class="quiz-cell-score start">Start</span>
-      <div class="score-bar"><div class="score-bar-fill start ${labelClass}"></div></div>
-      <span class="cta-arrow">→</span>
-    </a>`;
-  }
-
+  if (!score) return `<a href="${file}" class="quiz-cell ${labelClass} no-score"><span class="quiz-cell-label ${labelClass}">${labelText}</span><span class="quiz-cell-score start">Start</span><div class="score-bar"><div class="score-bar-fill start ${labelClass}"></div></div><span class="cta-arrow">→</span></a>`;
   const cls = scoreClass(score.pct);
-  return `<a href="${file}" class="quiz-cell ${labelClass}">
-    <span class="quiz-cell-label ${labelClass}">${labelText}</span>
-    <span class="quiz-cell-score ${cls}">${score.pct.toFixed(0)}</span>
-    <div class="score-bar"><div class="score-bar-fill ${cls}" style="width: ${score.pct}%;"></div></div>
-    <span class="cta-arrow">→</span>
-  </a>`;
+  return `<a href="${file}" class="quiz-cell ${labelClass}"><span class="quiz-cell-label ${labelClass}">${labelText}</span><span class="quiz-cell-score ${cls}">${score.pct.toFixed(0)}</span><div class="score-bar"><div class="score-bar-fill ${cls}" style="width: ${score.pct}%;"></div></div><span class="cta-arrow">→</span></a>`;
 }
 
-// ===== TOPIC ROW =====
 function renderTopicRow(topic) {
   const chDisplay = topic.ch ? `Ch ${topic.ch}` : '';
-  return `<div class="topic-row" data-topic-key="${topic.key}" data-weight="${topic.weight}">
-    <span class="topic-ch">${chDisplay}</span>
-    <div class="topic-info">
-      <div class="topic-name">${topic.name}</div>
-      <div class="topic-desc">${topic.desc}</div>
-    </div>
-    ${renderQuizCell(topic, 'kc')}
-    ${renderQuizCell(topic, 'dd')}
-  </div>`;
+  return `<div class="topic-row" data-topic-key="${topic.key}" data-weight="${topic.weight}"><span class="topic-ch">${chDisplay}</span><div class="topic-info"><div class="topic-name">${topic.name}</div><div class="topic-desc">${topic.desc}</div></div>${renderQuizCell(topic, 'kc')}${renderQuizCell(topic, 'dd')}</div>`;
 }
 
-// ===== SYSTEM GROUP =====
 function renderSystemGroup(sys) {
   const config = classConfig[currentClass];
   const sysTopics = config.topics.filter(t => t.system === sys.id);
   if (sysTopics.length === 0) return '';
   const totalQuizzes = sysTopics.reduce((sum, t) => sum + (t.kcReady ? 1 : 0) + (t.ddReady ? 1 : 0), 0);
-  const attemptedCount = sysTopics.reduce((sum, t) => {
-    let c = 0;
-    if (t.kcReady && getScore(t.key, 'knowledge')) c++;
-    if (t.ddReady && getScore(t.key, 'deepdrill')) c++;
-    return sum + c;
-  }, 0);
+  const attemptedCount = sysTopics.reduce((sum, t) => { let c = 0; if (t.kcReady && getScore(t.key, 'knowledge')) c++; if (t.ddReady && getScore(t.key, 'deepdrill')) c++; return sum + c; }, 0);
   const totalWeight = sysTopics.reduce((sum, t) => sum + t.weight, 0);
   const progressPct = totalQuizzes > 0 ? (attemptedCount / totalQuizzes) * 100 : 0;
   const displayWeight = sys.displayQ !== undefined ? sys.displayQ : totalWeight;
   const metaText = displayWeight > 0 ? `${sysTopics.length} ch · ${displayWeight} Q` : `${sysTopics.length} topic${sysTopics.length > 1 ? 's' : ''}`;
-
-  return `<div class="system-group" data-system="${sys.id}">
-    <div class="system-header" onclick="toggleGroup('${sys.id}')">
-      <div class="system-icon" style="background: ${sys.bg}; color: ${sys.color};">${sys.shortLabel}</div>
-      <div class="system-name">${sys.name}</div>
-      <span class="system-meta">${metaText}</span>
-      <div class="system-progress-bar"><div class="system-progress-fill" style="width: ${progressPct}%;"></div></div>
-      <span class="chevron">▼</span>
-    </div>
-    <div class="system-body">
-      ${sysTopics.map(renderTopicRow).join('')}
-    </div>
-  </div>`;
+  return `<div class="system-group" data-system="${sys.id}"><div class="system-header" onclick="toggleGroup('${sys.id}')"><div class="system-icon" style="background: ${sys.bg}; color: ${sys.color};">${sys.shortLabel}</div><div class="system-name">${sys.name}</div><span class="system-meta">${metaText}</span><div class="system-progress-bar"><div class="system-progress-fill" style="width: ${progressPct}%;"></div></div><span class="chevron">▼</span></div><div class="system-body">${sysTopics.map(renderTopicRow).join('')}</div></div>`;
 }
 
 function renderSystemGroups() {
@@ -564,10 +603,7 @@ function renderSystemGroups() {
   document.getElementById('system-groups').innerHTML = config.systems.map(renderSystemGroup).join('');
 }
 
-function toggleGroup(sysId) {
-  const group = document.querySelector(`.system-group[data-system="${sysId}"]`);
-  group.classList.toggle('collapsed');
-}
+function toggleGroup(sysId) { document.querySelector(`.system-group[data-system="${sysId}"]`).classList.toggle('collapsed'); }
 
 function toggleAllGroups() {
   const groups = document.querySelectorAll('.system-group');
@@ -576,28 +612,14 @@ function toggleAllGroups() {
   document.getElementById('expand-toggle').textContent = allCollapsed ? 'Expand all' : 'Collapse all';
 }
 
-// ===== FILTERING =====
 function topicMatchesFilter(topic, filter) {
   const kcScore = getScore(topic.key, 'knowledge');
   const ddScore = getScore(topic.key, 'deepdrill');
   if (filter === 'all') return true;
-  if (filter === 'untouched') {
-    const kcAttempted = topic.kcReady && kcScore;
-    const ddAttempted = topic.ddReady && ddScore;
-    return !(kcAttempted && ddAttempted);
-  }
-  if (filter === 'weak') {
-    const scores = [kcScore, ddScore].filter(s => s).map(s => s.pct);
-    return scores.some(s => s < 77);
-  }
-  if (filter === 'strong') {
-    const scores = [kcScore, ddScore].filter(s => s).map(s => s.pct);
-    return scores.length > 0 && scores.every(s => s >= 85);
-  }
-  if (filter === 'highweight') {
-    const highThreshold = currentClass === 'pharm' ? 13 : 4;
-    return topic.weight >= highThreshold;
-  }
+  if (filter === 'untouched') { const kcAttempted = topic.kcReady && kcScore; const ddAttempted = topic.ddReady && ddScore; return !(kcAttempted && ddAttempted); }
+  if (filter === 'weak') { const scores = [kcScore, ddScore].filter(s => s).map(s => s.pct); return scores.some(s => s < 77); }
+  if (filter === 'strong') { const scores = [kcScore, ddScore].filter(s => s).map(s => s.pct); return scores.length > 0 && scores.every(s => s >= 85); }
+  if (filter === 'highweight') { const highThreshold = currentClass === 'pharm' ? 13 : 4; return topic.weight >= highThreshold; }
   return true;
 }
 
@@ -606,40 +628,28 @@ function applyFilter(btn, filter) {
   btn.classList.add('active');
   currentFilter = filter;
   const config = classConfig[currentClass];
-
-  document.querySelectorAll('.topic-row').forEach(row => {
-    const topic = config.topics.find(t => t.key === row.dataset.topicKey);
-    row.style.display = topicMatchesFilter(topic, filter) ? '' : 'none';
-  });
-
-  document.querySelectorAll('.system-group').forEach(group => {
-    const visibleRows = group.querySelectorAll('.topic-row:not([style*="display: none"])');
-    group.style.display = visibleRows.length === 0 ? 'none' : '';
-  });
+  document.querySelectorAll('.topic-row').forEach(row => { const topic = config.topics.find(t => t.key === row.dataset.topicKey); row.style.display = topicMatchesFilter(topic, filter) ? '' : 'none'; });
+  document.querySelectorAll('.system-group').forEach(group => { const visibleRows = group.querySelectorAll('.topic-row:not([style*="display: none"])'); group.style.display = visibleRows.length === 0 ? 'none' : ''; });
 }
 
 // ===== CONTINUE STUDYING =====
 function buildContinueList() {
   const config = classConfig[currentClass];
   const scored = [];
+  let anyAttempted = false;
   config.topics.forEach(t => {
     if (!t.kcReady && !t.ddReady) return;
     const kc = getScore(t.key, 'knowledge');
     const dd = getScore(t.key, 'deepdrill');
+    if (kc || dd) anyAttempted = true;
     const kcAttempted = t.kcReady && kc;
     const ddAttempted = t.ddReady && dd;
     const allAttempted = (!t.kcReady || kcAttempted) && (!t.ddReady || ddAttempted);
     let priority, status, link;
-
     if (!allAttempted) {
       priority = 1000 + (t.weight || 1);
-      if (!kcAttempted && t.kcReady) {
-        status = 'Not started';
-        link = t.kcFile;
-      } else if (!ddAttempted && t.ddReady) {
-        status = 'KC done — try DD';
-        link = t.ddFile;
-      }
+      if (!kcAttempted && t.kcReady) { status = 'Not started'; link = t.kcFile; }
+      else if (!ddAttempted && t.ddReady) { status = 'KC done — try DD'; link = t.ddFile; }
     } else {
       const lowestPct = Math.min(kc ? kc.pct : 100, dd ? dd.pct : 100);
       if (lowestPct >= 85) return;
@@ -647,103 +657,46 @@ function buildContinueList() {
       status = `Lowest: ${lowestPct.toFixed(0)}% — review`;
       link = (kc && (!dd || kc.pct < dd.pct)) ? t.kcFile : t.ddFile;
     }
-
     scored.push({ topic: t, priority, status, link });
   });
-
   scored.sort((a, b) => b.priority - a.priority);
   const top3 = scored.slice(0, 3);
-
-  if (top3.length === 0) {
-    document.getElementById('continue-section').style.display = 'none';
-    return;
-  }
-
+  if (!anyAttempted || top3.length === 0) { document.getElementById('continue-section').style.display = 'none'; return; }
   document.getElementById('continue-section').style.display = '';
   document.getElementById('continue-list').innerHTML = top3.map(item => {
     const chDisplay = item.topic.ch ? `Ch ${item.topic.ch} · ` : '';
     const weightDisplay = item.topic.weight > 0 ? `${item.topic.weight} Q` : '—';
-    return `<a href="${item.link}" class="continue-item">
-      <div class="continue-item-name">${chDisplay}${item.topic.name}</div>
-      <div class="continue-item-meta">
-        <span class="continue-item-status">${item.status}</span>
-        <span class="continue-item-weight">${weightDisplay}</span>
-      </div>
-    </a>`;
+    return `<a href="${item.link}" class="continue-item"><div class="continue-item-name">${chDisplay}${item.topic.name}</div><div class="continue-item-meta"><span class="continue-item-status">${item.status}</span><span class="continue-item-weight">${weightDisplay}</span></div></a>`;
   }).join('');
 }
 
 // ===== TOP DASHBOARD =====
 function updateDashboard() {
   const config = classConfig[currentClass];
-  let totalAvailable = 0;
-  let attemptedCount = 0;
-  let passingCount = 0;
-  let scoreSum = 0;
-  let scoreCount = 0;
-  let bankSize = 0;
-
+  let totalAvailable = 0, attemptedCount = 0, passingCount = 0, scoreSum = 0, scoreCount = 0, bankSize = 0;
   config.topics.forEach(t => {
-    if (t.kcReady) {
-      totalAvailable++;
-      bankSize += topicQCount(t);
-      const kc = getScore(t.key, 'knowledge');
-      if (kc) {
-        attemptedCount++;
-        scoreSum += kc.pct;
-        scoreCount++;
-        if (kc.pct >= 77) passingCount++;
-      }
-    }
-    if (t.ddReady) {
-      totalAvailable++;
-      bankSize += topicQCount(t);
-      const dd = getScore(t.key, 'deepdrill');
-      if (dd) {
-        attemptedCount++;
-        scoreSum += dd.pct;
-        scoreCount++;
-        if (dd.pct >= 77) passingCount++;
-      }
-    }
+    if (t.kcReady) { totalAvailable++; bankSize += topicQCount(t); const kc = getScore(t.key, 'knowledge'); if (kc) { attemptedCount++; scoreSum += kc.pct; scoreCount++; if (kc.pct >= 77) passingCount++; } }
+    if (t.ddReady) { totalAvailable++; bankSize += topicQCount(t); const dd = getScore(t.key, 'deepdrill'); if (dd) { attemptedCount++; scoreSum += dd.pct; scoreCount++; if (dd.pct >= 77) passingCount++; } }
   });
-
   const attemptedPct = totalAvailable > 0 ? (attemptedCount / totalAvailable) * 100 : 0;
   const avgScore = scoreCount > 0 ? scoreSum / scoreCount : null;
-
   const circumference = 2 * Math.PI * 50;
-  const offset = circumference - (attemptedPct / 100) * circumference;
   const ringEl = document.getElementById('progress-ring');
-  ringEl.style.strokeDashoffset = offset;
+  ringEl.style.strokeDashoffset = circumference - (attemptedPct / 100) * circumference;
   ringEl.classList.toggle('pharm-ring', currentClass === 'pharm');
   ringEl.classList.toggle('matpeds-ring', currentClass === 'matpeds');
   document.getElementById('ring-pct').textContent = `${attemptedPct.toFixed(0)}%`;
-
   document.getElementById('stat-attempted').textContent = `${attemptedCount}/${totalAvailable}`;
   document.getElementById('stat-passing').textContent = passingCount;
   document.getElementById('stat-avg').textContent = avgScore !== null ? `${avgScore.toFixed(0)}%` : '—';
-  if (avgScore !== null) {
-    const avgEl = document.getElementById('stat-avg');
-    avgEl.classList.remove('pass', 'partial', 'fail');
-    avgEl.classList.add(scoreClass(avgScore));
-  }
+  if (avgScore !== null) { const avgEl = document.getElementById('stat-avg'); avgEl.classList.remove('pass', 'partial', 'fail'); avgEl.classList.add(scoreClass(avgScore)); }
   document.getElementById('stat-bank').textContent = bankSize;
-
-  // Update tab metadata for all classes
   ['pharm', 'medsurg', 'matpeds'].forEach(cls => {
     const cfg = classConfig[cls];
     let tAtt = 0, tTot = 0, tSum = 0, tCnt = 0;
     cfg.topics.forEach(t => {
-      if (t.kcReady) {
-        tTot++;
-        const k = getScore(t.key, 'knowledge');
-        if (k) { tAtt++; tSum += k.pct; tCnt++; }
-      }
-      if (t.ddReady) {
-        tTot++;
-        const d = getScore(t.key, 'deepdrill');
-        if (d) { tAtt++; tSum += d.pct; tCnt++; }
-      }
+      if (t.kcReady) { tTot++; const k = getScore(t.key, 'knowledge'); if (k) { tAtt++; tSum += k.pct; tCnt++; } }
+      if (t.ddReady) { tTot++; const d = getScore(t.key, 'deepdrill'); if (d) { tAtt++; tSum += d.pct; tCnt++; } }
     });
     const pct = tTot > 0 ? (tAtt / tTot) * 100 : 0;
     const avg = tCnt > 0 ? (tSum / tCnt).toFixed(0) : '—';
@@ -756,91 +709,46 @@ function updateDashboard() {
 // ===== SIMULATOR =====
 function renderSimulator() {
   const config = classConfig[currentClass];
-  // Pharm uses existing 'score_exam_simulator' key; medsurg uses 'score_medsurg_simulator_attempt'; matpeds uses 'score_matpeds_simulator_attempt'
   let sim = null;
   if (currentClass === 'pharm') sim = getScore('exam', 'simulator');
   else if (currentClass === 'medsurg') sim = getScore('medsurg_simulator', 'attempt');
   else if (currentClass === 'matpeds') sim = getScore('matpeds_simulator', 'attempt');
-
   const scoreEl = document.getElementById('sim-score');
   const statusEl = document.getElementById('sim-status');
   const btnEl = document.getElementById('sim-btn');
-
   document.getElementById('sim-eyebrow').textContent = config.simEyebrow;
   document.getElementById('sim-title').textContent = config.simTitle;
   document.getElementById('sim-desc').textContent = config.simDesc;
-
-  // Reset state
-  scoreEl.classList.add('no-attempt');
-  scoreEl.classList.remove('pass', 'fail');
-  scoreEl.style.color = '';
-  statusEl.textContent = '\u00A0';
-  statusEl.classList.remove('pass', 'fail');
-  btnEl.classList.remove('disabled');
-
+  scoreEl.classList.add('no-attempt'); scoreEl.classList.remove('pass', 'fail'); scoreEl.style.color = '';
+  statusEl.textContent = '\u00A0'; statusEl.classList.remove('pass', 'fail'); btnEl.classList.remove('disabled');
   if (config.simReady) {
     btnEl.textContent = sim ? 'Retake Practice Test' : 'Start Practice Test';
     if (currentClass === 'pharm') btnEl.href = 'exam_simulator.html';
     else if (currentClass === 'medsurg') btnEl.href = 'medsurg_exam_simulator.html';
     else if (currentClass === 'matpeds') btnEl.href = 'matpeds_exam_simulator.html';
-  } else {
-    btnEl.classList.add('disabled');
-    btnEl.textContent = 'Coming Soon';
-    btnEl.href = '#';
-  }
-
+  } else { btnEl.classList.add('disabled'); btnEl.textContent = 'Coming Soon'; btnEl.href = '#'; }
   if (sim) {
-    scoreEl.textContent = sim.pct.toFixed(0) + '%';
-    scoreEl.classList.remove('no-attempt');
-    if (sim.pct >= 77) {
-      scoreEl.style.color = 'var(--gold)';
-      statusEl.textContent = '✓ Passing';
-      statusEl.classList.add('pass');
-    } else {
-      scoreEl.style.color = '#fca5a5';
-      statusEl.textContent = '✗ Below Pass';
-      statusEl.classList.add('fail');
-    }
-  } else {
-    scoreEl.textContent = 'Not attempted';
-  }
+    scoreEl.textContent = sim.pct.toFixed(0) + '%'; scoreEl.classList.remove('no-attempt');
+    if (sim.pct >= 77) { scoreEl.style.color = 'var(--gold)'; statusEl.textContent = '✓ Passing'; statusEl.classList.add('pass'); }
+    else { scoreEl.style.color = '#fca5a5'; statusEl.textContent = '✗ Below Pass'; statusEl.classList.add('fail'); }
+  } else { scoreEl.textContent = 'Not attempted'; }
 }
 
-// ===== HIGH-YIELD RECALL CARD (Pharm only) =====
+// ===== HIGH-YIELD RECALL CARD =====
 function renderRecallCard() {
   const card = document.getElementById('recall-card');
-  if (currentClass !== 'pharm') {
-    card.style.display = 'none';
-    return;
-  }
+  if (currentClass !== 'pharm') { card.style.display = 'none'; return; }
   card.style.display = 'grid';
-
   const recall = getScore('pharm', 'recall');
   const scoreEl = document.getElementById('recall-score');
   const statusEl = document.getElementById('recall-status');
-
-  // Reset
-  scoreEl.classList.add('no-attempt');
-  scoreEl.classList.remove('pass', 'fail');
-  scoreEl.style.color = '';
-  statusEl.textContent = '\u00A0';
-  statusEl.classList.remove('pass', 'fail');
-
+  scoreEl.classList.add('no-attempt'); scoreEl.classList.remove('pass', 'fail'); scoreEl.style.color = '';
+  statusEl.textContent = '\u00A0'; statusEl.classList.remove('pass', 'fail');
   if (recall) {
-    scoreEl.textContent = recall.pct.toFixed(0) + '%';
-    scoreEl.classList.remove('no-attempt');
-    if (recall.pct >= 77) {
-      scoreEl.style.color = 'var(--gold)';
-      statusEl.textContent = '✓ Strong';
-      statusEl.classList.add('pass');
-    } else {
-      scoreEl.style.color = '#fca5a5';
-      statusEl.textContent = '✗ Review again';
-      statusEl.classList.add('fail');
-    }
-  } else {
-    scoreEl.textContent = 'Not attempted';
-  }
+    scoreEl.textContent = recall.pct.toFixed(0) + '%'; scoreEl.classList.remove('no-attempt');
+    if (recall.pct >= 77) { scoreEl.style.color = 'var(--gold)'; statusEl.textContent = '✓ Strong'; statusEl.classList.add('pass'); }
+    else { scoreEl.style.color = '#fca5a5'; statusEl.textContent = '✗ Review again'; statusEl.classList.add('fail'); }
+  } else { scoreEl.textContent = 'Not attempted'; }
 }
 
 // ===== CLASS SWITCHING =====
@@ -848,22 +756,26 @@ function switchClass(cls) {
   currentClass = cls;
   localStorage.setItem('preferred_class', cls);
   document.querySelectorAll('.class-tab').forEach(t => t.classList.toggle('active', t.dataset.class === cls));
-
-  // Reset filter state
   currentFilter = 'all';
   document.querySelectorAll('.filter-chip').forEach(c => c.classList.toggle('active', c.dataset.filter === 'all'));
-
-  renderSystemGroups();
-  updateDashboard();
-  buildContinueList();
-  renderSimulator();
-  renderRecallCard();
+  renderSystemGroups(); updateDashboard(); buildContinueList(); renderSimulator(); renderRecallCard();
 }
 
-function resetAllScores() {
-  if (!confirm('Reset ALL scores across both classes? This cannot be undone.')) return;
-  Object.keys(localStorage).filter(k => k.startsWith('score_')).forEach(k => localStorage.removeItem(k));
-  location.reload();
+function resetAllScores() { document.getElementById('reset-modal-overlay').classList.add('visible'); }
+function closeResetModal() { document.getElementById('reset-modal-overlay').classList.remove('visible'); }
+function confirmReset() { Object.keys(localStorage).filter(k => k.startsWith('score_')).forEach(k => localStorage.removeItem(k)); location.reload(); }
+document.getElementById('reset-modal-overlay').addEventListener('click', function(e) { if (e.target === this) closeResetModal(); });
+
+function closeModal() { document.getElementById('modal-overlay').classList.remove('visible'); localStorage.setItem('hub_welcomed', '1'); }
+function initModal() { if (!localStorage.getItem('hub_welcomed')) { setTimeout(() => { document.getElementById('modal-overlay').classList.add('visible'); }, 300); } }
+document.getElementById('modal-overlay').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+
+function copyZelle(btn) {
+  navigator.clipboard.writeText('(914) 646-0456').then(() => {
+    const copied = document.getElementById('zelle-copied');
+    copied.style.display = 'inline';
+    setTimeout(() => { copied.style.display = 'none'; }, 2000);
+  });
 }
 
 // ===== INIT =====
@@ -873,6 +785,7 @@ updateDashboard();
 buildContinueList();
 renderSimulator();
 renderRecallCard();
+initModal();
 </script>
 </body>
 </html>
