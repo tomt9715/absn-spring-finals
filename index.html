@@ -233,16 +233,16 @@ h1 { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy)
 /* Welcome modal */
 .modal-overlay { position: fixed; inset: 0; background: rgba(10, 37, 64, 0.55); z-index: 1000; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; pointer-events: none; padding: 16px; }
 .modal-overlay.visible { opacity: 1; pointer-events: all; }
-.modal-box { background: var(--card); border-radius: 14px; max-width: 580px; width: 100%; overflow: hidden; transform: translateY(10px); transition: transform 0.2s; max-height: 90vh; overflow-y: auto; }
+.modal-box { background: var(--card); border-radius: 14px; max-width: 780px; width: 100%; overflow: hidden; transform: translateY(10px); transition: transform 0.2s; max-height: 90vh; overflow-y: auto; }
 .modal-overlay.visible .modal-box { transform: translateY(0); }
 .modal-header { background: var(--navy); padding: 28px 32px 24px; }
 .modal-header-eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 2px; color: var(--teal); text-transform: uppercase; margin-bottom: 8px; }
 .modal-header-title { font-family: 'DM Serif Display', serif; font-size: 30px; color: #fff; line-height: 1.15; margin-bottom: 6px; }
 .modal-header-sub { font-family: 'Outfit', sans-serif; font-size: 15px; color: rgba(255,255,255,0.55); line-height: 1.5; }
 .modal-body { padding: 24px 32px; }
-.modal-rows { display: flex; flex-direction: column; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
-.modal-row { display: grid; grid-template-columns: 36px 1fr; gap: 14px; align-items: flex-start; padding: 14px 16px; border-bottom: 1px solid var(--line-soft); }
-.modal-row:last-child { border-bottom: none; }
+.modal-rows { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 20px; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.modal-row { display: grid; grid-template-columns: 36px 1fr; gap: 14px; align-items: flex-start; padding: 14px 16px; border-bottom: 1px solid var(--line-soft); border-right: 1px solid var(--line-soft); }
+.modal-row:last-child { border-bottom: none; } .modal-row:nth-child(even) { border-right: none; } .modal-row:nth-last-child(-n+2):nth-child(odd) ~ .modal-row, .modal-row:nth-last-child(-n+2):nth-child(odd) { border-bottom: none; }
 .modal-row-icon { width: 36px; height: 36px; border-radius: 7px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.5px; }
 .modal-row-icon.kc { background: #f0fdfa; color: var(--teal); }
 .modal-row-icon.dd { background: #f5f3ff; color: var(--purple); }
